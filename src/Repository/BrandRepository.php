@@ -16,6 +16,6 @@ class BrandRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Brend::class);
+        parent::__construct($registry, Brand::class);
     }
 }

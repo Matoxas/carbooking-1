@@ -19,7 +19,7 @@ class Model
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="model")
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(nullable=false, name="brand_id")
      */
     private $brand;
 
