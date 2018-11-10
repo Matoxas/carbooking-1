@@ -1,8 +1,8 @@
-﻿![](https://github.com/nfqakademija/carbooking/tree/master/public/images/carbooking.png)
+﻿![](https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbooking.png)
 
 ============
 
-[![Build Status](https://travis-ci.org/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
+[![Build Status](https://travis-ci.com/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
 
 # Paleidimo instrukcija
 
