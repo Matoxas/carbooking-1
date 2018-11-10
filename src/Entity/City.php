@@ -16,8 +16,29 @@ class City
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city): void
+    {
+        $this->city = $city;
     }
 }
