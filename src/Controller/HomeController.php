@@ -12,15 +12,6 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-
-        return $this->json([
-            'page' => 1,
-            'data' => [
-                "id" => 5,
-                "title" => "Book1",
-            ]
-        ]);
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
