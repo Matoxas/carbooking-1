@@ -20,4 +20,4 @@ echo "Port: $PORT"
 echo ""
 echo 'Type "exit" to get out of MySql terminal'
 echo ""
-docker exec -it mysql.symfony mysql -uroot -h127.0.0.1 --password=p9iijKcfgENjBWDYgSH7
+docker exec -it mysql.symfony mysql -u $USER -h127.0.0.1 --password=$PASSWORD
