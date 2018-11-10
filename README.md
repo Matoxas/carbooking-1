@@ -1,20 +1,8 @@
-﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100)
+﻿![](https://github.com/nfqakademija/carbooking/tree/master/public/images/carbooking.png)
 
-NFQ Akademija
 ============
 
-# Intro
-
-Sveiki! Tai yra Jūsų startinis projekto "template". 
-Šioje repositorijoje rasite Symfony `4.1.6` minimalų projekto paketą su jau paruoštais 
-visais reikalingais failais ir įrankiais darbui:
- 
-- Lokalaus development'o aplinka (docker) (PHP 7.2, MySql DB, Nginx)
-- Pradinis bundle (AppBundle) kartu su stiliaus failais.
-- Įdiegtas bootstrap
-- Asset'ų buildinimas (npm, yarn, sass)
-- Travis CI template
-
+[![Build Status](https://travis-ci.org/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
 
 # Paleidimo instrukcija
 
