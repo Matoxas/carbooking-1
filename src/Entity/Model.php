@@ -18,8 +18,8 @@ class Model
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="model")
-     * @ORM\Column(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="models")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $brand;
 
@@ -34,33 +34,23 @@ class Model
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBrand()
+    public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
-    /**
-     * @param mixed $brand
-     */
-    public function setBrand($brand): void
+    public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getModel()
+    public function getModel(): ?string
     {
         return $this->model;
     }
 
-    /**
-     * @param mixed $model
-     */
     public function setModel($model): void
     {
         $this->model = $model;

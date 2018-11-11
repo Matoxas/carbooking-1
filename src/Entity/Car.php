@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,19 +39,21 @@ class Car
     private $price;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Brand", mappedBy="brand")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="cars")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $brandModel;
+    private $brand;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\City", mappedBy="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="cars")
+     * @ORM\Column(nullable=false, name="city_id")
      */
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CarAvailable", mappedBy="car")
+     * @ORM\OneToMany(targetEntity="App\Entity\RentDate", mappedBy="car")
      */
-    private $carAvailable;
+    private $rentDates;
 
     /**
      * @ORM\Column(type="datetime")
@@ -60,7 +63,7 @@ class Car
 
     public function __construct()
     {
-        $this->carAvailable = new ArrayCollection();
+        $this->rentDates = new ArrayCollection();
     }
 
     /**
@@ -69,14 +72,6 @@ class Car
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCarAvailable()
-    {
-        return $this->carAvailable;
     }
 
     /**
@@ -127,36 +122,28 @@ class Car
         $this->price = $price;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBrandModel()
+    public function getBrand(): ?Brand
     {
-        return $this->brandModel;
+        return $this->brand;
     }
 
-    /**
-     * @param mixed $brandModel
-     */
-    public function setBrandModel($brandModel): void
+    public function setBrand(?Brand $brand): self
     {
-        $this->brandModel = $brandModel;
+        $this->brand = $brand;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCity()
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    /**
-     * @param mixed $city
-     */
-    public function setCity($city): void
+    public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -173,5 +160,13 @@ class Car
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRentDates()
+    {
+        return $this->rentDates;
     }
 }
