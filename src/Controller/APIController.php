@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\RentDate;
+use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,12 +15,71 @@ use Symfony\Component\Routing\Annotation\Route;
 class APIController extends AbstractController
 {
     /**
-     * @Route("/", name="api_home")
+     * @Route("/cars", name="api_cars")
      */
-    public function index()
+    public function showCars()
     {
+        $cars = $this->getDoctrine()
+            ->getRepository('App:Car')
+            ->findAll();
+
+        $data = [];
+        foreach ($cars as $carData) {
+            /** @var User $userData */
+            $userData = $carData->getUser();
+
+            $brand = $carData->getBrand()->getBrand();
+            $model = $carData->getModel()->getModel();
+
+            /** @var RentDate $rentDates */
+            $rentDates = $carData->getRentDates()->getValues();
+
+            $available = [];
+            /** @var RentDate $value */
+            foreach ($rentDates as $value) {
+                array_push($available, [
+                    'rentedFrom' => $value->getRentedFrom()->format('Y-m-d H:i:s'),
+                    'rentedUntil' => $value->getRentedUntil()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            $temp = [
+                'email' => $userData->getEmail(),
+                'phone' => $carData->getPhone(),
+                'price' => $carData->getPrice(),
+                'brand' => $brand,
+                'model' => $model,
+                'city' => $carData->getCity()->getCity(),
+                'rentDates' => $available,
+                'createdAt' => $carData->getCreatedAt(),
+            ];
+
+            array_push($data, $temp);
+        }
+
         return $this->json([
-            'page' => 1,
+            'cars_count' => count($cars),
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * @Route("/available_cars", name="api_available_cars")
+     */
+    public function getAvailableCars()
+    {
+        $rents = $this->getDoctrine()
+            ->getRepository('App:RentDate')
+            ->findAll();
+
+        $data = [];
+        foreach ($rents as $rentData) {
+            dump($rentData);
+        }
+
+
+        return $this->json([
+            'cars_count' => 'papai',
             'data' => [
                 "id" => 5,
                 "title" => "Book1",

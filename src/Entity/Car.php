@@ -52,7 +52,7 @@ class Car
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="cars")
-     * @ORM\Column(nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $city;
 

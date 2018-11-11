@@ -26,12 +26,14 @@ class RentDate
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @Assert\NotBlank()
+     * @Assert\DateTime()
      */
     private $rentedFrom;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @Assert\NotBlank()
+     * @Assert\DateTime()
      */
     private $rentedUntil;
 
