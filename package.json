@@ -6,7 +6,12 @@
         "node-sass": "^4.9.3",
         "popper.js": "^1.14.4",
         "sass-loader": "^7.1.0",
-        "webpack-notifier": "^1.6.0"
+        "webpack-notifier": "^1.6.0",
+        "babel-eslint": "^8.2.3",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-2": "^6.24.1",
+        "eslint": "^4.19.1",
+        "eslint-plugin-react": "^7.7.0"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -15,5 +20,19 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
-    }
+    },
+  "dependencies": {
+    "@react-bootstrap/pagination": "^1.0.0",
+    "axios": "^0.18.0",
+    "boom": "^7.2.0",
+    "hoek": "^4.2.1",
+    "markerclustererplus": "^2.1.4",
+    "npm": "^6.0.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.1",
+    "react-router-dom": "^4.2.2",
+    "recompose": "^0.27.0"
+  }
 }

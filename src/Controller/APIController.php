@@ -44,6 +44,7 @@ class APIController extends AbstractController
             }
 
             $temp = [
+                'image' => '/images/notfound.png',
                 'email' => $userData->getEmail(),
                 'phone' => $carData->getPhone(),
                 'price' => $carData->getPrice(),
@@ -60,6 +61,16 @@ class APIController extends AbstractController
         return $this->json([
             'cars_count' => count($cars),
             'data' => $data
+        ]);
+    }
+
+    /**
+     * @Route("/test/{text}", name="api_test")
+     */
+    public function test(string $text)
+    {
+        return $this->json([
+            'Perduodamas tekstas ' => $text,
         ]);
     }
 }
