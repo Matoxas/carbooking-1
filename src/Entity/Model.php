@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModelRepository")
+ * @ORM\Embedded
  */
 class Model
 {
@@ -29,16 +30,26 @@ class Model
      */
     private $model;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * @param Brand|null $brand
+     * @return Model
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -46,11 +57,17 @@ class Model
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getModel(): ?string
     {
         return $this->model;
     }
 
+    /**
+     * @param $model
+     */
     public function setModel($model): void
     {
         $this->model = $model;

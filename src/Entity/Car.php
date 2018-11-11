@@ -61,6 +61,9 @@ class Car
      */
     private $createdAt;
 
+    /**
+     * Car constructor.
+     */
     public function __construct()
     {
         $this->rentDates = new ArrayCollection();
@@ -122,11 +125,18 @@ class Car
         $this->price = $price;
     }
 
+    /**
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * @param Brand|null $brand
+     * @return Car
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -134,11 +144,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return City|null
+     */
     public function getCity(): ?City
     {
         return $this->city;
     }
 
+    /**
+     * @param City|null $city
+     * @return Car
+     */
     public function setCity(?City $city): self
     {
         $this->city = $city;
