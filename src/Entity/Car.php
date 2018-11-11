@@ -45,8 +45,14 @@ class Car
     private $brand;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Model", inversedBy="cars")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $model;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="cars")
-     * @ORM\Column(nullable=false, name="city_id")
+     * @ORM\Column(nullable=false)
      */
     private $city;
 
@@ -135,7 +141,7 @@ class Car
 
     /**
      * @param Brand|null $brand
-     * @return Car
+     * @return Brand
      */
     public function setBrand(?Brand $brand): self
     {
@@ -154,7 +160,7 @@ class Car
 
     /**
      * @param City|null $city
-     * @return Car
+     * @return City
      */
     public function setCity(?City $city): self
     {
@@ -185,5 +191,24 @@ class Car
     public function getRentDates()
     {
         return $this->rentDates;
+    }
+
+    /**
+     * @return Model|null
+     */
+    public function getModel(): ?Model
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param Model|null $model
+     * @return Model
+     */
+    public function setModel(?Model $model): self
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }

@@ -153,9 +153,14 @@ class AppFixtures extends Fixture
             for ($i = 0; $i < count($modelData); $i++) {
                 $model = new Model();
                 $model->setModel(
-                    $modelData[rand(0, count($modelData) - 1)]
+                    $modelData[$i]
                 );
                 $model->setBrand($brand);
+
+                $this->addReference(
+                    'model:' . $modelData[$i],
+                    $model
+                );
 
                 $manager->persist($model);
             }
@@ -204,8 +209,13 @@ class AppFixtures extends Fixture
     private function loadCars(ObjectManager $manager)
     {
         $brands = [];
-        foreach (array_keys(self::BRANDSMODELS) as $brandData) {
+        $models = [];
+        foreach (self::BRANDSMODELS as $brandData => $modelsData) {
             array_push($brands, $brandData);
+
+            foreach ($modelsData as $modelData) {
+                array_push($models, $modelData);
+            }
         }
 
         for ($i = 0; $i < 5; $i++) {
@@ -224,6 +234,10 @@ class AppFixtures extends Fixture
             /** @var Brand $brand */
             $brand = $this->getReference($brands[rand(0, count($brands) - 1)]);
             $car->setBrand($brand);
+
+            /** @var Model $model */
+            $model = $this->getReference('model:' . $models[rand(0, count($models) - 1)]);
+            $car->setModel($model);
 
             $this->addReference(
                 'car' . $i,
