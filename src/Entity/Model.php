@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModelRepository")
- * @ORM\Embedded
  */
 class Model
 {
@@ -29,6 +30,19 @@ class Model
      * @Assert\NotBlank()
      */
     private $model;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="brand")
+     */
+    private $cars;
+
+    /**
+     * Model constructor.
+     */
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -71,5 +85,44 @@ class Model
     public function setModel($model): void
     {
         $this->model = $model;
+    }
+
+    /**
+     * @return Collection|Model[]
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    /**
+     * @param Car $car
+     * @return Brand
+     */
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setModel($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Car $car
+     * @return Brand
+     */
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->contains($car)) {
+            $this->cars->removeElement($car);
+
+            if ($car->getModel() === $this) {
+                $car->setModel(null);
+            }
+        }
+
+        return $this;
     }
 }
