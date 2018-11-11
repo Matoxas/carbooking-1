@@ -17,12 +17,6 @@ class APIController extends AbstractController
      */
     public function index()
     {
-        $brand = $this->getDoctrine()
-            ->getRepository('App:Brand')
-            ->findAll();
-
-        var_dump($brand);
-
         return $this->json([
             'page' => 1,
             'data' => [
