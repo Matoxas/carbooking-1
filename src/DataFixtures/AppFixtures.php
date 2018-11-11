@@ -222,8 +222,8 @@ class AppFixtures extends Fixture
                 self::USERS[rand(0, count(self::USERS) - 1)]['email']
             ));
             /** @var Brand $brand */
-            $brand = $brands[rand(0, count($brands) - 1)];
-            $car->setBrand($this->getReference($brand));
+            $brand = $this->getReference($brands[rand(0, count($brands) - 1)]);
+            $car->setBrand($brand);
 
             $this->addReference(
                 'car' . $i,
