@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CarAvailableRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RentDateRepository")
  */
-class CarAvailable
+class RentDate
 {
     /**
      * @ORM\Id()
@@ -18,19 +18,20 @@ class CarAvailable
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="carAvailable")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="rentDates")
+     * @ORM\JoinColumn(nullable=true, name="car_id")
      */
     private $car;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      * @Assert\NotBlank()
      */
     private $rentedFrom;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
+     * @Assert\NotBlank()
      */
     private $rentedUntil;
 
