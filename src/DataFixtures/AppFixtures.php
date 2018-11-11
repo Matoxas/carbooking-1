@@ -218,7 +218,7 @@ class AppFixtures extends Fixture
             }
         }
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $car = new Car();
             $date = new \DateTime();
             $date->modify('-' . rand(0, 20) . ' day');

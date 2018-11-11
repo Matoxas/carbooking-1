@@ -44,7 +44,7 @@ class APIController extends AbstractController
             }
 
             $temp = [
-                'image' => '/images/notfound.png',
+                'image' => 'example.jpg',
                 'email' => $userData->getEmail(),
                 'phone' => $carData->getPhone(),
                 'price' => $carData->getPrice(),
