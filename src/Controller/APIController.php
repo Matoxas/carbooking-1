@@ -62,28 +62,4 @@ class APIController extends AbstractController
             'data' => $data
         ]);
     }
-
-    /**
-     * @Route("/available_cars", name="api_available_cars")
-     */
-    public function getAvailableCars()
-    {
-        $rents = $this->getDoctrine()
-            ->getRepository('App:RentDate')
-            ->findAll();
-
-        $data = [];
-        foreach ($rents as $rentData) {
-            dump($rentData);
-        }
-
-
-        return $this->json([
-            'cars_count' => 'papai',
-            'data' => [
-                "id" => 5,
-                "title" => "Book1",
-            ]
-        ]);
-    }
 }
