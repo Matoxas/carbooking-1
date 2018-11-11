@@ -117,7 +117,7 @@ class AppFixtures extends Fixture
         $this->loadBrandAndModels($manager);
         $this->loadUsers($manager);
         $this->loadCars($manager);
-        //$this->loadRentDates($manager);
+        $this->loadRentDates($manager);
     }
 
     private function loadCities(ObjectManager $manager)
@@ -183,7 +183,7 @@ class AppFixtures extends Fixture
 
     private function loadRentDates(ObjectManager $manager)
     {
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $rentDate = new RentDate();
             $date = new \DateTime();
             $date->modify('-' . rand(10, 20) . ' day');
@@ -191,7 +191,9 @@ class AppFixtures extends Fixture
             $date = new \DateTime();
             $date->modify('-' . rand(0, 9) . ' day');
             $rentDate->setRentedUntil($date);
-            //$rentDate->setCar();
+            $rentDate->setCar($this->getReference(
+                'car' . rand(0, 4)
+            ));
 
             $manager->persist($rentDate);
         }
@@ -201,18 +203,32 @@ class AppFixtures extends Fixture
 
     private function loadCars(ObjectManager $manager)
     {
+        $brands = [];
+        foreach (array_keys(self::BRANDSMODELS) as $brandData) {
+            array_push($brands, $brandData);
+        }
+
         for ($i = 0; $i < 5; $i++) {
             $car = new Car();
             $date = new \DateTime();
             $date->modify('-' . rand(0, 20) . ' day');
             $car->setCreatedAt($date);
+            /** @var City $city */
             $city = $this->getReference(self::CITIES[rand(0, count(self::CITIES) - 1)]);
             $car->setCity($city);
-            $car->setPhone('37060000000');
-            $car->setPrice(rand(0.01, 99.99));
+            $car->setPhone('60000000');
+            $car->setPrice(number_format(rand(10, 99) / 5, 2));
             $car->setUser($this->getReference(
                 self::USERS[rand(0, count(self::USERS) - 1)]['email']
             ));
+            /** @var Brand $brand */
+            $brand = $brands[rand(0, count($brands) - 1)];
+            $car->setBrand($this->getReference($brand));
+
+            $this->addReference(
+                'car' . $i,
+                $car
+            );
 
             $manager->persist($car);
         }

@@ -134,14 +134,6 @@ class Car
         return $this;
     }
 
-    /**
-     * @param mixed $brandModel
-     */
-    public function setBrandModel($brandModel): void
-    {
-        $this->brandModel = $brandModel;
-    }
-
     public function getCity(): ?City
     {
         return $this->city;
