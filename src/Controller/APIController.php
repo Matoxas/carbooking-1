@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class APIController extends AbstractController
 {
-
     /**
      * @Route("/", name="api_home")
      */
