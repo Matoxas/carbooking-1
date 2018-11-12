@@ -8,111 +8,45 @@ use App\Entity\City;
 use App\Entity\Model;
 use App\Entity\RentDate;
 use App\Entity\User;
+use App\Utils\Utils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-    private const USERS = [
-        [
-            'email' => 'xgelytex@gmail.com',
-        ],
-        [
-            'email' => 'programeriss@gmail.com',
-        ],
-        [
-            'email' => 'svogunelis.labaiilgas@gmail.com',
-        ],
-    ];
+    /**
+     * @var array
+     */
+    private $cities;
 
-    private const BRANDSMODELS = [
-        'BMW' => [
-            'f10',
-            'x6',
-            'x5',
-            'x3',
-        ],
-        'Audi' => [
-            'A8',
-            'S8',
-            'A6',
-            'A3',
-        ],
-        'Volswagen' => [
-            'Golf',
-            'Golf Plus',
-            'Passat',
-        ],
-        'Škoda' => [
-            'Fabia',
-        ],
-    ];
+    /**
+     * @var array
+     */
+    private $brands;
 
-    private const CITIES = [
-        'Vilnius',
-        'Kaunas',
-        'Klaipėda',
-        'Šiauliai',
-        'Panevėžys',
-        'Akmenė',
-        'Alytus',
-        'Anykščiai',
-        'Birštonas',
-        'Biržai',
-        'Druskininkai',
-        'Elektrėnai',
-        'Gargždai',
-        'Ignalina',
-        'Jonava',
-        'Joniškis',
-        'Jurbarkas',
-        'Kaišiadorys',
-        'Kalvarija',
-        'Kazlų Rūda',
-        'Kėdainiai',
-        'Kelmė',
-        'Krekenava',
-        'Kretinga',
-        'Kupiškis',
-        'Kuršėnai',
-        'Lazdijai',
-        'Lentvaris',
-        'Marijampolė',
-        'Mažeikiai',
-        'Molėtai',
-        'Naujoji Akmenė',
-        'Neringa',
-        'Pagėgiai',
-        'Pakruojis',
-        'Palanga',
-        'Pasvalys',
-        'Plungė',
-        'Prienai',
-        'Radviliškis',
-        'Raseiniai',
-        'Rietavas',
-        'Rokiškis',
-        'Šakiai',
-        'Šalčininkai',
-        'Šilalė',
-        'Šilutė',
-        'Širvintos',
-        'Skuodas',
-        'Švenčionys',
-        'Tauragė',
-        'Telšiai',
-        'Trakai',
-        'Ukmergė',
-        'Utena',
-        'Varėna',
-        'Vievis',
-        'Vilkaviškis',
-        'Visaginas',
-        'Zarasai'
-    ];
+    /**
+     * @var array
+     */
+    private $models;
+
+    /**
+     * @var array
+     */
+    private $users;
+
+    /**
+     * @var array
+     */
+    private $cars;
+
+    /**
+     * @var RentDate
+     */
+    private $rentDates;
 
     public function load(ObjectManager $manager)
     {
+        $this->loadFiles();
         $this->loadCities($manager);
         $this->loadBrandAndModels($manager);
         $this->loadUsers($manager);
@@ -120,14 +54,35 @@ class AppFixtures extends Fixture
         $this->loadRentDates($manager);
     }
 
+    private function loadFiles()
+    {
+        $path = 'public/data/Cities.csv';
+        $this->cities = Utils::getData($path);
+
+        $path = 'public/data/Brands.csv';
+        $this->brands = Utils::getData($path);
+
+        $path = 'public/data/Models.csv';
+        $this->models = Utils::getData($path);
+
+        $path = 'public/data/Users.csv';
+        $this->users = Utils::getData($path);
+
+        $path = 'public/data/Cars.csv';
+        $this->cars = Utils::getData($path);
+
+        $path = 'public/data/RentDates.csv';
+        $this->rentDates = Utils::getData($path);
+    }
+
     private function loadCities(ObjectManager $manager)
     {
-        foreach (self::CITIES as $cityData) {
+        foreach ($this->cities as $cityData) {
             $city = new City();
-            $city->setCity($cityData);
+            $city->setCity($cityData[0]);
 
             $this->addReference(
-                $cityData,
+                'city:' . $cityData[0],
                 $city
             );
 
@@ -139,44 +94,58 @@ class AppFixtures extends Fixture
 
     private function loadBrandAndModels(ObjectManager $manager)
     {
-        foreach (self::BRANDSMODELS as $brandData => $modelData) {
-            $brand = new Brand();
-            $brand->setBrand($brandData);
 
-            $this->addReference(
-                $brandData,
-                $brand
-            );
-
-            $manager->persist($brand);
-
-            for ($i = 0; $i < count($modelData); $i++) {
-                $model = new Model();
-                $model->setModel(
-                    $modelData[$i]
-                );
-                $model->setBrand($brand);
-
-                $this->addReference(
-                    'model:' . $modelData[$i],
-                    $model
-                );
-
-                $manager->persist($model);
-            }
+        for ($i = 0; $i < count($this->brands); $i++) {
+            $brand = $this->loadBrand($manager, $this->brands[$i][0]);
+            $this->loadModels($manager, $brand, $i);
         }
 
         $manager->flush();
     }
 
-    private function loadUsers(ObjectManager $manager)
+    private function loadBrand(ObjectManager $manager, $brandData): Brand
     {
-        foreach (self::USERS as $userData) {
-            $user = new User();
-            $user->setEmail($userData['email']);
+        $brand = new Brand();
+        $brand->setBrand($brandData);
+
+        $this->addReference(
+            'brand:' . $brandData,
+            $brand
+        );
+
+        $manager->persist($brand);
+
+        return $brand;
+    }
+
+    private function loadModels(ObjectManager $manager, Brand $brand, $listLine)
+    {
+        foreach ($this->models[$listLine] as $modelData) {
+            $model = new Model();
+            $model->setModel(
+                $modelData
+            );
+            $model->setBrand($brand);
 
             $this->addReference(
-                $userData['email'],
+                'model:' . $modelData,
+                $model
+            );
+
+            $manager->persist($model);
+        }
+    }
+
+    private function loadUsers(ObjectManager $manager)
+    {
+        for ($i = 0; $i < count($this->users); $i++) {
+            $userData = $this->users[$i];
+
+            $user = new User();
+            $user->setEmail($userData[0]);
+
+            $this->addReference(
+                'user:' . $i,
                 $user
             );
 
@@ -186,65 +155,77 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function loadRentDates(ObjectManager $manager)
+    private function loadCars(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
-            $rentDate = new RentDate();
-            $date = new \DateTime();
-            $date->modify('-' . rand(10, 20) . ' day');
-            $rentDate->setRentedFrom($date);
-            $date = new \DateTime();
-            $date->modify('-' . rand(0, 9) . ' day');
-            $rentDate->setRentedUntil($date);
-            $rentDate->setCar($this->getReference(
-                'car' . rand(0, 4)
-            ));
+        for ($i = 0; $i < count($this->cars); $i++) {
+            $carData = $this->cars[$i];
 
-            $manager->persist($rentDate);
+            $car = new Car();
+            $car->setPhone($carData[0]);
+
+            if ($carData[1] != "") {
+                $car->setImage($carData[1]);
+            }
+
+            $car->setPrice($carData[2]);
+
+            $date = new \DateTime();
+            $date->modify($carData[3]);
+            $date->modify($carData[4]);
+            $car->setCreatedAt($date);
+
+            /** @var City $city */
+            $city = $this->getReference('city:' . $this->cities[array_rand($this->cities)][0]);
+            $car->setCity($city);
+
+            /** @var User $user */
+            $user = $this->getReference('user:' . rand(0, count($this->users) - 1));
+            $car->setUser($user);
+
+            $brand_id = array_rand($this->models);
+            $model_id = rand(0, count($this->models[$brand_id]) - 1);
+
+            /** @var Model $model */
+            $model = $this->getReference(
+                'model:' . $this->models[$brand_id][$model_id]
+            );
+            $car->setModel($model);
+
+            /** @var Brand $brand */
+            $brand = $this->getReference('brand:' . $model->getBrand()->getBrand());
+            $car->setBrand($brand);
+
+            $this->addReference(
+                'car:' . $i,
+                $car
+            );
+
+            $manager->persist($car);
         }
 
         $manager->flush();
     }
 
-    private function loadCars(ObjectManager $manager)
+    private function loadRentDates(ObjectManager $manager)
     {
-        $brands = [];
-        $models = [];
-        foreach (self::BRANDSMODELS as $brandData => $modelsData) {
-            array_push($brands, $brandData);
+        foreach ($this->rentDates as $rentDateData) {
+            $rentDate = new RentDate();
 
-            foreach ($modelsData as $modelData) {
-                array_push($models, $modelData);
-            }
-        }
-
-        for ($i = 0; $i < 50; $i++) {
-            $car = new Car();
-            $date = new \DateTime();
-            $date->modify('-' . rand(0, 20) . ' day');
-            $car->setCreatedAt($date);
-            /** @var City $city */
-            $city = $this->getReference(self::CITIES[rand(0, count(self::CITIES) - 1)]);
-            $car->setCity($city);
-            $car->setPhone('60000000');
-            $car->setPrice(number_format(rand(10, 99) / 5, 2));
-            $car->setUser($this->getReference(
-                self::USERS[rand(0, count(self::USERS) - 1)]['email']
+            $rentDate->setCar($this->getReference(
+                'car:' . $rentDateData[0]
             ));
-            /** @var Brand $brand */
-            $brand = $this->getReference($brands[rand(0, count($brands) - 1)]);
-            $car->setBrand($brand);
 
-            /** @var Model $model */
-            $model = $this->getReference('model:' . $models[rand(0, count($models) - 1)]);
-            $car->setModel($model);
+            $date = new \DateTime();
+            $date->modify($rentDateData[1]);
+            $date->modify($rentDateData[2]);
+            $rentDate->setRentedFrom($date);
 
-            $this->addReference(
-                'car' . $i,
-                $car
-            );
+            $date = new \DateTime();
+            $date->modify($rentDateData[3]);
+            $date->modify($rentDateData[4]);
+            $rentDate->setRentedUntil($date);
 
-            $manager->persist($car);
+            $manager->persist($rentDate);
         }
 
         $manager->flush();

@@ -33,6 +33,11 @@ class Car
     private $phone;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $image;
+
+    /**
      * @ORM\Column(type="float")
      * @Assert\NotBlank()
      */
@@ -210,5 +215,25 @@ class Car
         $this->model = $model;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        if ($this->image != "") {
+            return 'uploads/' . $this->image;
+        }
+
+        return 'images/car-default.jpeg';
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
     }
 }
