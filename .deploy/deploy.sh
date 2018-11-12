@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # This script deploys to *.projektai.nfqakademija.lt
-
 # This script is intended to be used in Jenkins CI, where Ansible is installed
 
 set -e # Stop on error

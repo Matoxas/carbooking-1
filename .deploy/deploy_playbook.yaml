@@ -2,7 +2,6 @@
 
 # This is Ansible playbook (configuration), used by .deploy/deploy.sh
 # It is used to automate common deployment tasks.
-
 # (E.g. copy to server, change deployed version, merge configs, warmup framework)
 
 - hosts: all
