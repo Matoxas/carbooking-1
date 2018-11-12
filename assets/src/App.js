@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { inject, observer } from "mobx-react";
+import { inject, observer, runInAction } from "mobx-react";
+import axios from "axios";
 
 // Components
 import Feed from "./components/Feed";
@@ -14,13 +15,11 @@ import carListing from "./components/carListing";
 class App extends Component {
   componentDidMount() {
     {
-      this.props.CarStore.setCars("asd");
+      this.props.CarStore.getAllCars();
     }
   }
 
-  setCars = carList => {
-    console.log(carList);
-  };
+  setCars = () => {};
 
   render() {
     return (
@@ -29,7 +28,7 @@ class App extends Component {
           <div>
             <Navbar />
             <Switch>
-              <Route path = "/carListing" component={carListing} exact/>
+              <Route path="/carListing" component={carListing} exact />
               <Route path="/" component={Index} exact />
               <Route path="/feed" component={Feed} exact />
               <Route component={Index} />
