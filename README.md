@@ -1,5 +1,4 @@
-﻿﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100) <a href='http://carbooking.projektai.nfqakademija.lt/' target='_blank'><img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbooking.png' width="350" /></a>
-
+﻿﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100) <a href='http://carbooking.projektai.nfqakademija.lt/'><img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbooking.png' width="350" /></a>
 
 Mašinų nuomos sistema
 ============
