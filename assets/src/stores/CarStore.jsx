@@ -20,11 +20,6 @@ class CarStore {
   };
 
   @action
-  addCar = car => {
-    this.cars.push(car);
-  };
-
-  @action
   getAllCars = () => {
     axios
       .get("cars")
