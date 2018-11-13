@@ -114,37 +114,37 @@ class APIController extends AbstractController
 
             $available = [];
             /** @var RentDate $value */
-            foreach ($rentDates as $value) {
-                array_push($available, [
-                    'rentedFrom' => $value->getRentedFrom()->format('Y-m-d H:i:s'),
-                    'rentedUntil' => $value->getRentedUntil()->format('Y-m-d H:i:s'),
-                ]);
-            }
+        foreach ($rentDates as $value) {
+            array_push($available, [
+                'rentedFrom' => $value->getRentedFrom()->format('Y-m-d H:i:s'),
+                'rentedUntil' => $value->getRentedUntil()->format('Y-m-d H:i:s'),
+            ]);
+        }
 
             /** @var Booking $bookedDates */
             $bookedDates = $carData->getBookings()->getValues();
 
             $booked = [];
             /** @var Booking $value */
-            foreach ($bookedDates as $value) {
-                array_push($available, [
-                    'bookedFrom' => $value->getBookedFrom()->format('Y-m-d H:i:s'),
-                    'bookedUntil' => $value->getBookedUntil()->format('Y-m-d H:i:s'),
-                ]);
-            }
+        foreach ($bookedDates as $value) {
+            array_push($available, [
+                'bookedFrom' => $value->getBookedFrom()->format('Y-m-d H:i:s'),
+                'bookedUntil' => $value->getBookedUntil()->format('Y-m-d H:i:s'),
+            ]);
+        }
 
             /** @var Image $image */
             $imagesClass = $carData->getImages()->getValues();
 
             $images = [];
             /** @var RentDate $value */
-            foreach ($imagesClass as $image) {
-                array_push($images, $image->getImage());
-            }
+        foreach ($imagesClass as $image) {
+            array_push($images, $image->getImage());
+        }
 
-            if (empty($images)) {
-                $images = ["images/car-default.jpeg"];
-            }
+        if (empty($images)) {
+            $images = ["images/car-default.jpeg"];
+        }
 
             $temp = [
                 'id' => $carData->getId(),
@@ -162,8 +162,27 @@ class APIController extends AbstractController
 
             array_push($data, $temp);
 
-        return $this->json([
+            return $this->json([
             'data' => $data[0],
+            ]);
+    }
+
+    /**
+     * @Route("/brands", name="api_brands")
+     */
+    public function showBrands()
+    {
+        $brands = $this->getDoctrine()
+            ->getRepository('App:Brand')
+            ->findAll();
+
+        //var_dump($brands->getBrand());
+
+        return $this->json([
+            'data' => 'x',
         ]);
     }
+
+    //gražinti visus brandus
+    //gražinti visus modelius pagal branda
 }
