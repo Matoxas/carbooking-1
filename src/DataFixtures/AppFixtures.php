@@ -2,9 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Booking;
 use App\Entity\Brand;
 use App\Entity\Car;
 use App\Entity\City;
+use App\Entity\Image;
 use App\Entity\Model;
 use App\Entity\RentDate;
 use App\Entity\User;
@@ -44,6 +46,16 @@ class AppFixtures extends Fixture
      */
     private $rentDates;
 
+    /**
+     * @var Image
+     */
+    private $images;
+
+    /**
+     * @var Booking
+     */
+    private $bookings;
+
     public function load(ObjectManager $manager)
     {
         $this->loadFiles();
@@ -52,6 +64,8 @@ class AppFixtures extends Fixture
         $this->loadUsers($manager);
         $this->loadCars($manager);
         $this->loadRentDates($manager);
+        $this->loadImages($manager);
+        $this->loadBookings($manager);
     }
 
     private function loadFiles()
@@ -73,6 +87,12 @@ class AppFixtures extends Fixture
 
         $path = 'public/data/RentDates.csv';
         $this->rentDates = Utils::getData($path);
+
+        $path = 'public/data/Images.csv';
+        $this->images = Utils::getData($path);
+
+        $path = 'public/data/Bookings.csv';
+        $this->bookings = Utils::getData($path);
     }
 
     private function loadCities(ObjectManager $manager)
@@ -163,15 +183,11 @@ class AppFixtures extends Fixture
             $car = new Car();
             $car->setPhone($carData[0]);
 
-            if ($carData[1] != "") {
-                $car->setImage($carData[1]);
-            }
-
-            $car->setPrice($carData[2]);
+            $car->setPrice($carData[1]);
 
             $date = new \DateTime();
+            $date->modify($carData[2]);
             $date->modify($carData[3]);
-            $date->modify($carData[4]);
             $car->setCreatedAt($date);
 
             /** @var City $city */
@@ -182,12 +198,12 @@ class AppFixtures extends Fixture
             $user = $this->getReference('user:' . rand(0, count($this->users) - 1));
             $car->setUser($user);
 
-            $brand_id = array_rand($this->models);
-            $model_id = rand(0, count($this->models[$brand_id]) - 1);
+            $brandId = array_rand($this->models);
+            $modelId = rand(0, count($this->models[$brandId]) - 1);
 
             /** @var Model $model */
             $model = $this->getReference(
-                'model:' . $this->models[$brand_id][$model_id]
+                'model:' . $this->models[$brandId][$modelId]
             );
             $car->setModel($model);
 
@@ -226,6 +242,64 @@ class AppFixtures extends Fixture
             $rentDate->setRentedUntil($date);
 
             $manager->persist($rentDate);
+        }
+
+        $manager->flush();
+    }
+
+    private function loadImages(ObjectManager $manager)
+    {
+        for ($i = 0; $i < count($this->images); $i++) {
+            if ($this->hasReference('car:' . $i)) {
+                for ($j = 0; $j < count($this->images[$i]); $j++) {
+                    $imageData = $this->images[$i][$j];
+
+                    if ($imageData != "") {
+                        $image = new Image();
+                        $image->setImage(
+                            $imageData
+                        );
+
+                        /** @var Car $car */
+                        $car = $this->getReference('car:' . $i);
+                        $image->setCar($car);
+
+                        $this->addReference(
+                            'image:' . $i . $j,
+                            $image
+                        );
+
+                        $manager->persist($image);
+                    }
+                }
+            }
+        }
+
+        $manager->flush();
+    }
+
+    private function loadBookings(ObjectManager $manager)
+    {
+        foreach ($this->bookings as $bookingData) {
+            if ($this->hasReference('car:' . $bookingData[0])) {
+                $booking = new Booking();
+
+                $date = new \DateTime();
+                $date->modify($bookingData[1]);
+                $date->modify($bookingData[2]);
+                $booking->setBookedFrom($date);
+
+                $date = new \DateTime();
+                $date->modify($bookingData[3]);
+                $date->modify($bookingData[4]);
+                $booking->setBookedUntil($date);
+
+                /** @var Car $car */
+                $car = $this->getReference('car:' . $bookingData[0]);
+                $booking->setCar($car);
+
+                $manager->persist($booking);
+            }
         }
 
         $manager->flush();
