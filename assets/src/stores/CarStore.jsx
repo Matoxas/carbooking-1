@@ -24,6 +24,7 @@ class CarStore {
     axios
       .get("cars")
       .then(response => {
+        console.log(response);
         this.setCars(response.data.data);
       })
       .catch(error => console.log(error.response));
