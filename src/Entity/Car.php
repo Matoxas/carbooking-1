@@ -33,11 +33,6 @@ class Car
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $image;
-
-    /**
      * @ORM\Column(type="float")
      * @Assert\NotBlank()
      */
@@ -73,11 +68,23 @@ class Car
     private $createdAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="car")
+     */
+    private $images;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="car")
+     */
+    private $bookings;
+
+    /**
      * Car constructor.
      */
     public function __construct()
     {
         $this->rentDates = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     /**
@@ -218,22 +225,72 @@ class Car
     }
 
     /**
-     * @return mixed
+     * @return Collection|Image[]
      */
-    public function getImage()
+    public function getImages(): Collection
     {
-        if ($this->image != "") {
-            return 'uploads/' . $this->image;
-        }
-
-        return 'images/car-default.jpeg';
+        return $this->images;
     }
 
     /**
-     * @param mixed $image
+     * @param Image $image
+     * @return Car
      */
-    public function setImage($image): void
+    public function addImage(Image $image): self
     {
-        $this->image = $image;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setImage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Image $image
+     * @return Car
+     */
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getImage() === $this) {
+                $image->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getCar() === $this) {
+                $booking->setCar(null);
+            }
+        }
+
+        return $this;
     }
 }

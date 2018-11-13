@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\RentDate;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -43,8 +44,21 @@ class APIController extends AbstractController
                 ]);
             }
 
+            /** @var Image $image */
+            $imagesClass = $carData->getImages()->getValues();
+
+            $images = [];
+            /** @var RentDate $value */
+            foreach ($imagesClass as $image) {
+                array_push($images, $image->getImage());
+            }
+
+            if (empty($images)) {
+                $images = ["images/car-default.jpeg"];
+            }
+
             $temp = [
-                'image' => $carData->getImage(),
+                'image' => $images,
                 'email' => $userData->getEmail(),
                 'phone' => $carData->getPhone(),
                 'price' => $carData->getPrice(),

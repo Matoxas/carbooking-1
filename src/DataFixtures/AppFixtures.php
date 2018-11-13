@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Brand;
 use App\Entity\Car;
 use App\Entity\City;
+use App\Entity\Image;
 use App\Entity\Model;
 use App\Entity\RentDate;
 use App\Entity\User;
@@ -44,6 +45,11 @@ class AppFixtures extends Fixture
      */
     private $rentDates;
 
+    /**
+     * @var Image
+     */
+    private $images;
+
     public function load(ObjectManager $manager)
     {
         $this->loadFiles();
@@ -52,6 +58,7 @@ class AppFixtures extends Fixture
         $this->loadUsers($manager);
         $this->loadCars($manager);
         $this->loadRentDates($manager);
+        $this->loadImages($manager);
     }
 
     private function loadFiles()
@@ -73,6 +80,9 @@ class AppFixtures extends Fixture
 
         $path = 'public/data/RentDates.csv';
         $this->rentDates = Utils::getData($path);
+
+        $path = 'public/data/Images.csv';
+        $this->images = Utils::getData($path);
     }
 
     private function loadCities(ObjectManager $manager)
@@ -163,15 +173,11 @@ class AppFixtures extends Fixture
             $car = new Car();
             $car->setPhone($carData[0]);
 
-            if ($carData[1] != "") {
-                $car->setImage($carData[1]);
-            }
-
-            $car->setPrice($carData[2]);
+            $car->setPrice($carData[1]);
 
             $date = new \DateTime();
+            $date->modify($carData[2]);
             $date->modify($carData[3]);
-            $date->modify($carData[4]);
             $car->setCreatedAt($date);
 
             /** @var City $city */
@@ -226,6 +232,37 @@ class AppFixtures extends Fixture
             $rentDate->setRentedUntil($date);
 
             $manager->persist($rentDate);
+        }
+
+        $manager->flush();
+    }
+
+    private function loadImages(ObjectManager $manager)
+    {
+        for ($i = 0; $i < count($this->images); $i++) {
+            if ($this->hasReference('car:' . $i)) {
+                for ($j = 0; $j < count($this->images[$i]); $j++) {
+                    $imageData = $this->images[$i][$j];
+
+                    if ($imageData != "") {
+                        $image = new Image();
+                        $image->setImage(
+                            $imageData
+                        );
+
+                        /** @var Car $car */
+                        $car = $this->getReference('car:' . $i);
+                        $image->setCar($car);
+
+                        $this->addReference(
+                            'image:' . $i . $j,
+                            $image
+                        );
+
+                        $manager->persist($image);
+                    }
+                }
+            }
         }
 
         $manager->flush();
