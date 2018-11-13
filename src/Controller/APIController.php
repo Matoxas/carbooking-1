@@ -166,4 +166,23 @@ class APIController extends AbstractController
             'data' => $data[0],
             ]);
     }
+
+    /**
+     * @Route("/brands", name="api_brands")
+     */
+    public function showBrands()
+    {
+        $brands = $this->getDoctrine()
+            ->getRepository('App:Brand')
+            ->findAll();
+
+        //var_dump($brands->getBrand());
+
+        return $this->json([
+            'data' => 'x',
+        ]);
+    }
+
+    //gražinti visus brandus
+    //gražinti visus modelius pagal branda
 }
