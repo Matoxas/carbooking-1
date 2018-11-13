@@ -18,16 +18,24 @@ class CarStore {
     price_from: 0,
     price_to: 99
   };
+  @observable
+  currentCar = {};
 
   @action
   getAllCars = () => {
     axios
       .get("cars")
       .then(response => {
-        console.log(response);
         this.setCars(response.data.data);
       })
       .catch(error => console.log(error.response));
+  };
+
+  @action
+  GetCar = id => {
+    this.currentCar = this.cars.find(car => {
+      return car.id == id;
+    });
   };
 
   @action

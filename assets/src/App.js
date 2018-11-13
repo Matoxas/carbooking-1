@@ -28,9 +28,9 @@ class App extends Component {
           <div>
             <Navbar />
             <Switch>
-              <Route path="/carListing" component={carListing} exact />
+              <Route path="/feed/carListing/:id" component={carListing} exact />
               <Route path="/" component={Index} exact />
-              <Route path="/feed" component={Feed} exact />
+              <Route path="/feed" component={Feed} />
               <Route component={Index} />
             </Switch>
           </div>
