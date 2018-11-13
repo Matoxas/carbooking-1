@@ -16,8 +16,6 @@ class Feed extends Component {
     this.setState({
       toggler: !toggler
     });
-
-    console.log(toggler);
   };
 
   render() {

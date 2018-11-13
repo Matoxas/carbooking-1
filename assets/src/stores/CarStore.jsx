@@ -5,6 +5,8 @@ axios.defaults.baseURL = "http://127.0.0.1/api/";
 
 class CarStore {
   @observable
+  loading = true;
+  @observable
   cars = [];
   @observable
   brands = [];
@@ -27,6 +29,7 @@ class CarStore {
       .get("cars")
       .then(response => {
         this.setCars(response.data.data);
+        this.setLoading(false);
       })
       .catch(error => console.log(error.response));
   };
@@ -41,6 +44,11 @@ class CarStore {
   @action
   setCars = list => {
     this.cars = list;
+  };
+
+  @action
+  setLoading = bool => {
+    this.loading = bool;
   };
 
   @computed

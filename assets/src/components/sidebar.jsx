@@ -5,7 +5,7 @@ class Sidebar extends Component {
   value = [1, 99];
 
   changeValue = () => {
-    console.log(this.value);
+    // console.log(this.value);
   };
 
   render() {
@@ -51,7 +51,6 @@ class Sidebar extends Component {
             />
             <span>{this.value[0]}</span>
             <span className="float-right">{this.value[1]}</span>
-            <div className="clearfix" />
           </div>
         </div>
       </div>
