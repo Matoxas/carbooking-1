@@ -174,12 +174,32 @@ class APIController extends AbstractController
     {
         $brands = $this->getDoctrine()
             ->getRepository('App:Brand')
-            ->findAll();
-
-        //var_dump($brands->getBrand());
+            ->findAllBrand();
 
         return $this->json([
-            'data' => 'x',
+            'data' => $brands,
+        ]);
+    }
+
+    /**
+     * @Route("/models/{id}", name="api_models")
+     */
+    public function showModels($id)
+    {
+        $brand = $this->getDoctrine()
+            ->getRepository('App:Brand')
+            ->find($id);
+
+        $models = $this->getDoctrine()
+            ->getRepository('App:Model')
+            ->findAllModelsByBrand($id);
+
+        $models = array_column($models, 'model');
+
+        return $this->json([
+            'id' => $id,
+            'brand' => $brand->getBrand(),
+            'data' => $models,
         ]);
     }
 

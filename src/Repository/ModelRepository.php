@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Model;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,5 +18,17 @@ class ModelRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Model::class);
+    }
+
+    public function findAllModelsByBrand(int $id)
+    {
+        return $this->createQueryBuilder('m')
+            ->select( 'm.model')
+            ->innerJoin('m.brand', 'b')
+            ->where('b.id = :brandId')
+            ->setParameter('brandId', $id)
+            ->orderBy('m.model', 'DESC')
+            ->getQuery()
+            ->getArrayResult();
     }
 }
