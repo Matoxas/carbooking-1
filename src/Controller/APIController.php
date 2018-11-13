@@ -25,6 +25,8 @@ class APIController extends AbstractController
             ->getRepository('App:Car')
             ->findAll();
 
+        //$models = array_column($models, 'model');
+
         $data = [];
         foreach ($cars as $carData) {
             /** @var User $userData */
@@ -194,10 +196,8 @@ class APIController extends AbstractController
             ->getRepository('App:Model')
             ->findAllModelsByBrand($id);
 
-        $models = array_column($models, 'model');
-
         return $this->json([
-            'id' => $id,
+            'id' => $brand->getId(),
             'brand' => $brand->getBrand(),
             'data' => $models,
         ]);
