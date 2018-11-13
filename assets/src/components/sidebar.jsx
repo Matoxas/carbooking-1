@@ -14,7 +14,7 @@ class Sidebar extends Component {
         <div className="sidebar-content">
           {" "}
           <div className="form-group">
-            <label for="exampleFormControlSelect1">Gamintojas:</label>
+            <label htmlFor="exampleFormControlSelect1">Gamintojas:</label>
             <select className="form-control" id="exampleFormControlSelect1">
               <option>Audi</option>
               <option>BMW</option>
@@ -24,7 +24,7 @@ class Sidebar extends Component {
             </select>
           </div>
           <div className="form-group">
-            <label for="exampleFormControlSelect2">Modelis:</label>
+            <label htmlFor="exampleFormControlSelect2">Modelis:</label>
             <select
               multiple
               className="form-control"

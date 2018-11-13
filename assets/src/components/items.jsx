@@ -6,12 +6,13 @@ import Item from "./item";
 @observer
 class Items extends Component {
   render() {
-    const cars = this.props.CarStore.cars;
+    const { cars } = this.props.CarStore;
+
     return (
       <div className="row">
         {cars.map(car => (
           <div className="col-sm-6 col-lg-4">
-            <Item key={car.brand} car={car} />
+            <Item key={cars.indexOf(car)} car={car} />
           </div>
         ))}
       </div>
