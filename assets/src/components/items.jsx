@@ -11,8 +11,8 @@ class Items extends Component {
     return (
       <div className="row">
         {cars.map(car => (
-          <div className="col-sm-6 col-lg-4">
-            <Item key={cars.indexOf(car)} car={car} />
+          <div key={car.id} className="col-sm-6 col-lg-4">
+            <Item car={car} />
           </div>
         ))}
       </div>
