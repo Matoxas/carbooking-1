@@ -14,4 +14,21 @@ class ActivityController extends AbstractController
     {
         return $this->render('activity/index.html.twig');
     }
+
+    /**
+     * @Route("/feed", name="activity_feed")
+     */
+    public function indexFeed()
+    {
+        return $this->render('activity/index.html.twig');
+    }
+
+    /**
+     * @Route("/carListing", name="activity_car_listing")
+     */
+    public function indexCarListing()
+    {
+        return $this->render('activity/index.html.twig');
+    }
+
 }
