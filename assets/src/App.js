@@ -7,7 +7,7 @@ import Feed from "./components/Feed";
 import Navbar from "./components/Navbar";
 import Index from "./components/Index";
 import Switch from "react-router-dom/Switch";
-import carListing from "./components/carListing/carListing";
+import carListing from "./components/carListing";
 
 @inject("CarStore")
 @observer

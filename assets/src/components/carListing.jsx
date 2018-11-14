@@ -8,7 +8,6 @@ class carListing extends Component {
     const { CarStore } = this.props;
     CarStore.GetCar(routeId);
   }
-
   render() {
     const car = this.props.CarStore.currentCar;
 
