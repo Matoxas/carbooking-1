@@ -51,6 +51,20 @@ class CarStore {
     this.loading = bool;
   };
 
+  @action
+  sendParams = () => {
+    axios
+      .get("cars", {
+        params: {
+          foo: "bar"
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error.response));
+  };
+
   @computed
   get carsCount() {
     return this.cars.length;
