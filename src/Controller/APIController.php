@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use App\Entity\Booking;
 use App\Entity\Image;
 use App\Entity\RentDate;
@@ -7,6 +8,7 @@ use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 /**
  * @Route("/api")
  * @Method({"GET", "POST"})
