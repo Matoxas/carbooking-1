@@ -19,7 +19,11 @@ class Sidebar extends Component {
           {" "}
           <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">Gamintojas:</label>
-            <select className="form-control" id="exampleFormControlSelect1">
+            <select
+              multiple
+              className="form-control"
+              id="exampleFormControlSelect1"
+            >
               {brands.map(brand => {
                 return (
                   <option key={brand.id} value={brand.brand}>
