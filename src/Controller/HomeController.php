@@ -11,7 +11,7 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('activity/index.html.twig');
+        return $this->render('home/index.html.twig');
     }
     /**
      * @Route("/feed", name="activity_feed")
@@ -33,6 +33,6 @@ class HomeController extends AbstractController
      */
     public function indexCarListing()
     {
-        return $this->render('activity/index.html.twig');
+        return $this->render('home/index.html.twig');
     }
 }
