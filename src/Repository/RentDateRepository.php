@@ -18,4 +18,14 @@ class RentDateRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RentDate::class);
     }
+
+    public function findRentDatesByCarId($carId)
+    {
+        return $this->createQueryBuilder('rd')
+            ->select('rd.rentedFrom', 'rd.rentedUntil')
+            ->where('rd.car = :carId')
+            ->setParameter('carId', $carId)
+            ->getQuery()
+            ->execute();
+    }
 }

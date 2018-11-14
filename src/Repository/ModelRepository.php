@@ -23,10 +23,20 @@ class ModelRepository extends ServiceEntityRepository
     public function findAllModelsByBrand(int $id)
     {
         return $this->createQueryBuilder('m')
-            ->select( 'm.id', 'm.model')
+            ->select('m.id', 'm.model')
             ->innerJoin('m.brand', 'b')
             ->where('b.id = :brandId')
             ->setParameter('brandId', $id)
+            ->orderBy('m.model', 'DESC')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function findAllModels()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.id', 'm.model')
+            ->innerJoin('m.brand', 'b')
             ->orderBy('m.model', 'DESC')
             ->getQuery()
             ->getArrayResult();

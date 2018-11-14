@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-class ActivityController extends AbstractController
+
+class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="activity_home")
@@ -16,21 +18,14 @@ class ActivityController extends AbstractController
      */
     public function indexFeed()
     {
-        return $this->render('activity/index.html.twig');
+        return $this->render('home/index.html.twig');
     }
     /**
      * @Route("/feed/carListing/{id}", name="activity_feed_car_listing_id")
      */
     public function indexCarListingById($id)
     {
-        return $this->render('activity/index.html.twig');
-    }
-    /**
-     * @Route("/feed/carListing/{id}", name="activity_feed_car_listing_id")
-     */
-    public function indexCarListingById($id)
-    {
-        return $this->render('activity/index.html.twig');
+        return $this->render('home/index.html.twig');
     }
 
     /**
