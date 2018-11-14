@@ -23,7 +23,7 @@ class ModelRepository extends ServiceEntityRepository
     public function findAllModelsByBrand(int $id)
     {
         return $this->createQueryBuilder('m')
-            ->select( 'm.id', 'm.model')
+            ->select('m.id', 'm.model')
             ->innerJoin('m.brand', 'b')
             ->where('b.id = :brandId')
             ->setParameter('brandId', $id)

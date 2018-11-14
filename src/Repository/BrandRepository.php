@@ -22,7 +22,7 @@ class BrandRepository extends ServiceEntityRepository
     public function findAllBrand()
     {
         return $this->createQueryBuilder('b')
-            ->select( 'b.id', 'b.brand')
+            ->select('b.id', 'b.brand')
             ->orderBy('b.brand', 'DESC')
             ->getQuery()
             ->getResult();
