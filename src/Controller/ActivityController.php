@@ -26,14 +26,6 @@ class ActivityController extends AbstractController
         return $this->render('activity/index.html.twig');
     }
     /**
-     * @Route("/feed/carListing/{id}", name="activity_feed_car_listing_id")
-     */
-    public function indexCarListingById($id)
-    {
-        return $this->render('activity/index.html.twig');
-    }
-
-    /**
      * @Route("/carListing", name="activity_car_listing")
      */
     public function indexCarListing()

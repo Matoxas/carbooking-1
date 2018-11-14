@@ -22,6 +22,8 @@ class CarStore {
   };
   @observable
   currentCar = {};
+  @observable
+  brands = [];
 
   @action
   getAllCars = () => {
@@ -29,26 +31,27 @@ class CarStore {
       .get("cars")
       .then(response => {
         this.setCars(response.data.data);
-        this.setLoading(false);
       })
       .catch(error => console.log(error.response));
   };
+
+  @action
+  getBrands = () => {
+    axios
+      .get("brands")
+      .then(response => {
+        this.setBrands(response.data.data);
+      })
+      .catch(error => console.log(error.response));
+  };
+
+  // ==================== GETTERS ====================
 
   @action
   GetCar = id => {
     this.currentCar = this.cars.find(car => {
       return car.id == id;
     });
-  };
-
-  @action
-  setCars = list => {
-    this.cars = list;
-  };
-
-  @action
-  setLoading = bool => {
-    this.loading = bool;
   };
 
   @action
@@ -65,11 +68,25 @@ class CarStore {
       .catch(error => console.log(error.response));
   };
 
-  @computed
-  get carsCount() {
-    return this.cars.length;
-  }
-}
+  // ==================== SETTERS ====================
 
+  @action
+  setCars = list => {
+    this.cars = list;
+  };
+
+  @action
+  setBrands = list => {
+    this.brands = list;
+  };
+
+  // ==================== COMPUTERS ====================
+
+  //   @computed
+  //   get carsCount() {
+  //     return this.cars.length;
+  //   }
+  // }
+}
 const store = new CarStore();
 export default store;

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import ReactBootstrapSlider from "react-bootstrap-slider";
+import { inject, observer } from "mobx-react";
 
+@inject("CarStore")
+@observer
 class Sidebar extends Component {
   value = [1, 99];
 
@@ -9,6 +12,7 @@ class Sidebar extends Component {
   };
 
   render() {
+    const { brands } = this.props.CarStore;
     return (
       <div className="sidebar min-height margin-bottom">
         <div className="sidebar-content">
@@ -16,11 +20,13 @@ class Sidebar extends Component {
           <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">Gamintojas:</label>
             <select className="form-control" id="exampleFormControlSelect1">
-              <option>Audi</option>
-              <option>BMW</option>
-              <option>Mazda</option>
-              <option>Toyota</option>
-              <option>Subaru</option>
+              {brands.map(brand => {
+                return (
+                  <option key={brand.id} value={brand.brand}>
+                    {brand.brand}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="form-group">

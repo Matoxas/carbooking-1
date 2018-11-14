@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { inject, observer, runInAction } from "mobx-react";
-import axios from "axios";
 
 // Components
 import Feed from "./components/Feed";
@@ -16,6 +15,7 @@ class App extends Component {
   componentDidMount() {
     {
       this.props.CarStore.getAllCars();
+      this.props.CarStore.getBrands();
     }
   }
 
