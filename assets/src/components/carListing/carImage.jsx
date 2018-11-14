@@ -1,9 +1,10 @@
 import React from 'react';
 
-const carImage = () => {
+const carImage = (props) => {
     return(
         <div>
-            <img className="rounded" src="https://photos.motorcar.com/used-2011-bmw-x5-35ipremium-9754-16488845-1-640.jpg" alt=""/>
+            {props.images}
+            <img className="rounded" src={`/${props.image.images[0]}`} alt=""/>
         </div>
     )
 };
