@@ -103,6 +103,7 @@ body {
   margin-bottom: 0;
   margin-right: 0.5rem;
   margin-top: 1rem;
+  color: #333;
 }
 
 .card-title--sub {
@@ -131,7 +132,7 @@ body {
 }
 
 .slider.slider-horizontal {
-  width: 100%;
+  width: 100% !important;
 }
 
 .slider-handle {
