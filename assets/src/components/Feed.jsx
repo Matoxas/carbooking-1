@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import Items from "./items";
 import Sidebar from "./sidebar";
 import Topbar from "./topbar";
+import { inject, observer } from "mobx-react";
+import Loading from "./loading";
 
+@inject("CarStore")
+@observer
 class Feed extends Component {
   constructor() {
     super();
@@ -20,37 +24,51 @@ class Feed extends Component {
 
   render() {
     const { toggler } = this.state;
-    return (
-      <div className="main">
+    const { loading } = this.props.CarStore;
+
+    if (loading) {
+      return (
         <div className="container">
-          <div
-            onClick={() => this.toggleMobile()}
-            className="mobile-menu topbar col-12 margin-bottom"
-          >
-            <h2 className="text-center padding">RODYTI FILTRUS</h2>
+          <div className="flex flex-center fullHeight text-center">
+            <Loading />
           </div>
-          <div className="row justify-content-md-end">
+        </div>
+      );
+    } else {
+      return (
+        <div className="main">
+          <div className="container">
             <div
-              className={`col-md-9 col-lg-10 ${toggler == 0 ? "m-hidden" : ""}`}
+              onClick={() => this.toggleMobile()}
+              className="mobile-menu topbar col-12 margin-bottom"
             >
-              <Topbar />
+              <h2 className="text-center padding">RODYTI FILTRUS</h2>
             </div>
-          </div>
-          <div className="row">
-            <div
-              className={`col-md-3 col-lg-2 margin-bottom ${
-                toggler == 0 ? "m-hidden" : ""
-              }`}
-            >
-              <Sidebar />
+            <div className="row justify-content-md-end">
+              <div
+                className={`col-md-9 col-lg-10 ${
+                  toggler == 0 ? "m-hidden" : ""
+                }`}
+              >
+                <Topbar />
+              </div>
             </div>
-            <div className="col-md-9 col-lg-10">
-              <Items />
+            <div className="row">
+              <div
+                className={`col-md-3 col-lg-2 margin-bottom ${
+                  toggler == 0 ? "m-hidden" : ""
+                }`}
+              >
+                <Sidebar />
+              </div>
+              <div className="col-md-9 col-lg-10">
+                <Items />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

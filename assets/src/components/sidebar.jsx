@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactBootstrapSlider from "react-bootstrap-slider";
 import { inject, observer } from "mobx-react";
+import loading from "./loading";
 
 @inject("CarStore")
 @observer
@@ -11,8 +12,13 @@ class Sidebar extends Component {
     // console.log(this.value);
   };
 
+  setBrand = e => {
+    const { CarStore } = this.props;
+    CarStore.setModels(e.target.value);
+  };
+
   render() {
-    const { brands } = this.props.CarStore;
+    const { brands, models } = this.props.CarStore;
     return (
       <div className="sidebar min-height margin-bottom">
         <div className="sidebar-content">
@@ -20,13 +26,14 @@ class Sidebar extends Component {
           <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">Gamintojas:</label>
             <select
-              multiple
+              onChange={this.setBrand}
               className="form-control"
               id="exampleFormControlSelect1"
             >
+              <option value="0">Rodyti visus</option>
               {brands.map(brand => {
                 return (
-                  <option key={brand.id} value={brand.brand}>
+                  <option key={brand.id} value={brand.id}>
                     {brand.brand}
                   </option>
                 );
@@ -40,11 +47,13 @@ class Sidebar extends Component {
               className="form-control"
               id="exampleFormControlSelect2"
             >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              {models.map(model => {
+                return (
+                  <option key={model.id} value={model.id}>
+                    {model.model}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="form-group">
