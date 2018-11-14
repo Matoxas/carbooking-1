@@ -25,9 +25,8 @@ class Feed extends Component {
   render() {
     const { toggler } = this.state;
     const { loading } = this.props.CarStore;
-    const load = true;
 
-    if (load) {
+    if (loading) {
       return (
         <div className="container">
           <div className="flex flex-center fullHeight text-center">
