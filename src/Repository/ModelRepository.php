@@ -31,4 +31,14 @@ class ModelRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+
+    public function findAllModels()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.id', 'm.model')
+            ->innerJoin('m.brand', 'b')
+            ->orderBy('m.model', 'DESC')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

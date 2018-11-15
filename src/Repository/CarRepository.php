@@ -18,4 +18,47 @@ class CarRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Car::class);
     }
+
+    public function findCars()
+    {
+        return $this->createQueryBuilder('car')
+            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->addSelect('city.city', 'user.email')
+            ->addSelect('brand.brand')
+            ->addSelect('model.model')
+            ->innerJoin('car.city', 'city')
+            ->innerJoin('car.user', 'user')
+            ->innerJoin('car.brand', 'brand')
+            ->innerJoin('car.model', 'model')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function findCarById($carId)
+    {
+        return $this->createQueryBuilder('car')
+            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->addSelect('city.city', 'user.email')
+            ->addSelect('brand.brand')
+            ->addSelect('model.model')
+            ->innerJoin('car.city', 'city')
+            ->innerJoin('car.user', 'user')
+            ->innerJoin('car.brand', 'brand')
+            ->innerJoin('car.model', 'model')
+            ->where('car.id = :carId')
+            ->setParameter('carId', $carId)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    public function fetchFilteredCarsId($params)
+    {
+        $qb = $this->createQueryBuilder('car')
+            ->select('car.id');
+
+        //pabaigti ;-D
+
+        return $qb->getQuery()
+            ->execute();
+    }
 }
