@@ -15,6 +15,10 @@ class Feed extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.CarStore.getBrands();
+  }
+
   toggleMobile = () => {
     const { toggler } = this.state;
     this.setState({
@@ -45,23 +49,13 @@ class Feed extends Component {
               <h2 className="text-center padding">RODYTI FILTRUS</h2>
             </div>
             <div className="row justify-content-md-end">
-              <div
-                className={`col-md-9 col-lg-10 ${
-                  toggler == 0 ? "m-hidden" : ""
-                }`}
-              >
+              <div className={`col-12 ${toggler == 0 ? "m-hidden" : ""}`}>
                 <Topbar />
+                {/* <Sidebar /> */}
               </div>
             </div>
             <div className="row">
-              <div
-                className={`col-md-3 col-lg-2 margin-bottom ${
-                  toggler == 0 ? "m-hidden" : ""
-                }`}
-              >
-                <Sidebar />
-              </div>
-              <div className="col-md-9 col-lg-10">
+              <div className="col-lg-12">
                 <Items />
               </div>
             </div>

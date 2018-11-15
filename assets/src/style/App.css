@@ -48,7 +48,7 @@ body {
 
 /* ================== MAIN PAGE STYLES ====================== */
 
-.col-lg-4 {
+.col-lg-3 {
   margin-bottom: 1rem;
 }
 
@@ -109,7 +109,7 @@ body {
 .card-title--sub {
   float: none;
   clear: both;
-  margin-right: 0;
+  emargin-right: 0;
   color: #6c757d;
   /* text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.1); */
 }
@@ -151,6 +151,70 @@ body {
   align-items: center;
   justify-content: center; */
 }
+
+/* SCROLLER ANIMATION */
+
+.scroll-down {
+  opacity: 1;
+  -webkit-transition: all 0.5s ease-in 3s;
+  transition: all 0.5s ease-in 3s;
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -16px;
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #fff;
+  background-size: 14px auto;
+  border-radius: 50%;
+  z-index: 2;
+  -webkit-animation: bounce 2s infinite 2s;
+  animation: bounce 2s infinite 2s;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  transform: scale(1);
+}
+
+.scroll-down:before {
+  position: absolute;
+  top: calc(50% - 8px);
+  left: calc(50% - 6px);
+  transform: rotate(-45deg);
+  display: block;
+  width: 12px;
+  height: 12px;
+  content: "";
+  border: 2px solid white;
+  border-width: 0px 0 2px 2px;
+}
+
+@keyframes bounce {
+  0%,
+  100%,
+  20%,
+  50%,
+  80% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  60% {
+    -webkit-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+}
+
+/* SPINNER ANIMATION */
 
 .machine {
   width: 60vmin;
@@ -300,6 +364,15 @@ body {
   }
 }
 
+/* LOGO */
+
+.st0 {
+  opacity: 0.96;
+}
+.st1 {
+  fill: #fff;
+}
+
 /* ================== TOPBAR ====================== */
 
 .topbar {
@@ -353,6 +426,10 @@ body {
   padding-top: 1rem !important;
 }
 
+.padding-bottom--big {
+  padding-bottom: 7rem;
+}
+
 .margin-bottom {
   margin-bottom: 1rem !important;
 }
@@ -370,7 +447,7 @@ body {
 }
 
 .fullHeight {
-  min-height: 80vh;
+  min-height: 90vh;
 }
 
 .minHeight {
@@ -441,6 +518,10 @@ body {
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
+  .card-image {
+    height: 150px;
+  }
+
   .machine {
     width: 40vmin;
   }
@@ -459,6 +540,10 @@ body {
 
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+  .card-image {
+    height: 210px;
+  }
+
   .machine {
     width: 20vmin;
   }

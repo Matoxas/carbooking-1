@@ -15,7 +15,6 @@ class App extends Component {
   componentDidMount() {
     {
       this.props.CarStore.getAllCars();
-      this.props.CarStore.getBrands();
     }
   }
 
@@ -24,13 +23,17 @@ class App extends Component {
   render() {
     return (
       <div>
-        <BrowserRouter>
+        <BrowserRouter
+          onUpdate={() => window.scrollTo(0, 0)}
+          // history={browserHistory}
+        >
           <div>
             <Navbar />
+            <Index />
             <Switch>
               <Route path="/feed/carListing/:id" component={carListing} exact />
-              <Route path="/" component={Index} exact />
-              <Route path="/feed" component={Feed} />
+              <Route path="/" component={Feed} exact />
+              <Route path="/feed" component={Feed} exact />
               <Route component={Index} />
             </Switch>
           </div>
