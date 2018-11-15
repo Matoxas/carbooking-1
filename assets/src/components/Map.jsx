@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import "../style/index.css";
 
 const mapStyles = {
     width: '100%',
@@ -32,6 +33,7 @@ export class MapContainer extends Component {
     render() {
         return (
             <Map
+                className = "map--size"
                 google={this.props.google}
                 zoom={14}
                 style={mapStyles}
