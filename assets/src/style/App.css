@@ -221,7 +221,7 @@ body {
 }
 
 .machine .small {
-  fill: wheat;
+  fill: #eec170;
 }
 
 .machine .large {
@@ -446,7 +446,7 @@ body {
 }
 
 .fullHeight {
-  min-height: 90vh;
+  min-height: 100vh;
 }
 
 .minHeight {

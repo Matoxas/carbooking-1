@@ -5,7 +5,7 @@ import Logo from "./logo";
 const Index = () => {
   return (
     <div className="container padding-top">
-      <div className="flex flex-center fullHeight text-center padding-bottom--big">
+      <div className="flex flex-center fullHeight text-center">
         <div>
           <div className="row mb-4">
             <div className="col-lg-6 index-logo-wrapper">

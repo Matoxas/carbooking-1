@@ -5,8 +5,8 @@ import Logo from "./logo";
 
 const Navbar = () => {
   return (
-    <div className="container">
-      <header className="masthead mb-auto padding-top text-center margin-bottom">
+    <header className="masthead mb-auto padding-top text-center margin-bottom">
+      <div className="container">
         <div className="inner">
           <Logo className="masthead-brand" />
           <nav className="nav nav-masthead justify-content-center">
@@ -19,8 +19,8 @@ const Navbar = () => {
           </nav>
           <div className="clearfix" />
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 };
 
