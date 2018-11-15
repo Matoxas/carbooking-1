@@ -7,7 +7,7 @@ const carInfo = (props) => {
             <h1 className="info__name">{props.car.brand} {props.car.model}</h1>
             <br/>
             <div className="row info__details">
-                <div className="col-xl-6 text-muted">Paros kaina</div>
+                <div className="col-xl-6 text-muted">Paros cia</div>
                 <div className="col-xl-6">€ {props.car.price}</div>
                 <div className="col-xl-6 text-muted">Vieta</div>
                 <div className="col-xl-6">{props.car.city}</div>

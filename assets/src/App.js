@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Index from "./components/Index";
 import Switch from "react-router-dom/Switch";
 import carListing from "./components/carListing/carListing";
+import Map from "./components/Map";
 
 @inject("CarStore")
 @observer
@@ -30,7 +31,6 @@ class App extends Component {
               <Route path="/feed/carListing/:id" component={carListing} exact />
               <Route path="/" component={Index} exact />
               <Route path="/feed" component={Feed} />
-              <Route component={Index} />
             </Switch>
           </div>
         </BrowserRouter>
