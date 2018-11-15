@@ -7,7 +7,7 @@ const Index = () => {
     <div className="container padding-top">
       <div className="flex flex-center fullHeight text-center padding-bottom--big">
         <h2>Čia bus laukas</h2>
-        <Link to="/feed" class="scroll-down" />
+        <Link to="/feed" className="scroll-down" />
       </div>
     </div>
   );
