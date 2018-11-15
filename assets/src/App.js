@@ -23,10 +23,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <BrowserRouter
-          onUpdate={() => window.scrollTo(0, 0)}
-          // history={browserHistory}
-        >
+        <BrowserRouter>
           <div>
             <Navbar />
             <Index />

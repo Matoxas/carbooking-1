@@ -366,11 +366,10 @@ body {
 
 /* LOGO */
 
-.st0 {
-  opacity: 0.96;
-}
-.st1 {
-  fill: #fff;
+.logo {
+  fill: white;
+  height: 100%;
+  width: 60vh;
 }
 
 /* ================== TOPBAR ====================== */
