@@ -2,6 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Booking;
+use App\Entity\Brand;
+use App\Entity\Car;
+use App\Entity\City;
+use App\Entity\Image;
+use App\Entity\Model;
+use App\Entity\RentDate;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +28,7 @@ class APIController extends AbstractController
         $data = [];
 
         $cars = $this->getDoctrine()
-            ->getRepository('App:Car')
+            ->getRepository(Car::class)
             ->findCars();
 
         foreach ($cars as &$value) {
@@ -30,7 +37,7 @@ class APIController extends AbstractController
 
         foreach ($cars as &$car) {
             $images = $this->getDoctrine()
-                ->getRepository('App:Image')
+                ->getRepository(Image::class)
                 ->findImagesByCarId($car['id']);
 
             $images = array_column($images, 'image');
@@ -40,7 +47,7 @@ class APIController extends AbstractController
 
         foreach ($cars as &$car) {
             $rentDates = $this->getDoctrine()
-                ->getRepository('App:RentDate')
+                ->getRepository(RentDate::class)
                 ->findRentDatesByCarId($car['id']);
 
             foreach ($rentDates as &$value) {
@@ -53,7 +60,7 @@ class APIController extends AbstractController
 
         foreach ($cars as &$car) {
             $bookingDates = $this->getDoctrine()
-                ->getRepository('App:Booking')
+                ->getRepository(Booking::class)
                 ->findBookingDatesByCarId($car['id']);
 
             foreach ($bookingDates as &$value) {
@@ -88,7 +95,7 @@ class APIController extends AbstractController
         }
 
         $carsId = $this->getDoctrine()
-            ->getRepository('App:Car')
+            ->getRepository(Car::class)
             ->fetchFilteredCarsId($params);
 
         //pabaigti ;-D
@@ -107,7 +114,7 @@ class APIController extends AbstractController
         $data = [];
 
         $carData = $this->getDoctrine()
-            ->getRepository('App:Car')
+            ->getRepository(Car::class)
             ->findCarById($id);
 
         $carData['createdAt'] = $carData['createdAt']->format('Y-m-d H:i:s');
@@ -115,7 +122,7 @@ class APIController extends AbstractController
         $data = array_merge($data, $carData);
 
         $images = $this->getDoctrine()
-            ->getRepository('App:Image')
+            ->getRepository(Image::class)
             ->findImagesByCarId($id);
 
         $images = array_column($images, 'image');
@@ -123,7 +130,7 @@ class APIController extends AbstractController
         $data['images'] = $images;
 
         $rentDates = $this->getDoctrine()
-            ->getRepository('App:RentDate')
+            ->getRepository(RentDate::class)
             ->findRentDatesByCarId($id);
 
         foreach ($rentDates as &$value) {
@@ -134,7 +141,7 @@ class APIController extends AbstractController
         $data['rentDates'] = $rentDates;
 
         $bookingDates = $this->getDoctrine()
-            ->getRepository('App:Booking')
+            ->getRepository(Booking::class)
             ->findBookingDatesByCarId($id);
 
         foreach ($bookingDates as &$value) {
@@ -155,7 +162,7 @@ class APIController extends AbstractController
     public function showBrands()
     {
         $brands = $this->getDoctrine()
-            ->getRepository('App:Brand')
+            ->getRepository(Brand::class)
             ->findAllBrand();
 
         return $this->json([
@@ -169,7 +176,7 @@ class APIController extends AbstractController
     public function showModels()
     {
         $models = $this->getDoctrine()
-            ->getRepository('App:Model')
+            ->getRepository(Model::class)
             ->findAllModels();
 
         return $this->json([
@@ -178,17 +185,17 @@ class APIController extends AbstractController
     }
 
     /**
-     * @Route("/models/{id}", name="api_models_by_id")
+     * @Route("/models/{brandId}", name="api_models_by_brandId")
      */
-    public function showModelsById($id)
+    public function showModelsById($brandId)
     {
         $brand = $this->getDoctrine()
-            ->getRepository('App:Brand')
-            ->find($id);
+            ->getRepository(Brand::class)
+            ->find($brandId);
 
         $models = $this->getDoctrine()
             ->getRepository('App:Model')
-            ->findAllModelsByBrand($id);
+            ->findAllModelsByBrand($brandId);
 
         return $this->json([
             'id' => $brand->getId(),
@@ -203,7 +210,7 @@ class APIController extends AbstractController
     public function showCities()
     {
         $countries = $this->getDoctrine()
-            ->getRepository('App:City')
+            ->getRepository(City::class)
             ->findAllCities();
 
         return $this->json([
