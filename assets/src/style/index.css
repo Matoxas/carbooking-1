@@ -1,6 +1,20 @@
-.index-logo-wrapper {
-  display: flex;
+.header-logo {
+  display: block;
+  float: left;
+  /* display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  border-right: 1px solid gray; */
+}
+
+.header-text {
+  float: right;
+  display: block;
+}
+
+.header-text h2 {
+  word-spacing: 100vw;
+  text-align: left;
+  text-transform: uppercase;
 }

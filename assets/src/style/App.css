@@ -48,28 +48,64 @@ body {
 
 /* ================== MAIN PAGE STYLES ====================== */
 
+.main-navigation {
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.nav-link {
+  color: #333;
+  padding: 1rem;
+  font-weight: 700;
+  /* color: rgba(255, 255, 255, 0.5); */
+  /* background-color: transparent; */
+  border-bottom: 0.25rem solid transparent;
+}
+
+.nav-link:hover {
+  border-bottom-color: rgba(219, 122, 122, 0.25);
+}
+
+.nav-link .active {
+  border-bottom-color: red;
+}
+
 .col-lg-3 {
   margin-bottom: 1rem;
 }
 
 .main {
   height: 100%;
-  background-color: #f2f2f2;
   color: #333;
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.1);
   padding-top: 1rem;
   padding-bottom: 5rem;
+}
+
+.main-wrapper {
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.1);
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 100vh;
 }
 
 .card {
   border: none;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
 }
 
 .card:hover {
   cursor: pointer;
-  /* transform: scale(1.1); */
-  background-color: #f5f9fc;
+  transform: scale(1.1);
+  /* background-color: #f5f9fc; */
 }
 
 .card-image {
@@ -109,7 +145,7 @@ body {
 .card-title--sub {
   float: none;
   clear: both;
-  emargin-right: 0;
+  margin-right: 0;
   color: #6c757d;
   /* text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.1); */
 }
@@ -158,38 +194,17 @@ body {
   opacity: 1;
   -webkit-transition: all 0.5s ease-in 3s;
   transition: all 0.5s ease-in 3s;
-}
-
-.scroll-down {
   position: absolute;
   bottom: 30px;
   left: 50%;
   margin-left: -16px;
   display: block;
-  width: 32px;
-  height: 32px;
-  border: 2px solid #fff;
-  background-size: 14px auto;
-  border-radius: 50%;
-  z-index: 2;
+  width: 5vh;
   -webkit-animation: bounce 2s infinite 2s;
   animation: bounce 2s infinite 2s;
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   transform: scale(1);
-}
-
-.scroll-down:before {
-  position: absolute;
-  top: calc(50% - 8px);
-  left: calc(50% - 6px);
-  transform: rotate(-45deg);
-  display: block;
-  width: 12px;
-  height: 12px;
-  content: "";
-  border: 2px solid white;
-  border-width: 0px 0 2px 2px;
 }
 
 @keyframes bounce {

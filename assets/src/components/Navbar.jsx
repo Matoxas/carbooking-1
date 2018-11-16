@@ -10,12 +10,12 @@ const Navbar = () => {
         <div className="inner">
           <Logo className="masthead-brand" />
           <nav className="nav nav-masthead justify-content-center">
-            <NavLink to="/" exact={true} className="nav-link">
+            <a href="#index" className="nav-link">
               Pagrindinis
-            </NavLink>
-            <NavLink to="/feed" className="nav-link">
-              Feed
-            </NavLink>
+            </a>
+            <a href="#main" className="nav-link">
+              Nuomotis
+            </a>
           </nav>
           <div className="clearfix" />
         </div>
