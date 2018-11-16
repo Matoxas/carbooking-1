@@ -4,3 +4,7 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+
+.map--size {
+    height: 400px !important;
+}

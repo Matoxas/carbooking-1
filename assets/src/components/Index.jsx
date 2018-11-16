@@ -2,9 +2,11 @@ import React from "react";
 import "../style/index.css";
 import { Link } from "react-router-dom";
 import Logo from "./logo";
+import Map from './Map';
+
 const Index = () => {
   return (
-    <div className="container padding-top">
+    <div className="container-fluid padding-top">
       <div className="flex flex-center fullHeight text-center">
         <div>
           <div className="row mb-4">
@@ -24,6 +26,7 @@ const Index = () => {
         </div>
         <Link to="/feed" className="scroll-down" />
       </div>
+        <Map/>
     </div>
   );
 };
