@@ -26,7 +26,6 @@ const Index = () => {
         </div>
         <Link to="/feed" className="scroll-down" />
       </div>
-        <Map/>
     </div>
   );
 };
