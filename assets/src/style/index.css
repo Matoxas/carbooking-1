@@ -18,3 +18,7 @@
   text-align: left;
   text-transform: uppercase;
 }
+
+.map--size {
+    height: 400px !important;
+}
