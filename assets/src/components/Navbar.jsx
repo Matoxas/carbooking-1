@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "../style/Navbar.css";
 import Logo from "./logo";
-import ScrollableAnchor from "react-scrollable-anchor";
 
 class Navbar extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    window.addEventListener("scroll", e => {
+      console.log(e);
+    });
+  }
 
   render() {
     return (

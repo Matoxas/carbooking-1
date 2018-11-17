@@ -2,24 +2,26 @@ import React from "react";
 import "../../style/index.css";
 import Logo from "../logo";
 import ArrorDown from "./arrowDown";
-import Map from "../Map";
 import Searchbar from "./Searchbar";
+// import ScrollableAnchor from "react-scrollable-anchor";
 const Index = props => {
   return (
-    <div id={props.id} className="container padding-top">
-      <div className="flex flex-center flex-column fullHeight text-center">
-        <div className="index-logo-wrapper">
-          <div className="index-logo-wrapper-logo">
-            <Logo className="logo" />
+    <div className="container pt-4">
+      <div id={props.id}>
+        <div className="flex flex-center flex-column fullHeight text-center">
+          <div className="index-logo-wrapper">
+            <div className="index-logo-wrapper-logo">
+              <Logo className="logo" />
+            </div>
+            <div className="index-logo-wrapper-text">
+              <h2>paprastai patogiai greitai</h2>
+            </div>
           </div>
-          <div className="index-logo-wrapper-text">
-            <h2>paprastai patogiai greitai</h2>
-          </div>
+          <Searchbar />
+          <a href="#main" className="scroll-down">
+            <ArrorDown />
+          </a>
         </div>
-        <Searchbar />
-        <a href="#main" className="scroll-down">
-          <ArrorDown />
-        </a>
       </div>
     </div>
   );
