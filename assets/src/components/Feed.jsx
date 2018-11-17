@@ -4,6 +4,7 @@ import Sidebar from "./sidebar";
 import Topbar from "./topbar";
 import { inject, observer } from "mobx-react";
 import Loading from "./loading";
+import Map from "./MapContainer";
 
 @inject("CarStore")
 @observer
@@ -60,6 +61,9 @@ class Feed extends Component {
               </div>
             </div>
           </div>
+            <div>
+                <Map/>
+            </div>
         </div>
       );
     }

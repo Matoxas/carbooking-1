@@ -2,7 +2,7 @@ import React from "react";
 import "../style/index.css";
 import { Link } from "react-router-dom";
 import Logo from "./logo";
-import Map from './Map';
+import Map from './MapContainer';
 
 const Index = () => {
   return (
