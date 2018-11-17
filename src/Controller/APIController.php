@@ -32,6 +32,7 @@ class APIController extends AbstractController
             ->findCars();
 
         foreach ($cars as &$value) {
+            $value['price'] = (double) number_format($value['price'], 2);
             $value['createdAt'] = $value['createdAt']->format('Y-m-d H:i:s');
         }
 
@@ -43,6 +44,14 @@ class APIController extends AbstractController
             $images = array_column($images, 'image');
 
             $car['images'] = $images;
+
+            foreach ($car['images'] as &$image) {
+                $image = 'uploads/' . $image;
+            }
+
+            if (empty($car['images'])) {
+                $car['images'] = ['images/car-default.jpeg'];
+            }
         }
 
         foreach ($cars as &$car) {
@@ -117,6 +126,7 @@ class APIController extends AbstractController
             ->getRepository(Car::class)
             ->findCarById($id);
 
+        $carData['price'] = (double) number_format($carData['price'], 2);
         $carData['createdAt'] = $carData['createdAt']->format('Y-m-d H:i:s');
 
         $data = array_merge($data, $carData);
@@ -128,6 +138,14 @@ class APIController extends AbstractController
         $images = array_column($images, 'image');
 
         $data['images'] = $images;
+
+        foreach ($data['images'] as &$image) {
+            $image = 'uploads/' . $image;
+        }
+
+        if (empty($data['images'])) {
+            $data['images'] = ['images/car-default.jpeg'];
+        }
 
         $rentDates = $this->getDoctrine()
             ->getRepository(RentDate::class)
