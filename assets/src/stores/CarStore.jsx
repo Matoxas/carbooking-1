@@ -1,7 +1,7 @@
 // čia bus mašinų store'as
 import { observable, action, computed } from "mobx";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost/api/";
+axios.defaults.baseURL = "http://carbooking.projektai.nfqakademija.lt/api";
 
 class CarStore {
   @observable

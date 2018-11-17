@@ -2,31 +2,14 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "../style/Navbar.css";
 import Logo from "./logo";
-import jQuery from "jquery";
+import ScrollableAnchor from "react-scrollable-anchor";
 
 class Navbar extends Component {
-  componentDidMount() {
-    const myDiv = document.getElementsByClassName("nav-link");
-    for (let i = 0; i < myDiv.length; i++) {
-      myDiv[i].addEventListener("click", e => {
-        this.handleKey(e);
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    // const myDiv = document.getElementsByClassName("nav-link");
-    // myDiv.removeEventListener("click", this.handleKey);
-  }
-
-  handleKey = e => {
-    e.preventDefault();
-    console.log(e);
-  };
+  componentDidMount() {}
 
   render() {
     return (
-      <header className="masthead mb-auto padding-top text-center margin-bottom">
+      <header className="masthead mb-auto padding-top text-center">
         <div className="container">
           <div className="inner">
             <div className="logo-mask">
