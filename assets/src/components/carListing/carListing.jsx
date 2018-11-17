@@ -9,8 +9,6 @@ import MapContainer from '../MapContainer';
 
 const API_KEY = "AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4";
 
-let lata = 0;
-
 import { inject, observer } from "mobx-react";
 @inject("CarStore")
 @observer
@@ -51,13 +49,11 @@ class CarListing extends Component {
                     const { lat, lng } = response.results[0].geometry.location;
                     this.setState({lat: lat,
                     lng: lng});
-                    console.log(this.state.lat, lng);
                 },
                 error => {
                     console.error(error);
                 }
             );
-            {console.log(lata)}
                 return (
                     <div className="main">
                         <div className="container card">
@@ -79,7 +75,6 @@ class CarListing extends Component {
                             </div>
                         </div>
                         <div>
-                            {console.log(this.state.lat)}
                             <MapContainer
                                 lat={this.state.lat}
                                 lng={this.state.lng}
