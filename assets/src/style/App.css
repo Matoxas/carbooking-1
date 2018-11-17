@@ -62,6 +62,7 @@ body {
 
 .nav-link--main:hover {
   color: #6c757d;
+  text-decoration: none;
   border-bottom-color: rgba(219, 122, 122, 0.25);
 }
 
@@ -115,6 +116,8 @@ body {
 
 .card-image img {
   height: 100%;
+  width: auto;
+  max-width: 1000px;
 }
 
 .card-time {

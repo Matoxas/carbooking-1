@@ -13,7 +13,7 @@ const Index = props => {
             <Logo className="logo" />
           </div>
           <div className="index-logo-wrapper-text">
-            <h2>paprasta patogu lengva</h2>
+            <h2>paprastai patogiai greitai</h2>
           </div>
         </div>
         <Searchbar />

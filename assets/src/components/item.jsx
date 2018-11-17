@@ -12,7 +12,7 @@ class Item extends Component {
             <div className="card-image">
               <img src={`/${car.images[0]}`} alt="" />
             </div>
-            <p className="card-time">{moment(car.createdAt.date).fromNow()}</p>
+            <p className="card-time">{moment(car.createdAt).fromNow()}</p>
             <h5 className="card-title">{car.brand}</h5>
             <h5 className="card-title card-title--price">€ {car.price}</h5>
             <h5 className="card-title card-title--sub">{car.model}</h5>

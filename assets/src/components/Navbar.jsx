@@ -34,7 +34,7 @@ class Navbar extends Component {
             </div>
             <nav className="nav nav-masthead justify-content-center">
               <a href="#index" className="nav-link--hl">
-                nuomoti dabar
+                Nuomoti dabar
               </a>
               <a href="#index" className="nav-link">
                 Pagrindinis
