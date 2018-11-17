@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import CarInfo from './carInfo';
 import CarImage from './carImage';
 import ReservationDatePicker from './reservationDatePicker';
-import Map from '../Map';
 
 import { inject, observer } from "mobx-react";
 @inject("CarStore")
@@ -40,7 +39,6 @@ class CarListing extends Component {
                         <div className="container card">
                             <div className="row">
                                 <div className="col-xl-5">
-                                    <Map/>
                                     <CarInfo car={car}/>
                                 </div>
                                 <div className="col-xs-7">
