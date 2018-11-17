@@ -1,5 +1,12 @@
 /* ================== NAVBAR STYLES ====================== */
 
+.logo-mask {
+  height: 100%;
+  width: 30px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
 .nav-masthead .nav-link {
   padding: 0.25rem 0;
   font-weight: 700;
@@ -17,9 +24,28 @@
   padding-bottom: 1rem;
 }
 
+.masthead .container {
+  position: relative;
+}
+
 .nav-masthead .nav-link:hover,
 .nav-masthead .nav-link:focus {
   border-bottom-color: rgba(219, 122, 122, 0.25);
+}
+
+.nav-link--hl {
+  color: #f47e60;
+  padding: 0.25rem;
+  /* border: 2px solid #f47e60 !important; */
+  background-color: transparent;
+  margin-right: 1rem;
+  font-weight: 700;
+}
+
+.nav-link--hl:hover {
+  text-decoration: none;
+  color: #f47e60;
+  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.1);
 }
 
 .nav-masthead .nav-link + .nav-link {
@@ -39,8 +65,12 @@
 }
 
 @media (min-width: 48em) {
-  .masthead-brand {
+  .logo-mask {
     float: left;
+  }
+
+  .masthead-brand {
+    /* float: left; */
   }
   .nav-masthead {
     float: right;

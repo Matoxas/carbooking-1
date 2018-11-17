@@ -5,13 +5,13 @@ const MainNavigation = () => {
   return (
     <div>
       <div className="main-navigation">
-        <NavLink to="/feed" className="nav-link">
+        <NavLink to="/feed" className="nav-link--main">
           Visi
         </NavLink>
-        <NavLink to="/" className="nav-link">
+        <NavLink to="/Favourites" className="nav-link--main">
           Mėgstamiausi
         </NavLink>
-        <NavLink to="/" className="nav-link">
+        <NavLink to="/Map" className="nav-link--main">
           Žemėlapis
         </NavLink>
       </div>
