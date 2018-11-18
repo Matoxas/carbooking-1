@@ -1,7 +1,29 @@
 import React, { Component } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./searchbar.css";
+import lt from "date-fns/locale/lt";
+import moment from "moment";
+
+registerLocale("lt", lt);
 class Searchbar extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: new Date(),
+      endDate: moment(this.startDate)
+        .add(7, "d")
+        .toDate(),
+      location: ""
+    };
+  }
+
+  handleChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+
   render() {
     return (
       <form className="searchbar">
@@ -13,11 +35,21 @@ class Searchbar extends Component {
         </div>
         <div className="searchbar-item from">
           <label htmlFor="from">Laikas nuo:</label>
-          <input type="text" placeholder="2018/12/21" />
+          <DatePicker
+            className="input"
+            locale={"lt"}
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+          />
         </div>
         <div className="searchbar-item to">
           <label htmlFor="to">Laikas iki:</label>
-          <input type="text" placeholder="2018/12/25" />
+          <DatePicker
+            className="input"
+            locale={"lt"}
+            selected={this.state.endDate}
+            onChange={this.handleChange}
+          />
         </div>
         <button className="searchbar-submit">Ieškoti</button>
       </form>

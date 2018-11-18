@@ -2,14 +2,36 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "../style/Navbar.css";
 import Logo from "./logo";
+import $ from "jquery";
 
 class Navbar extends Component {
   componentDidMount() {
-    window.addEventListener("scroll", e => {
-      console.log(e);
+    //
+
+    const scrollink = $(".nav-link");
+    scrollink.click(function(e) {
+      e.preventDefault();
+      $("body").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+    });
+
+    //
+
+    // Active link switching
+    $(window).scroll(function() {
+      let scrollbarLocation = $(this).scrollTop();
+
+      scrollink.each(function() {
+        let sectionOffset = $(this.hash).offset().top - 30;
+
+        if (sectionOffset <= scrollbarLocation) {
+          $(this).addClass("active");
+          $(this)
+            .siblings()
+            .removeClass("active");
+        }
+      });
     });
   }
-
   render() {
     return (
       <header className="masthead mb-auto padding-top text-center">
@@ -25,7 +47,7 @@ class Navbar extends Component {
               <a href="#index" className="nav-link">
                 Pagrindinis
               </a>
-              <a href="#main" className="nav-link">
+              <a href="#mainNav" className="nav-link">
                 Nuomotis
               </a>
             </nav>

@@ -25,8 +25,8 @@
   color: #231f20;
 }
 
-.searchbar input,
-.searchbar input:focus,
+.searchbar .input,
+.searchbar .input:focus,
 .searchbar select,
 .searchbar select:focus {
   border: none;
@@ -60,6 +60,23 @@
   margin-top: 1rem;
   color: white;
   width: 100%;
+}
+
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--in-selecting-range:hover,
+.react-datepicker__day--in-range:hover {
+  background-color: #f47e60;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: #f47e60;
+}
+
+.react-datepicker__header {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #c7c7c7;
 }
 
 /* // Small devices (landscape phones, 576px and up) */

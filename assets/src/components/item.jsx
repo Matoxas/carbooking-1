@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+moment.locale("lt");
 
 class Item extends Component {
   render() {
@@ -12,7 +13,7 @@ class Item extends Component {
             <div className="card-image">
               <img src={`/${car.images[0]}`} alt="" />
             </div>
-            <p className="card-time">{moment(car.createdAt).fromNow()}</p>
+            <p className="card-time">{moment(car.createdAt).fromNow(true)}</p>
             <h5 className="card-title">{car.brand}</h5>
             <h5 className="card-title card-title--price">€ {car.price}</h5>
             <h5 className="card-title card-title--sub">{car.model}</h5>

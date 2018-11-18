@@ -7,7 +7,7 @@ import Searchbar from "./Searchbar";
 const Index = props => {
   return (
     <div className="container pt-4">
-      <div id={props.id}>
+      <div id="index">
         <div className="flex flex-center flex-column fullHeight text-center">
           <div className="index-logo-wrapper">
             <div className="index-logo-wrapper-logo">
@@ -18,7 +18,7 @@ const Index = props => {
             </div>
           </div>
           <Searchbar />
-          <a href="#main" className="scroll-down">
+          <a href="#mainNav" className="scroll-down">
             <ArrorDown />
           </a>
         </div>
