@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import { GoogleComponent } from 'react-google-location';
 import Geocode from 'react-geocode';
 
 import CarInfo from './carInfo';
 import CarImage from './carImage';
-import ReservationDatePicker from './reservationDatePicker';
 import MapContainer from '../MapContainer';
 
-const API_KEY = "AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4";
 
 import { inject, observer } from "mobx-react";
 @inject("CarStore")
@@ -34,7 +31,6 @@ class CarListing extends Component {
     };
 
     render() {
-        console.warn("rezultatas cia bus: ", this.state.place);
         const {loading} = this.props.CarStore;
 
         if (loading) {
@@ -65,14 +61,6 @@ class CarListing extends Component {
                                     <CarImage image={car}/>
                                 </div>
                             </div>
-                            <div>
-                                <div className="reservation--center">
-                                    <button onClick={() => this.ShowCalendar()} className="btn btn-secondary">
-                                        Select date from
-                                    </button>
-                                    {this.state.showCalendar ? <ReservationDatePicker/> : null}
-                                </div>
-                            </div>
                         </div>
                         <div>
                             <MapContainer
@@ -80,13 +68,6 @@ class CarListing extends Component {
                                 lng={this.state.lng}
                             zoom={16}/>
                         </div>
-                        <GoogleComponent
-
-                            apiKey={API_KEY}
-                            language={'en'}
-                            country={'country:in|country:lt'}
-                            coordinates={true}
-                            onChange={(e) => { this.setState({ place: e }) }} />
                     </div>
                 )
             }
