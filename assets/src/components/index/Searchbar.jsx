@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./searchbar.css";
-import lt from "date-fns/locale/lt";
+// import lt from "date-fns/locale/lt";
 import moment from "moment";
 
-registerLocale("lt", lt);
+// registerLocale("lt", lt);
 class Searchbar extends Component {
   constructor(props) {
     super(props);

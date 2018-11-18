@@ -1,5 +1,6 @@
 import React from 'react';
 import './carListing.css';
+import ReservationDatePicker from './reservationDatePicker';
 
 const carInfo = (props) => {
     return (
@@ -16,14 +17,27 @@ const carInfo = (props) => {
                 <div className="col-xl-6 text-muted">El pastas</div>
                 <div className="col-xl-6 info__details-small">{props.car.email}</div>
                 <div className="col-xl-12">
-                <br/>
-                <h3>Komentarai</h3>
-                <div className="info__comments">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam cumque
-                    delectus et nihil repellat
-                    voluptate? A ad adipisci debitis expedita fuga illo modi, odio omnis quis reiciendis similique sunt
-                    velit?
+                    <br/>
+                    <div className="row info__details-small">
+                        <div className="col-md-6">
+                            <p>Pradžios data</p>
+                            <ReservationDatePicker/>
+                        </div>
+                        <div className="col-md-6">
+                            <p>Pabaigos data</p>
+                            <ReservationDatePicker/>
+                        </div>
+                    </div>
+                    <br/>
+                    <h3>Komentarai</h3>
+                    <div className="info__comments">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam
+                        cumque
+                        delectus et nihil repellat
+                        voluptate? A ad adipisci debitis expedita fuga illo modi, odio omnis quis reiciendis similique
+                        sunt
+                        velit?
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     )
