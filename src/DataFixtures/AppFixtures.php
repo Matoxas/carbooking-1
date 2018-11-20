@@ -56,6 +56,11 @@ class AppFixtures extends Fixture
      */
     private $bookings;
 
+    /**
+     * @var array
+     */
+    private $address;
+
     public function load(ObjectManager $manager)
     {
         $this->loadFiles();
@@ -93,6 +98,9 @@ class AppFixtures extends Fixture
 
         $path = 'public/data/Bookings.csv';
         $this->bookings = Utils::getData($path);
+
+        $path = 'public/data/Address.csv';
+        $this->address = Utils::getData($path);
     }
 
     private function loadCities(ObjectManager $manager)
@@ -191,7 +199,7 @@ class AppFixtures extends Fixture
             $car->setCreatedAt($date);
 
             /** @var City $city */
-            $city = $this->getReference('city:' . $this->cities[array_rand($this->cities)][0]);
+            $city = $this->getReference('city:' . $carData[4]);
             $car->setCity($city);
 
             /** @var User $user */
@@ -210,6 +218,19 @@ class AppFixtures extends Fixture
             /** @var Brand $brand */
             $brand = $this->getReference('brand:' . $model->getBrand()->getBrand());
             $car->setBrand($brand);
+
+            $car->setAddress(
+                $this->address[$i][0]
+            );
+
+            // TODO Sukurti listener ir service, kad kai kuriama nauja mašina, automatiškai pasiimtu iš google api
+            // TODO apytikslių koordinačių saugojimas... arba grąžinimas...
+
+            $latitude = substr($this->address[$i][1], 0, -4) . rand(1111, 9999);
+            $longitude = substr($this->address[$i][2], 0, -4) . rand(1111, 9999);
+
+            $car->setLatitude($latitude);
+            $car->setLongitude($longitude);
 
             $this->addReference(
                 'car:' . $i,

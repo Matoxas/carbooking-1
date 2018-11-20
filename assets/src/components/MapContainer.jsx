@@ -14,8 +14,8 @@ export class MapContainer extends Component {
         selectedPlace: {},
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
 
     onMarkerClick = (props, marker, e) =>
@@ -41,7 +41,7 @@ export class MapContainer extends Component {
                 google={this.props.google}
                 zoom={this.props.zoom}
                 style={mapStyles}
-                initialCenter={{ lat: this.props.lat, lng: this.props.lng}}
+                initialCenter={{ lat: this.props.latitude, lng: this.props.longitude}}
                 >
                 <Marker
                     onClick={this.onMarkerClick}

@@ -1,5 +1,6 @@
 import React from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+// import lt from "date-fns/locale/lt"
+import DatePicker, { registerLocale } from "react-datepicker";
 import 'react-day-picker/lib/style.css';
 
 import MomentLocaleUtils, {
@@ -8,32 +9,41 @@ import MomentLocaleUtils, {
 } from 'react-day-picker/moment';
 
 import 'moment/locale/lt';
+import moment from "moment";
 
 export default class reservationDatePicker extends React.Component {
     constructor(props) {
         super(props);
-        this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
-            selectedDay: undefined,
+            date_from: new Date(),
+            date_until: moment(this.startDate)
+                .add(7, "d")
+                .toDate(),
+            location: ""
         };
     }
-    handleDayChange(day) {
-        this.setState({ selectedDay: day });
-    }
+
+    handleFromChange = date => {
+        this.setState({
+            date_from: date
+        });
+    };
+
+    handleUntilChange = date => {
+        this.setState({
+            date_until: date
+        });
+    };
+
     render() {
-        const { selectedDay } = this.state;
         return (
             <div>
-                <DayPickerInput
-                    onDayChange={this.handleDayChange}
-                    format="LT"
-                    placeholder={`${formatDate(new Date(), 'LT', 'lt')}`}
-                    dayPickerProps={{
-                        locale: 'lt',
-                        localeUtils: MomentLocaleUtils,
-                    }}
+                <DatePicker
+                    className="input"
+                    // locale={"lt"}
+                    selected={this.state.date_from}
+                    onChange={this.handleFromChange}
                 />
-                {/*{selectedDay && <p>Pasirinkta data: {selectedDay.toLocaleDateString()}</p>}*/}
             </div>
         );
     }

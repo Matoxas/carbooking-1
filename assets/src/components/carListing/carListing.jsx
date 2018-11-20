@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Geocode from 'react-geocode';
 
 import CarInfo from './carInfo';
 import CarImage from './carImage';
@@ -38,18 +37,7 @@ class CarListing extends Component {
         } else {
             this.getCar();
             const car = this.props.CarStore.currentCar;
-            Geocode.setApiKey("AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4");
 
-            Geocode.fromAddress(`${car.city}, Lithuania`).then(
-                response => {
-                    const { lat, lng } = response.results[0].geometry.location;
-                    this.setState({lat: lat,
-                        lng: lng});
-                },
-                error => {
-                    console.error(error);
-                }
-            );
             return (
                 <div className="main">
                     <div className="container card">
@@ -64,8 +52,8 @@ class CarListing extends Component {
                     </div>
                     <div>
                         <MapContainer
-                            lat={this.state.lat}
-                            lng={this.state.lng}
+                            latitude={car.latitude}
+                            longitude={car.longitude}
                             zoom={16}/>
                     </div>
                 </div>
