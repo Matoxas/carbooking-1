@@ -11,8 +11,12 @@ export class MapContainer extends Component {
     state = {
         showingInfoWindow: false,
         activeMarker: {},
-        selectedPlace: {}
+        selectedPlace: {},
     };
+
+    constructor() {
+        super();
+    }
 
     onMarkerClick = (props, marker, e) =>
         this.setState({
@@ -35,34 +39,30 @@ export class MapContainer extends Component {
             <Map
                 className = "map--size"
                 google={this.props.google}
-                zoom={7}
+                zoom={this.props.zoom}
                 style={mapStyles}
-                initialCenter={{ lat: 54.6871555, lng: 25.279651400000034 }}
-            >
+                initialCenter={{ lat: this.props.lat, lng: this.props.lng}}
+                >
                 <Marker
                     onClick={this.onMarkerClick}
-                    name={'Vilniaus mieste esancios masinos'}
-                />
-                <Marker
-                    title={'The marker`s title will appear as a tooltip.'}
-                    name={'SOMA'}
-                    position={{lat: 54.8985207, lng: 23.90359650000005}} />
-                <Marker
-                    name={'Dolores park'}
-                    position={{lat: 55.9349085, lng: 23.313682299999982}} />
-                <Marker />
-                <InfoWindow
+                    label="1"
+                    // icon={{
+                    //     url: "https://shelta.com.au/wp-content/uploads/maps/map-marker-shade.png",
+                    //     scaledSize: new google.maps.Size(60,30.26),
+                    // }}
+                    />
+                    <InfoWindow
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}
                     onClose={this.onClose}
-                >
+                    >
                     <div>
-                        <h4>{this.state.selectedPlace.name}</h4>
+                    <h4>{this.state.selectedPlace.name}</h4>
                     </div>
-                </InfoWindow>
-            </Map>
-        );
-    }
+                    </InfoWindow>
+                    </Map>
+                    );
+                }
 
 }
 
