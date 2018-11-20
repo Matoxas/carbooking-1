@@ -34,6 +34,7 @@ class CityRepository extends ServiceEntityRepository
             ->innerJoin('c.cars', 'cars')
             ->innerJoin('cars.city', 'city')
             ->where('city.id = c.id')
+            ->groupBy('city.id')
             ->getQuery()
             ->getArrayResult();
     }

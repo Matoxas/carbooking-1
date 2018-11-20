@@ -199,7 +199,7 @@ class AppFixtures extends Fixture
             $car->setCreatedAt($date);
 
             /** @var City $city */
-            $city = $this->getReference('city:' . $this->cities[array_rand($this->cities)][0]);
+            $city = $this->getReference('city:' . $carData[4]);
             $car->setCity($city);
 
             /** @var User $user */
@@ -220,8 +220,17 @@ class AppFixtures extends Fixture
             $car->setBrand($brand);
 
             $car->setAddress(
-                $this->address[rand(0, count($this->address) - 1)][0]
+                $this->address[$i][0]
             );
+
+            // TODO Sukurti listener ir service, kad kai kuriama nauja mašina, automatiškai pasiimtu iš google api
+            // TODO apytikslių koordinačių saugojimas... arba grąžinimas...
+
+            $latitude = substr($this->address[$i][1], 0, -4) . rand(1111, 9999);
+            $longitude = substr($this->address[$i][2], 0, -4) . rand(1111, 9999);
+
+            $car->setLatitude($latitude);
+            $car->setLongitude($longitude);
 
             $this->addReference(
                 'car:' . $i,
