@@ -22,7 +22,15 @@ class CarRepository extends ServiceEntityRepository
     public function findCars()
     {
         return $this->createQueryBuilder('car')
-            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->select(
+                'car.id',
+                'car.phone',
+                'car.price',
+                'car.createdAt',
+                'car.address',
+                'car.latitude',
+                'car.longitude'
+            )
             ->addSelect('city.city', 'user.email')
             ->addSelect('brand.brand')
             ->addSelect('model.model')
@@ -37,7 +45,15 @@ class CarRepository extends ServiceEntityRepository
     public function findCarById($carId)
     {
         return $this->createQueryBuilder('car')
-            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->select(
+                'car.id',
+                'car.phone',
+                'car.price',
+                'car.createdAt',
+                'car.address',
+                'car.latitude',
+                'car.longitude'
+            )
             ->addSelect('city.city', 'user.email')
             ->addSelect('brand.brand')
             ->addSelect('model.model')
@@ -54,7 +70,15 @@ class CarRepository extends ServiceEntityRepository
     public function fetchFilteredCars($params)
     {
         $qb = $this->createQueryBuilder('car')
-            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->select(
+                'car.id',
+                'car.phone',
+                'car.price',
+                'car.createdAt',
+                'car.address',
+                'car.latitude',
+                'car.longitude'
+            )
             ->addSelect('city.city', 'user.email')
             ->addSelect('brand.brand')
             ->addSelect('model.model')
