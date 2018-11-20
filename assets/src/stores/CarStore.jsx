@@ -43,23 +43,24 @@ class CarStore {
 
   // ==================== GETTERS ====================
 
-  @action
-  getFilteredCars = () => {
-    this.setLoading(true);
-    axios
-      .put("cars/filter", this.filters)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => console.log(error.response));
-  };
+  // @action
+  // getFilteredCars = () => {
+  //   this.setLoading(true);
+  //   axios
+  //     .put("cars/filter", this.filters)
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(error => console.log(error.response));
+  // };
 
   @action
   getAllCars = () => {
     this.setLoading(true);
     axios
-      .get("cars")
+      .put("cars", this.filters)
       .then(response => {
+        console.log(response);
         this.setCars(response.data.data);
         this.setLoading(false);
       })

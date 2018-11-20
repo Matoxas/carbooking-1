@@ -45,7 +45,7 @@ class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { setFilters, getFilteredCars } = this.props.CarStore;
+    const { setFilters, getAllCars } = this.props.CarStore;
     const { location, date_from, date_until } = this.state;
 
     setFilters({
@@ -54,7 +54,7 @@ class Searchbar extends Component {
       date_until
     });
 
-    getFilteredCars();
+    getAllCars();
   };
 
   render() {
