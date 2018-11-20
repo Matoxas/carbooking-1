@@ -56,6 +56,11 @@ class AppFixtures extends Fixture
      */
     private $bookings;
 
+    /**
+     * @var array
+     */
+    private $address;
+
     public function load(ObjectManager $manager)
     {
         $this->loadFiles();
@@ -93,6 +98,9 @@ class AppFixtures extends Fixture
 
         $path = 'public/data/Bookings.csv';
         $this->bookings = Utils::getData($path);
+
+        $path = 'public/data/Address.csv';
+        $this->address = Utils::getData($path);
     }
 
     private function loadCities(ObjectManager $manager)
@@ -210,6 +218,10 @@ class AppFixtures extends Fixture
             /** @var Brand $brand */
             $brand = $this->getReference('brand:' . $model->getBrand()->getBrand());
             $car->setBrand($brand);
+
+            $car->setAddress(
+                $this->address[rand(0, count($this->address) - 1)][0]
+            );
 
             $this->addReference(
                 'car:' . $i,
