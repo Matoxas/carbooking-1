@@ -11,7 +11,7 @@ class Navbar extends Component {
     const scrollink = $(".nav-link");
     scrollink.click(function(e) {
       e.preventDefault();
-      $("body").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+      $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
     });
 
     //

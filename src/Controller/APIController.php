@@ -93,26 +93,11 @@ class APIController extends AbstractController
      */
     public function showFilteredCars(Request $request)
     {
-        $data = [];
-        $params = $request->query->all();
-        $paramsAttr = ['location', 'brand', 'models', 'price_from', 'price_to'];
 
-        foreach ($paramsAttr as $value) {
-            if (isset($params[$value])) {
-                $params[$value] = htmlspecialchars($params[$value]);
-            }
-        }
+        $data = $request->getContent();
+        $data = json_decode($data, true);
 
-        $carsId = $this->getDoctrine()
-            ->getRepository(Car::class)
-            ->fetchFilteredCarsId($params);
-
-        //pabaigti ;-D
-
-        return $this->json([
-            'cars_count' => count($carsId),
-            'data' => $data,
-        ]);
+        return $this->json($data);
     }
 
     /**

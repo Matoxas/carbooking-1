@@ -60,14 +60,20 @@ body {
   border-bottom: 0.25rem solid transparent;
 }
 
-.nav-link--main:hover {
+.nav-link--main:hover,
+.nav-link--main:focus {
   color: #6c757d;
   text-decoration: none;
   border-bottom-color: rgba(219, 122, 122, 0.25);
 }
 
+.nav-link--main a:focus {
+  color: #333;
+}
+
 .nav-link--main.active {
   border-bottom-color: #f47e60;
+  color: #333;
 }
 
 .col-lg-3 {
@@ -147,6 +153,20 @@ body {
   color: #e15b64;
   font-weight: 400;
   margin-right: 0;
+}
+
+.card-like {
+  position: absolute;
+  top: 1.7rem;
+  color: #e15b64;
+  right: 2rem;
+  background-color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 50%;
+}
+
+.card-like:hover {
+  scale: (1.1) !important;
 }
 
 /* ================== SIDEBAR ====================== */
@@ -479,6 +499,10 @@ body {
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
+  .scroll-down {
+    bottom: 15px;
+  }
+
   .card-image {
     height: 350px;
   }
@@ -542,8 +566,8 @@ body {
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
   .card:hover {
-    cursor: pointer;
-    transform: scale(1.1);
+    /* cursor: pointer;
+    transform: scale(1.1); */
     /* background-color: #f5f9fc; */
   }
 
@@ -559,8 +583,6 @@ body {
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .card:hover {
-    cursor: pointer;
-    transform: scale(1.1);
     /* background-color: #f5f9fc; */
   }
 

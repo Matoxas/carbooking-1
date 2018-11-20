@@ -1,7 +1,7 @@
 // čia bus mašinų store'as
 import { observable, action, computed } from "mobx";
 import axios from "axios";
-axios.defaults.baseURL = "http://carbooking.projektai.nfqakademija.lt/api";
+axios.defaults.baseURL = "http://localhost/api";
 
 class CarStore {
   @observable
@@ -19,7 +19,7 @@ class CarStore {
   @observable
   models = [];
   @observable
-  loactions = [];
+  cities = [];
 
   @observable
   selectedBrand = "";
@@ -30,9 +30,28 @@ class CarStore {
   @observable
   price_to: 99;
   @observable
-  location = "";
+  date = {
+    from: "",
+    until: ""
+  };
+  @observable
+  city = "";
 
   // ==================== GETTERS ====================
+
+  @action
+  getFilteredCars = () => {
+    this.setLoading(true);
+    axios
+      .put("cars/filter", {
+        filters: "hello",
+        name: "hihi"
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error.response));
+  };
 
   @action
   getAllCars = () => {
@@ -78,18 +97,30 @@ class CarStore {
   };
 
   @action
-  sendParams = () => {
+  getCities = () => {
+    this.setLoading(true);
     axios
-      .get("cars", {
-        params: {
-          foo: "bar"
-        }
-      })
+      .get("/cities/")
       .then(response => {
-        console.log(response);
+        this.setCities(response.data.data);
+        this.setLoading(false);
       })
       .catch(error => console.log(error.response));
   };
+
+  // @action
+  // sendParams = () => {
+  //   axios
+  //     .get("cars", {
+  //       params: {
+  //         foo: "bar"
+  //       }
+  //     })
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(error => console.log(error.response));
+  // };
 
   // ==================== SETTERS ====================
 
@@ -113,16 +144,34 @@ class CarStore {
     this.models = value;
   };
 
+  @action
+  setCities = value => {
+    this.cities = value;
+  };
+
+  @action
+  setCity = value => {
+    this.city = value;
+  };
+
+  @action
+  setDate = value => {
+    this.date = value;
+  };
+
   // ==================== COMPUTED PROPERTIES ====================
 
   @computed
   get getFilters() {
+    console.log("computed changed");
     return {
-      location: this.location,
+      location_id: this.city,
       brand: this.brand,
       models: this.models,
       price_from: this.price_from,
-      price_to: this.price_to
+      price_to: this.price_to,
+      date_from: this.date.from,
+      date_until: this.date.until
     };
   }
 }

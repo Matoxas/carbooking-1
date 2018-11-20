@@ -14,6 +14,9 @@ class Item extends Component {
               <img src={`/${car.images[0]}`} alt="" />
             </div>
             <p className="card-time">{moment(car.createdAt).fromNow(true)}</p>
+            <p className="card-like">
+              <i className="far fa-heart" />
+            </p>
             <h5 className="card-title">{car.brand}</h5>
             <h5 className="card-title card-title--price">€ {car.price}</h5>
             <h5 className="card-title card-title--sub">{car.model}</h5>

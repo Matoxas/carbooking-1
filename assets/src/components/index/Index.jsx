@@ -18,10 +18,10 @@ const Index = props => {
             </div>
           </div>
           <Searchbar />
-          <a href="#mainNav" className="scroll-down">
-            <ArrorDown />
-          </a>
         </div>
+        <a href="#mainNav" className="scroll-down">
+          <ArrorDown />
+        </a>
       </div>
     </div>
   );
