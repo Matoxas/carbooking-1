@@ -25,14 +25,17 @@ class APIController extends AbstractController
      */
     public function showCars(Request $request)
     {
-        $param = $request->getContent();
-        $param = json_decode($param, true);
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+
+        $params['location'] = htmlspecialchars($params['location']);
+        //$params['location'] = filter_input((int) $params['location'], FILTER_VALIDATE_INT);
 
         $data = [];
 
         $cars = $this->getDoctrine()
             ->getRepository(Car::class)
-            ->fetchFilteredCars($param);
+            ->fetchFilteredCars($params);
 
         foreach ($cars as &$value) {
             $value['price'] = (double) number_format($value['price'], 2);
@@ -88,6 +91,7 @@ class APIController extends AbstractController
         return $this->json([
             'cars_count' => count($cars),
             'data' => $data,
+            'params' => $params,
         ]);
     }
 
@@ -205,7 +209,7 @@ class APIController extends AbstractController
     {
         $countries = $this->getDoctrine()
             ->getRepository(City::class)
-            ->findAllCities();
+            ->findAllCitiesWithCars();
 
         return $this->json([
             'data' => $countries,

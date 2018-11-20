@@ -64,8 +64,8 @@ class CarRepository extends ServiceEntityRepository
             ->innerJoin('car.model', 'model');
 
         if (isset($params['location']) && $params['location'] != "") {
-            $qb->where('city.id = :cityId')
-                ->setParameter('cityId', (int)$params['location']);
+            $qb->andWhere('city.id = :cityId')
+                ->setParameter('cityId', $params['location']);
         }
 
         return $qb->getQuery()

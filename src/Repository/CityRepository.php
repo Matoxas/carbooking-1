@@ -26,4 +26,15 @@ class CityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+
+    public function findAllCitiesWithCars()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id', 'c.city')
+            ->innerJoin('c.cars', 'cars')
+            ->innerJoin('cars.city', 'city')
+            ->where('city.id = c.id')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }
