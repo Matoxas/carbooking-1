@@ -23,13 +23,16 @@ class APIController extends AbstractController
     /**
      * @Route("/cars", name="api_cars")
      */
-    public function showCars()
+    public function showCars(Request $request)
     {
+        $param = $request->getContent();
+        $param = json_decode($param, true);
+
         $data = [];
 
         $cars = $this->getDoctrine()
             ->getRepository(Car::class)
-            ->findCars();
+            ->fetchFilteredCars($param);
 
         foreach ($cars as &$value) {
             $value['price'] = (double) number_format($value['price'], 2);
@@ -86,18 +89,6 @@ class APIController extends AbstractController
             'cars_count' => count($cars),
             'data' => $data,
         ]);
-    }
-
-    /**
-     * @Route("/cars/filter", name="api_cars_filter")
-     */
-    public function showFilteredCars(Request $request)
-    {
-
-        $data = $request->getContent();
-        $data = json_decode($data, true);
-
-        return $this->json($data);
     }
 
     /**

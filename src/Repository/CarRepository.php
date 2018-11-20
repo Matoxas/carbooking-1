@@ -51,14 +51,24 @@ class CarRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    public function fetchFilteredCarsId($params)
+    public function fetchFilteredCars($params)
     {
         $qb = $this->createQueryBuilder('car')
-            ->select('car.id');
+            ->select('car.id', 'car.phone', 'car.price', 'car.createdAt')
+            ->addSelect('city.city', 'user.email')
+            ->addSelect('brand.brand')
+            ->addSelect('model.model')
+            ->innerJoin('car.city', 'city')
+            ->innerJoin('car.user', 'user')
+            ->innerJoin('car.brand', 'brand')
+            ->innerJoin('car.model', 'model');
 
-        //pabaigti ;-D
+        if (isset($params['location']) && $params['location'] != "") {
+            $qb->where('city.id = :cityId')
+                ->setParameter('cityId', (int)$params['location']);
+        }
 
         return $qb->getQuery()
-            ->execute();
+            ->getArrayResult();
     }
 }
