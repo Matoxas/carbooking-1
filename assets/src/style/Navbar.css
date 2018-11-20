@@ -5,6 +5,11 @@
   width: 30px;
   overflow: hidden;
   margin: 0 auto;
+  transition: all 0.2s linear;
+}
+
+.logo-mask--opened {
+  width: 150px;
 }
 
 .nav-masthead .nav-link {

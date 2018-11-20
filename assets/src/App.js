@@ -20,8 +20,6 @@ class App extends Component {
     }
   }
 
-  setCars = () => {};
-
   render() {
     return (
       <BrowserRouter>

@@ -60,7 +60,6 @@ class CarStore {
     axios
       .put("cars", this.filters)
       .then(response => {
-        console.log(response);
         this.setCars(response.data.data);
         this.setLoading(false);
       })

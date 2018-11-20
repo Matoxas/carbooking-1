@@ -63,6 +63,12 @@
   width: 100%;
 }
 
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+  text-align: left;
+}
+
 .react-datepicker__day--selected:hover,
 .react-datepicker__day--in-selecting-range:hover,
 .react-datepicker__day--in-range:hover {

@@ -5,21 +5,28 @@ const Topbar = () => {
     <div className="topbar margin-bottom min-height">
       <div className="topbar-content">
         <div className="form-group">
-          <label htmlFor="inputState">Vieta: </label>
-          <select id="inputState" className="form-control">
-            <option defaultValue>Vilnius</option>
-            <option>...</option>
-          </select>
+          <label htmlFor="inputState">Miestas:</label>
+          <div className="relative">
+            <select className="form-control" id="inputState">
+              <option>Vilnius</option>
+              <option>Klaipėda</option>
+              <option defaultValue>Šiauliai</option>
+              <option>Alytus</option>
+            </select>
+            <i className="fa fa-caret-down" aria-hidden="true" />
+          </div>
         </div>
-
         <div className="form-group">
-          <label htmlFor="inputState">Rodyti</label>
-          <select id="inputState" className="form-control">
-            <option defaultValue>Naujausi viršuje</option>
-            <option>Seniausi viršuje</option>
-            <option>Pigiausi viršuje</option>
-            <option>Brangiausi viršuje</option>
-          </select>
+          <label htmlFor="inputState">Rodoma:</label>
+          <div className="relative">
+            <select className="form-control" id="inputState">
+              <option defaultValue>Naujausi viršuje</option>
+              <option>Seniausi viršuje</option>
+              <option>Pigiausi viršuje</option>
+              <option>Brangiausi viršuje</option>
+            </select>
+            <i className="fa fa-caret-down" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </div>
@@ -27,3 +34,7 @@ const Topbar = () => {
 };
 
 export default Topbar;
+
+{
+  /* <i class="fa fa-caret-down" aria-hidden="true"></i> */
+}

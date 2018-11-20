@@ -64,32 +64,41 @@ class Searchbar extends Component {
       <form className="searchbar">
         <div className="searchbar-item location">
           <label htmlFor=" location">Miestas:</label>
-          <select onChange={this.hadleCityChange}>
-            <option value="">Visi</option>
-            {cities.map(city => (
-              <option key={city.id} value={city.id}>
-                {city.city}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select onChange={this.hadleCityChange}>
+              <option value="">Visi</option>
+              {cities.map(city => (
+                <option key={city.id} value={city.id}>
+                  {city.city}
+                </option>
+              ))}
+            </select>
+            <i className="fa fa-caret-down" aria-hidden="true" />
+          </div>
         </div>
         <div className="searchbar-item from">
           <label htmlFor="from">Laikas nuo:</label>
-          <DatePicker
-            className="input"
-            locale={"lt"}
-            selected={this.state.date_from}
-            onChange={this.handleFromChange}
-          />
+          <div className="relative">
+            <DatePicker
+              className="input"
+              locale={"lt"}
+              selected={this.state.date_from}
+              onChange={this.handleFromChange}
+            />
+            <i className="fa fa-caret-down" aria-hidden="true" />
+          </div>
         </div>
         <div className="searchbar-item to">
           <label htmlFor="to">Laikas iki:</label>
-          <DatePicker
-            className="input"
-            locale={"lt"}
-            selected={this.state.date_until}
-            onChange={this.handleUntilChange}
-          />
+          <div className="relative">
+            <DatePicker
+              className="input"
+              locale={"lt"}
+              selected={this.state.date_until}
+              onChange={this.handleUntilChange}
+            />
+            <i className="fa fa-caret-down" aria-hidden="true" />
+          </div>
         </div>
         <button onClick={this.handleSubmit} className="searchbar-submit">
           Ieškoti
