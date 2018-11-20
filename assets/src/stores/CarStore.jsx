@@ -1,5 +1,5 @@
 // čia bus mašinų store'as
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, autorun } from "mobx";
 import axios from "axios";
 import baseUrl from "../rootConfig";
 axios.defaults.baseURL = baseUrl;
@@ -16,27 +16,30 @@ class CarStore {
   // FILTERS OF CARS LIST
 
   @observable
+  filters = {
+    brand: "",
+    model: "",
+    location: "",
+    date_from: "",
+    date_until: "",
+    price_from: "",
+    price_until: ""
+  };
+
   brands = [];
   @observable
   models = [];
   @observable
   cities = [];
 
-  @observable
-  selectedBrand = "";
-  @observable
-  selectedModel = "";
-  @observable
-  price_from: 0;
-  @observable
-  price_to: 99;
-  @observable
-  date = {
-    from: "",
-    until: ""
+  // TEST FUNCTIONS
+
+  @action
+  test = object => {
+    console.log(object);
   };
-  @observable
-  city = "";
+
+  // var disposer = autorun(() => console.log(this.cities));
 
   // ==================== GETTERS ====================
 
@@ -44,10 +47,7 @@ class CarStore {
   getFilteredCars = () => {
     this.setLoading(true);
     axios
-      .put("cars/filter", {
-        filters: "hello",
-        name: "hihi"
-      })
+      .put("cars/filter", this.filters)
       .then(response => {
         console.log(response);
       })
@@ -109,20 +109,6 @@ class CarStore {
       .catch(error => console.log(error.response));
   };
 
-  // @action
-  // sendParams = () => {
-  //   axios
-  //     .get("cars", {
-  //       params: {
-  //         foo: "bar"
-  //       }
-  //     })
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => console.log(error.response));
-  // };
-
   // ==================== SETTERS ====================
 
   @action
@@ -151,30 +137,24 @@ class CarStore {
   };
 
   @action
-  setCity = value => {
-    this.city = value;
-  };
-
-  @action
-  setDate = value => {
-    this.date = value;
+  setFilters = filters => {
+    this.filters = { ...this.filters, ...filters };
   };
 
   // ==================== COMPUTED PROPERTIES ====================
-
-  @computed
-  get getFilters() {
-    console.log("computed changed");
-    return {
-      location_id: this.city,
-      brand: this.brand,
-      models: this.models,
-      price_from: this.price_from,
-      price_to: this.price_to,
-      date_from: this.date.from,
-      date_until: this.date.until
-    };
-  }
+  // @computed
+  // get getFilters() {
+  //   console.log("computed changed");
+  //   return {
+  //     location_id: this.city,
+  //     brand: this.brand,
+  //     models: this.models,
+  //     price_from: this.price_from,
+  //     price_to: this.price_to,
+  //     date_from: this.date.from,
+  //     date_until: this.date.until
+  //   };
+  // }
 }
 const store = new CarStore();
 export default store;

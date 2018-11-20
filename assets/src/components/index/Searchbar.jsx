@@ -13,8 +13,8 @@ class Searchbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
-      endDate: moment(this.startDate)
+      date_from: new Date(),
+      date_until: moment(this.startDate)
         .add(7, "d")
         .toDate(),
       location: ""
@@ -25,9 +25,15 @@ class Searchbar extends Component {
     this.props.CarStore.getCities();
   }
 
-  handleChange = date => {
+  handleFromChange = date => {
     this.setState({
-      startDate: date
+      date_from: date
+    });
+  };
+
+  handleUntilChange = date => {
+    this.setState({
+      date_until: date
     });
   };
 
@@ -38,13 +44,17 @@ class Searchbar extends Component {
   };
 
   handleSubmit = e => {
-    const { CarStore } = this.props;
     e.preventDefault();
-    CarStore.setCity(this.state.location);
-    CarStore.setDate({
-      from: this.state.startDate,
-      until: this.state.endDate
+    const { setFilters, getFilteredCars } = this.props.CarStore;
+    const { location, date_from, date_until } = this.state;
+
+    setFilters({
+      location,
+      date_from,
+      date_until
     });
+
+    getFilteredCars();
   };
 
   render() {
@@ -68,8 +78,8 @@ class Searchbar extends Component {
           <DatePicker
             className="input"
             locale={"lt"}
-            selected={this.state.startDate}
-            onChange={this.handleChange}
+            selected={this.state.date_from}
+            onChange={this.handleFromChange}
           />
         </div>
         <div className="searchbar-item to">
@@ -77,8 +87,8 @@ class Searchbar extends Component {
           <DatePicker
             className="input"
             locale={"lt"}
-            selected={this.state.endDate}
-            onChange={this.handleChange}
+            selected={this.state.date_until}
+            onChange={this.handleUntilChange}
           />
         </div>
         <button onClick={this.handleSubmit} className="searchbar-submit">
