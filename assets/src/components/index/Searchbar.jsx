@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./searchbar.css";
-import lt from "date-fns/locale/lt";
+// import lt from "date-fns/locale/lt";
 import moment from "moment";
 import { inject, observer } from "mobx-react";
 
-registerLocale("lt", lt);
+// registerLocale("lt", lt);
 @inject("CarStore")
 @observer
 class Searchbar extends Component {
@@ -77,7 +77,7 @@ class Searchbar extends Component {
           <label htmlFor="from">Laikas nuo:</label>
           <DatePicker
             className="input"
-            locale={"lt"}
+            // locale={"lt"}
             selected={this.state.date_from}
             onChange={this.handleFromChange}
           />
@@ -86,7 +86,7 @@ class Searchbar extends Component {
           <label htmlFor="to">Laikas iki:</label>
           <DatePicker
             className="input"
-            locale={"lt"}
+            // locale={"lt"}
             selected={this.state.date_until}
             onChange={this.handleUntilChange}
           />
