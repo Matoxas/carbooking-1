@@ -6,7 +6,7 @@ import lt from "date-fns/locale/lt";
 import moment from "moment";
 import { inject, observer } from "mobx-react";
 import $ from "jquery";
-
+import history from "../../history";
 registerLocale("lt", lt);
 @inject("CarStore")
 @observer
@@ -54,8 +54,8 @@ class Searchbar extends Component {
       date_from,
       date_until
     });
-
     getAllCars();
+    history.push("/feed");
     $("body, html").animate({ scrollTop: $("#mainNav").offset().top }, 1000);
   };
 
