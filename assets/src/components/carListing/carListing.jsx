@@ -37,7 +37,7 @@ class CarListing extends Component {
       const car = this.props.CarStore.currentCar;
 
       return (
-        <div className="main">
+        <div className="main product">
           <div className="container card">
             <div className="row">
               <div className="col-xl-5">
@@ -50,8 +50,8 @@ class CarListing extends Component {
           </div>
           <div>
             <MapContainer
-              latitude={car.latitude}
-              longitude={car.longitude}
+              // latitude={car.latitude}
+              // longitude={car.longitude}
               zoom={16}
             />
           </div>

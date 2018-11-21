@@ -12,20 +12,16 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    //
-
     const logoLocation = $(".index-logo-wrapper-logo").offset().top;
 
-    const scrollink = $(".nav-link");
+    const scrollink = $(".srollink");
     scrollink.click(function(e) {
       e.preventDefault();
       $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
     });
 
-    //
-
     let self = this;
-    // Active link switching
+    //  Active link switching
     $(window).scroll(function() {
       let scrollbarLocation = $(this).scrollTop();
 
@@ -66,16 +62,18 @@ class Navbar extends Component {
                   : "logo-mask"
               }
             >
-              <Logo className="masthead-brand" />
+              <a className="srollink" href="#index">
+                <Logo className="masthead-brand" />
+              </a>
             </div>
             <nav className="nav nav-masthead justify-content-center">
               <a href="#index" className="nav-link--hl">
                 Nuomoti dabar
               </a>
-              <a href="#index" className="nav-link">
+              <a href="#index" className="nav-link srollink">
                 Pagrindinis
               </a>
-              <a href="#mainNav" className="nav-link">
+              <a href="#mainNav" className="nav-link srollink">
                 Nuomotis
               </a>
             </nav>

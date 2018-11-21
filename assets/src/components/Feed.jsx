@@ -17,7 +17,7 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-      this.props.CarStore.getBrands();
+    this.props.CarStore.getBrands();
   }
 
   toggleMobile = () => {
