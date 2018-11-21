@@ -1,30 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import "../../style/index.css";
 import Logo from "../logo";
 import ArrorDown from "./arrowDown";
 import Searchbar from "./Searchbar";
-// import ScrollableAnchor from "react-scrollable-anchor";
-const Index = props => {
-  return (
-    <div className="container pt-4">
-      <div id="index">
-        <div className="flex flex-center flex-column fullHeight text-center">
-          <div className="index-logo-wrapper">
-            <div className="index-logo-wrapper-logo">
-              <Logo className="logo" />
+import $ from "jquery";
+
+class Index extends Component {
+  componentDidMount() {
+    const scrollink = $(".scroll-down");
+    scrollink.click(function(e) {
+      e.preventDefault();
+      $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+    });
+  }
+
+  render() {
+    return (
+      <div className="container pt-4">
+        <div id="index">
+          <div className="flex flex-center flex-column fullHeight text-center">
+            <div className="index-logo-wrapper">
+              <div className="index-logo-wrapper-logo">
+                <Logo className="logo" />
+              </div>
+              <div className="index-logo-wrapper-text">
+                <h2>paprastai patogiai greitai</h2>
+              </div>
             </div>
-            <div className="index-logo-wrapper-text">
-              <h2>paprastai patogiai greitai</h2>
-            </div>
+            <Searchbar />
           </div>
-          <Searchbar />
+          <a href="#mainNav" className="scroll-down">
+            <ArrorDown />
+          </a>
         </div>
-        <a href="#mainNav" className="scroll-down">
-          <ArrorDown />
-        </a>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Index;
+
+// const scrollink = $(".nav-link");
+// scrollink.click(function(e) {
+//   e.preventDefault();
+//   $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+// });

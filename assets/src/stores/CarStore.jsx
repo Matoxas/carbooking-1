@@ -157,23 +157,23 @@ class CarStore {
   get sortedCarList() {
     switch (this.sort) {
       case "naujausi":
-        return this.cars.sort((a, b) => {
+        return this.cars.slice().sort((a, b) => {
           return Date(a.createdAt) - Date(b.createdAt);
         });
       case "seniausi":
-        return this.cars.sort((a, b) => {
+        return this.cars.slice().sort((a, b) => {
           return Date(b.createdAt) - Date(a.createdAt);
         });
       case "pigiausi":
-        return this.cars.sort((a, b) => {
+        return this.cars.slice().sort((a, b) => {
           return a.price - b.price;
         });
       case "brangiausi":
-        return this.cars.sort((a, b) => {
+        return this.cars.slice().sort((a, b) => {
           return b.price - a.price;
         });
       default:
-        return this.cars.sort((a, b) => {
+        return this.cars.slice().sort((a, b) => {
           return a.createdAt - b.createdAt;
         });
     }

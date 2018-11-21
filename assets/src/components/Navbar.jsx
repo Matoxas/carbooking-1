@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import "../style/Navbar.css";
 import Logo from "./logo";
 import $ from "jquery";
@@ -32,14 +31,8 @@ class Navbar extends Component {
 
       if (scrollbarLocation > logoLocation) {
         self.setLogo(true);
-        // this.setState({
-        //   showFullLogo: true
-        // });
       } else {
         self.setLogo(false);
-        // this.setState({
-        //   showFullLogo: false
-        // });
       }
 
       scrollink.each(function() {
