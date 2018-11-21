@@ -25,7 +25,7 @@ class Topbar extends Component {
   };
 
   render() {
-    const { cities } = this.props.CarStore;
+    const { cities, sort } = this.props.CarStore;
 
     const location = this.props.CarStore.filters.location;
 
@@ -67,10 +67,26 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option defaultValue>Naujausi viršuje</option>
-                <option>Seniausi viršuje</option>
-                <option>Pigiausi viršuje</option>
-                <option>Brangiausi viršuje</option>
+                {sort == "naujausi" ? (
+                  <option selected>Naujausi viršuje</option>
+                ) : (
+                  <option>Naujausi viršuje</option>
+                )}
+                {sort == "seniausi" ? (
+                  <option selected>Seniausi viršuje</option>
+                ) : (
+                  <option>Seniausi viršuje</option>
+                )}
+                {sort == "pigiausi" ? (
+                  <option selected>Pigiausi viršuje</option>
+                ) : (
+                  <option>Pigiausi viršuje</option>
+                )}
+                {sort == "brangiausi" ? (
+                  <option selected>Brangiausi viršuje</option>
+                ) : (
+                  <option>Brangiausi viršuje</option>
+                )}
               </select>
               <i className="fa fa-caret-down" aria-hidden="true" />
             </div>

@@ -53,19 +53,6 @@ class CarStore {
       .put("cars", this.filters)
       .then(response => {
         this.setCars(response.data.data);
-
-        console.log(
-          response.data.data.map(hop => {
-            return Date(hop.createdAt);
-          })
-        );
-
-        console.log(
-          response.data.data.sort((a, b) => {
-            return Date(a.createdAt) - Date(b.createdAt);
-          })
-        );
-
         this.setLoading(false);
       })
       .catch(error => console.log(error.response));
