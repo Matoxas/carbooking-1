@@ -173,8 +173,8 @@ class CarStore {
                         return b.price - a.price;
                     });
                 default:
-                    return this.cars.sort((a, b) => {
-                        return a.createdAt - b.createdAt;
+                    return this.cars.slice().sort((a, b) => {
+                        return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * (-1);
                     });
             }
         }
