@@ -115,6 +115,7 @@ body {
 }
 
 .card-image img {
+  margin: 0px;
   height: 100%;
   width: auto;
   max-width: 1000px;
