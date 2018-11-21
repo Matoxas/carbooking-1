@@ -6,8 +6,7 @@ import Item from "./item";
 @observer
 class Items extends Component {
   render() {
-    const { cars } = this.props.CarStore;
-
+    const { sortedCarList: cars } = this.props.CarStore;
     return (
       <div className="row">
         {cars.map(car => (

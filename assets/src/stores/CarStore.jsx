@@ -26,6 +26,9 @@ class CarStore {
     price_until: ""
   };
 
+  @observable
+  sort = "";
+
   brands = [];
   @observable
   models = [];
@@ -34,25 +37,14 @@ class CarStore {
 
   // TEST FUNCTIONS
 
-  @action
-  test = object => {
-    console.log(object);
-  };
+  // @action
+  // test = object => {
+  //   console.log(object);
+  // };
 
   // var disposer = autorun(() => console.log(this.cities));
 
   // ==================== GETTERS ====================
-
-  // @action
-  // getFilteredCars = () => {
-  //   this.setLoading(true);
-  //   axios
-  //     .put("cars/filter", this.filters)
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => console.log(error.response));
-  // };
 
   @action
   getAllCars = () => {
@@ -61,6 +53,19 @@ class CarStore {
       .put("cars", this.filters)
       .then(response => {
         this.setCars(response.data.data);
+
+        console.log(
+          response.data.data.map(hop => {
+            return Date(hop.createdAt);
+          })
+        );
+
+        console.log(
+          response.data.data.sort((a, b) => {
+            return Date(a.createdAt) - Date(b.createdAt);
+          })
+        );
+
         this.setLoading(false);
       })
       .catch(error => console.log(error.response));
@@ -141,20 +146,38 @@ class CarStore {
     this.filters = { ...this.filters, ...filters };
   };
 
+  @action
+  setSort = sort => {
+    this.sort = sort;
+  };
+
   // ==================== COMPUTED PROPERTIES ====================
-  // @computed
-  // get getFilters() {
-  //   console.log("computed changed");
-  //   return {
-  //     location_id: this.city,
-  //     brand: this.brand,
-  //     models: this.models,
-  //     price_from: this.price_from,
-  //     price_to: this.price_to,
-  //     date_from: this.date.from,
-  //     date_until: this.date.until
-  //   };
-  // }
+
+  @computed
+  get sortedCarList() {
+    switch (this.sort) {
+      case "naujausi":
+        return this.cars.sort((a, b) => {
+          return Date(a.createdAt) - Date(b.createdAt);
+        });
+      case "seniausi":
+        return this.cars.sort((a, b) => {
+          return Date(b.createdAt) - Date(a.createdAt);
+        });
+      case "pigiausi":
+        return this.cars.sort((a, b) => {
+          return a.price - b.price;
+        });
+      case "brangiausi":
+        return this.cars.sort((a, b) => {
+          return b.price - a.price;
+        });
+      default:
+        return this.cars.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
+    }
+  }
 }
 const store = new CarStore();
 export default store;
