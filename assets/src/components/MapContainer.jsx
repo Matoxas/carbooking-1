@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import React, {Component} from 'react';
+import {Map, GoogleApiWrapper, InfoWindow, Marker} from 'google-maps-react';
 import "../style/index.css";
 
 const mapStyles = {
@@ -37,37 +37,36 @@ export class MapContainer extends Component {
     render() {
         return (
             <Map
-                className = "map--size"
+                className="map--size"
                 google={this.props.google}
                 zoom={this.props.zoom}
                 style={mapStyles}
-                initialCenter={{ lat: this.props.latitude, lng: this.props.longitude}}
-                >
+                initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
+            >
                 <Marker
                     onClick={this.onMarkerClick}
-                    label="1"
-                    // icon={{
-                    //     url: "https://shelta.com.au/wp-content/uploads/maps/map-marker-shade.png",
-                    //     scaledSize: new google.maps.Size(60,30.26),
-                    // }}
-                    />
-                    <InfoWindow
+                    icon={{
+                        url: "https://www.logolynx.com/images/logolynx/f6/f6999054e09462b3f267ef4bf7b8c47e.png",
+                        scaledSize: new google.maps.Size(120, 120),
+                    }}
+                />
+                <InfoWindow
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}
                     onClose={this.onClose}
-                    >
+                >
                     <div>
-                    <h4>{this.state.selectedPlace.name}</h4>
+                        <h4>{this.state.selectedPlace.name}</h4>
                     </div>
-                    </InfoWindow>
-                    </Map>
-                    );
-                }
+                </InfoWindow>
+            </Map>
+        );
+    }
 
 }
 
 export default GoogleApiWrapper(
     (props) => ({
-            apiKey: props.apiKey
+            apiKey: 'AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4',
         }
     ))(MapContainer)
