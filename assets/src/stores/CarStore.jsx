@@ -27,22 +27,12 @@ class CarStore {
   };
 
   @observable
-  sort = "";
-
+  sort = "naujausi";
   brands = [];
   @observable
   models = [];
   @observable
   cities = [];
-
-  // TEST FUNCTIONS
-
-  // @action
-  // test = object => {
-  //   console.log(object);
-  // };
-
-  // var disposer = autorun(() => console.log(this.cities));
 
   // ==================== GETTERS ====================
 
@@ -145,26 +135,27 @@ class CarStore {
     switch (this.sort) {
       case "naujausi":
         return this.cars.slice().sort((a, b) => {
-          return Date(a.createdAt) - Date(b.createdAt);
+          return Date.parse(a.createdAt) - Date.parse(b.createdAt);
         });
       case "seniausi":
         return this.cars.slice().sort((a, b) => {
-          return Date(b.createdAt) - Date(a.createdAt);
+          return Date.parse(b.createdAt) - Date.parse(a.createdAt);
         });
       case "pigiausi":
-        return this.cars.slice().sort((a, b) => {
+        return this.cars.sort((a, b) => {
           return a.price - b.price;
         });
       case "brangiausi":
-        return this.cars.slice().sort((a, b) => {
+        return this.cars.sort((a, b) => {
           return b.price - a.price;
         });
       default:
         return this.cars.slice().sort((a, b) => {
-          return a.createdAt - b.createdAt;
+          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
         });
     }
   }
 }
+
 const store = new CarStore();
 export default store;
