@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import { inject, observer } from "mobx-react";
+import history from "./history";
 // Components
 import Feed from "./components/Feed";
 import Navbar from "./components/Navbar";
@@ -22,7 +23,7 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div>
           <Navbar />
           <Index />
@@ -40,7 +41,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
