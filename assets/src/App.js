@@ -11,6 +11,7 @@ import carListing from "./components/carListing/carListing";
 import MainNavigation from "./components/main-navigation";
 import Map from "./components/Map";
 import Favourites from "./components/Favourites";
+import Temporary from "./components/temporary";
 
 @inject("CarStore")
 @observer
@@ -22,6 +23,12 @@ class App extends Component {
   }
 
   render() {
+    const dontShowPage = true;
+
+    if (dontShowPage) {
+      return <Temporary />;
+    }
+
     return (
       <Router history={history}>
         <div>

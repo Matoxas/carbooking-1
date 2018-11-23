@@ -25,14 +25,35 @@ export class MapContainer extends Component {
       showingInfoWindow: true
     });
 
-  onClose = props => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
-    }
-  };
+  render() {
+    return (
+      <Map
+        className="map--size"
+        google={this.props.google}
+        zoom={this.props.zoom}
+        style={mapStyles}
+        initialCenter={{ lat: this.props.latitude, lng: this.props.longitude }}
+      >
+        <Marker
+          onClick={this.onMarkerClick}
+          icon={{
+            url:
+              "https://www.logolynx.com/images/logolynx/f6/f6999054e09462b3f267ef4bf7b8c47e.png",
+            scaledSize: new google.maps.Size(120, 120)
+          }}
+        />
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
+          onClose={this.onClose}
+        >
+          <div>
+            <h4>{this.state.selectedPlace.name}</h4>
+          </div>
+        </InfoWindow>
+      </Map>
+    );
+  }
 
   render() {
     return (
@@ -66,5 +87,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper(props => ({
-  apiKey: props.apiKey
+  apiKey: "AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4"
 }))(MapContainer);

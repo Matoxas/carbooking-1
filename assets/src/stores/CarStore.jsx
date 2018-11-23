@@ -134,13 +134,13 @@ class CarStore {
   get sortedCarList() {
     switch (this.sort) {
       case "naujausi":
-            return this.cars.slice().sort((a, b) => {
-                return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * (-1);
-            });
-        case "seniausi":
-            return this.cars.slice().sort((a, b) => {
-                return Date.parse(a.createdAt) - Date.parse(b.createdAt);
-            });
+        return this.cars.slice().sort((a, b) => {
+          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
+        });
+      case "seniausi":
+        return this.cars.slice().sort((a, b) => {
+          return Date.parse(a.createdAt) - Date.parse(b.createdAt);
+        });
       case "pigiausi":
         return this.cars.sort((a, b) => {
           return a.price - b.price;
@@ -151,7 +151,7 @@ class CarStore {
         });
       default:
         return this.cars.slice().sort((a, b) => {
-          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * (-1);
+          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
         });
     }
   }

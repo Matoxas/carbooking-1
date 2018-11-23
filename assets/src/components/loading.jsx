@@ -1,8 +1,8 @@
 import React from "react";
 
-const Loading = () => {
+const Loading = props => {
   return (
-    <div className="loading">
+    <div className={props.className}>
       <svg
         className="machine"
         xmlns="http://www.w3.org/2000/svg"
