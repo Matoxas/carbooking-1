@@ -13,6 +13,8 @@ class CarStore {
   @observable
   currentCar = {};
 
+  @observable
+  likedCars = [];
   // FILTERS OF CARS LIST
 
   @observable
@@ -128,6 +130,21 @@ class CarStore {
     this.sort = sort;
   };
 
+  @action
+  setLikes = likes => {
+    this.likedCars = likes;
+  };
+
+  @action
+  likesToggler = id => {
+    if (this.likedCars.includes(id)) {
+      this.likedCars = this.likedCars.filter(like => like != id);
+    } else {
+      this.likedCars = [...this.likedCars, id];
+    }
+    localStorage.setItem("likes", JSON.stringify(this.likedCars));
+  };
+
   // ==================== COMPUTED PROPERTIES ====================
 
   @computed
@@ -154,6 +171,10 @@ class CarStore {
           return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
         });
     }
+  }
+
+  @computed get likedCarList() {
+    return this.cars.filter(car => this.likedCars.includes(car.id));
   }
 }
 

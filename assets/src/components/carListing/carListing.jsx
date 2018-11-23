@@ -50,8 +50,8 @@ class CarListing extends Component {
           </div>
           <div>
             <MapContainer
-              // latitude={car.latitude}
-              // longitude={car.longitude}
+              latitude={car.latitude}
+              longitude={car.longitude}
               zoom={16}
             />
           </div>

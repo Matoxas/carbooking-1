@@ -19,11 +19,20 @@ class App extends Component {
   componentDidMount() {
     {
       this.props.CarStore.getAllCars();
+      this.loadLikesFromStorage();
     }
   }
 
+  loadLikesFromStorage = () => {
+    const local = localStorage.getItem("likes");
+    const likes = JSON.parse(local);
+    if (likes) {
+      this.props.CarStore.setLikes(likes);
+    }
+  };
+
   render() {
-    const dontShowPage = true;
+    const dontShowPage = false;
 
     if (dontShowPage) {
       return <Temporary />;

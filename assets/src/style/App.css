@@ -123,11 +123,11 @@ body {
   height: 100%;
   width: auto;
   max-width: 1000px;
-  transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+  transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
 }
 
 .card:hover .card-image img {
-  transform: scale(1.15);
+  transform: scale(1.05);
 }
 
 .card-time {
@@ -432,15 +432,16 @@ body {
   fill: white;
   height: 100%;
   width: 60vh;
-  transition: all linear 3s;
 }
 
 .logo.logo-orange {
   fill: #f47e60;
+  transition: all linear 3s;
 }
 
 .logo.logo-red {
   fill: #eec170;
+  transition: all linear 3s;
 }
 
 /* ================== TOPBAR ====================== */
@@ -536,11 +537,11 @@ body {
 }
 
 .fullHeight {
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .minHeight {
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 .flex-center {
