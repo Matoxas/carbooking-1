@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import "../style/Navbar.css";
 import Logo from "./logo";
 import $ from "jquery";
+import { Link } from "react-router-dom";
 
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      showFullLogo: false
+      showFullLogo: false,
+      showNavBackground: false
     };
   }
 
@@ -31,6 +33,12 @@ class Navbar extends Component {
         self.setLogo(false);
       }
 
+      if (scrollbarLocation > 10) {
+        self.setBackground(true);
+      } else {
+        self.setBackground(false);
+      }
+
       scrollink.each(function() {
         let sectionOffset = $(this.hash).offset().top - 30;
 
@@ -50,9 +58,20 @@ class Navbar extends Component {
     });
   };
 
+  setBackground = bool => {
+    this.setState({
+      showNavBackground: bool
+    });
+  };
+
   render() {
     return (
-      <header className="masthead mb-auto padding-top text-center">
+      <header
+        className={
+          (this.state.showNavBackground ? "masthead-background" : "") +
+          " masthead mb-auto padding-top text-center"
+        }
+      >
         <div className="container">
           <div className="inner">
             <div
@@ -67,9 +86,9 @@ class Navbar extends Component {
               </a>
             </div>
             <nav className="nav nav-masthead justify-content-center">
-              <a href="#index" className="nav-link--hl">
+              <Link to="/newcar" className="nav-link--hl">
                 Nuomoti dabar
-              </a>
+              </Link>
               <a href="#index" className="nav-link srollink">
                 Pagrindinis
               </a>

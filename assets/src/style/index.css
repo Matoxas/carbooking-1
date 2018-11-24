@@ -1,3 +1,14 @@
+.index {
+  background-image: url("/images/background.jpeg");
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* -webkit-box-shadow: inset 7px -30px 102px 12px rgba(0, 0, 0, 0.48);
+  -moz-box-shadow: inset 7px -30px 102px 12px rgba(0, 0, 0, 0.48);
+  box-shadow: inset 7px -30px 102px 12px rgba(0, 0, 0, 0.48); */
+}
+
 .index-logo-wrapper {
   display: flex;
   flex-basis: 1;
@@ -29,10 +40,6 @@
 .index-logo-wrapper-logo > * {
   float: right;
   width: 50vh;
-}
-
-.map--size {
-  height: 400px !important;
 }
 
 @media (max-width: 767.98px) {

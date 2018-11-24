@@ -12,6 +12,7 @@ import MainNavigation from "./components/main-navigation";
 import Map from "./components/Map";
 import Favourites from "./components/Favourites";
 import Temporary from "./components/temporary";
+import NewCar from "./components/NewCar";
 
 @inject("CarStore")
 @observer
@@ -47,6 +48,7 @@ class App extends Component {
             <MainNavigation />
             <div>
               <Switch>
+                <Route path="/newcar" component={NewCar} />
                 <Route path="/feed/carListing/:id" component={carListing} />
                 <Route path="/feed" component={Feed} />
                 <Redirect from="/" exact to="/feed" />

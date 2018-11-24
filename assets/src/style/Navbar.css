@@ -5,7 +5,7 @@
   width: 30px;
   overflow: hidden;
   margin: 0 auto;
-  transition: all 0.2s linear;
+  transition: all 0.3s linear;
 }
 
 .logo-mask--opened {
@@ -25,8 +25,13 @@
   width: 100%;
   overflow: hidden;
   z-index: 999;
-  background-color: #333;
+  /* background-color: #333; */
   padding-bottom: 1rem;
+  transition: all 0.2s linear;
+}
+
+.masthead-background {
+  background-color: rgba(57, 57, 57, 0.9);
 }
 
 .masthead .container {
