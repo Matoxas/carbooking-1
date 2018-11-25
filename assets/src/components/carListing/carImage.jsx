@@ -2,9 +2,9 @@ import React from 'react';
 
 const carImage = (props) => {
     return(
-        <div>
+        <div className="figure">
             {props.images}
-            <img className="rounded" src={`/${props.image.images[0]}`} alt=""/>
+            <img className="product-image" src={`/${props.image.images[0]}`} alt=""/>
         </div>
     )
 };

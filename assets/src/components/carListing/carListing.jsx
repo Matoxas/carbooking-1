@@ -37,16 +37,18 @@ class CarListing extends Component {
       const car = this.props.CarStore.currentCar;
 
       return (
-        <div className="main product">
+        <div className="product">
           <div className="container card">
-            <div className="row">
-              <div className="col-xl-5">
-                <CarInfo car={car} />
+              <div>
+                  <CarImage image={car} />
               </div>
-              <div className="col-xs-7">
-                <CarImage image={car} />
+              <div className="row">
+                  <div className="col-sm-1"/>
+                  <div className="col-sm-10">
+                      <CarInfo car={car} />
+                  </div>
+                  <div className="col-sm-1"/>
               </div>
-            </div>
           </div>
           <div>
             <MapContainer
