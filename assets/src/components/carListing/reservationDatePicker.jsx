@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-day-picker/lib/style.css";
+import "./carListing.css";
 // registerLocale("lt", lt);
 import moment from "moment";
 import {inject, observer} from "mobx-react";
@@ -40,12 +41,11 @@ export default class reservationDatePicker extends Component {
         return (
             <div>
                 <DatePicker
-                    className="input"
+                    className="input--stretch"
                     // locale={"lt"}
                     selected={this.state.date_from}
                     onChange={this.handleFromChange}
                 />
-                {/*<button onClick={this.handleSubmit}>Press me please</button>*/}
             </div>
         );
     }

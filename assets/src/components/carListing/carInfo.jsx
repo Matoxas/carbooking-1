@@ -8,46 +8,35 @@ const carInfo = (props) => {
             <div className="row">
                 <div className="col-sm-8">
                     <div className="row">
-                        <div className="col-sm-4 info-description">
-                            Automobilis
+                        <div className="col-sm-3 info-description">
                         </div>
-                        <div className="col-sm-8">
-                            <p className="info--normal">{props.car.brand}</p>
-                            <p className="info--big">{props.car.model}</p>
+                        <div className="col-sm-9">
+                            <p className="info--big">{props.car.brand} {props.car.model}</p>
                         </div>
-                        <div className="col-sm-4 info-description">
+                        <div className="col-sm-3 info-description">
                             Vieta
                         </div>
-                        <div className="col-sm-8">
+                        <div className="col-sm-9">
                             <p className="info--normal">{props.car.city}</p>
                         </div>
-                        <div className="col-sm-4 info-description">
+                        <div className="col-sm-3 info-description">
                             Aprašymas
                         </div>
-                        <div className="col-sm-8">
+                        <div className="col-sm-9">
                             <p className="info--normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                             </p>
                         </div>
-                        <div className="col-sm-4 info-description">
+                        <hr/>
+                        <div className="col-sm-3 info-description">
                             Savininkas
                         </div>
-                        <div className="col-sm-8">
+                        <div className="col-sm-9">
                             <p className="info--normal">
-                                <img
-                                    className="info-icon"
-                                    src="https://www.clipartmax.com/png/middle/35-351662_update-to-our-address-email-icon-png.png"
-                                    width="20"
-                                    height="20"
-                                    alt=""/>
+                                <i className="far fa-envelope"></i>
                                 {props.car.email}
                             </p>
                             <p className="info--normal">
-                                <img
-                                    className="info-icon"
-                                    src="https://cdn0.iconfinder.com/data/icons/office-business-13/512/OFFICE_BUSINESS-17-512.png"
-                                    width="20"
-                                    height="20"
-                                    alt=""/>
+                                <i className="fas fa-phone"></i>
                                 {props.car.phone}
                             </p>
                         </div>
@@ -68,7 +57,7 @@ const carInfo = (props) => {
                         </div>
                     </div>
                     <div>
-                        <button className="btn btn-success info-button">Rezervuoti</button>
+                        <button className="btn btn-warning info-button">Rezervuoti</button>
                     </div>
                 </div>
             </div>
