@@ -22,8 +22,10 @@ class Topbar extends Component {
   };
 
   changeSort(argument) {
-    const { setSort } = this.props.CarStore;
-    setSort(argument);
+    this.setFilters({
+      sort: argument
+    });
+    this.getCarsByFilters();
   }
 
   changeCity = e => {
@@ -77,11 +79,12 @@ class Topbar extends Component {
   };
 
   render() {
-    const { cities, sort, brands, models } = this.props.CarStore;
+    const { cities, brands, models } = this.props.CarStore;
     const {
       location,
       brand: brand_filter,
-      model: model_filter
+      model: model_filter,
+      sort: sort_filter
     } = this.props.CarStore.filters;
 
     return (
@@ -210,22 +213,22 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                {sort == "naujausi" ? (
+                {sort_filter == "naujausi" ? (
                   <option selected>Naujausi viršuje</option>
                 ) : (
                   <option>Naujausi viršuje</option>
                 )}
-                {sort == "seniausi" ? (
+                {sort_filter == "seniausi" ? (
                   <option selected>Seniausi viršuje</option>
                 ) : (
                   <option>Seniausi viršuje</option>
                 )}
-                {sort == "pigiausi" ? (
+                {sort_filter == "pigiausi" ? (
                   <option selected>Pigiausi viršuje</option>
                 ) : (
                   <option>Pigiausi viršuje</option>
                 )}
-                {sort == "brangiausi" ? (
+                {sort_filter == "brangiausi" ? (
                   <option selected>Brangiausi viršuje</option>
                 ) : (
                   <option>Brangiausi viršuje</option>
