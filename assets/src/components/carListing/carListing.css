@@ -7,6 +7,12 @@ img {
 .info {
   margin: 20px;
   text-shadow: 0 0 0 0;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  /*font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;*/
 }
 
 .info__name {
@@ -39,3 +45,121 @@ img {
 .product .card:hover {
   transform: none;
 }
+
+.product-image {
+  width: 100%;
+  max-width: 100%;
+  max-height: 600px;
+  margin-bottom: -10%;
+}
+
+.info-description {
+  color: #4e4e4e;
+  text-align: right;
+}
+
+.info-block {
+  margin-top: 10px;
+}
+
+.info-price {
+  position: relative;
+  background-color: #ffffff;
+  top: -50px;
+  border-radius: 30px;
+  text-align: center;
+  padding: 30px 0 0 0;
+}
+
+.info-p {
+  margin-bottom: 0;
+  text-align: left;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.info-dates {
+  margin-top: 30px;
+}
+
+.info-button {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.info-icon {
+  padding-bottom: 6px;
+  margin-right: 5px;
+}
+
+.info-price--small {
+  font-size: 0.8em;
+  margin-left: 3px;
+}
+
+.info-price--currency {
+  font-family: Plantin, AmericanTypewriter-Condensed, Times New Roman, serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 0.8;
+  margin: 15px 0 0 5px;
+}
+
+.info-price--value {
+  /*font-family: Freight, HoeflerText-Black, Times New Roman, serif;*/
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 1;
+  margin: 0 0 0 5px;
+}
+
+.info--normal {
+  margin-bottom: 20px;
+}
+
+.info--big {
+  font-size: 1.8em;
+}
+
+.info--relative {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.figure {
+  overflow: hidden;
+  margin: 0;
+}
+
+.input--stretch {
+  width: 100%;
+}
+
+.carousel-control-next {
+  opacity: 1;
+}
+
+.carousel-control-prev {
+  opacity: 1;
+}
+
+.btn-warning {
+  color: white;
+  background-color: #f47e60;
+  border-color: #f47e60;
+}
+
+.btn-warning:hover {
+  background-color: #e15b64;
+  color: white;
+}
+
+/* NEDARYK TIESIOGINIŲ PAKEITIMŲ KLASĖMS KURIOS NAUDOJAMOS VISAME PROJEKTE !!!!!! */
+/* .far {
+  margin-right: 5px;
+}
+
+.fas {
+  margin-right: 5px;
+} */

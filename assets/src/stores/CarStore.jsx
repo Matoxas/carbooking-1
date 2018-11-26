@@ -187,6 +187,5 @@ class CarStore {
     return this.cars.filter(car => this.likedCars.includes(car.id));
   }
 }
-
 const store = new CarStore();
 export default store;

@@ -5,37 +5,59 @@ import ReservationDatePicker from './reservationDatePicker';
 const carInfo = (props) => {
     return (
         <div className="info">
-            <h1 className="info__name">{props.car.brand} {props.car.model}</h1>
-            <br/>
-            <div className="row info__details">
-                <div className="col-xl-6 text-muted">Paros kaina</div>
-                <div className="col-xl-6">€ {props.car.price}</div>
-                <div className="col-xl-6 text-muted">Vieta</div>
-                <div className="col-xl-6">{props.car.city}</div>
-                <div className="col-xl-6 text-muted">Telefono nr.</div>
-                <div className="col-xl-6 info__details-small">{props.car.phone}</div>
-                <div className="col-xl-6 text-muted">El. paštas</div>
-                <div className="col-xl-6 info__details-small">{props.car.email}</div>
-                <div className="col-xl-12">
-                    <br/>
-                    <div className="row info__details-small">
-                        <div className="col-md-6">
-                            <p>Pradžios data</p>
+            <div className="row">
+                <div className="col-sm-8">
+                    <div className="row">
+                        <div className="col-sm-3 info-description">
+                        </div>
+                        <div className="col-sm-9">
+                            <p className="info--big">{props.car.brand} {props.car.model}</p>
+                        </div>
+                        <div className="col-sm-3 info-description">
+                            Vieta
+                        </div>
+                        <div className="col-sm-9">
+                            <p className="info--normal">{props.car.city}</p>
+                        </div>
+                        <div className="col-sm-3 info-description">
+                            Aprašymas
+                        </div>
+                        <div className="col-sm-9">
+                            <p className="info--normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            </p>
+                        </div>
+                        <hr/>
+                        <div className="col-sm-3 info-description">
+                            Savininkas
+                        </div>
+                        <div className="col-sm-9">
+                            <p className="info--normal">
+                                <i className="far fa-envelope"></i>
+                                {props.car.email}
+                            </p>
+                            <p className="info--normal">
+                                <i className="fas fa-phone"></i>
+                                {props.car.phone}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-4 info-price">
+                    <span className="info-price--currency">€</span>
+                    <span className="info-price--value">{props.car.price}</span>
+                    <span className="info-price--small">dienai</span>
+                    <div className="info-dates">
+                        <div className="info--relative">
+                            <p className="info-p">Pradžios data</p>
                             <ReservationDatePicker/>
                         </div>
-                        <div className="col-md-6">
-                            <p>Pabaigos data</p>
+                        <div className="info--relative">
+                            <p className="info-p">Pabaigos data</p>
                             <ReservationDatePicker/>
                         </div>
                     </div>
-                    <br/>
-                    <h3>Aprašymas</h3>
-                    <div className="info__comments">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam
-                        cumque
-                        delectus et nihil repellat
-                        voluptate? A ad adipisci debitis expedita fuga illo modi, odio omnis quis reiciendis similique
-                        sunt
-                        velit?
+                    <div>
+                        <button className="btn btn-warning info-button">Rezervuoti</button>
                     </div>
                 </div>
             </div>
