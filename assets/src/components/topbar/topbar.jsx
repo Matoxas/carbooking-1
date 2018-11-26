@@ -43,7 +43,8 @@ class Topbar extends Component {
     const { getModels } = this.props.CarStore;
     getModels(e.target.value);
     this.setFilters({
-      brand: e.target.value
+      brand: e.target.value,
+      model: ""
     });
     this.getCarsByFilters();
   };
