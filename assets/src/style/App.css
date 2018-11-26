@@ -53,7 +53,12 @@ body {
   justify-content: center;
   align-items: center;
   padding-top: 2rem;
+  background-color: transparent;
   padding-bottom: 1rem;
+}
+
+.main-navigation * {
+  background-color: transparent;
 }
 
 .nav-link--main {
@@ -171,8 +176,12 @@ body {
   color: #e15b64;
   right: 2rem;
   background-color: white;
-  padding: 0.25rem 0.5rem;
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-like i {
@@ -195,6 +204,24 @@ body {
   box-shadow: none;
 }
 
+.mobile-menu {
+  display: none;
+}
+
+.mobile-menu:hover {
+  cursor: pointer;
+}
+
+.relative i {
+  position: absolute;
+  top: 30%;
+  right: 0;
+}
+
+.searchbar .relative i {
+  top: 10%;
+}
+
 /* ================== SIDEBAR ====================== */
 
 .sidebar {
@@ -203,16 +230,6 @@ body {
   border-radius: 0.25rem;
   height: 100%;
   width: 100%;
-}
-
-.slider.slider-horizontal {
-  width: 100% !important;
-}
-
-.slider-handle {
-  /* background-color: #cc3333; */
-  background-image: none;
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.1);
 }
 
 /* SCROLLER ANIMATION */
@@ -444,50 +461,6 @@ body {
   transition: all linear 3s;
 }
 
-/* ================== TOPBAR ====================== */
-
-.topbar {
-  background-color: white;
-  border-radius: 0.25rem;
-  width: 100%;
-}
-
-.topbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-
-.topbar label {
-  margin-right: 1rem;
-  margin-bottom: 0;
-}
-
-.topbar .form-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-.mobile-menu {
-  display: none;
-}
-
-.mobile-menu:hover {
-  cursor: pointer;
-}
-
-.relative i {
-  position: absolute;
-  top: 30%;
-  right: 0;
-}
-
-.searchbar .relative i {
-  top: 10%;
-}
 /* =========================== ETC ===========================  */
 
 .map--size {
@@ -570,23 +543,6 @@ body {
     height: 350px;
   }
 
-  .topbar-content {
-    display: block;
-  }
-
-  .topbar .form-group {
-    display: block;
-  }
-
-  .topbar label {
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .topbar .form-group {
-    margin-bottom: 1rem;
-  }
-
   .mobile-menu {
     display: block;
   }
@@ -628,10 +584,18 @@ body {
   .machine {
     width: 40vmin;
   }
+
+  .card-title {
+    font-size: 2.7vh;
+  }
 }
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
+  .card-title {
+    font-size: 2.8vh;
+  }
+
   .card:hover {
     /* transform: scale(1.05); */
     /* /* background-color: #f5f9fc;  */

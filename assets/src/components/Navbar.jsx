@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import "../style/Navbar.css";
 import Logo from "./logo";
 import $ from "jquery";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import history from "../history";
+import { inject, observer } from "mobx-react";
 
+@inject("CarStore")
+@observer
 class Navbar extends Component {
   constructor() {
     super();
@@ -14,20 +18,36 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    const logoLocation = $(".index-logo-wrapper-logo").offset().top;
+    this.isHeaderSet();
+  }
 
+  isHeaderSet = () => {
+    const { showHeader } = this.props.CarStore;
+    if (showHeader) {
+      this.enableScrollEvents();
+    }
+    this.disableScrollEvents();
+  };
+
+  disableScrollEvents = () => {
+    this.setLogo(true);
+    this.setBackground(true);
     const scrollink = $(".srollink");
-    scrollink.click(function(e) {
-      e.preventDefault();
-      $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+    $(window).off("scroll", scrollink);
+    scrollink.each(function() {
+      let sectionOffset = "";
     });
+  };
 
+  enableScrollEvents() {
+    // const logoLocation = $(".index-logo-wrapper-logo").offset().top;
+    const scrollink = $(".srollink");
     let self = this;
     //  Active link switching
     $(window).scroll(function() {
       let scrollbarLocation = $(this).scrollTop();
 
-      if (scrollbarLocation > logoLocation) {
+      if (scrollbarLocation > 30) {
         self.setLogo(true);
       } else {
         self.setLogo(false);
@@ -64,6 +84,27 @@ class Navbar extends Component {
     });
   };
 
+  handleNavClick = (e, scrollink) => {
+    e.preventDefault();
+    $(e.target).addClass("active");
+    $(e.target)
+      .siblings()
+      .removeClass("active");
+    history.push("/feed");
+    $("body, html").animate({ scrollTop: $(scrollink).offset().top }, 1000);
+  };
+
+  turnOffHeader = e => {
+    e.preventDefault();
+    this.props.CarStore.toggleHeader(false);
+    this.disableScrollEvents();
+    $(e.target).addClass("active");
+    $(e.target)
+      .siblings()
+      .removeClass("active");
+    history.push("/newcar");
+  };
+
   render() {
     return (
       <header
@@ -81,18 +122,30 @@ class Navbar extends Component {
                   : "logo-mask"
               }
             >
-              <a className="srollink" href="#index">
+              <a href="#index" onClick={e => this.handleNavClick(e, "#index")}>
                 <Logo className="masthead-brand" />
               </a>
             </div>
             <nav className="nav nav-masthead justify-content-center">
-              <Link to="/newcar" className="nav-link--hl">
+              <NavLink
+                onClick={this.turnOffHeader}
+                to="/newcar"
+                className="nav-link--hl"
+              >
                 Nuomoti dabar
-              </Link>
-              <a href="#index" className="nav-link srollink">
+              </NavLink>
+              <a
+                href="#index"
+                onClick={e => this.handleNavClick(e, "#index")}
+                className="nav-link srollink"
+              >
                 Pagrindinis
               </a>
-              <a href="#mainNav" className="nav-link srollink">
+              <a
+                href="#mainNav"
+                onClick={e => this.handleNavClick(e, "#mainNav")}
+                className="nav-link srollink"
+              >
                 Nuomotis
               </a>
             </nav>

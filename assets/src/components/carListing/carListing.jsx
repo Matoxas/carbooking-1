@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CarInfo from "./carInfo";
 import CarImage from "./carImage";
 import MapContainer from "../MapContainer";
+import $ from "jquery";
 
 import { inject, observer } from "mobx-react";
 @inject("CarStore")
@@ -15,6 +16,10 @@ class CarListing extends Component {
       place: null,
       lat: 0
     };
+  }
+
+  componentDidMount() {
+    $("body, html").animate({ scrollTop: $("#mainNav").offset().top }, 1000);
   }
 
   getCar() {

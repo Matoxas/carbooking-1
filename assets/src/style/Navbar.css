@@ -49,19 +49,30 @@
   background-color: transparent;
   margin-right: 1rem;
   font-weight: 700;
+  border-bottom: 0.25rem solid transparent;
 }
 
 .nav-link--hl:hover {
   text-decoration: none;
   color: #f47e60;
+  border-bottom-color: rgba(219, 122, 122, 0.25);
   text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.nav-link--hl:focus {
+  color: #f47e60;
+}
+
+.nav-link--hl.active {
+  color: #f47e60;
+  border-bottom-color: #f47e60;
 }
 
 .nav-masthead .nav-link + .nav-link {
   margin-left: 1rem;
 }
 
-.nav-masthead .active {
+.nav-link.active {
   color: #fff;
   border-bottom-color: #fff;
 }

@@ -5,8 +5,13 @@ import baseUrl from "../rootConfig";
 axios.defaults.baseURL = baseUrl;
 
 class CarStore {
+  // GLOBAL PARAMETERS
   @observable
   loading = true;
+  @observable
+  showHeader = true;
+
+  // CAR
   @observable
   cars = [];
 
@@ -24,8 +29,8 @@ class CarStore {
     location: "",
     date_from: "",
     date_until: "",
-    price_from: "",
-    price_until: ""
+    price_from: 1,
+    price_until: 99
   };
 
   @observable
@@ -94,6 +99,11 @@ class CarStore {
   };
 
   // ==================== SETTERS ====================
+
+  @action
+  toggleHeader = value => {
+    this.showHeader = value;
+  };
 
   @action
   setCars = list => {

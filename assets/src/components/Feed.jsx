@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Items from "./items";
-import Sidebar from "./sidebar";
-import Topbar from "./topbar";
+import Topbar from "./topbar/topbar";
 import { inject, observer } from "mobx-react";
 import Loading from "./loading";
-import Map from "./MapContainer";
+import "./topbar/topbar.css";
 
 @inject("CarStore")
 @observer
@@ -30,11 +29,31 @@ class Feed extends Component {
   render() {
     const { toggler } = this.state;
     const { loading } = this.props.CarStore;
+
+    const topbar = (
+      <div>
+        <div
+          onClick={() => this.toggleMobile()}
+          className="mobile-menu topbar col-12 margin-bottom"
+        >
+          <h2 className="text-center padding">RODYTI FILTRUS</h2>
+        </div>
+        <div className="row justify-content-md-end">
+          <div className={`col-12 ${toggler == 0 ? "m-hidden" : ""}`}>
+            <Topbar />
+          </div>
+        </div>
+      </div>
+    );
+
     if (loading) {
       return (
-        <div className="container">
-          <div className="flex flex-center fullHeight text-center">
-            <Loading className={"loading"} />
+        <div className="main">
+          <div className="container">
+            {topbar}
+            <div className="flex flex-center mt-5 text-center">
+              <Loading className={"loading"} />
+            </div>
           </div>
         </div>
       );
@@ -42,18 +61,7 @@ class Feed extends Component {
     return (
       <div className="main">
         <div className="container">
-          <div
-            onClick={() => this.toggleMobile()}
-            className="mobile-menu topbar col-12 margin-bottom"
-          >
-            <h2 className="text-center padding">RODYTI FILTRUS</h2>
-          </div>
-          <div className="row justify-content-md-end">
-            <div className={`col-12 ${toggler == 0 ? "m-hidden" : ""}`}>
-              <Topbar />
-              {/* <Sidebar /> */}
-            </div>
-          </div>
+          {topbar}
           <div className="row">
             <div className="col-lg-12">
               <Items />

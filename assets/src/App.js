@@ -33,10 +33,24 @@ class App extends Component {
   };
 
   render() {
+    const { showHeader } = this.props.CarStore;
     const dontShowPage = false;
 
     if (dontShowPage) {
       return <Temporary />;
+    }
+
+    if (!showHeader) {
+      return (
+        <Router history={history}>
+          <div>
+            <Navbar />
+            <Switch>
+              <Route path="/newcar" component={NewCar} exact />
+            </Switch>
+          </div>
+        </Router>
+      );
     }
 
     return (
@@ -46,17 +60,15 @@ class App extends Component {
           <Index />
           <div className="main-wrapper" id="mainNav">
             <MainNavigation />
-            <div>
-              <Switch>
-                <Route path="/newcar" component={NewCar} />
-                <Route path="/feed/carListing/:id" component={carListing} />
-                <Route path="/feed" component={Feed} />
-                <Redirect from="/" exact to="/feed" />
-                <Route path="/map" component={Map} exact />
-                <Route path="/favourites" component={Favourites} exact />
-                <Route component={Feed} />
-              </Switch>
-            </div>
+            <Switch>
+              <Route path="/newcar" component={NewCar} />
+              <Route path="/feed/carListing/:id" component={carListing} />
+              <Route path="/feed" component={Feed} />
+              <Redirect from="/" exact to="/feed" />
+              <Route path="/map" component={Map} exact />
+              <Route path="/favourites" component={Favourites} exact />
+              <Route component={Feed} />
+            </Switch>
           </div>
         </div>
       </Router>

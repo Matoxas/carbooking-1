@@ -6,6 +6,10 @@ import Searchbar from "./Searchbar";
 import $ from "jquery";
 
 class Index extends Component {
+  handleClick = e => {
+    e.preventDefault();
+    $("body, html").animate({ scrollTop: $("#mainNav").offset().top }, 1000);
+  };
   render() {
     return (
       <div className="index">
@@ -22,7 +26,11 @@ class Index extends Component {
               </div>
               <Searchbar />
             </div>
-            <a href="#mainNav" className="scroll-down srollink">
+            <a
+              href="#mainNav"
+              onClick={this.handleClick}
+              className="scroll-down srollink"
+            >
               <ArrorDown />
             </a>
           </div>
