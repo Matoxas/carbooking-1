@@ -34,6 +34,13 @@ class CarStore {
   };
 
   @observable
+  reservation = {
+    id: "",
+      date_from: "",
+      date_until: "",
+  };
+
+  @observable
   sort = "naujausi";
   brands = [];
   @observable
@@ -96,6 +103,20 @@ class CarStore {
         this.setLoading(false);
       })
       .catch(error => console.log(error.response));
+  };
+
+  @action
+  postReservation = reservation => {
+      axios
+          .post("/reservations", {
+            reservation
+          })
+          .then(function (response) {
+              console.log(response);
+          })
+          .catch(function(error) {
+              console.log(error);
+          });
   };
 
   // ==================== SETTERS ====================
