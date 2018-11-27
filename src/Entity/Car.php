@@ -26,13 +26,6 @@ class Car
     private $user;
 
     /**
-     * @ORM\Column(type="integer", length=13)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="8")
-     */
-    private $phone;
-
-    /**
      * @ORM\Column(type="float")
      * @Assert\NotBlank()
      */
@@ -57,9 +50,9 @@ class Car
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RentDate", mappedBy="car")
+     * @ORM\OneToMany(targetEntity="App\Entity\Renting", mappedBy="car")
      */
-    private $rentDates;
+    private $renting;
 
     /**
      * @ORM\Column(type="datetime")
@@ -93,83 +86,48 @@ class Car
     private $longitude;
 
     /**
-     * Car constructor.
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentar", mappedBy="car")
      */
+    private $commentars;
+
     public function __construct()
     {
-        $this->rentDates = new ArrayCollection();
+        $this->renting = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->commentars = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUser()
     {
         return $this->user;
     }
 
-    /**
-     * @param mixed $user
-     */
     public function setUser($user): void
     {
         $this->user = $user;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone): void
-    {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getPrice()
     {
         return $this->price;
     }
 
-    /**
-     * @param mixed $price
-     */
     public function setPrice($price): void
     {
         $this->price = $price;
     }
 
-    /**
-     * @return Brand|null
-     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
-    /**
-     * @param Brand|null $brand
-     * @return Brand
-     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -177,18 +135,11 @@ class Car
         return $this;
     }
 
-    /**
-     * @return City|null
-     */
     public function getCity(): ?City
     {
         return $this->city;
     }
 
-    /**
-     * @param City|null $city
-     * @return City
-     */
     public function setCity(?City $city): self
     {
         $this->city = $city;
@@ -196,42 +147,26 @@ class Car
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     */
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getRentDates()
+    public function getRenting()
     {
-        return $this->rentDates;
+        return $this->renting;
     }
 
-    /**
-     * @return Model|null
-     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
-    /**
-     * @param Model|null $model
-     * @return Model
-     */
     public function setModel(?Model $model): self
     {
         $this->model = $model;
@@ -239,18 +174,11 @@ class Car
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
     public function getImages(): Collection
     {
         return $this->images;
     }
 
-    /**
-     * @param Image $image
-     * @return Car
-     */
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -261,10 +189,6 @@ class Car
         return $this;
     }
 
-    /**
-     * @param Image $image
-     * @return Car
-     */
     public function removeImage(Image $image): self
     {
         if ($this->images->contains($image)) {
@@ -278,9 +202,6 @@ class Car
         return $this;
     }
 
-    /**
-     * @return Collection|Booking[]
-     */
     public function getBookings(): Collection
     {
         return $this->bookings;
@@ -341,6 +262,34 @@ class Car
     public function setLongitude(?float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getCommentars(): Collection
+    {
+        return $this->commentars;
+    }
+
+    public function addCommentar(Commentar $commentar): self
+    {
+        if (!$this->commentars->contains($commentar)) {
+            $this->commentars[] = $commentar;
+            $commentar->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentar(Commentar $commentar): self
+    {
+        if ($this->commentars->contains($commentar)) {
+            $this->commentars->removeElement($commentar);
+            // set the owning side to null (unless already changed)
+            if ($commentar->getCar() === $this) {
+                $commentar->setCar(null);
+            }
+        }
 
         return $this;
     }
