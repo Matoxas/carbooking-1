@@ -34,13 +34,6 @@ class CarStore {
   };
 
   @observable
-  reservation = {
-    id: "",
-      date_from: "",
-      date_until: "",
-  };
-
-  @observable
   sort = "naujausi";
   brands = [];
   @observable
