@@ -1,4 +1,5 @@
 var Encore = require("@symfony/webpack-encore");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 Encore
   // directory where compiled assets will be stored
@@ -19,11 +20,18 @@ Encore
    */
   .addEntry("js/index", "./assets/src/index.js")
   .addEntry("js/app", "./assets/js/app.js")
+  .addEntry("js/slider", "./node_modules/bootstrap-slider/src/js/bootstrap-slider.js")
+
   .addStyleEntry("css/app", "./assets/css/app.scss")
-  .addEntry("js/slider", "./assets/js/bootstrap-slider.min.js")
-  .addStyleEntry("css/slider", "./assets/css/bootstrap-slider.min.css")
-  //.addEntry('page1', './assets/js/page1.js')
-  //.addEntry('page2', './assets/js/page2.js')
+  .addStyleEntry('css/slider', './node_modules/bootstrap-slider/src/sass/bootstrap-slider.scss')
+  .addStyleEntry('css/fontawesome-free', './node_modules/@fortawesome/fontawesome-free/css/all.min.css')
+
+  //.addPlugin(new CopyWebpackPlugin([
+  //  { from: './node_modules/@fortawesome/fontawesome-free/css/all.min.css', to: 'css/fontawesome-free'}
+  //]))
+
+  //.splitEntryChunks()
+  .enableSingleRuntimeChunk()
 
   /*
    * FEATURE CONFIG
@@ -49,9 +57,6 @@ Encore
 
   .enableReactPreset()
 
-  .configureBabel(config => {
-    config.presets.push("stage-2");
-    config.plugins.push("transform-decorators-legacy");
-  });
+;
 
 module.exports = Encore.getWebpackConfig();
