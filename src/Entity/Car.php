@@ -86,16 +86,21 @@ class Car
     private $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commentar", mappedBy="car")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="car")
      */
-    private $commentars;
+    private $comments;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $confirmationToken;
 
     public function __construct()
     {
         $this->renting = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
-        $this->commentars = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,7 +198,7 @@ class Car
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
+
             if ($image->getImage() === $this) {
                 $image->setImage(null);
             }
@@ -221,7 +226,7 @@ class Car
     {
         if ($this->bookings->contains($booking)) {
             $this->bookings->removeElement($booking);
-            // set the owning side to null (unless already changed)
+
             if ($booking->getCar() === $this) {
                 $booking->setCar(null);
             }
@@ -266,30 +271,42 @@ class Car
         return $this;
     }
 
-    public function getCommentars(): Collection
+    public function getComments(): Collection
     {
-        return $this->commentars;
+        return $this->comments;
     }
 
-    public function addCommentar(Commentar $commentar): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->commentars->contains($commentar)) {
-            $this->commentars[] = $commentar;
-            $commentar->setCar($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setCar($this);
         }
 
         return $this;
     }
 
-    public function removeCommentar(Commentar $commentar): self
+    public function removeComment(Comment $comment): self
     {
-        if ($this->commentars->contains($commentar)) {
-            $this->commentars->removeElement($commentar);
-            // set the owning side to null (unless already changed)
-            if ($commentar->getCar() === $this) {
-                $commentar->setCar(null);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+
+            if ($comment->getCar() === $this) {
+                $comment->setCar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): self
+    {
+        $this->confirmationToken = $confirmationToken;
 
         return $this;
     }

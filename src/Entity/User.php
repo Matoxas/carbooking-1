@@ -31,11 +31,6 @@ class User
     private $cars;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=30)
-     */
-    private $confirmationToken;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
@@ -70,16 +65,6 @@ class User
     public function setEmail($email): void
     {
         $this->email = $email;
-    }
-
-    public function getConfirmationToken()
-    {
-        return $this->confirmationToken;
-    }
-
-    public function setConfirmationToken($confirmationToken): void
-    {
-        $this->confirmationToken = $confirmationToken;
     }
 
     public function getName(): ?string

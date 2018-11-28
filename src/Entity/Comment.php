@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommentarRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Commentar
+class Comment
 {
     /**
      * @ORM\Id()
@@ -27,7 +27,7 @@ class Commentar
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
      */
-    private $commentar;
+    private $comment;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -36,7 +36,7 @@ class Commentar
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="commentars")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="comments")
      */
     private $car;
 
@@ -57,14 +57,14 @@ class Commentar
         return $this;
     }
 
-    public function getCommentar(): ?string
+    public function getComment(): ?string
     {
-        return $this->commentar;
+        return $this->comment;
     }
 
-    public function setCommentar(string $commentar): self
+    public function setComment(string $comment): self
     {
-        $this->commentar = $commentar;
+        $this->comment = $comment;
 
         return $this;
     }
