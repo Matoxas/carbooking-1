@@ -11,7 +11,7 @@ class Utils
 
         fgetcsv($handler); //skip first line
 
-        while (($value = fgetcsv($handler, 1024, ';')) !== false) {
+        while (($value = fgetcsv($handler, 1024, ';'))) {
             array_push($data, $value);
         }
 

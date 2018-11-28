@@ -24,7 +24,6 @@ class CarRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('car')
             ->select(
                 'car.id',
-                'car.phone',
                 'car.price',
                 'car.createdAt',
                 'car.address',
@@ -47,7 +46,6 @@ class CarRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('car')
             ->select(
                 'car.id',
-                'car.phone',
                 'car.price',
                 'car.createdAt',
                 'car.address',
@@ -72,7 +70,6 @@ class CarRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('car')
             ->select(
                 'car.id',
-                'car.phone',
                 'car.price',
                 'car.createdAt',
                 'car.address',
