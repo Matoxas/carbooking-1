@@ -8,7 +8,7 @@ use App\Entity\Car;
 use App\Entity\City;
 use App\Entity\Image;
 use App\Entity\Model;
-use App\Entity\RentDate;
+use App\Entity\Renting;
 use App\Entity\User;
 use App\Utils\Utils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -42,9 +42,9 @@ class AppFixtures extends Fixture
     private $cars;
 
     /**
-     * @var RentDate
+     * @var Renting
      */
-    private $rentDates;
+    private $renting;
 
     /**
      * @var Image
@@ -68,7 +68,7 @@ class AppFixtures extends Fixture
         $this->loadBrandAndModels($manager);
         $this->loadUsers($manager);
         $this->loadCars($manager);
-        $this->loadRentDates($manager);
+        $this->loadRentings($manager);
         $this->loadImages($manager);
         $this->loadBookings($manager);
     }
@@ -90,8 +90,8 @@ class AppFixtures extends Fixture
         $path = 'public/data/Cars.csv';
         $this->cars = Utils::getData($path);
 
-        $path = 'public/data/RentDates.csv';
-        $this->rentDates = Utils::getData($path);
+        $path = 'public/data/Rentings.csv';
+        $this->renting = Utils::getData($path);
 
         $path = 'public/data/Images.csv';
         $this->images = Utils::getData($path);
@@ -172,6 +172,8 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail($userData[0]);
 
+            $user->setPhone($userData[1]);
+
             $this->addReference(
                 'user:' . $i,
                 $user
@@ -189,17 +191,15 @@ class AppFixtures extends Fixture
             $carData = $this->cars[$i];
 
             $car = new Car();
-            $car->setPhone($carData[0]);
-
-            $car->setPrice($carData[1]);
+            $car->setPrice($carData[0]);
 
             $date = new \DateTime();
+            $date->modify($carData[1]);
             $date->modify($carData[2]);
-            $date->modify($carData[3]);
             $car->setCreatedAt($date);
 
             /** @var City $city */
-            $city = $this->getReference('city:' . $carData[4]);
+            $city = $this->getReference('city:' . $carData[3]);
             $car->setCity($city);
 
             /** @var User $user */
@@ -243,26 +243,26 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function loadRentDates(ObjectManager $manager)
+    private function loadRentings(ObjectManager $manager)
     {
-        foreach ($this->rentDates as $rentDateData) {
-            $rentDate = new RentDate();
+        foreach ($this->renting as $rentingData) {
+            $renting = new Renting();
 
-            $rentDate->setCar($this->getReference(
-                'car:' . $rentDateData[0]
+            $renting->setCar($this->getReference(
+                'car:' . $rentingData[0]
             ));
 
             $date = new \DateTime();
-            $date->modify($rentDateData[1]);
-            $date->modify($rentDateData[2]);
-            $rentDate->setRentedFrom($date);
+            $date->modify($rentingData[1]);
+            $date->modify($rentingData[2]);
+            $renting->setRentedFrom($date);
 
             $date = new \DateTime();
-            $date->modify($rentDateData[3]);
-            $date->modify($rentDateData[4]);
-            $rentDate->setRentedUntil($date);
+            $date->modify($rentingData[3]);
+            $date->modify($rentingData[4]);
+            $renting->setRentedUntil($date);
 
-            $manager->persist($rentDate);
+            $manager->persist($renting);
         }
 
         $manager->flush();

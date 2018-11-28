@@ -1,12 +1,12 @@
-Tel. Nr;Nuotrauka arba null;Kaina;Prie esamos datos atimti dienų; O kiek atimti arba pridėti sekundžių... Miestas
-60555555;15.36;-4 day;+5 seconds;Vilnius
-60555555;15.36;-1 day;+500 seconds;Vilnius
-60555555;15.36;0 day;-500 seconds;Kaunas
-60000000;9.99;-3 day;+800 seconds;Kaunas
-60000000;9.99;-8 day;-1500 seconds;Šiauliai
-60000000;9.99;-12 day;-51 seconds;Vilnius
-60555555;15.36;-4 day;+5 seconds;Vilnius
-60555555;15.36;-1 day;+500 seconds;Klaipėda
-60555555;15.36;0 day;-500 seconds;Klaipėda
-60000000;9.99;-3 day;+800 seconds;Klaipėda
-60000000;9.99;-8 day;-1500 seconds;Klaipėda
+Nuotrauka arba null;Kaina;Prie esamos datos atimti dienų; O kiek atimti arba pridėti sekundžių... Miestas
+15.36;-4 day;+5 seconds;Vilnius
+15.36;-1 day;+500 seconds;Vilnius
+15.36;0 day;-500 seconds;Kaunas
+9.99;-3 day;+800 seconds;Kaunas
+9.99;-8 day;-1500 seconds;Šiauliai
+9.99;-12 day;-51 seconds;Vilnius
+15.36;-4 day;+5 seconds;Vilnius
+15.36;-1 day;+500 seconds;Klaipėda
+15.36;0 day;-500 seconds;Klaipėda
+9.99;-3 day;+800 seconds;Klaipėda
+9.99;-8 day;-1500 seconds;Klaipėda
