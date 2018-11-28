@@ -30,13 +30,14 @@ class Navbar extends Component {
   };
 
   disableScrollEvents = () => {
+    const scrollink = $(".srollink");
+    $(window).scroll(function() {
+      scrollink.each(function() {
+        let sectionOffset = "";
+      });
+    });
     this.setLogo(true);
     this.setBackground(true);
-    const scrollink = $(".srollink");
-    $(window).off("scroll", scrollink);
-    scrollink.each(function() {
-      let sectionOffset = "";
-    });
   };
 
   enableScrollEvents() {
@@ -86,7 +87,6 @@ class Navbar extends Component {
 
   handleNavClick = (e, scrollink) => {
     e.preventDefault();
-    $(e.target).addClass("active");
     $(e.target)
       .siblings()
       .removeClass("active");

@@ -30,11 +30,10 @@ class CarStore {
     date_from: "",
     date_until: "",
     price_from: 1,
-    price_until: 99
+    price_until: 99,
+    sort: "naujausi"
   };
 
-  @observable
-  sort = "naujausi";
   brands = [];
   @observable
   models = [];
@@ -156,32 +155,6 @@ class CarStore {
   };
 
   // ==================== COMPUTED PROPERTIES ====================
-
-  @computed
-  get sortedCarList() {
-    switch (this.sort) {
-      case "naujausi":
-        return this.cars.slice().sort((a, b) => {
-          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
-        });
-      case "seniausi":
-        return this.cars.slice().sort((a, b) => {
-          return Date.parse(a.createdAt) - Date.parse(b.createdAt);
-        });
-      case "pigiausi":
-        return this.cars.sort((a, b) => {
-          return a.price - b.price;
-        });
-      case "brangiausi":
-        return this.cars.sort((a, b) => {
-          return b.price - a.price;
-        });
-      default:
-        return this.cars.slice().sort((a, b) => {
-          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
-        });
-    }
-  }
 
   @computed get likedCarList() {
     return this.cars.filter(car => this.likedCars.includes(car.id));

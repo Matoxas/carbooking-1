@@ -1,0 +1,165 @@
+.newCarWrapper {
+  margin-top: 10rem;
+}
+
+.newCarWrapper label {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-weight: 550;
+  color: #333;
+}
+
+.newCarWrapper .form-control {
+  font-weight: 500;
+  width: 100%;
+}
+
+.newCarWrapper input {
+  width: 100%;
+}
+
+.newCarWrapper h5 {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #999;
+  text-transform: uppercase;
+  border-bottom: 0;
+}
+
+.newCarWrapper .card {
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.newCarWrapper .card .form-group {
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 1rem;
+}
+
+.newCarWrapper .card .form-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.newCarWrapper .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.border-left {
+  border-left: 1px solid #e6e6e6;
+}
+
+.newCarWrapper .btn {
+  float: right;
+  background-color: #f47e60;
+  border-color: #f47e60;
+}
+
+.newCarWrapper .btn:hover {
+  background-color: #e15b64;
+  border-color: #f47e60;
+}
+
+.newCarWrapper .btn-secondary {
+  background-color: white;
+  border: 1px solid #f47e60;
+  color: #f47e60;
+}
+
+.newCarWrapper .btn-secondary:hover {
+  background-color: #f47e60;
+  border: 1px solid white;
+  color: white;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+  text-align: left;
+}
+
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--in-selecting-range:hover,
+.react-datepicker__day--in-range:hover {
+  background-color: #f47e60;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: #f47e60;
+}
+
+.react-datepicker__header {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #c7c7c7;
+}
+
+/* DROPZONE STYLES */
+
+.dropzone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 250px;
+  border-width: 2px;
+  border-color: #999;
+  border-style: dashed;
+  border-radius: 5px;
+}
+
+.imageUpload svg {
+  width: 80px;
+}
+
+.imageUpload h5 {
+  font-size: 1rem;
+}
+
+/* .newCarWrapper .splitLine {
+  width: 1px;
+  height: 100%;
+  background-color: #e6e6e6;
+  position: absolute;
+  display: block;
+  left: 50.5%;
+}
+
+.imageUpload .relative i {
+  position: relative;
+  top: 0;
+} */
+
+.newCarWrapper .splitWords {
+  margin: 0 2rem;
+  z-index: 99;
+  background-color: white;
+  border: 2px solid white;
+  color: #e6e6e6;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 575.98px) {
+  .border-left {
+    border-left: 0px !important;
+    border-top: 1px solid #e6e6e6;
+  }
+
+  .pt-mobile {
+    padding-top: 1rem;
+  }
+
+  .pb-mobile {
+    padding-bottom: 1rem;
+  }
+
+  .newCarWrapper .btn {
+    float: none;
+    width: 100%;
+  }
+}

@@ -37,6 +37,7 @@
     "react-datepicker": "^2.0.0",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.6.3",
+    "react-dropzone": "^7.0.1",
     "react-geocode": "^0.1.2",
     "react-google-geocoder": "^0.2.0",
     "react-google-location": "^1.2.2",

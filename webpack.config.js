@@ -21,6 +21,7 @@ Encore
   .addEntry("js/app", "./assets/js/app.js")
   .addStyleEntry("css/app", "./assets/css/app.scss")
   .addEntry("js/slider", "./assets/js/bootstrap-slider.min.js")
+  // .addEntry("css/fa", "./assets/css/fa-all.css")
   .addStyleEntry("css/slider", "./assets/css/bootstrap-slider.min.css")
   //.addEntry('page1', './assets/js/page1.js')
   //.addEntry('page2', './assets/js/page2.js')

@@ -12,7 +12,7 @@ import MainNavigation from "./components/main-navigation";
 import Map from "./components/Map";
 import Favourites from "./components/Favourites";
 import Temporary from "./components/temporary";
-import NewCar from "./components/NewCar";
+import NewCar from "./components/newCar/NewCar";
 
 @inject("CarStore")
 @observer
