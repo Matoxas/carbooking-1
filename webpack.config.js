@@ -1,5 +1,5 @@
 var Encore = require("@symfony/webpack-encore");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 Encore
   // directory where compiled assets will be stored
@@ -20,18 +20,20 @@ Encore
    */
   .addEntry("js/index", "./assets/src/index.js")
   .addEntry("js/app", "./assets/js/app.js")
-  .addEntry("js/slider", "./node_modules/bootstrap-slider/src/js/bootstrap-slider.js")
+  .addEntry(
+    "js/slider",
+    "./node_modules/bootstrap-slider/src/js/bootstrap-slider.js"
+  )
 
   .addStyleEntry("css/app", "./assets/css/app.scss")
-<<<<<<< HEAD
-  .addEntry("js/slider", "./assets/js/bootstrap-slider.min.js")
-  // .addEntry("css/fa", "./assets/css/fa-all.css")
-  .addStyleEntry("css/slider", "./assets/css/bootstrap-slider.min.css")
-  //.addEntry('page1', './assets/js/page1.js')
-  //.addEntry('page2', './assets/js/page2.js')
-=======
-  .addStyleEntry('css/slider', './node_modules/bootstrap-slider/src/sass/bootstrap-slider.scss')
-  .addStyleEntry('css/fontawesome-free', './node_modules/@fortawesome/fontawesome-free/css/all.min.css')
+  .addStyleEntry(
+    "css/slider",
+    "./node_modules/bootstrap-slider/src/sass/bootstrap-slider.scss"
+  )
+  .addStyleEntry(
+    "css/fontawesome-free",
+    "./node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+  )
 
   //.addPlugin(new CopyWebpackPlugin([
   //  { from: './node_modules/@fortawesome/fontawesome-free/css/all.min.css', to: 'css/fontawesome-free'}
@@ -39,7 +41,6 @@ Encore
 
   //.splitEntryChunks()
   .enableSingleRuntimeChunk()
->>>>>>> 19f6b2d6ea1ec393e0a42ee2012b5495ff30d884
 
   /*
    * FEATURE CONFIG
@@ -63,8 +64,6 @@ Encore
   // uncomment if you're having problems with a jQuery plugin
   .autoProvidejQuery()
 
-  .enableReactPreset()
-
-;
+  .enableReactPreset();
 
 module.exports = Encore.getWebpackConfig();

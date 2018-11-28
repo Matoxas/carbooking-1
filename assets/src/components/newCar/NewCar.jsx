@@ -6,6 +6,7 @@ import lt from "date-fns/locale/lt";
 import "./NewCar.css";
 import moment from "moment";
 import ImageUpload from "./imageUpload";
+import Loading from "../loading";
 registerLocale("lt", lt);
 @inject("CarStore")
 @observer
@@ -13,6 +14,16 @@ class NewCar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      brand: "",
+      model: "",
+      city: "",
+      address: "",
+      price: "",
+      description: "",
+      phone: "",
+      email: "",
+      name: "",
+
       date_from: new Date(),
       date_until: moment(this.date_from)
         .add(1, "d")
@@ -21,6 +32,8 @@ class NewCar extends Component {
     };
   }
 
+  componentDidMount() {}
+
   componentWillMount() {
     this.props.CarStore.toggleHeader(false);
   }
@@ -28,6 +41,51 @@ class NewCar extends Component {
   componentWillUnmount() {
     this.props.CarStore.toggleHeader(true);
   }
+
+  setBrand = e => {
+    console.log(e.target.value);
+    const { getModels } = this.props.CarStore;
+    getModels(e.target.value);
+    this.setValues({
+      brand: e.target.value
+    });
+  };
+
+  setModel = e => {
+    this.setValues({
+      model: e.target.value,
+      brand: ""
+    });
+  };
+
+  setDescription = e => {
+    this.setValues({
+      description: e.target.value
+    });
+  };
+
+  setPrice = e => {
+    this.setValues({
+      price: e.target.value
+    });
+  };
+
+  setValues = values => {
+    this.setState(values);
+  };
+
+  // componentWillUnmount() {
+  //   // Make sure to revoke the data uris to avoid memory leaks
+  //   const { images } = this.state;
+  //   for (let i = images.length; i >= 0; i--) {
+  //     const image = images[i];
+  //     URL.revokeObjectURL(image.preview);
+  //   }
+  // }
+
+  // setImages = data => {
+  //   this.setState({ data });
+  // };
 
   handleFromChange = date => {
     this.setState({
@@ -42,6 +100,21 @@ class NewCar extends Component {
   };
 
   render() {
+    const { brands, models } = this.props.CarStore;
+    const load = this.props.CarStore.loading;
+
+    if (load.brands) {
+      return (
+        <div className="main">
+          <div className="container">
+            <div className="flex flex-center flex-column fullHeight">
+              <Loading className={"loading"} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="main-wrapper">
         <div className="container">
@@ -49,7 +122,10 @@ class NewCar extends Component {
             <h2>Siūlyk savo automobilį</h2>
             <h5>pradėk įkeldamas keletą nuotraukų</h5>
             <div className="card">
-              <ImageUpload />
+              <ImageUpload
+                images={this.state.images}
+                setImages={this.setImages}
+              />
             </div>
 
             <h5>automobilio informacija</h5>
@@ -58,12 +134,22 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Gamintojas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
-                    <select className="form-control" id="inputState">
+                    <select
+                      onChange={this.setBrand}
+                      className="form-control"
+                      id="inputState"
+                    >
                       <option value="" disabled selected>
                         Pasirink automobilio gamintoją
                       </option>
+
+                      {brands.map(brand => (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.brand}
+                        </option>
+                      ))}
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
@@ -73,12 +159,21 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Modelis:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
-                    <select className="form-control" id="inputState">
+                    <select
+                      onChange={this.setModel}
+                      className="form-control"
+                      id="inputState"
+                    >
                       <option value="" disabled selected>
                         Pasirink automobilio modelį
                       </option>
+                      {models.map(model => (
+                        <option key={model.id} value={model.id}>
+                          {model.model}
+                        </option>
+                      ))}
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
@@ -89,9 +184,10 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Aprašymas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <textarea
+                      onChange={this.setDescription}
                       className="form-control"
                       id="inputState"
                       placeholder="Trumpai aprašyk automobilį"
@@ -107,7 +203,7 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Miestas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <select className="form-control" id="inputState">
                       <option value="" disabled selected>
@@ -122,7 +218,7 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Adresas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <select className="form-control" id="inputState">
                       <option value="" disabled selected>
@@ -141,7 +237,7 @@ class NewCar extends Component {
                 <label className="col-sm-2" htmlFor="inputState">
                   Nuomos pradžia:
                 </label>
-                <div class="col-sm-4">
+                <div className="col-sm-4">
                   <div className="relative pb-mobile">
                     <DatePicker
                       className="form-control"
@@ -162,7 +258,7 @@ class NewCar extends Component {
                 >
                   Nuomos pabaiga:
                 </label>
-                <div class="col-sm-4">
+                <div className="col-sm-4">
                   <div className="relative">
                     <DatePicker
                       className="form-control"
@@ -184,11 +280,15 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Paros kaina:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <input
-                      className="form-control "
-                      type="text"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="99"
+                      onChange={this.setPrice}
+                      className="form-control"
                       placeholder="0.00 €"
                     />
                   </div>
@@ -202,7 +302,7 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Telefonas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <input
                       type="text"
@@ -216,7 +316,7 @@ class NewCar extends Component {
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   El.paštas:
                 </label>
-                <div class="col-sm-9 col-md-10">
+                <div className="col-sm-9 col-md-10">
                   <div className="relative">
                     <input
                       type="email"
@@ -227,7 +327,13 @@ class NewCar extends Component {
                 </div>
               </div>
             </div>
-            <button type="button" class="btn btn-info">
+            <button
+              onClick={() => {
+                console.log(this.state);
+              }}
+              type="button"
+              className="btn btn-info"
+            >
               Paskelbti kataloge
             </button>
           </div>

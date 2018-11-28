@@ -7,7 +7,12 @@ axios.defaults.baseURL = baseUrl;
 class CarStore {
   // GLOBAL PARAMETERS
   @observable
-  loading = true;
+  loading = {
+    cars: true,
+    brands: false,
+    models: false,
+    cities: false
+  };
   @observable
   showHeader = true;
 
@@ -44,24 +49,24 @@ class CarStore {
 
   @action
   getAllCars = () => {
-    this.setLoading(true);
+    this.setLoading({ cars: true });
     axios
       .put("cars", this.filters)
       .then(response => {
         this.setCars(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ cars: false });
       })
       .catch(error => console.log(error.response));
   };
 
   @action
   getBrands = () => {
-    this.setLoading(true);
+    this.setLoading({ brands: true });
     axios
       .get("brands")
       .then(response => {
         this.setBrands(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ brands: false });
       })
       .catch(error => console.log(error.response));
   };
@@ -75,40 +80,40 @@ class CarStore {
 
   @action
   getModels = id => {
-    this.setLoading(true);
+    this.setLoading({ models: true });
     axios
       .get("/models/" + id)
       .then(response => {
         this.setModels(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ models: false });
       })
       .catch(error => console.log(error.response));
   };
 
   @action
   getCities = () => {
-    this.setLoading(true);
+    this.setLoading({ cities: true });
     axios
       .get("/cities/")
       .then(response => {
         this.setCities(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ cities: false });
       })
       .catch(error => console.log(error.response));
   };
 
   @action
   postReservation = reservation => {
-      axios
-          .post("/reservations", {
-            reservation
-          })
-          .then(function (response) {
-              console.log(response);
-          })
-          .catch(function(error) {
-              console.log(error);
-          });
+    axios
+      .post("/reservations", {
+        reservation
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   // ==================== SETTERS ====================
@@ -130,7 +135,7 @@ class CarStore {
 
   @action
   setLoading = value => {
-    this.loading = value;
+    this.loading = { ...this.loading, ...value };
   };
 
   @action

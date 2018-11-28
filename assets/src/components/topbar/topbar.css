@@ -27,6 +27,7 @@
 }
 
 .slider-handle {
+  cursor: pointer;
   background-color: #f47e60 !important;
   background-image: -webkit-linear-gradient(
     top,
