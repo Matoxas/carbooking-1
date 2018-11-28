@@ -97,6 +97,20 @@ class CarStore {
       .catch(error => console.log(error.response));
   };
 
+  @action
+  postReservation = reservation => {
+      axios
+          .post("/reservations", {
+            reservation
+          })
+          .then(function (response) {
+              console.log(response);
+          })
+          .catch(function(error) {
+              console.log(error);
+          });
+  };
+
   // ==================== SETTERS ====================
 
   @action

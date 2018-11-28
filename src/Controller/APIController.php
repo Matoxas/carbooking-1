@@ -203,7 +203,7 @@ class APIController extends AbstractController
     }
 
     /**
-     * @Route("/cities", name="api_cities_all")
+     * @Route("/cities", name="api_cities_filtered")
      */
     public function showCities()
     {
@@ -213,6 +213,20 @@ class APIController extends AbstractController
 
         return $this->json([
             'data' => $countries,
+        ]);
+    }
+
+    /**
+     * @Route("/cities/all", name="api_cities_all")
+     */
+    public function showAllCities()
+    {
+        $cities = $this->getDoctrine()
+            ->getRepository(City::class)
+            ->findAll();
+
+        return $this->json([
+            'data' => $cities,
         ]);
     }
 }

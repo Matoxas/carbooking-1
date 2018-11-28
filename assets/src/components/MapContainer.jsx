@@ -42,6 +42,7 @@ export class MapContainer extends Component {
                 zoom={this.props.zoom}
                 style={mapStyles}
                 initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
+                scrollwheel={false}
             >
                 <Marker
                     onClick={this.onMarkerClick}
