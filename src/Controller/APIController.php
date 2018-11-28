@@ -9,6 +9,7 @@ use App\Entity\City;
 use App\Entity\Image;
 use App\Entity\Model;
 use App\Entity\RentDate;
+use App\Entity\Renting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,7 +63,7 @@ class APIController extends AbstractController
 
         foreach ($cars as &$car) {
             $rentDates = $this->getDoctrine()
-                ->getRepository(RentDate::class)
+                ->getRepository(Renting::class)
                 ->findRentDatesByCarId($car['id']);
 
             foreach ($rentDates as &$value) {
@@ -128,7 +129,7 @@ class APIController extends AbstractController
         }
 
         $rentDates = $this->getDoctrine()
-            ->getRepository(RentDate::class)
+            ->getRepository(Renting::class)
             ->findRentDatesByCarId($id);
 
         foreach ($rentDates as &$value) {
