@@ -121,10 +121,12 @@ class carInfo extends Component {
                             </div>
                         </div>
                         <div>
-                            <button onClick={this.handleSubmit} className="btn btn-warning info-button">Rezervuoti</button>
+                            <button onClick={this.handleSubmit} className="btn btn-warning info-button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Rezervuoti
+                            </button>
                         </div>
                         <div>
-                            <div className="form-group form-group-separate">
+                            <div className="form-group collapse form-group-separate" id="collapseExample">
                                 <input onChange={this.handleNameChange} className="form-control" type="text" placeholder="Įrašykite savo vardą"/>
                                 <input onChange={this.handleEmailChange} className="form-control" type="text" placeholder="Įrašykite savo el. paštą"/>
                                 <input onChange={this.handlePhoneChange} className="form-control" type="text" placeholder="Įrašykite savo tel. numerį"/>
