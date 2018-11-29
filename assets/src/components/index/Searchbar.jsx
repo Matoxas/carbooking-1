@@ -15,7 +15,7 @@ class Searchbar extends Component {
     super(props);
     this.state = {
       date_from: new Date(),
-      date_until: moment(this.startDate)
+      date_until: moment(this.date_from)
         .add(7, "d")
         .toDate(),
       location: ""
@@ -30,12 +30,15 @@ class Searchbar extends Component {
     this.setState({
       date_from: date
     });
+    this.checkDateLogic();
   };
 
   handleUntilChange = date => {
     this.setState({
       date_until: date
     });
+
+    this.checkDateLogic();
   };
 
   hadleCityChange = e => {
@@ -57,6 +60,18 @@ class Searchbar extends Component {
     getAllCars();
     history.push("/feed");
     $("body, html").animate({ scrollTop: $("#mainNav").offset().top }, 1000);
+  };
+
+  checkDateLogic = () => {
+    console.log("hello");
+
+    if (this.state.date_until <= this.state.date_from) {
+      this.setState({
+        date_until: moment(this.state.date_from)
+          .add(7, "d")
+          .toDate()
+      });
+    }
   };
 
   render() {

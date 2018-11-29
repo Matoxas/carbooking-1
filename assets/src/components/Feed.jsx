@@ -15,9 +15,7 @@ class Feed extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.CarStore.getBrands();
-  }
+  componentDidMount() {}
 
   toggleMobile = () => {
     const { toggler } = this.state;
@@ -28,7 +26,7 @@ class Feed extends Component {
 
   render() {
     const { toggler } = this.state;
-    const { loading } = this.props.CarStore;
+    const { loading: load } = this.props.CarStore;
 
     const topbar = (
       <div>
@@ -46,7 +44,7 @@ class Feed extends Component {
       </div>
     );
 
-    if (loading) {
+    if (load.cars || load.brands) {
       return (
         <div className="main">
           <div className="container">
