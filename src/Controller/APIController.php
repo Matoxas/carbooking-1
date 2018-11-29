@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\BrandRepository;
+use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\ModelRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -29,21 +30,58 @@ class APIController extends FOSRestController
      * @var ModelRepository
      */
     private $modelRepository;
+    /**
+     * @var CarRepository
+     */
+    private $carRepository;
 
     /**
      * TestController constructor.
      * @param CityRepository $cityRepository
      * @param BrandRepository $brandRepository
      * @param ModelRepository $modelRepository
+     * @param CarRepository $carRepository
      */
     public function __construct(
         CityRepository $cityRepository,
         BrandRepository $brandRepository,
-        ModelRepository $modelRepository
+        ModelRepository $modelRepository,
+        CarRepository $carRepository
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
         $this->modelRepository = $modelRepository;
+        $this->carRepository = $carRepository;
+    }
+
+    /**
+     * @Rest\Get("/cars", name="api_cars_all")
+     * @return View
+     */
+    public function getAllCarsAction(): View
+    {
+        $data = $this->carRepository->findAll();
+
+        return $this->view(
+            [
+                'cars_count' => count($data),
+                'data' => $data
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Get("/car/{carId}", name="api_cars_carId")
+     * @param int $carId
+     * @return View
+     */
+    public function getCarByIdAction(int $carId): View
+    {
+        return $this->view(
+            ['data' => $this->carRepository->find($carId)],
+            Response::HTTP_OK
+        );
     }
 
     /**
