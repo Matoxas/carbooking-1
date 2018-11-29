@@ -23,6 +23,6 @@ class carImage extends Component {
             </div>
         )
     }
-};
+}
 
 export default carImage;
