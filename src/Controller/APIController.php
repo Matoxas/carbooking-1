@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
+use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -34,6 +35,10 @@ class APIController extends FOSRestController
      * @var CarRepository
      */
     private $carRepository;
+    /**
+     * @var CommentRepository
+     */
+    private $commentRepository;
 
     /**
      * TestController constructor.
@@ -41,17 +46,20 @@ class APIController extends FOSRestController
      * @param BrandRepository $brandRepository
      * @param ModelRepository $modelRepository
      * @param CarRepository $carRepository
+     * @param CommentRepository $commentRepository
      */
     public function __construct(
         CityRepository $cityRepository,
         BrandRepository $brandRepository,
         ModelRepository $modelRepository,
-        CarRepository $carRepository
+        CarRepository $carRepository,
+        CommentRepository $commentRepository
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
         $this->modelRepository = $modelRepository;
         $this->carRepository = $carRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -118,7 +126,7 @@ class APIController extends FOSRestController
             [
                 'id' => $brandId,
                 'brand' => $this->brandRepository->find($brandId)->getBrand(),
-                'data' => $this->modelRepository->findAllModelsByBrand($brandId)
+                'data' => $this->modelRepository->findBy(['brand' => $brandId])
             ],
             Response::HTTP_OK
         );
@@ -144,6 +152,21 @@ class APIController extends FOSRestController
     {
         return $this->view(
             ['data' => $this->cityRepository->findAllCitiesWithCars()],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Get("/comments/{carId}", name="api_comments_carId")
+     * @return View
+     */
+    public function getAllCommentsFilteredByCarIdAction(int $carId): View
+    {
+        return $this->view(
+            [
+                'carId' => $carId,
+                'data' => $this->commentRepository->findBy(['car' => $carId])
+            ],
             Response::HTTP_OK
         );
     }
