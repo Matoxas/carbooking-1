@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
-import "./NewCar.css";
+import "./newCar.css";
 import moment from "moment";
 import ImageUpload from "./imageUpload";
 import Loading from "../loading";
