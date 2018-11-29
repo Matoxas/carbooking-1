@@ -119,6 +119,12 @@ class carInfo extends Component {
                                     {this.props.car.phone}
                                 </p>
                             </div>
+                            <div className="col-lg-4 info-description">
+                                Komentarai
+                            </div>
+                            <div className="col-lg-8">
+                                <p className="info--normal">Labai gera masina, tikrai dar daug kartu noresiu ja as nuomuotis</p>
+                            </div>
                         </div>
                     </div>
                     <div className="col-lg-4 info-price">
