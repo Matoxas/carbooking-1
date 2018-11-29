@@ -2,22 +2,22 @@
 
 namespace App\Serializer\Normalizer;
 
-use App\Entity\City;
+use App\Entity\Model;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CityNormalizer implements NormalizerInterface
+class ModelNormalizer implements NormalizerInterface
 {
     public function normalize($object, $format = null, array $context = array())
     {
         return [
             'id'    => $object->getId(),
-            'city'  => $object->getCity()
+            'model'  => $object->getModel()
         ];
     }
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof City;
+        return $data instanceof Model;
     }
 
 }
