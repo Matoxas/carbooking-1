@@ -184,3 +184,7 @@ img {
 .form-group textarea {
     margin: 0;
 }
+
+.map--size {
+    position: relative!important;
+}
