@@ -18,14 +18,4 @@ class BookingRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Booking::class);
     }
-
-    public function findBookingDatesByCarId($carId)
-    {
-        return $this->createQueryBuilder('b')
-            ->select('b.bookedFrom', 'b.bookedUntil')
-            ->where('b.car = :carId')
-            ->setParameter('carId', $carId)
-            ->getQuery()
-            ->execute();
-    }
 }

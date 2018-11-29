@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './carListing.css';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
@@ -9,50 +9,79 @@ class carInfo extends Component {
     constructor() {
         super();
         this.state = {
+            reservationClicked: false,
+            reservationButtonText: "Reserve",
             date_from: new Date(),
             date_until: new Date(),
             name: "",
             email: "",
             phone: "",
             message: "",
+            value: null,
         };
     }
 
     handleSubmit = e => {
-        e.preventDefault();
-        const { postReservation } = this.props.CarStore;
-        const { name, email, phone, message, date_from, date_until } = this.state;
+        if (this.state.reservationClicked === true) {
+            e.preventDefault();
+            const {postReservation} = this.props.CarStore;
+            const {name, email, phone, message, date_from, date_until} = this.state;
 
-        const reservation = {
-            id: this.props.car.id,
-            date_from: date_from,
-            date_until: date_until,
-            name: name,
-            email: email,
-            phone: phone,
-            message: message,
-        };
+            const reservation = {
+                id: this.props.car.id,
+                date_from: date_from,
+                date_until: date_until,
+                name: name,
+                email: email,
+                phone: phone,
+                message: message,
+            };
 
-        console.log(this.state);
+            postReservation(reservation);
 
-        console.log(reservation);
+            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
 
-        postReservation(reservation);
+            this.setState({
+                reservationClicked: false,
+                reservationButtonText: "Reserve",
+            });
+        } else {
+            this.setState({
+                reservationClicked: true,
+                reservationButtonText: "Submit reservation",
+            });
+        }
     };
 
-    handleFromChange = date => {this.setState({date_from: date})};
+    handleFromChange = date => {
+        this.setState({date_from: date})
+    };
 
-    handleUntilChange = date => {this.setState({date_until: date})};
+    handleUntilChange = date => {
+        this.setState({date_until: date})
+    };
 
-    handleNameChange = name => {this.setState({name: name.target.value})};
+    handleNameChange = name => {
+        this.setState({name: name.target.value})
+    };
 
-    handleMessageChange = message => {this.setState({message: message.target.value})};
+    handleMessageChange = message => {
+        this.setState({message: message.target.value})
+    };
 
-    handleEmailChange = email => {this.setState({email: email.target.value})};
+    handleEmailChange = email => {
+        this.setState({email: email.target.value})
+    };
 
-    handlePhoneChange = phone => {this.setState({phone: phone.target.value})};
+    handlePhoneChange = phone => {
+        this.setState({phone: phone.target.value})
+    };
 
     render() {
+        // if (this.state.reservationClicked === true) {
+        //     return <Redirect to='/feed' />
+        // }
+
         return (
             <div className="info">
                 <div className="row">
@@ -90,6 +119,12 @@ class carInfo extends Component {
                                     {this.props.car.phone}
                                 </p>
                             </div>
+                            <div className="col-lg-4 info-description">
+                                Komentarai
+                            </div>
+                            <div className="col-lg-8">
+                                <p className="info--normal">Labai gera masina, tikrai dar daug kartu noresiu ja as nuomuotis</p>
+                            </div>
                         </div>
                     </div>
                     <div className="col-lg-4 info-price">
@@ -121,17 +156,23 @@ class carInfo extends Component {
                             </div>
                         </div>
                         <div>
-                            <button onClick={this.handleSubmit} className="btn btn-warning info-button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                Rezervuoti
+                            <button onClick={this.handleSubmit} className="btn btn-warning info-button"
+                                    data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                {this.state.reservationButtonText}
                             </button>
                         </div>
                         <div>
                             <div className="form-group collapse form-group-separate" id="collapseExample">
-                                <input onChange={this.handleNameChange} className="form-control" type="text" placeholder="Įrašykite savo vardą"/>
-                                <input onChange={this.handleEmailChange} className="form-control" type="text" placeholder="Įrašykite savo el. paštą"/>
-                                <input onChange={this.handlePhoneChange} className="form-control" type="text" placeholder="Įrašykite savo tel. numerį"/>
+                                <input onChange={this.handleNameChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo vardą"/>
+                                <input onChange={this.handleEmailChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo el. paštą"/>
+                                <input onChange={this.handlePhoneChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo tel. numerį"/>
                                 <div className="form-group">
-                                    <textarea onChange={this.handleMessageChange} className="form-control" type="text" placeholder="Žinutė savininkui..."/>
+                                    <textarea onChange={this.handleMessageChange} className="form-control" type="text"
+                                              placeholder="Žinutė savininkui..."/>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +181,6 @@ class carInfo extends Component {
             </div>
         )
     }
-};
+}
 
 export default carInfo;
