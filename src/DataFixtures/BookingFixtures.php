@@ -28,6 +28,10 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
     {
         $booking = new Booking();
 
+        /** @var Car $car */
+        $car = $this->getReference('car:' . $data[0]);
+        $booking->setCar($car);
+
         $date = new \DateTime();
         $date->modify($data[1]);
         $date->modify($data[2]);
@@ -37,10 +41,6 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         $date->modify($data[3]);
         $date->modify($data[4]);
         $booking->setBookedUntil($date);
-
-        /** @var Car $car */
-        $car = $this->getReference('car:' . $index);
-        $booking->setCar($car);
 
         return $booking;
     }

@@ -17,11 +17,13 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         $data = Utils::getData($path);
 
         foreach ($data as $index => $images) {
-            /** @var Car $brand */
+            /** @var Car $car */
             $car = $this->getReference('car:' . $index);
             foreach ($images as $image) {
-                $image = $this->createImage($image, $car);
-                $manager->persist($image);
+                if (!empty($image)) {
+                    $image = $this->createImage($image, $car);
+                    $manager->persist($image);
+                }
             }
         }
 

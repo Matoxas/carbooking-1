@@ -28,6 +28,10 @@ class RentingFixtures extends Fixture implements DependentFixtureInterface
     {
         $renting = new Renting();
 
+        /** @var Car $car */
+        $car = $this->getReference('car:' . $data[0]);
+        $renting->setCar($car);
+
         $date = new \DateTime();
         $date->modify($data[1]);
         $date->modify($data[2]);
@@ -37,10 +41,6 @@ class RentingFixtures extends Fixture implements DependentFixtureInterface
         $date->modify($data[3]);
         $date->modify($data[4]);
         $renting->setRentedUntil($date);
-
-        /** @var Car $car */
-        $car = $this->getReference('car:' . $index);
-        $renting->setCar($car);
 
         return $renting;
     }
