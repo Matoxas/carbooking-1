@@ -11,7 +11,7 @@ class BrandNormalizer implements NormalizerInterface
     {
         return [
             'id'    => $object->getId(),
-            'brand'  => $object->getBrand()
+            'brand' => $object->getBrand()
         ];
     }
 

@@ -19,16 +19,4 @@ class ModelRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Model::class);
     }
-
-    public function findAllModelsByBrand(int $brandId)
-    {
-        return $this->createQueryBuilder('m')
-            ->select('m.id', 'm.model')
-            ->innerJoin('m.brand', 'b')
-            ->where('b.id = :brandId')
-            ->setParameter('brandId', $brandId)
-            ->orderBy('m.model', 'DESC')
-            ->getQuery()
-            ->getArrayResult();
-    }
 }

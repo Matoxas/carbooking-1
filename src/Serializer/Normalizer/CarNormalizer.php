@@ -28,19 +28,19 @@ class CarNormalizer implements NormalizerInterface
     public function normalize($object, $format = null, array $context = array())
     {
         return [
-            'id'    => $object->getId(),
-            'price' => $object->getPrice(),
-            'createdAt' => $object->getCreatedAt()->format('Y-m-d H:i:s'),
-            'address' => $object->getAddress(),
-            'latitude' => $object->getLatitude(),
-            'longitude' => $object->getLongitude(),
-            'city' => $object->getCity()->getCity(),
-            'email' => $object->getUser()->getEmail(),
-            'brand' => $object->getBrand()->getBrand(),
-            'model' => $object->getModel()->getModel(),
-            'images' => $this->getImages($object),
-            'rentDates' => $this->getRentDates($object),
-            'bookingDates' => $this->getBookings($object)
+            'id'            => $object->getId(),
+            'price'         => $object->getPrice(),
+            'createdAt'     => $object->getCreatedAt()->format('Y-m-d H:i:s'),
+            'address'       => $object->getAddress(),
+            'latitude'      => $object->getLatitude(),
+            'longitude'     => $object->getLongitude(),
+            'city'          => $object->getCity()->getCity(),
+            'email'         => $object->getUser()->getEmail(),
+            'brand'         => $object->getBrand()->getBrand(),
+            'model'         => $object->getModel()->getModel(),
+            'images'        => $this->getImages($object),
+            'rentDates'     => $this->getRentDates($object),
+            'bookingDates'  => $this->getBookings($object)
         ];
     }
 

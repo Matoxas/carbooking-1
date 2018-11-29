@@ -11,7 +11,7 @@ class ModelNormalizer implements NormalizerInterface
     {
         return [
             'id'    => $object->getId(),
-            'model'  => $object->getModel()
+            'model' => $object->getModel()
         ];
     }
 
