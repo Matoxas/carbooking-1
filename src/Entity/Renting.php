@@ -24,16 +24,12 @@ class Renting
     private $car;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\DateTime()
+     * @ORM\Column(type="datetime")
      */
     private $rentedFrom;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\DateTime()
+     * @ORM\Column(type="datetime")
      */
     private $rentedUntil;
 
