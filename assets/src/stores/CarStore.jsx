@@ -51,8 +51,13 @@ class CarStore {
   getAllCars = () => {
     this.setLoading({ cars: true });
     axios
-      .put("cars", this.filters)
+      .get("cars", {
+        params: {
+          filters: this.filters
+        }
+      })
       .then(response => {
+        console.log(response);
         this.setCars(response.data.data);
         this.setLoading({ cars: false });
       })
