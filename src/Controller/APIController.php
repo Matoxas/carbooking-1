@@ -2,231 +2,42 @@
 
 namespace App\Controller;
 
-use App\Entity\Booking;
-use App\Entity\Brand;
-use App\Entity\Car;
-use App\Entity\City;
-use App\Entity\Image;
-use App\Entity\Model;
-use App\Entity\RentDate;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CityRepository;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/api")
- * @Method({"GET", "POST"})
+ * Class TestController
+ * @package App\Controller
+ * @Rest\Prefix("api")
  */
-class APIController extends AbstractController
+class APIController extends FOSRestController
 {
     /**
-     * @Route("/cars", name="api_cars")
+     * @var CityRepository
      */
-    public function showCars(Request $request)
+    private $cityRepository;
+
+    /**
+     * TestController constructor.
+     * @param CityRepository $cityRepository
+     */
+    public function __construct(CityRepository $cityRepository)
     {
-        $params = $request->getContent();
-        $params = json_decode($params, true);
-
-        $params['location'] = htmlspecialchars($params['location']);
-        //$params['location'] = filter_input((int) $params['location'], FILTER_VALIDATE_INT);
-
-        $data = [];
-
-        $cars = $this->getDoctrine()
-            ->getRepository(Car::class)
-            ->fetchFilteredCars($params);
-
-        foreach ($cars as &$value) {
-            $value['price'] = (double) number_format($value['price'], 2);
-            $value['createdAt'] = $value['createdAt']->format('Y-m-d H:i:s');
-        }
-
-        foreach ($cars as &$car) {
-            $images = $this->getDoctrine()
-                ->getRepository(Image::class)
-                ->findImagesByCarId($car['id']);
-
-            $images = array_column($images, 'image');
-
-            $car['images'] = $images;
-
-            foreach ($car['images'] as &$image) {
-                $image = 'uploads/' . $image;
-            }
-
-            if (empty($car['images'])) {
-                $car['images'] = ['images/car-default.jpeg'];
-            }
-        }
-
-        foreach ($cars as &$car) {
-            $rentDates = $this->getDoctrine()
-                ->getRepository(RentDate::class)
-                ->findRentDatesByCarId($car['id']);
-
-            foreach ($rentDates as &$value) {
-                $value['rentedFrom'] = $value['rentedFrom']->format('Y-m-d H:i:s');
-                $value['rentedUntil'] = $value['rentedUntil']->format('Y-m-d H:i:s');
-            }
-
-            $car['rentDates'] = $rentDates;
-        }
-
-        foreach ($cars as &$car) {
-            $bookingDates = $this->getDoctrine()
-                ->getRepository(Booking::class)
-                ->findBookingDatesByCarId($car['id']);
-
-            foreach ($bookingDates as &$value) {
-                $value['bookedFrom'] = $value['bookedFrom']->format('Y-m-d H:i:s');
-                $value['bookedUntil'] = $value['bookedUntil']->format('Y-m-d H:i:s');
-            }
-
-            $car['bookingDates'] = $bookingDates;
-        }
-
-        $data = array_merge($data, $cars);
-
-        return $this->json([
-            'cars_count' => count($cars),
-            'data' => $data,
-            'params' => $params,
-        ]);
+        $this->cityRepository = $cityRepository;
     }
 
     /**
-     * @Route("/car/{id}", name="api_car_individual")
+     * @Rest\Get("/cities")
+     * @return View
      */
-    public function showCar($id)
+    public function getCitiesAction(): View
     {
-        $data = [];
-
-        $carData = $this->getDoctrine()
-            ->getRepository(Car::class)
-            ->findCarById($id);
-
-        $carData['price'] = (double) number_format($carData['price'], 2);
-        $carData['createdAt'] = $carData['createdAt']->format('Y-m-d H:i:s');
-
-        $data = array_merge($data, $carData);
-
-        $images = $this->getDoctrine()
-            ->getRepository(Image::class)
-            ->findImagesByCarId($id);
-
-        $images = array_column($images, 'image');
-
-        $data['images'] = $images;
-
-        foreach ($data['images'] as &$image) {
-            $image = 'uploads/' . $image;
-        }
-
-        if (empty($data['images'])) {
-            $data['images'] = ['images/car-default.jpeg'];
-        }
-
-        $rentDates = $this->getDoctrine()
-            ->getRepository(RentDate::class)
-            ->findRentDatesByCarId($id);
-
-        foreach ($rentDates as &$value) {
-            $value['rentedFrom'] = $value['rentedFrom']->format('Y-m-d H:i:s');
-            $value['rentedUntil'] = $value['rentedUntil']->format('Y-m-d H:i:s');
-        }
-
-        $data['rentDates'] = $rentDates;
-
-        $bookingDates = $this->getDoctrine()
-            ->getRepository(Booking::class)
-            ->findBookingDatesByCarId($id);
-
-        foreach ($bookingDates as &$value) {
-            $value['bookedFrom'] = $value['bookedFrom']->format('Y-m-d H:i:s');
-            $value['bookedUntil'] = $value['bookedUntil']->format('Y-m-d H:i:s');
-        }
-
-        $data['bookingDates'] = $bookingDates;
-
-        return $this->json([
-            'data' => $data,
-        ]);
-    }
-
-    /**
-     * @Route("/brands", name="api_brands")
-     */
-    public function showBrands()
-    {
-        $brands = $this->getDoctrine()
-            ->getRepository(Brand::class)
-            ->findAllBrand();
-
-        return $this->json([
-            'data' => $brands,
-        ]);
-    }
-
-    /**
-     * @Route("/models", name="api_models_all")
-     */
-    public function showModels()
-    {
-        $models = $this->getDoctrine()
-            ->getRepository(Model::class)
-            ->findAllModels();
-
-        return $this->json([
-            'data' => $models,
-        ]);
-    }
-
-    /**
-     * @Route("/models/{brandId}", name="api_models_by_brandId")
-     */
-    public function showModelsById($brandId)
-    {
-        $brand = $this->getDoctrine()
-            ->getRepository(Brand::class)
-            ->find($brandId);
-
-        $models = $this->getDoctrine()
-            ->getRepository('App:Model')
-            ->findAllModelsByBrand($brandId);
-
-        return $this->json([
-            'id' => $brand->getId(),
-            'brand' => $brand->getBrand(),
-            'data' => $models,
-        ]);
-    }
-
-    /**
-     * @Route("/cities", name="api_cities_filtered")
-     */
-    public function showCities()
-    {
-        $countries = $this->getDoctrine()
-            ->getRepository(City::class)
-            ->findAllCitiesWithCars();
-
-        return $this->json([
-            'data' => $countries,
-        ]);
-    }
-
-    /**
-     * @Route("/cities/all", name="api_cities_all")
-     */
-    public function showAllCities()
-    {
-        $cities = $this->getDoctrine()
-            ->getRepository(City::class)
-            ->findAll();
-
-        return $this->json([
-            'data' => $cities,
-        ]);
+        return $this->view(
+            $this->cityRepository->findAll(),
+            Response::HTTP_OK
+        );
     }
 }
