@@ -165,7 +165,7 @@ class APIController extends FOSRestController
         return $this->view(
             [
                 'carId' => $carId,
-                'data' => $this->commentRepository->findBy(['car' => $carId])
+                'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'ASC'])
             ],
             Response::HTTP_OK
         );
