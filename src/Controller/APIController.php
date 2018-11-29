@@ -10,6 +10,7 @@ use App\Repository\ModelRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -167,6 +168,32 @@ class APIController extends FOSRestController
             [
                 'carId' => $carId,
                 'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'ASC'])
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Post("/reservations", name="api_reservations_new")
+     * @param Request $request
+     * @return View
+     */
+    public function postNewReservationsAction(Request $request): View
+    {
+        /*
+         *      id: this.props.car.id,
+               date_from: date_from,
+               date_until: date_until,
+               name: name,
+               email: email,
+               phone: phone,
+               message: message,
+         */
+
+        return $this->view(
+            [
+                'status' => 'ok',
+                'message' => ''
             ],
             Response::HTTP_OK
         );
