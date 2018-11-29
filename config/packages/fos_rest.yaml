@@ -4,7 +4,12 @@ fos_rest:
   format_listener:
     enabled: true
     rules:
-      - { path: '^/', priorities: ['json'], fallback_format: 'html' }
+      - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: false }
+      - { path: '^/', priorities: ['html', '*/*'], fallback_format: html, prefer_extension: true }
   versioning: true
   view:
-    view_response_listener: 'force'
+    view_response_listener:
+      enabled: true
+      force: true
+    formats:
+      json: true

@@ -2,6 +2,6 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-api/test:
+test:
     type: rest
     resource: App\Controller\TestController
