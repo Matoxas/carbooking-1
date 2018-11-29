@@ -30,13 +30,25 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/cities")
+     * @Rest\Get("/cities/all", name="api_cities_all")
      * @return View
      */
-    public function getCitiesAction(): View
+    public function getAllCitiesAction(): View
     {
         return $this->view(
             $this->cityRepository->findAll(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Get("/cities", name="api_cities_filtered")
+     * @return View
+     */
+    public function getFilteredCitiesAction(): View
+    {
+        return $this->view(
+            $this->cityRepository->findAllCitiesWithCars(),
             Response::HTTP_OK
         );
     }
