@@ -65,14 +65,15 @@ class APIController extends FOSRestController
 
     /**
      * @Rest\Get("/cars", name="api_cars_all")
-     * @var Request $request
+     * @param Request $request
      * @return View
      */
     public function getAllCarsAction(Request $request): View
     {
-//        dump($request->getContent()); die;
+        $filters = $request->get('filters');
+        $filters = json_decode($filters, true);
 
-        $data = $this->carRepository->findAll();
+        $data = $this->carRepository->findFilterAndSortingCars($filters);
 
         return $this->view(
             [
@@ -184,15 +185,10 @@ class APIController extends FOSRestController
      */
     public function postNewReservationsAction(Request $request): View
     {
-        /*
-         *      id: this.props.car.id,
-               date_from: date_from,
-               date_until: date_until,
-               name: name,
-               email: email,
-               phone: phone,
-               message: message,
-         */
+        $reservation = $request->getContent('reservation');
+        $reservation = json_decode($reservation, true);
+
+        return $this->view($reservation, Response::HTTP_OK);
 
         return $this->view(
             [

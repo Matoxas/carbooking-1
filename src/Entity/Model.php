@@ -20,7 +20,7 @@ class Model
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="models")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="brand")
      * @ORM\JoinColumn(nullable=false)
      */
     private $brand;
@@ -32,7 +32,7 @@ class Model
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="brand")
+     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="models")
      */
     private $cars;
 
