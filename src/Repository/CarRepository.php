@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Car;
+use App\Entity\Renting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,7 +20,7 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function findFilterAndSortingCars($filters)
+    public function findFilterAndSortingCars(array $filters)
     {
         $queryBuilder = $this->createQueryBuilder('car');
 
@@ -31,8 +32,9 @@ class CarRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $queryBuilder
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
      * @param $filters
+     * @throws \Exception
      */
     private function filters(\Doctrine\ORM\QueryBuilder $queryBuilder, $filters): void
     {
@@ -63,12 +65,15 @@ class CarRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters['date_from']) && !empty($filters['date_until'])) {
-            // TODO: Laikas, nuo kada galima nuomuotis iki kada norima nuomuotis, atsižvelgiant į laisvas datas...
-            //$queryBuilder = $this->createQueryBuilder('car')
-            //->select('car.renting')
-            //->getQuery()
-            //->execute();
-            //dump($queryBuilder);die;
+            $dateFrom = new \DateTime($filters['date_from']);
+            $dateUntil = new \DateTime($filters['date_until']);
+
+            $queryBuilder->join('car.renting', 'r')
+                ->andWhere('r.rentedFrom <= :rentedFrom')
+                ->andWhere('r.rentedUntil >= :rentedUntil')
+                ->setParameter('rentedFrom', $dateFrom->format('Y-m-d H:i:s'))
+                ->setParameter('rentedUntil', $dateUntil->format('Y-m-d H:i:s'))
+            ;
         }
     }
 
