@@ -400,7 +400,7 @@ class NewCar extends Component {
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  {this.state.errors.brand.city > 0 && (
+                  {this.state.errors.city.length > 0 && (
                     <span className="invalid-feedback">
                       {this.state.errors.city}
                     </span>

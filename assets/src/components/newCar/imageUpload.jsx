@@ -100,6 +100,7 @@ class ImageUpload extends Component {
           <Dropzone
             disableClick
             className="dropzone"
+            activeClassName="dropzone--active"
             accept="image/jpeg, image/png, image/gif, image/bmp"
             ref={dropzoneRef}
             onDrop={this.onDrop}

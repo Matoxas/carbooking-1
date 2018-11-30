@@ -44,6 +44,7 @@ class Topbar extends Component {
   changeBrand = e => {
     const { getModels } = this.props.CarStore;
     getModels(e.target.value);
+
     this.setFilters({
       brand: e.target.value,
       model: ""
@@ -101,7 +102,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="-1">Visi miestai</option>
+                <option value="">Visi miestai</option>
                 {cities.map(city => {
                   if (city.id == location) {
                     return (
@@ -131,7 +132,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="-1">Visi gamintojai</option>
+                <option value="">Visi gamintojai</option>
                 {brands.map(brand => {
                   if (brand.id == brand_filter) {
                     return (
@@ -161,7 +162,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="-1">Visi modeliai</option>
+                <option value="">Visi modeliai</option>
 
                 {models.map(model => {
                   if (model.id == model_filter) {
