@@ -48,21 +48,6 @@ class CarStore {
   // ==================== GETTERS ====================
 
   @action
-  test = () => {
-    this.setLoading({ cars: true });
-    axios
-      .get("test", {
-        params: {
-          filters: this.filters
-        }
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => console.log(error.response));
-  };
-
-  @action
   getAllCars = () => {
     this.setLoading({ cars: true });
     axios

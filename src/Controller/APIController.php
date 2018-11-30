@@ -10,9 +10,8 @@ use App\Repository\ModelRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-//use http\Env\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TestController
@@ -66,10 +65,13 @@ class APIController extends FOSRestController
 
     /**
      * @Rest\Get("/cars", name="api_cars_all")
+     * @var Request $request
      * @return View
      */
-    public function getAllCarsAction(): View
+    public function getAllCarsAction(Request $request): View
     {
+//        dump($request->getContent()); die;
+
         $data = $this->carRepository->findAll();
 
         return $this->view(
@@ -80,20 +82,6 @@ class APIController extends FOSRestController
             Response::HTTP_OK
         );
     }
-
-
-    /**
-     * @Rest\Get("/test", name="test")
-     * @return View
-     */
-    public function test(Request $request): View
-    {
-        dump($request->getContent()); die;
-//        $data = $request->getContent();
-//        $data = json_decode($data, true);
-//        return $this->json($data);
-    }
-
 
 
     /**
@@ -184,6 +172,32 @@ class APIController extends FOSRestController
             [
                 'carId' => $carId,
                 'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'ASC'])
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Post("/reservations", name="api_reservations_new")
+     * @param Request $request
+     * @return View
+     */
+    public function postNewReservationsAction(Request $request): View
+    {
+        /*
+         *      id: this.props.car.id,
+               date_from: date_from,
+               date_until: date_until,
+               name: name,
+               email: email,
+               phone: phone,
+               message: message,
+         */
+
+        return $this->view(
+            [
+                'status' => 'ok',
+                'message' => ''
             ],
             Response::HTTP_OK
         );
