@@ -65,10 +65,13 @@ class APIController extends FOSRestController
 
     /**
      * @Rest\Get("/cars", name="api_cars_all")
+     * @var Request $request
      * @return View
      */
-    public function getAllCarsAction(): View
+    public function getAllCarsAction(Request $request): View
     {
+        //dump($request->getContent()); die;
+
         $data = $this->carRepository->findAll();
 
         return $this->view(
