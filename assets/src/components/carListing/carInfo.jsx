@@ -28,7 +28,7 @@ class carInfo extends Component {
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
-                id: this.props.car.id,
+                carId: this.props.car.id,
                 date_from: date_from,
                 date_until: date_until,
                 name: name,
