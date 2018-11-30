@@ -132,7 +132,9 @@ class ImageUpload extends Component {
             </div>
           </Dropzone>
         </div>
-        <span className="invalid-feedback">{this.props.errors}</span>
+        {this.props.errors.length > 0 && (
+          <span className="invalid-feedback">{this.props.errors}</span>
+        )}
       </React.Fragment>
     );
   }

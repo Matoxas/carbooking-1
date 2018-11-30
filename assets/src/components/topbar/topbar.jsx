@@ -101,7 +101,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="">Visi miestai</option>
+                <option value="-1">Visi miestai</option>
                 {cities.map(city => {
                   if (city.id == location) {
                     return (
@@ -131,7 +131,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="">Visi gamintojai</option>
+                <option value="-1">Visi gamintojai</option>
                 {brands.map(brand => {
                   if (brand.id == brand_filter) {
                     return (
@@ -161,7 +161,7 @@ class Topbar extends Component {
                 className="form-control"
                 id="inputState"
               >
-                <option value="">Visi modeliai</option>
+                <option value="-1">Visi modeliai</option>
 
                 {models.map(model => {
                   if (model.id == model_filter) {
