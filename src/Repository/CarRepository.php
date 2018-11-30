@@ -18,4 +18,84 @@ class CarRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Car::class);
     }
+
+    public function findFilterAndSortingCars($filters)
+    {
+        $queryBuilder = $this->createQueryBuilder('car');
+
+        $this->filters($queryBuilder, $filters);
+        $this->sorts($queryBuilder, $filters);
+
+        return $queryBuilder->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param $queryBuilder
+     * @param $filters
+     */
+    private function filters(\Doctrine\ORM\QueryBuilder $queryBuilder, $filters): void
+    {
+        if (!empty($filters['location'])) {
+            $queryBuilder->andWhere('car.city = :cityId')
+                ->setParameter('cityId', $filters['location'])
+            ;
+        }
+
+        if (!empty($filters['price_from']) && !empty($filters['price_until'])) {
+            $queryBuilder->andWhere('car.price >= :price_from')
+                ->setParameter('price_from', $filters['price_from'])
+                ->andWhere('car.price <= :price_until')
+                ->setParameter('price_until', $filters['price_until'])
+            ;
+        }
+
+        if (!empty($filters['brand'])) {
+            $queryBuilder->andWhere('car.brand = :brandId')
+                ->setParameter('brandId', $filters['brand'])
+            ;
+        }
+
+        if (!empty($filters['model'])) {
+            $queryBuilder->andWhere('car.model = :modelId')
+                ->setParameter('modelId', $filters['model'])
+            ;
+        }
+
+        if (!empty($filters['date_from']) && !empty($filters['date_until'])) {
+            // TODO: Laikas, nuo kada galima nuomuotis iki kada norima nuomuotis, atsižvelgiant į laisvas datas...
+            //$queryBuilder = $this->createQueryBuilder('car')
+            //->select('car.renting')
+            //->getQuery()
+            //->execute();
+            //dump($queryBuilder);die;
+        }
+    }
+
+    /**
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param $filters
+     */
+    private function sorts(\Doctrine\ORM\QueryBuilder $queryBuilder, $filters)
+    {
+        if ($filters['sort'] == 'naujausi') {
+            $queryBuilder->addOrderBy('car.createdAt', 'ASC')
+            ;
+        }
+
+        if ($filters['sort'] == 'seniausi') {
+            $queryBuilder->addOrderBy('car.createdAt', 'DESC')
+            ;
+        }
+
+        if ($filters['sort'] == 'pigiausi') {
+            $queryBuilder->addOrderBy('car.price', 'ASC')
+            ;
+        }
+
+        if ($filters['sort'] == 'brangiausi') {
+            $queryBuilder->addOrderBy('car.price', 'DESC')
+            ;
+        }
+    }
 }
