@@ -87,7 +87,7 @@ class NewCar extends Component {
     getModels(e.target.value);
     this.setState({
       brand: e.target.value,
-      model: "",
+      model: "-1",
       errors: {
         ...this.state.errors,
         brand: ""
@@ -126,7 +126,7 @@ class NewCar extends Component {
     if (this.state.date_from >= this.state.date_until) {
       this.setState({
         date_until: moment(this.state.date_from)
-          .add(2, "d")
+          .add(1, "d")
           .toDate()
       });
     }
@@ -318,9 +318,12 @@ class NewCar extends Component {
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.brand}
-                  </span>
+
+                  {this.state.errors.brand.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.brand}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="form-group row">
@@ -335,7 +338,7 @@ class NewCar extends Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <option value="" disabled selected>
+                      <option value="-1" disabled selected>
                         Pasirink automobilio modelį
                       </option>
                       {models.map(model => (
@@ -346,9 +349,11 @@ class NewCar extends Component {
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.model}
-                  </span>
+                  {this.state.errors.model.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.model}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -367,9 +372,11 @@ class NewCar extends Component {
                       placeholder="Trumpai aprašyk automobilį"
                     />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.description}
-                  </span>
+                  {this.state.errors.description.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.description}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -393,9 +400,11 @@ class NewCar extends Component {
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.city}
-                  </span>
+                  {this.state.errors.brand.city > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.city}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="form-group row">
@@ -411,9 +420,11 @@ class NewCar extends Component {
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.address}
-                  </span>
+                  {this.state.errors.address.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.address}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -439,9 +450,11 @@ class NewCar extends Component {
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.date_from}
-                  </span>
+                  {this.state.errors.date_from.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.date_from}
+                    </span>
+                  )}
                 </div>
                 <label
                   className="col-sm-2 border-left pt-mobile"
@@ -466,9 +479,11 @@ class NewCar extends Component {
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.date_until}
-                  </span>
+                  {this.state.errors.date_until.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.date_until}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="form-group row">
@@ -488,9 +503,11 @@ class NewCar extends Component {
                       placeholder="0.00 €"
                     />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.price}
-                  </span>
+                  {this.state.errors.price.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.price}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -511,9 +528,11 @@ class NewCar extends Component {
                       placeholder="+370"
                     />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.phone}
-                  </span>
+                  {this.state.errors.phone.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.phone}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="form-group row">
@@ -530,9 +549,11 @@ class NewCar extends Component {
                       placeholder="pavyzdys@mail.lt"
                     />
                   </div>
-                  <span className="invalid-feedback">
-                    {this.state.errors.email}
-                  </span>
+                  {this.state.errors.email.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.email}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
