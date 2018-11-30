@@ -184,15 +184,10 @@ class APIController extends FOSRestController
      */
     public function postNewReservationsAction(Request $request): View
     {
-        /*
-         *      id: this.props.car.id,
-               date_from: date_from,
-               date_until: date_until,
-               name: name,
-               email: email,
-               phone: phone,
-               message: message,
-         */
+        $reservation = $request->getContent('reservation');
+        $reservation = json_decode($reservation, true);
+
+        return $this->view($reservation, Response::HTTP_OK);
 
         return $this->view(
             [
