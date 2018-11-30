@@ -128,6 +128,10 @@ class APIController extends FOSRestController
      */
     public function getAllModelsByBrandIdAction(int $brandId): View
     {
+        if ($this->modelRepository->findCountOfRecords($brandId) <= 0) {
+            return $this->view([], Response::HTTP_OK);
+        }
+
         return $this->view(
             [
                 'id' => $brandId,

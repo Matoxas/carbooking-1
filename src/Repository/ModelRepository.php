@@ -19,4 +19,14 @@ class ModelRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Model::class);
     }
+
+    public function findCountOfRecords(int $brandId)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->where('m.brand = :brandId')
+            ->setParameter('brandId', $brandId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
