@@ -127,6 +127,14 @@
   border-radius: 5px;
 }
 
+.dropzone--active {
+  background-color: red;
+}
+
+.dropzone--active > * {
+  display: none;
+}
+
 .imageUpload {
   margin: 0;
   padding: 0;
