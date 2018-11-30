@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
-import "./NewCar.css";
+import "./newCar.css";
 const dropzoneRef = React.createRef();
 import {
   SortableContainer,

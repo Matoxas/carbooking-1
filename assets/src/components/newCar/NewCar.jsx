@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
-import "./NewCar.css";
+import "./newCar.css";
 import moment from "moment";
 import ImageUpload from "./imageUpload";
 import Loading from "../loading";
@@ -217,7 +217,7 @@ class NewCar extends Component {
       return false;
     }
 
-    const pattern = "^d{0,8}(.d{1,4})?$";
+    const pattern = new RegExp(/^([0-9]{0,2}((.)[0-9]{0,2}))$/i);
     if (!pattern.test(this.state.price)) {
       this.updateErrors({ price: "neteisingas kainos formatas!" });
       return false;

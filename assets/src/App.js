@@ -21,6 +21,7 @@ class App extends Component {
     {
       this.props.CarStore.getAllCars();
       this.props.CarStore.getBrands();
+      this.props.CarStore.test();
       this.loadLikesFromStorage();
     }
   }
