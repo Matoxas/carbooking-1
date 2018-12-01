@@ -184,10 +184,10 @@ class Topbar extends Component {
           </div>
 
           <div className="form-group">
+            <label className="d-md-none" htmlFor="ReactBootstrapSlider">
+              Kaina:
+            </label>
             <div className="slider">
-              <label className="d-md-none" htmlFor="ReactBootstrapSlider">
-                Kaina:
-              </label>
               <ReactBootstrapSlider
                 value={this.state.price}
                 change={this.changePrice}
@@ -202,8 +202,6 @@ class Topbar extends Component {
               <span className="right">{"€" + this.state.price[1]}</span>
             </div>
           </div>
-          {/* </div> */}
-          {/* <div className="sort"> */}
           <div className="form-group">
             <label className="d-md-none" htmlFor="inputState">
               Rodoma:

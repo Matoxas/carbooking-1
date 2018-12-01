@@ -57,7 +57,6 @@ class CarStore {
         }
       })
       .then(response => {
-        console.log(response);
         this.setCars(response.data.data);
         this.setLoading({ cars: false });
       })

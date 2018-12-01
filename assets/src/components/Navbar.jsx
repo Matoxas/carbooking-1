@@ -134,6 +134,7 @@ class Navbar extends Component {
               >
                 Nuomoti dabar
               </NavLink>
+
               <a
                 href="#index"
                 onClick={e => this.handleNavClick(e, "#index")}

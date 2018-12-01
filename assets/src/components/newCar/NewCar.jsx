@@ -68,6 +68,15 @@ class NewCar extends Component {
     this.validateDescription();
     this.validatePhone();
     this.validateImages();
+
+    //   const errors = this.state.errors;
+    //   const HasErrors = errors.filter(error => error == "");
+
+    //   if (HasErrors.length > 0) {
+    //     alert("yra errorų");
+    //   } else {
+    //     alert("success");
+    //   }
   };
 
   setValues = e => {
@@ -79,6 +88,12 @@ class NewCar extends Component {
         ...this.state.errors,
         [e.target.name]: ""
       }
+    });
+  };
+
+  setImages = images => {
+    this.setState({
+      images: images
     });
   };
 
@@ -94,19 +109,6 @@ class NewCar extends Component {
       }
     });
   };
-
-  // componentWillUnmount() {
-  //   // Make sure to revoke the data uris to avoid memory leaks
-  //   const { images } = this.state;
-  //   for (let i = images.length; i >= 0; i--) {
-  //     const image = images[i];
-  //     URL.revokeObjectURL(image.preview);
-  //   }
-  // }
-
-  // setImages = data => {
-  //   this.setState({ data });
-  // };
 
   handleFromChange = date => {
     this.setState({
@@ -173,6 +175,14 @@ class NewCar extends Component {
     return true;
   };
 
+  validateImages = () => {
+    if (this.state.images.length <= 0) {
+      this.updateErrors({ images: "įkelkite bent vieną nuotrauką!" });
+      return false;
+    }
+    return true;
+  };
+
   validateEmail = () => {
     if (this.state.email.length <= 0) {
       this.updateErrors({ email: "įveskite el.paštą!" });
@@ -223,16 +233,6 @@ class NewCar extends Component {
       return false;
     }
 
-    // if (!this.state.price.isDigit()) {
-    //   this.setState({
-    //     errors: {
-    //       ...this.state.errors,
-    //       price: "kainą įveskite iš skaičių"
-    //     }
-    //   });
-    //   return false;
-    // }
-
     return true;
   };
 
@@ -244,12 +244,8 @@ class NewCar extends Component {
     return true;
   };
 
-  validateImages = () => {
-    if (this.state.images.length <= 0) {
-      this.updateErrors({ images: "pasirinkite bent vieną nuotrauką!" });
-      return false;
-    }
-    return true;
+  setImagesErrorMessage = message => {
+    this.updateErrors({ images: message });
   };
 
   updateErrors = errors => {
@@ -286,6 +282,7 @@ class NewCar extends Component {
             <h5>pradėk įkeldamas keletą nuotraukų</h5>
             <div className="card">
               <ImageUpload
+                setImagesErrorMessage={this.setImagesErrorMessage}
                 images={this.state.images}
                 setImages={this.setImages}
                 errors={this.state.errors.images}
