@@ -28,7 +28,7 @@ class carInfo extends Component {
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
-                id: this.props.car.id,
+                carId: this.props.car.id,
                 date_from: date_from,
                 date_until: date_until,
                 name: name,
@@ -77,11 +77,12 @@ class carInfo extends Component {
         this.setState({phone: phone.target.value})
     };
 
-    render() {
-        // if (this.state.reservationClicked === true) {
-        //     return <Redirect to='/feed' />
-        // }
+    handleBadListing = () => {
+        const { postBadListing } = this.props.CarStore;
+        postBadListing(this.props.car.id);
+    };
 
+    render() {
         return (
             <div className="info">
                 <div className="row">
@@ -124,6 +125,12 @@ class carInfo extends Component {
                             </div>
                             <div className="col-lg-8">
                                 <p className="info--normal">Labai gera masina, tikrai dar daug kartu noresiu ja as nuomuotis</p>
+                            </div>
+                            <div className="col-lg-4"/>
+                            <div className="col-lg-8">
+                                <button onClick={this.handleBadListing} className="btn btn-warning info-button">
+                                    Pranešti apie netinkamą skelbimą
+                                </button>
                             </div>
                         </div>
                     </div>

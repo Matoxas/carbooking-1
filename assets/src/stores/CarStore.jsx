@@ -47,6 +47,15 @@ class CarStore {
 
   // ==================== GETTERS ====================
 
+    @action
+    getComments = () => {
+        this.setLoading({ comments: true});
+        axios.get("comments").then(response => {
+            this.setComments(response.data.data);
+            this.setLoading({ comments: false });
+        }).catch(error => console.log(error.response));
+    };
+
   @action
   getAllCars = () => {
     this.setLoading({ cars: true });
@@ -107,18 +116,26 @@ class CarStore {
       .catch(error => console.log(error.response));
   };
 
+  //================== POST =====================
+
   @action
   postReservation = reservation => {
     axios
-      .post("/reservations", {
-        reservation
-      })
-      .then(function(response) {
-        // console.log(response);
-      })
+      .post("/reservations", {reservation})
+      .then(function(response) {})
       .catch(function(error) {
         console.log(error);
       });
+  };
+
+  @action
+  postBadListing = carId => {
+      axios
+          .post("/report/car/", {carId})
+          .then(function (response) {})
+          .catch(function (error) {
+          console.log(error);
+      })
   };
 
   // ==================== SETTERS ====================
