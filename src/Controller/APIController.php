@@ -3,19 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\User;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
-use App\Request\BookingRequest;
-use App\Request\CarRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -54,6 +54,10 @@ class APIController extends FOSRestController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     /**
      * TestController constructor.
@@ -64,6 +68,7 @@ class APIController extends FOSRestController
      * @param CommentRepository $commentRepository
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $entityManager
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -72,7 +77,8 @@ class APIController extends FOSRestController
         CarRepository $carRepository,
         CommentRepository $commentRepository,
         ValidatorInterface $validator,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -81,6 +87,7 @@ class APIController extends FOSRestController
         $this->commentRepository = $commentRepository;
         $this->validator = $validator;
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -153,7 +160,7 @@ class APIController extends FOSRestController
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => 'Brand id is incorrect!'
+                    'message' => $this->translator->trans('brand.not_exists')
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -220,37 +227,25 @@ class APIController extends FOSRestController
         $reservation = $request->getContent('reservation');
         $reservation = json_decode($reservation)->reservation;
 
-        $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
-
         $dateFrom = new \DateTime($reservation->date_from);
         $dateUntil = new \DateTime($reservation->date_until);
 
+        $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
+
+        $user = new User();
+        $user->setPhone((int) $reservation->phone);
+        $user->setEmail($reservation->email);
+        $user->setName($reservation->name);  //todo: special html chars filter...
+
         $booking = new Booking();
         $booking->setCar($car);
+        $booking->setUsers($user);
         $booking->setBookedFrom($dateFrom);
         $booking->setBookedUntil($dateUntil);
+        $booking->setMessage($reservation->message); //todo: special html chars filter...
         $booking->setApproved(false);
 
-        $booking = new BookingRequest($reservation);
-
-        /*
-                "date_from":"2018-12-01T12:27:24.800Z",
-                "date_until":"2018-12-01T12:27:24.800Z",
-
-                "name":"asdfasd",
-                "email":
-                "fasdf",
-                "phone":
-                "dsf",
-                "message":
-                "dsafads"
-
-                var_dump($car);die;
-                */
-
-        $addReviewRequest = new CarRequest($request);
-
-        $validationResults = $this->validator->validate($addReviewRequest);
+        $validationResults = $this->validator->validate($booking);
 
         if (0 !== count($validationResults)) {
             $errors = [];
@@ -284,7 +279,19 @@ class APIController extends FOSRestController
     public function postReportCarAction(Request $request): View
     {
         $carId = (int) $request->get('carId');
+        $car = $this->carRepository->find($carId);
 
+        if ($car === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_exists')
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        // $car
         // TODO: Išsiųsti el-paštą su linku į ją $carId
 
         return $this->view(

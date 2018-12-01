@@ -1,0 +1,5 @@
+car:
+  not_exists: Nepavyko rasti nurodytos mašinos!
+
+brand:
+  not_exists: Nepavyko rasti nurodytos markės!
