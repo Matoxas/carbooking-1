@@ -16,7 +16,7 @@ const Image = props => {
           {...provided.dragHandleProps}
         >
           <div className="imageWrapper relative">
-            <img src={props.item.content} alt="image preview" />
+            <img src={props.item.preview} alt="image preview" />
             <div
               onClick={() => props.onDelete(props.item.id)}
               className="delete-button"

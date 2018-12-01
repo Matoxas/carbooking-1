@@ -49,12 +49,13 @@ class ImageUpload extends Component {
   setImages = images => {
     const prevImages = this.props.images;
     const newImages = images.map(file => ({
-      ...file,
-      content: URL.createObjectURL(file)
+      file,
+      preview: URL.createObjectURL(file)
     }));
     const allImages = [...prevImages, ...newImages];
     const allImagesWithIndexes = allImages.map((image, index) => ({
-      content: image.content,
+      file: image.file,
+      preview: image.preview,
       id: index + 1
     }));
     const files = this.checkImages(allImagesWithIndexes);
@@ -79,11 +80,9 @@ class ImageUpload extends Component {
     if (images && images.length > 0) {
       return (
         <React.Fragment>
-          {images.length > 1 && (
-            <span class="imageUpload-info">
-              Eiliškumui pakeisti, paspausk ir tempk
-            </span>
-          )}
+          <span className="imageUpload-info">
+            {images.length > 1 && "Eiliškumui pakeisti, paspausk ir tempk"}
+          </span>
           <div className="imageUpload">
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="droppable" direction="horizontal">

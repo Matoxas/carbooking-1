@@ -8,6 +8,7 @@ import moment from "moment";
 import ImageUpload from "./imageUpload";
 import Loading from "../loading";
 import Validators from "./formValidators";
+import axios from "axios";
 
 registerLocale("lt", lt);
 @inject("CarStore")
@@ -15,6 +16,7 @@ registerLocale("lt", lt);
 class NewCar extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       brand: "",
       model: "",
@@ -60,8 +62,6 @@ class NewCar extends Component {
   }
 
   formSubmit = () => {
-    // const {...state} = this.state;
-
     Validators.brand(this.state.brand, this.updateErrors);
     Validators.model(this.state.model, this.updateErrors);
     Validators.price(this.state.price, this.updateErrors);
@@ -77,6 +77,8 @@ class NewCar extends Component {
       this.updateErrors
     );
 
+    this.sendFormToRoute();
+
     //   const errors = this.state.errors;
     //   const HasErrors = errors.filter(error => error == "");
 
@@ -85,6 +87,24 @@ class NewCar extends Component {
     //   } else {
     //     alert("success");
     //   }
+  };
+
+  sendFormToRoute = () => {
+    const fd = new FormData();
+    fd.append("brand", this.state.brand);
+    fd.append("brand", this.state.model);
+    fd.append(
+      "image",
+      this.state.images[0].file,
+      this.state.images[0].file.name
+    );
+
+    axios
+      .post("http://localhost/api/newcar", fd)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error.response));
   };
 
   setValues = e => {
@@ -106,6 +126,7 @@ class NewCar extends Component {
   };
 
   onDeleteImage = id => {
+    this.setImagesErrorMessage("");
     this.setState(prevState => {
       const images = prevState.images;
       const index = images.findIndex(image => image.id == id);
@@ -469,6 +490,7 @@ class NewCar extends Component {
             >
               Paskelbti kataloge
             </button>
+            <div className="clearfix" />
           </div>
         </div>
       </div>

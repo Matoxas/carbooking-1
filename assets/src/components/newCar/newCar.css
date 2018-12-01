@@ -78,6 +78,12 @@
   border-color: #f47e60;
 }
 
+.newCarWrapper .btn:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .newCarWrapper .btn:hover {
   border-color: #f47e60;
 }
