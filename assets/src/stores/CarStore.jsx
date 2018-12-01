@@ -47,6 +47,15 @@ class CarStore {
 
   // ==================== GETTERS ====================
 
+    @action
+    getComments = () => {
+        this.setLoading({ comments: true});
+        axios.get("comments").then(response => {
+            this.setComments(response.data.data);
+            this.setLoading({ comments: false });
+        }).catch(error => console.log(error.response));
+    };
+
   @action
   getAllCars = () => {
     this.setLoading({ cars: true });
@@ -122,7 +131,7 @@ class CarStore {
   @action
   postBadListing = carId => {
       axios
-          .post("badListing", {carId})
+          .post("/report/car/", {carId})
           .then(function (response) {})
           .catch(function (error) {
           console.log(error);
