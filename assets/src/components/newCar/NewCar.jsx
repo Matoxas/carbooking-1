@@ -7,6 +7,8 @@ import "./newCar.css";
 import moment from "moment";
 import ImageUpload from "./imageUpload";
 import Loading from "../loading";
+import Validators from "./formValidators";
+
 registerLocale("lt", lt);
 @inject("CarStore")
 @observer
@@ -58,16 +60,22 @@ class NewCar extends Component {
   }
 
   formSubmit = () => {
-    this.validateBrand();
-    this.validateModel();
-    this.validatePrice();
-    this.validateAddress();
-    this.validateCity();
-    this.validateDate();
-    this.validateEmail();
-    this.validateDescription();
-    this.validatePhone();
-    this.validateImages();
+    // const {...state} = this.state;
+
+    Validators.brand(this.state.brand, this.updateErrors);
+    Validators.model(this.state.model, this.updateErrors);
+    Validators.price(this.state.price, this.updateErrors);
+    Validators.address(this.state.address, this.updateErrors);
+    Validators.city(this.state.city, this.updateErrors);
+    Validators.email(this.state.email, this.updateErrors);
+    Validators.description(this.state.description, this.updateErrors);
+    Validators.phone(this.state.phone, this.updateErrors);
+    Validators.images(this.state.images, this.updateErrors);
+    Validators.date(
+      this.state.date_from,
+      this.state.date_until,
+      this.updateErrors
+    );
 
     //   const errors = this.state.errors;
     //   const HasErrors = errors.filter(error => error == "");
@@ -94,6 +102,15 @@ class NewCar extends Component {
   setImages = images => {
     this.setState({
       images: images
+    });
+  };
+
+  onDeleteImage = id => {
+    this.setState(prevState => {
+      const images = prevState.images;
+      const index = images.findIndex(image => image.id == id);
+      images.splice(index, 1);
+      return { images };
     });
   };
 
@@ -134,116 +151,6 @@ class NewCar extends Component {
     }
   };
 
-  validateBrand = () => {
-    if (this.state.brand.length <= 0) {
-      this.updateErrors({ brand: "pasirinkite gamintoją!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateModel = () => {
-    if (this.state.model.length <= 0) {
-      this.updateErrors({ model: "pasirinkite modelį!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateDescription = () => {
-    if (this.state.description.length <= 10) {
-      this.updateErrors({
-        description: "aprašymas negali būti trumpesnis nei 10 simbolių!"
-      });
-    }
-    return true;
-  };
-
-  validateCity = () => {
-    if (this.state.city.length <= 0) {
-      this.updateErrors({ city: "pasirinkite miestą!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateAddress = () => {
-    if (this.state.address.length <= 0) {
-      this.updateErrors({ address: "pasirinkite adresą!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateImages = () => {
-    if (this.state.images.length <= 0) {
-      this.updateErrors({ images: "įkelkite bent vieną nuotrauką!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateEmail = () => {
-    if (this.state.email.length <= 0) {
-      this.updateErrors({ email: "įveskite el.paštą!" });
-      return false;
-    }
-
-    const pattern = new RegExp(
-      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-    );
-    if (!pattern.test(this.state.email)) {
-      this.updateErrors({ email: "įveskite teisingą el.paštą!" });
-      return false;
-    }
-
-    return true;
-  };
-
-  validateDate = () => {
-    if (this.state.date_from >= this.state.date_until) {
-      this.updateErrors({
-        date_from: "nuomos pradžia negali prasidėti veliau nei baigtis!",
-        date_until: "nuomos pabaiga negali būti ankščiau nei pradžia!"
-      });
-      return false;
-    }
-    return true;
-  };
-
-  validatePrice = () => {
-    if (this.state.price.length <= 0) {
-      this.updateErrors({ price: "įveskite kainą!" });
-      return false;
-    }
-
-    if (this.state.price <= 0) {
-      this.updateErrors({ price: "kaina negali būti mažesnė nei 1€" });
-      return false;
-    }
-
-    if (this.state.price > 99) {
-      this.updateErrors({ price: "kainos limitas - 99€" });
-      return false;
-    }
-
-    const pattern = new RegExp(/^([0-9]{0,2}((.)[0-9]{0,2}))$/i);
-    if (!pattern.test(this.state.price)) {
-      this.updateErrors({ price: "neteisingas kainos formatas!" });
-      return false;
-    }
-
-    return true;
-  };
-
-  validatePhone = () => {
-    if (this.state.phone.length <= 0) {
-      this.updateErrors({ phone: "įveskite telefono numerį!" });
-      return false;
-    }
-    return true;
-  };
-
   setImagesErrorMessage = message => {
     this.updateErrors({ images: message });
   };
@@ -282,6 +189,7 @@ class NewCar extends Component {
             <h5>pradėk įkeldamas keletą nuotraukų</h5>
             <div className="card">
               <ImageUpload
+                onDelete={this.onDeleteImage}
                 setImagesErrorMessage={this.setImagesErrorMessage}
                 images={this.state.images}
                 setImages={this.setImages}

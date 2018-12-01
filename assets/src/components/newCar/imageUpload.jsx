@@ -16,9 +16,6 @@ const reorder = (list, startIndex, endIndex) => {
 class ImageUpload extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      images: []
-    };
   }
 
   onDragEnd = result => {
@@ -28,14 +25,12 @@ class ImageUpload extends Component {
     }
 
     const images = reorder(
-      this.state.images,
+      this.props.images,
       result.source.index,
       result.destination.index
     );
 
-    this.setState({
-      images
-    });
+    this.props.setImages(images);
   };
 
   onDrop = (acceptedFiles, rejectedFiles) => {
@@ -52,7 +47,7 @@ class ImageUpload extends Component {
   };
 
   setImages = images => {
-    const prevImages = this.state.images;
+    const prevImages = this.props.images;
     const newImages = images.map(file => ({
       ...file,
       content: URL.createObjectURL(file)
@@ -63,9 +58,7 @@ class ImageUpload extends Component {
       id: index + 1
     }));
     const files = this.checkImages(allImagesWithIndexes);
-    this.setState({
-      images: files
-    });
+    this.props.setImages(files);
   };
 
   checkImages = images => {
@@ -80,21 +73,17 @@ class ImageUpload extends Component {
     return images;
   };
 
-  onDelete = id => {
-    this.setState(prevState => {
-      const images = prevState.images;
-      const index = images.findIndex(image => image.id == id);
-      images.splice(index, 1);
-      return { images };
-    });
-  };
-
   render() {
-    const { images } = this.state;
+    const { images } = this.props;
 
     if (images && images.length > 0) {
       return (
         <React.Fragment>
+          {images.length > 1 && (
+            <span class="imageUpload-info">
+              Eiliškumui pakeisti, paspausk ir tempk
+            </span>
+          )}
           <div className="imageUpload">
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="droppable" direction="horizontal">
@@ -106,7 +95,7 @@ class ImageUpload extends Component {
                         draggableId={item.id}
                         index={index}
                         item={item}
-                        onDelete={this.onDelete}
+                        onDelete={this.props.onDelete}
                       />
                     ))}
                     {provided.placeholder}
