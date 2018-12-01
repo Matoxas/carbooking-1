@@ -194,7 +194,7 @@ class APIController extends FOSRestController
      * @param Request $request
      * @return View
      */
-    public function postNewReservationsAction(Request $request): View
+    public function postNewReservationAction(Request $request): View
     {
         $reservation = $request->getContent('reservation');
         $reservation = json_decode($reservation, true);
@@ -205,6 +205,26 @@ class APIController extends FOSRestController
             [
                 'status' => 'ok',
                 'message' => ''
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Post("/report/car", name="api_report_car")
+     * @param Request $request
+     * @return View
+     */
+    public function postReportCarAction(Request $request): View
+    {
+        //$reservation = $request->getContent('reservation');
+        //$reservation = json_decode($reservation, true);
+
+        //return $this->view($reservation, Response::HTTP_OK);
+
+        return $this->view(
+            [
+                'status' => 'ok'
             ],
             Response::HTTP_OK
         );
