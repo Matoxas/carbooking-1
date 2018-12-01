@@ -7,11 +7,14 @@ use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Request\CarRequest;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class TestController
@@ -40,6 +43,10 @@ class APIController extends FOSRestController
      * @var CommentRepository
      */
     private $commentRepository;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     /**
      * TestController constructor.
@@ -48,19 +55,22 @@ class APIController extends FOSRestController
      * @param ModelRepository $modelRepository
      * @param CarRepository $carRepository
      * @param CommentRepository $commentRepository
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         CityRepository $cityRepository,
         BrandRepository $brandRepository,
         ModelRepository $modelRepository,
         CarRepository $carRepository,
-        CommentRepository $commentRepository
+        CommentRepository $commentRepository,
+        ValidatorInterface $validator
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
         $this->modelRepository = $modelRepository;
         $this->carRepository = $carRepository;
         $this->commentRepository = $commentRepository;
+        $this->validator = $validator;
     }
 
     /**
@@ -196,15 +206,29 @@ class APIController extends FOSRestController
      */
     public function postNewReservationAction(Request $request): View
     {
-        $reservation = $request->getContent('reservation');
-        $reservation = json_decode($reservation, true);
+        $addReviewRequest = new CarRequest($request);
 
-        return $this->view($reservation, Response::HTTP_OK);
+        $validationResults = $this->validator->validate($addReviewRequest);
+
+        if (0 !== count($validationResults)) {
+            $errors = [];
+            /** @var ConstraintViolation $result */
+            foreach ($validationResults as $result) {
+                array_push($errors, $result->getMessage());
+            }
+
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'messages' => $errors
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
         return $this->view(
             [
-                'status' => 'ok',
-                'message' => ''
+                'status' => 'ok'
             ],
             Response::HTTP_OK
         );
