@@ -16,7 +16,6 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -230,7 +229,19 @@ class APIController extends FOSRestController
         $dateFrom = new \DateTime($reservation->date_from);
         $dateUntil = new \DateTime($reservation->date_until);
 
+        //TODO: ši dada, jau yra rezervuota...
+
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
+
+        if ($car === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'messages' => $this->translator->trans('car.not_exists')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
         $user = new User();
         $user->setPhone((int) $reservation->phone);
@@ -245,21 +256,37 @@ class APIController extends FOSRestController
         $booking->setMessage($reservation->message); //todo: special html chars filter...
         $booking->setApproved(false);
 
-        $validationResults = $this->validator->validate($booking);
+        $validationUser = $this->validator->validate($user);
+        $validationBooking = $this->validator->validate($booking);
 
-        if (0 !== count($validationResults)) {
-            $errors = [];
-            /** @var ConstraintViolation $result */
-            foreach ($validationResults as $result) {
-                array_push($errors, $result->getMessage());
-            }
+        if (0 !== count($validationUser) || 0 !== count($validationBooking)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'messages' => $this->translator->trans('booking.insert.error')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
+            $this->entityManager->persist($user);
+            $this->entityManager->persist($booking);
+
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            $errorCode = rand(1000, 9999);
+            // TODO: Išsiųsti el-paštą su tekstu:
+                // Klaidos kodas: $errorCode
+                // Kelias: /api/reservations
+                // Klaidos žinutė: $exception->getMessage()
 
             return $this->view(
                 [
                     'status' => 'error',
-                    'messages' => $errors
+                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
                 ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_NOT_FOUND
             );
         }
 

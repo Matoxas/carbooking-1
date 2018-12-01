@@ -1,5 +1,9 @@
 car:
-  not_exists: Nepavyko rasti nurodytos mašinos!
-
+  not_exists: 'Nepavyko rasti nurodytos mašinos!'
 brand:
-  not_exists: Nepavyko rasti nurodytos markės!
+  not_exists: 'Nepavyko rasti nurodytos markės!'
+system:
+  unknown: 'Įvyko nežinoma klaida! [Klaidos kodas: #code]'
+booking:
+  insert:
+    error: 'Rezervuoti nepavyko! Patikrinkite įvestus duomenis ir mėginkite dar kartą!'

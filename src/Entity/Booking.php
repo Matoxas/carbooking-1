@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Validator\Constraints\DateIsInTheFuture;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -23,11 +25,17 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @DateIsInTheFuture()
      */
     private $bookedFrom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @DateIsInTheFuture()
      */
     private $bookedUntil;
 
@@ -46,6 +54,13 @@ class Booking
      * @ORM\Column(type="boolean")
      */
     private $approved;
+
+    /**
+     * Booking constructor.
+     */
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
