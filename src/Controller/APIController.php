@@ -217,10 +217,9 @@ class APIController extends FOSRestController
      */
     public function postReportCarAction(Request $request): View
     {
-        //$reservation = $request->getContent('reservation');
-        //$reservation = json_decode($reservation, true);
+        $carId = (int) $request->get('carId');
 
-        //return $this->view($reservation, Response::HTTP_OK);
+        // TODO: Išsiųsti el-paštą su linku į ją $carId
 
         return $this->view(
             [

@@ -131,7 +131,7 @@ class CarStore {
   @action
   postBadListing = carId => {
       axios
-          .post("/report/car/", {carId})
+          .post("/report/car", {carId})
           .then(function (response) {})
           .catch(function (error) {
           console.log(error);
