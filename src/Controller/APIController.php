@@ -111,7 +111,7 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/models", name="api_models_all")
+     * @Rest\Get("/models/all", name="api_models_all")
      * @return View
      */
     public function getAllModelsAction(): View
@@ -124,12 +124,19 @@ class APIController extends FOSRestController
 
     /**
      * @Rest\Get("/models/{brandId}", name="api_models_brandId")
+     * @param int $brandId
      * @return View
      */
     public function getAllModelsByBrandIdAction(int $brandId): View
     {
         if ($this->modelRepository->findCountOfRecords($brandId) <= 0) {
-            return $this->view([], Response::HTTP_OK);
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => 'Brand id is incorrect!'
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         }
 
         return $this->view(
@@ -187,7 +194,7 @@ class APIController extends FOSRestController
      * @param Request $request
      * @return View
      */
-    public function postNewReservationsAction(Request $request): View
+    public function postNewReservationAction(Request $request): View
     {
         $reservation = $request->getContent('reservation');
         $reservation = json_decode($reservation, true);
@@ -198,6 +205,25 @@ class APIController extends FOSRestController
             [
                 'status' => 'ok',
                 'message' => ''
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Post("/report/car", name="api_report_car")
+     * @param Request $request
+     * @return View
+     */
+    public function postReportCarAction(Request $request): View
+    {
+        $carId = (int) $request->get('carId');
+
+        // TODO: Išsiųsti el-paštą su linku į ją $carId
+
+        return $this->view(
+            [
+                'status' => 'ok'
             ],
             Response::HTTP_OK
         );
