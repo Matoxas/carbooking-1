@@ -8,6 +8,7 @@ use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
 use App\Request\CarRequest;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
@@ -47,6 +48,10 @@ class APIController extends FOSRestController
      * @var ValidatorInterface
      */
     private $validator;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * TestController constructor.
@@ -56,6 +61,7 @@ class APIController extends FOSRestController
      * @param CarRepository $carRepository
      * @param CommentRepository $commentRepository
      * @param ValidatorInterface $validator
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -63,7 +69,8 @@ class APIController extends FOSRestController
         ModelRepository $modelRepository,
         CarRepository $carRepository,
         CommentRepository $commentRepository,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        EntityManagerInterface $entityManager
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -71,6 +78,7 @@ class APIController extends FOSRestController
         $this->carRepository = $carRepository;
         $this->commentRepository = $commentRepository;
         $this->validator = $validator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -206,6 +214,37 @@ class APIController extends FOSRestController
      */
     public function postNewReservationAction(Request $request): View
     {
+        $reservation = $request->getContent('reservation');
+        $reservation = json_decode($reservation)->reservation;
+
+        $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
+
+        if (null === $car) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => 'car.not_exists'
+                ]
+            );
+        }
+
+        /*
+        $booking = new BookingRequest($request);
+
+        "date_from":"2018-12-01T12:27:24.800Z",
+        "date_until":"2018-12-01T12:27:24.800Z",
+
+        "name":"asdfasd",
+        "email":
+        "fasdf",
+        "phone":
+        "dsf",
+        "message":
+        "dsafads"
+
+        var_dump($car);die;
+        */
+
         $addReviewRequest = new CarRequest($request);
 
         $validationResults = $this->validator->validate($addReviewRequest);

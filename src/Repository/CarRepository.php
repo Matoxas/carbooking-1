@@ -20,12 +20,14 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function findFilterAndSortingCars(array $filters)
+    public function findFilterAndSortingCars(array $filters = null)
     {
         $queryBuilder = $this->createQueryBuilder('car');
 
-        $this->filters($queryBuilder, $filters);
-        $this->sorts($queryBuilder, $filters);
+        if ($filters != null) {
+            $this->filters($queryBuilder, $filters);
+            $this->sorts($queryBuilder, $filters);
+        }
 
         return $queryBuilder->getQuery()
             ->execute();
