@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Booking;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Request\BookingRequest;
 use App\Request\CarRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -211,6 +213,7 @@ class APIController extends FOSRestController
      * @Rest\Post("/reservations", name="api_reservations_new")
      * @param Request $request
      * @return View
+     * @throws \Exception
      */
     public function postNewReservationAction(Request $request): View
     {
@@ -219,31 +222,31 @@ class APIController extends FOSRestController
 
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
 
-        if (null === $car) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => 'car.not_exists'
-                ]
-            );
-        }
+        $dateFrom = new \DateTime($reservation->date_from);
+        $dateUntil = new \DateTime($reservation->date_until);
+
+        $booking = new Booking();
+        $booking->setCar($car);
+        $booking->setBookedFrom($dateFrom);
+        $booking->setBookedUntil($dateUntil);
+        $booking->setApproved(false);
+
+        $booking = new BookingRequest($reservation);
 
         /*
-        $booking = new BookingRequest($request);
+                "date_from":"2018-12-01T12:27:24.800Z",
+                "date_until":"2018-12-01T12:27:24.800Z",
 
-        "date_from":"2018-12-01T12:27:24.800Z",
-        "date_until":"2018-12-01T12:27:24.800Z",
+                "name":"asdfasd",
+                "email":
+                "fasdf",
+                "phone":
+                "dsf",
+                "message":
+                "dsafads"
 
-        "name":"asdfasd",
-        "email":
-        "fasdf",
-        "phone":
-        "dsf",
-        "message":
-        "dsafads"
-
-        var_dump($car);die;
-        */
+                var_dump($car);die;
+                */
 
         $addReviewRequest = new CarRequest($request);
 
