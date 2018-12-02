@@ -62,11 +62,11 @@ class CarListing extends Component {
             </div>
             <div className="col-md-1" />
           </div>
-            <MapContainer
-                latitude={car.latitude}
-                longitude={car.longitude}
-                zoom={16}
-            />
+          <MapContainer
+            latitude={car.latitude}
+            longitude={car.longitude}
+            zoom={16}
+          />
         </div>
       </div>
     );

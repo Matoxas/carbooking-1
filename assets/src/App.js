@@ -1,26 +1,18 @@
 import React, { Component } from "react";
-import { Router, Route, Redirect } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import history from "./history";
-// Components
-import Feed from "./components/Feed";
-import Navbar from "./components/Navbar";
-import Index from "./components/index/Index";
-import Switch from "react-router-dom/Switch";
-import carListing from "./components/carListing/carListing";
-import MainNavigation from "./components/main-navigation";
-import Map from "./components/Map";
-import Favourites from "./components/Favourites";
+import Routes from "./Routes";
 import Temporary from "./components/temporary";
-import NewCar from "./components/newCar/NewCar";
+
+// Components
 
 @inject("CarStore")
 @observer
 class App extends Component {
   componentDidMount() {
     {
-      this.props.CarStore.getAllCars();
-      this.props.CarStore.getBrands();
+      this.loadDataFromStore();
       this.loadLikesFromStorage();
     }
   }
@@ -33,45 +25,21 @@ class App extends Component {
     }
   };
 
+  loadDataFromStore = () => {
+    this.props.CarStore.getAllCars();
+    this.props.CarStore.getBrands();
+  };
+
   render() {
-    const { showHeader } = this.props.CarStore;
     const dontShowPage = false;
 
     if (dontShowPage) {
       return <Temporary />;
     }
 
-    if (!showHeader) {
-      return (
-        <Router history={history}>
-          <div>
-            <Navbar />
-            <Switch>
-              <Route path="/newcar" component={NewCar} exact />
-            </Switch>
-          </div>
-        </Router>
-      );
-    }
-
     return (
       <Router history={history}>
-        <div>
-          <Navbar />
-          <Index />
-          <div className="main-wrapper" id="mainNav">
-            <MainNavigation />
-            <Switch>
-              <Route path="/newcar" component={NewCar} />
-              <Route path="/feed/carListing/:id" component={carListing} />
-              <Route path="/feed" component={Feed} />
-              <Redirect from="/" exact to="/feed" />
-              <Route path="/map" component={Map} exact />
-              <Route path="/favourites" component={Favourites} exact />
-              <Route component={Feed} />
-            </Switch>
-          </div>
-        </div>
+        <Routes />
       </Router>
     );
   }

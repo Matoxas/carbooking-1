@@ -7,12 +7,16 @@ import "./newCar.css";
 import moment from "moment";
 import ImageUpload from "./imageUpload";
 import Loading from "../loading";
+import Validators from "./formValidators";
+import axios from "axios";
+
 registerLocale("lt", lt);
 @inject("CarStore")
 @observer
 class NewCar extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       brand: "",
       model: "",
@@ -49,25 +53,50 @@ class NewCar extends Component {
 
   componentDidMount() {}
 
-  componentWillMount() {
-    this.props.CarStore.toggleHeader(false);
-  }
-
-  componentWillUnmount() {
-    this.props.CarStore.toggleHeader(true);
-  }
-
   formSubmit = () => {
-    this.validateBrand();
-    this.validateModel();
-    this.validatePrice();
-    this.validateAddress();
-    this.validateCity();
-    this.validateDate();
-    this.validateEmail();
-    this.validateDescription();
-    this.validatePhone();
-    this.validateImages();
+    Validators.brand(this.state.brand, this.updateErrors);
+    Validators.model(this.state.model, this.updateErrors);
+    Validators.price(this.state.price, this.updateErrors);
+    Validators.address(this.state.address, this.updateErrors);
+    Validators.city(this.state.city, this.updateErrors);
+    Validators.email(this.state.email, this.updateErrors);
+    Validators.description(this.state.description, this.updateErrors);
+    Validators.phone(this.state.phone, this.updateErrors);
+    Validators.images(this.state.images, this.updateErrors);
+    Validators.date(
+      this.state.date_from,
+      this.state.date_until,
+      this.updateErrors
+    );
+
+    this.sendFormToRoute();
+
+    //   const errors = this.state.errors;
+    //   const HasErrors = errors.filter(error => error == "");
+
+    //   if (HasErrors.length > 0) {
+    //     alert("yra errorų");
+    //   } else {
+    //     alert("success");
+    //   }
+  };
+
+  sendFormToRoute = () => {
+    const fd = new FormData();
+    fd.append("brand", this.state.brand);
+    fd.append("brand", this.state.model);
+    fd.append(
+      "image",
+      this.state.images[0].file,
+      this.state.images[0].file.name
+    );
+
+    axios
+      .post("http://localhost/api/newcar", fd)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error.response));
   };
 
   setValues = e => {
@@ -79,6 +108,22 @@ class NewCar extends Component {
         ...this.state.errors,
         [e.target.name]: ""
       }
+    });
+  };
+
+  setImages = images => {
+    this.setState({
+      images: images
+    });
+  };
+
+  onDeleteImage = id => {
+    this.setImagesErrorMessage("");
+    this.setState(prevState => {
+      const images = prevState.images;
+      const index = images.findIndex(image => image.id == id);
+      images.splice(index, 1);
+      return { images };
     });
   };
 
@@ -94,19 +139,6 @@ class NewCar extends Component {
       }
     });
   };
-
-  // componentWillUnmount() {
-  //   // Make sure to revoke the data uris to avoid memory leaks
-  //   const { images } = this.state;
-  //   for (let i = images.length; i >= 0; i--) {
-  //     const image = images[i];
-  //     URL.revokeObjectURL(image.preview);
-  //   }
-  // }
-
-  // setImages = data => {
-  //   this.setState({ data });
-  // };
 
   handleFromChange = date => {
     this.setState({
@@ -132,124 +164,8 @@ class NewCar extends Component {
     }
   };
 
-  validateBrand = () => {
-    if (this.state.brand.length <= 0) {
-      this.updateErrors({ brand: "pasirinkite gamintoją!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateModel = () => {
-    if (this.state.model.length <= 0) {
-      this.updateErrors({ model: "pasirinkite modelį!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateDescription = () => {
-    if (this.state.description.length <= 10) {
-      this.updateErrors({
-        description: "aprašymas negali būti trumpesnis nei 10 simbolių!"
-      });
-    }
-    return true;
-  };
-
-  validateCity = () => {
-    if (this.state.city.length <= 0) {
-      this.updateErrors({ city: "pasirinkite miestą!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateAddress = () => {
-    if (this.state.address.length <= 0) {
-      this.updateErrors({ address: "pasirinkite adresą!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateEmail = () => {
-    if (this.state.email.length <= 0) {
-      this.updateErrors({ email: "įveskite el.paštą!" });
-      return false;
-    }
-
-    const pattern = new RegExp(
-      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-    );
-    if (!pattern.test(this.state.email)) {
-      this.updateErrors({ email: "įveskite teisingą el.paštą!" });
-      return false;
-    }
-
-    return true;
-  };
-
-  validateDate = () => {
-    if (this.state.date_from >= this.state.date_until) {
-      this.updateErrors({
-        date_from: "nuomos pradžia negali prasidėti veliau nei baigtis!",
-        date_until: "nuomos pabaiga negali būti ankščiau nei pradžia!"
-      });
-      return false;
-    }
-    return true;
-  };
-
-  validatePrice = () => {
-    if (this.state.price.length <= 0) {
-      this.updateErrors({ price: "įveskite kainą!" });
-      return false;
-    }
-
-    if (this.state.price <= 0) {
-      this.updateErrors({ price: "kaina negali būti mažesnė nei 1€" });
-      return false;
-    }
-
-    if (this.state.price > 99) {
-      this.updateErrors({ price: "kainos limitas - 99€" });
-      return false;
-    }
-
-    const pattern = new RegExp(/^([0-9]{0,2}((.)[0-9]{0,2}))$/i);
-    if (!pattern.test(this.state.price)) {
-      this.updateErrors({ price: "neteisingas kainos formatas!" });
-      return false;
-    }
-
-    // if (!this.state.price.isDigit()) {
-    //   this.setState({
-    //     errors: {
-    //       ...this.state.errors,
-    //       price: "kainą įveskite iš skaičių"
-    //     }
-    //   });
-    //   return false;
-    // }
-
-    return true;
-  };
-
-  validatePhone = () => {
-    if (this.state.phone.length <= 0) {
-      this.updateErrors({ phone: "įveskite telefono numerį!" });
-      return false;
-    }
-    return true;
-  };
-
-  validateImages = () => {
-    if (this.state.images.length <= 0) {
-      this.updateErrors({ images: "pasirinkite bent vieną nuotrauką!" });
-      return false;
-    }
-    return true;
+  setImagesErrorMessage = message => {
+    this.updateErrors({ images: message });
   };
 
   updateErrors = errors => {
@@ -286,6 +202,8 @@ class NewCar extends Component {
             <h5>pradėk įkeldamas keletą nuotraukų</h5>
             <div className="card">
               <ImageUpload
+                onDelete={this.onDeleteImage}
+                setImagesErrorMessage={this.setImagesErrorMessage}
                 images={this.state.images}
                 setImages={this.setImages}
                 errors={this.state.errors.images}
@@ -564,6 +482,7 @@ class NewCar extends Component {
             >
               Paskelbti kataloge
             </button>
+            <div className="clearfix" />
           </div>
         </div>
       </div>
