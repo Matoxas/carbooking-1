@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
@@ -389,10 +390,62 @@ class APIController extends FOSRestController
      * @Rest\Post("/new/comment", name="api_comment_new")
      * @param Request $request
      * @return View
+     * @throws \Exception
      */
     public function postNewCommentAction(Request $request): View
     {
-        // TODO: įtraukti naujo komentaro pridėjima!
+        $commentData = $request->getContent('comment');
+        $commentData = json_decode($commentData)->comment;
+
+        $car = $this->carRepository->find($commentData->carId);
+
+        if ($car === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_exists')
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $comment = new Comment();
+        $comment->setCar($car);
+        $comment->setName($commentData->name);
+        $comment->setComment($commentData->text);
+        $comment->setCreatedAt(new \DateTime());
+
+        $validationComment = $this->validator->validate($comment);
+
+        if (0 !== count($validationComment)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('comment.bad_data')
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $this->entityManager->persist($comment);
+
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            $errorCode = rand(1000, 9999);
+            // TODO: Išsiųsti el-paštą su tekstu:
+            // Klaidos kodas: $errorCode
+            // Kelias: /api/reservations
+            // Klaidos žinutė: $exception->getMessage()
+
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         return $this->view(
             [
