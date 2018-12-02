@@ -53,14 +53,6 @@ class NewCar extends Component {
 
   componentDidMount() {}
 
-  componentWillMount() {
-    this.props.CarStore.toggleHeader(false);
-  }
-
-  componentWillUnmount() {
-    this.props.CarStore.toggleHeader(true);
-  }
-
   formSubmit = () => {
     Validators.brand(this.state.brand, this.updateErrors);
     Validators.model(this.state.model, this.updateErrors);

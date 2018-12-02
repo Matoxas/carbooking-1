@@ -13,8 +13,6 @@ class CarStore {
     models: false,
     cities: false
   };
-  @observable
-  showHeader = true;
 
   // CAR
   @observable
@@ -36,7 +34,8 @@ class CarStore {
     date_until: "",
     price_from: 1,
     price_until: 99,
-    sort: "naujausi"
+    sort: "naujausi",
+    page: 1
   };
 
   brands = [];
@@ -47,14 +46,17 @@ class CarStore {
 
   // ==================== GETTERS ====================
 
-    @action
-    getComments = () => {
-        this.setLoading({ comments: true});
-        axios.get("comments").then(response => {
-            this.setComments(response.data.data);
-            this.setLoading({ comments: false });
-        }).catch(error => console.log(error.response));
-    };
+  @action
+  getComments = () => {
+    this.setLoading({ comments: true });
+    axios
+      .get("comments")
+      .then(response => {
+        this.setComments(response.data.data);
+        this.setLoading({ comments: false });
+      })
+      .catch(error => console.log(error.response));
+  };
 
   @action
   getAllCars = () => {
@@ -120,7 +122,7 @@ class CarStore {
   @action
   postReservation = reservation => {
     axios
-      .post("/reservations", {reservation})
+      .post("/reservations", { reservation })
       .then(function(response) {})
       .catch(function(error) {
         console.log(error);
@@ -129,12 +131,12 @@ class CarStore {
 
   @action
   postBadListing = carId => {
-      axios
-          .post("/report/car", {carId})
-          .then(function (response) {})
-          .catch(function (error) {
-          console.log(error);
-      })
+    axios
+      .post("/report/car", { carId })
+      .then(function(response) {})
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   // ==================== SETTERS ====================

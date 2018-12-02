@@ -96,7 +96,6 @@ class Navbar extends Component {
 
   turnOffHeader = e => {
     e.preventDefault();
-    this.props.CarStore.toggleHeader(false);
     this.disableScrollEvents();
     $(e.target).addClass("active");
     $(e.target)
