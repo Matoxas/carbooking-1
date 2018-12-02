@@ -26,7 +26,7 @@ class Feed extends Component {
 
   render() {
     const { toggler } = this.state;
-    const { loading: load } = this.props.CarStore;
+    const { loading: load, cars } = this.props.CarStore;
 
     const topbar = (
       <div>
@@ -44,7 +44,7 @@ class Feed extends Component {
       </div>
     );
 
-    if (load.cars || load.brands) {
+    if ((load.cars && cars.length == 0) || load.brands) {
       return (
         <div className="main">
           <div className="container">

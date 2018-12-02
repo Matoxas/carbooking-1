@@ -14,9 +14,11 @@ class CarStore {
     cities: false
   };
 
-  // CAR
+  // CAR LIST
   @observable
   cars = [];
+  @observable
+  total_pages = 1;
 
   @observable
   currentCar = {};
@@ -68,7 +70,7 @@ class CarStore {
         }
       })
       .then(response => {
-        this.setCars(response.data.data);
+        this.setCars(response.data);
         this.setLoading({ cars: false });
       })
       .catch(error => console.log(error.response));
@@ -148,7 +150,8 @@ class CarStore {
 
   @action
   setCars = list => {
-    this.cars = list;
+    this.cars = [...this.cars, ...list.data];
+    this.total_pages = list.page_count;
   };
 
   @action
@@ -173,6 +176,16 @@ class CarStore {
 
   @action
   setFilters = filters => {
+    //if filters doesn't contain page number reset
+    if (!filters.page) {
+      console.log("page number doesnt't found");
+      //reset cars list after filters change;
+      this.cars = [];
+      filters.page = 1;
+    } else {
+      filters.page = this.filters.page + 1;
+    }
+
     this.filters = { ...this.filters, ...filters };
   };
 

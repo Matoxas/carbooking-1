@@ -9,8 +9,8 @@ import { inject, observer } from "mobx-react";
 @inject("CarStore")
 @observer
 class Navbar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showFullLogo: false,
       showNavBackground: false
@@ -22,7 +22,8 @@ class Navbar extends Component {
   }
 
   isHeaderSet = () => {
-    const { showHeader } = this.props.CarStore;
+    const showHeader = true;
+
     if (showHeader) {
       this.enableScrollEvents();
     }
@@ -40,6 +41,23 @@ class Navbar extends Component {
     this.setBackground(true);
   };
 
+  pageUp = () => {
+    const {
+      total_pages,
+      getAllCars,
+      filters,
+      loading,
+      setFilters
+    } = this.props.CarStore;
+
+    if (!loading.cars) {
+      if (filters.page <= total_pages) {
+        setFilters({ page: true });
+        getAllCars();
+      }
+    }
+  };
+
   enableScrollEvents() {
     // const logoLocation = $(".index-logo-wrapper-logo").offset().top;
     const scrollink = $(".srollink");
@@ -47,6 +65,13 @@ class Navbar extends Component {
     //  Active link switching
     $(window).scroll(function() {
       let scrollbarLocation = $(this).scrollTop();
+
+      // Load feed on scroll
+      if (scrollbarLocation == $(document).height() - $(window).height()) {
+        if (window.location.pathname == "/feed") {
+          self.pageUp();
+        }
+      }
 
       if (scrollbarLocation > 30) {
         self.setLogo(true);

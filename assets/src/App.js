@@ -5,8 +5,6 @@ import history from "./history";
 import Routes from "./Routes";
 import Temporary from "./components/temporary";
 
-// Components
-
 @inject("CarStore")
 @observer
 class App extends Component {
