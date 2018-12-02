@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Mailer\Mailer;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
@@ -68,6 +69,10 @@ class APIController extends FOSRestController
      * @var RentingService
      */
     private $rentingService;
+    /**
+     * @var Mailer
+     */
+    private $mailer;
 
     /**
      * TestController constructor.
@@ -81,6 +86,7 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param BookingService $bookingService
      * @param RentingService $rentingService
+     * @param Mailer $mailer
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -92,7 +98,8 @@ class APIController extends FOSRestController
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator,
         BookingService $bookingService,
-        RentingService $rentingService
+        RentingService $rentingService,
+        Mailer $mailer
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -104,6 +111,7 @@ class APIController extends FOSRestController
         $this->translator = $translator;
         $this->bookingService = $bookingService;
         $this->rentingService = $rentingService;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -413,7 +421,6 @@ class APIController extends FOSRestController
         $comment->setCar($car);
         $comment->setName($commentData->name);
         $comment->setComment($commentData->text);
-        $comment->setCreatedAt(new \DateTime());
 
         $validationComment = $this->validator->validate($comment);
 

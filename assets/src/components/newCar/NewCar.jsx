@@ -9,6 +9,7 @@ import ImageUpload from "./imageUpload";
 import Loading from "../loading";
 import Validators from "./formValidators";
 import axios from "axios";
+import $ from "jquery";
 
 registerLocale("lt", lt);
 @inject("CarStore")
@@ -51,7 +52,11 @@ class NewCar extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    //scroll to top when component loads
+    $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
+    this.props.CarStore.getAllCities();
+  }
 
   formSubmit = () => {
     Validators.brand(this.state.brand, this.updateErrors);
@@ -179,10 +184,10 @@ class NewCar extends Component {
   };
 
   render() {
-    const { brands, models } = this.props.CarStore;
+    const { brands, models, allCities } = this.props.CarStore;
     const load = this.props.CarStore.loading;
 
-    if (load.brands) {
+    if (load.brands || load.cities) {
       return (
         <div className="main">
           <div className="container">
@@ -315,6 +320,12 @@ class NewCar extends Component {
                       <option value="" disabled selected>
                         Pasirink automobilio miestą
                       </option>
+
+                      {allCities.map(city => (
+                        <option key={city.id} value={city.id}>
+                          {city.city}
+                        </option>
+                      ))}
                     </select>
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
