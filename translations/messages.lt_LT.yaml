@@ -11,3 +11,5 @@ booking:
   bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
+comment:
+  bad_data: 'Patikrinkite ar abu laukelius užpildėti tinkamai ir mėginkite dar kartą!'
