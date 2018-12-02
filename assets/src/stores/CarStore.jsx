@@ -9,7 +9,7 @@ class CarStore {
   // GLOBAL PARAMETERS
   @observable
   loading = {
-    cars: true,
+    cars: false,
     brands: false,
     models: false,
     cities: false

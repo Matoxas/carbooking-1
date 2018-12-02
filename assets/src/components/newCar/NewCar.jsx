@@ -9,6 +9,7 @@ import ImageUpload from "./imageUpload";
 import Loading from "../loading";
 import Validators from "./formValidators";
 import axios from "axios";
+import $ from "jquery";
 
 registerLocale("lt", lt);
 @inject("CarStore")
@@ -51,7 +52,10 @@ class NewCar extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    //scroll to top when component loads
+    $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
+  }
 
   formSubmit = () => {
     Validators.brand(this.state.brand, this.updateErrors);
