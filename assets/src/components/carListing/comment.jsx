@@ -11,11 +11,11 @@ const comment = (props) => {
                     </div>
                     <div className="comment-column--right">
                         <p>
-                            {comment.comment}
+                            <span className="comment--color-primary">{comment.name}</span>
+                            <span className="comment--color-grey">: {comment.createdAt.slice(0,16)}</span>
                         </p>
                         <p>
-                            <span className="comment--color-primary">{comment.name}</span>
-                            <span className="comment--color-grey">: {comment.createdAt.slice(0, 10)}</span>
+                            {comment.comment}
                         </p>
                     </div>
                 </div>

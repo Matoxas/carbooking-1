@@ -22,7 +22,6 @@ class carInfo extends Component {
             comments: [],
             commentName: "",
             commentText: "",
-            ariaExpanded: false,
         };
     }
 
@@ -46,6 +45,8 @@ class carInfo extends Component {
 
             alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
 
+            document.getElementById("clear-reservation-input").reset();
+
             this.setState({
                 reservationClicked: false,
                 reservationButtonText: "Rezervuoti",
@@ -68,6 +69,7 @@ class carInfo extends Component {
             name: commentName,
             text: commentText,
         };
+        document.getElementById("clear-comment-input").reset();
 
         postComment(comment);
         alert("Komentaras paskelbtas")
@@ -162,21 +164,26 @@ class carInfo extends Component {
                             <div className="col-lg-4"/>
                             <div className="col-lg-8 info--newComment">
                                 <hr/>
-                                <button className="btn btn-warning btn-comment" data-toggle="collapse" data-target="#collapseComment"
-                                   aria-expanded="false"
-                                   aria-controls="collapseComment">Parašyti komentarą</button>
+                                <button className="btn btn-warning btn-comment" data-toggle="collapse"
+                                        data-target="#collapseComment"
+                                        aria-expanded="false"
+                                        aria-controls="collapseComment">Parašyti komentarą
+                                </button>
                                 <div className="form-group collapse form-group-separate" id="collapseComment">
-                                    <input onChange={this.handleCommentName} className="form-control" type="text"
-                                           placeholder="Įrašykite savo vardą"/>
-                                    <textarea onChange={this.handleCommentText} className="form-control" type="text"
-                                              placeholder="Komentaras..."/>
-                                    <br/>
-                                    <button onClick={this.handleSubmitComment} className="btn btn-warning info-button"
-                                            data-toggle="collapse" data-target="#collapseComment"
-                                            aria-expanded="false"
-                                            aria-controls="collapseComment">
-                                        Skelbti
-                                    </button>
+                                    <form id="clear-comment-input">
+                                        <input onChange={this.handleCommentName} className="form-control" type="text"
+                                               placeholder="Įrašykite savo vardą"/>
+                                        <textarea onChange={this.handleCommentText} className="form-control" type="text"
+                                                  placeholder="Komentaras..."/>
+                                        <br/>
+                                        <button onClick={this.handleSubmitComment}
+                                                className="btn btn-warning info-button"
+                                                data-toggle="collapse" data-target="#collapseComment"
+                                                aria-expanded="false"
+                                                aria-controls="collapseComment">
+                                            Skelbti
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -215,16 +222,18 @@ class carInfo extends Component {
                             {this.state.reservationButtonText}
                         </button>
                         <div className="form-group collapse form-group-separate" id="collapseReports">
-                            <input onChange={this.handleNameChange} className="form-control" type="text"
-                                   placeholder="Įrašykite savo vardą"/>
-                            <input onChange={this.handleEmailChange} className="form-control" type="text"
-                                   placeholder="Įrašykite savo el. paštą"/>
-                            <input onChange={this.handlePhoneChange} className="form-control" type="text"
-                                   placeholder="Įrašykite savo tel. numerį"/>
-                            <div className="form-group">
+                            <form id="clear-reservation-input">
+                                <input onChange={this.handleNameChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo vardą"/>
+                                <input onChange={this.handleEmailChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo el. paštą"/>
+                                <input onChange={this.handlePhoneChange} className="form-control" type="text"
+                                       placeholder="Įrašykite savo tel. numerį"/>
+                                <div className="form-group">
                                     <textarea onChange={this.handleMessageChange} className="form-control" type="text"
                                               placeholder="Žinutė savininkui..."/>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">Pranešti apie netinkamą skelbimą</p>
