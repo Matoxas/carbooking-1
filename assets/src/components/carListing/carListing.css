@@ -194,6 +194,17 @@ img {
   color: white;
 }
 
+.btn-comment {
+  color: black;
+  background-color: #FFFFFF;
+  border-color: #f47e60;
+  width: 100%;
+}
+
+.btn-comment:hover {
+  background-color: #f47e60;
+}
+
 .info--envelope {
   margin-right: 5px;
 }

@@ -162,9 +162,9 @@ class carInfo extends Component {
                             <div className="col-lg-4"/>
                             <div className="col-lg-8 info--newComment">
                                 <hr/>
-                                <p data-toggle="collapse" data-target="#collapseComment"
+                                <button className="btn btn-warning btn-comment" data-toggle="collapse" data-target="#collapseComment"
                                    aria-expanded="false"
-                                   aria-controls="collapseComment">Parašyti komentarą</p>
+                                   aria-controls="collapseComment">Parašyti komentarą</button>
                                 <div className="form-group collapse form-group-separate" id="collapseComment">
                                     <input onChange={this.handleCommentName} className="form-control" type="text"
                                            placeholder="Įrašykite savo vardą"/>
