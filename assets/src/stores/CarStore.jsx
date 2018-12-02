@@ -26,8 +26,8 @@ class CarStore {
 
   @observable
   likedCars = [];
-  // FILTERS OF CARS LIST
 
+  // FILTERS OF CARS LIST
   @observable
   filters = {
     brand: "",
@@ -46,6 +46,8 @@ class CarStore {
   models = [];
   @observable
   cities = [];
+  @observable
+  allCities = [];
 
   // ==================== GETTERS ====================
 
@@ -120,6 +122,18 @@ class CarStore {
       .catch(error => console.log(error.response));
   };
 
+  @action
+  getAllCities = () => {
+    this.setLoading({ cities: true });
+    axios
+      .get("/cities/all")
+      .then(response => {
+        this.setAllCities(response.data.data);
+        this.setLoading({ cities: false });
+      })
+      .catch(error => console.log(error.response));
+  };
+
   //================== POST =====================
 
   @action
@@ -186,10 +200,14 @@ class CarStore {
   };
 
   @action
+  setAllCities = value => {
+    this.allCities = value;
+  };
+
+  @action
   setFilters = filters => {
-    //if filters doesn't contain page number reset
+    //if filters doesn't contain page number
     if (!filters.page) {
-      console.log("page number doesnt't found");
       //reset cars list after filters change;
       this.cars = [];
       filters.page = 1;
