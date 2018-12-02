@@ -20,13 +20,30 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function findFilterAndSortingCars(array $filters = null)
+    public function findCountOfFilteredCars(array $filters = null)
+    {
+        $filters['count'] = true;
+        return $this->findFilterAndSortingCars($filters);
+    }
+
+    public function findFilterAndSortingCars(array $filters = null, int $startRecord = null, int $recordsPerPage = null)
     {
         $queryBuilder = $this->createQueryBuilder('car');
 
         if ($filters != null) {
             $this->filters($queryBuilder, $filters);
             $this->sorts($queryBuilder, $filters);
+        }
+
+        if (!empty($filters['count'])) {
+            $queryBuilder->select('count(car.id)');
+
+            return $queryBuilder->getQuery()
+                ->getSingleScalarResult();
+        }
+
+        if ($startRecord !== null && $recordsPerPage !== null) {
+            $this->paginations($queryBuilder, $startRecord, $recordsPerPage);
         }
 
         return $queryBuilder->getQuery()
@@ -83,26 +100,34 @@ class CarRepository extends ServiceEntityRepository
      * @param \Doctrine\ORM\QueryBuilder $queryBuilder
      * @param $filters
      */
-    private function sorts(\Doctrine\ORM\QueryBuilder $queryBuilder, $filters)
+    private function sorts(\Doctrine\ORM\QueryBuilder $queryBuilder, $filters): void
     {
         if ($filters['sort'] == 'naujausi') {
-            $queryBuilder->addOrderBy('car.createdAt', 'ASC')
-            ;
+            $queryBuilder->addOrderBy('car.createdAt', 'ASC');
         }
 
         if ($filters['sort'] == 'seniausi') {
-            $queryBuilder->addOrderBy('car.createdAt', 'DESC')
-            ;
+            $queryBuilder->addOrderBy('car.createdAt', 'DESC');
         }
 
         if ($filters['sort'] == 'pigiausi') {
-            $queryBuilder->addOrderBy('car.price', 'ASC')
-            ;
+            $queryBuilder->addOrderBy('car.price', 'ASC');
         }
 
         if ($filters['sort'] == 'brangiausi') {
-            $queryBuilder->addOrderBy('car.price', 'DESC')
-            ;
+            $queryBuilder->addOrderBy('car.price', 'DESC');
         }
+    }
+
+    /**
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param int $startRecord
+     * @param int $recordsPerPage
+     */
+    private function paginations(\Doctrine\ORM\QueryBuilder $queryBuilder, int $startRecord, int $recordsPerPage): void
+    {
+        $queryBuilder->setFirstResult($startRecord)
+            ->setMaxResults($recordsPerPage)
+        ;
     }
 }

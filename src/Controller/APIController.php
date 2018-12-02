@@ -99,11 +99,20 @@ class APIController extends FOSRestController
         $filters = $request->get('filters');
         $filters = json_decode($filters, true);
 
-        $data = $this->carRepository->findFilterAndSortingCars($filters);
+        $recordsPerPage = 5;
+        $pageCurrent = $filters['page'];
+        $startRecord = --$pageCurrent * $recordsPerPage;
+
+        $data = $this->carRepository->findFilterAndSortingCars($filters, $startRecord, $recordsPerPage);
+
+        $carsCount = $this->carRepository->findCountOfFilteredCars($filters);
+        $pageCount = ceil($carsCount / 5);
 
         return $this->view(
             [
-                'cars_count' => count($data),
+                'page_current' => $filters['page'],
+                'page_count' => $pageCount,
+                'cars_count' => $carsCount,
                 'data' => $data
             ],
             Response::HTTP_OK
