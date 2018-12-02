@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Comment from './comment';
 import './carListing.css';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
@@ -10,7 +11,7 @@ class carInfo extends Component {
         super();
         this.state = {
             reservationClicked: false,
-            reservationButtonText: "Reserve",
+            reservationButtonText: "Rezervuoti",
             date_from: new Date(),
             date_until: new Date(),
             name: "",
@@ -18,6 +19,10 @@ class carInfo extends Component {
             phone: "",
             message: "",
             value: null,
+            comments: [],
+            commentName: "",
+            commentText: "",
+            ariaExpanded: false,
         };
     }
 
@@ -43,14 +48,29 @@ class carInfo extends Component {
 
             this.setState({
                 reservationClicked: false,
-                reservationButtonText: "Reserve",
+                reservationButtonText: "Rezervuoti",
             });
         } else {
             this.setState({
                 reservationClicked: true,
-                reservationButtonText: "Submit reservation",
+                reservationButtonText: "Patvirtinti rezervaciją",
             });
         }
+    };
+
+    handleSubmitComment = e => {
+        e.preventDefault();
+        const {postComment} = this.props.CarStore;
+        const {commentName, commentText} = this.state;
+
+        const comment = {
+            carId: this.props.car.id,
+            name: commentName,
+            text: commentText,
+        };
+
+        postComment(comment);
+        alert("Komentaras paskelbtas")
     };
 
     handleFromChange = date => {
@@ -77,9 +97,18 @@ class carInfo extends Component {
         this.setState({phone: phone.target.value})
     };
 
+    handleCommentName = name => {
+        this.setState({commentName: name.target.value})
+    };
+
+    handleCommentText = text => {
+        this.setState({commentText: text.target.value})
+    };
+
     handleBadListing = () => {
-        const { postBadListing } = this.props.CarStore;
+        const {postBadListing} = this.props.CarStore;
         postBadListing(this.props.car.id);
+        alert("Dėkui, jūsų pranešimas buvo išsiųstas")
     };
 
     render() {
@@ -124,13 +153,31 @@ class carInfo extends Component {
                                 Komentarai
                             </div>
                             <div className="col-lg-8">
-                                <p className="info--normal">Labai gera masina, tikrai dar daug kartu noresiu ja as nuomuotis</p>
+                                {this.props.comments.length ? (
+                                    <Comment comments={this.props.comments}/>
+                                ) : (
+                                    <p>Šis skelbimas neturi jokių komentarų.</p>
+                                )}
                             </div>
                             <div className="col-lg-4"/>
-                            <div className="col-lg-8">
-                                <button onClick={this.handleBadListing} className="btn btn-warning info-button">
-                                    Pranešti apie netinkamą skelbimą
-                                </button>
+                            <div className="col-lg-8 info--newComment">
+                                <hr/>
+                                <p data-toggle="collapse" data-target="#collapseComment"
+                                   aria-expanded="false"
+                                   aria-controls="collapseComment">Parašyti komentarą</p>
+                                <div className="form-group collapse form-group-separate" id="collapseComment">
+                                    <input onChange={this.handleCommentName} className="form-control" type="text"
+                                           placeholder="Įrašykite savo vardą"/>
+                                    <textarea onChange={this.handleCommentText} className="form-control" type="text"
+                                              placeholder="Komentaras..."/>
+                                    <br/>
+                                    <button onClick={this.handleSubmitComment} className="btn btn-warning info-button"
+                                            data-toggle="collapse" data-target="#collapseComment"
+                                            aria-expanded="false"
+                                            aria-controls="collapseComment">
+                                        Skelbti
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -162,27 +209,25 @@ class carInfo extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <button onClick={this.handleSubmit} className="btn btn-warning info-button"
-                                    data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                    aria-controls="collapseExample">
-                                {this.state.reservationButtonText}
-                            </button>
-                        </div>
-                        <div>
-                            <div className="form-group collapse form-group-separate" id="collapseExample">
-                                <input onChange={this.handleNameChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo vardą"/>
-                                <input onChange={this.handleEmailChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo el. paštą"/>
-                                <input onChange={this.handlePhoneChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo tel. numerį"/>
-                                <div className="form-group">
+                        <button onClick={this.handleSubmit} className="btn btn-warning info-button"
+                                data-toggle="collapse" data-target="#collapseReports" aria-expanded="false"
+                                aria-controls="collapseReport">
+                            {this.state.reservationButtonText}
+                        </button>
+                        <div className="form-group collapse form-group-separate" id="collapseReports">
+                            <input onChange={this.handleNameChange} className="form-control" type="text"
+                                   placeholder="Įrašykite savo vardą"/>
+                            <input onChange={this.handleEmailChange} className="form-control" type="text"
+                                   placeholder="Įrašykite savo el. paštą"/>
+                            <input onChange={this.handlePhoneChange} className="form-control" type="text"
+                                   placeholder="Įrašykite savo tel. numerį"/>
+                            <div className="form-group">
                                     <textarea onChange={this.handleMessageChange} className="form-control" type="text"
                                               placeholder="Žinutė savininkui..."/>
-                                </div>
                             </div>
                         </div>
+                        <hr/>
+                        <p onClick={this.handleBadListing} className="info-report">Pranešti apie netinkamą skelbimą</p>
                     </div>
                 </div>
             </div>

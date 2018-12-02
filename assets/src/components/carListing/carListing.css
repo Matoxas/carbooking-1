@@ -7,7 +7,6 @@ img {
 .info {
   margin: 20px 20px 0 20px;
   text-shadow: 0 0 0 0;
-  font-size: 1.2em;
   font-weight: 500;
 }
 
@@ -144,6 +143,29 @@ img {
   margin-bottom: 20px;
 }
 
+.info-report {
+    color: #4e4e4e;
+}
+
+.info-report:hover {
+    color: #000000;
+    cursor: pointer;
+}
+
+.info--newComment {
+    text-align: center;
+    padding-bottom: 60px;
+}
+
+.info--newComment p {
+    color: #4e4e4e;
+}
+
+.info--newComment p:hover {
+    color: #000000;
+    cursor: pointer;
+}
+
 .figure {
   overflow: hidden;
   margin: 0;
@@ -187,4 +209,30 @@ img {
 
 .map--size {
   position: relative !important;
+}
+
+.comment i {
+    padding-top: 5px;
+}
+
+.comment-column--left {
+    float: left;
+    width: 18%;
+}
+
+.comment-column--right {
+    float: left;
+    width: 82%;
+}
+
+.comment--color-primary {
+    color: #f47e60;
+}
+
+.comment--color-grey {
+    color: #4e4e4e;
+}
+
+.comment-column p {
+    padding-left: 5px;
 }
