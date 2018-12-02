@@ -19,5 +19,4 @@ class BrandNormalizer implements NormalizerInterface
     {
         return $data instanceof Brand;
     }
-
 }

@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Booking;
 use App\Entity\Car;
+use App\Entity\User;
 use App\Utils\Utils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -42,6 +43,12 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         $date->modify($data[4]);
         $booking->setBookedUntil($date);
 
+        /** @var User $user */
+        $user = $this->getReference('user:' . $data[5]);
+        $booking->setUsers($user);
+
+        $booking->setApproved(true);
+
         return $booking;
     }
 
@@ -49,6 +56,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CarFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

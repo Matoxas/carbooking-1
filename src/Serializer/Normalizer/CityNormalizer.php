@@ -19,5 +19,4 @@ class CityNormalizer implements NormalizerInterface
     {
         return $data instanceof City;
     }
-
 }
