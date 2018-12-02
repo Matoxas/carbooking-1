@@ -56,6 +56,7 @@
     "react-geocode": "^0.1.2",
     "react-google-geocoder": "^0.2.0",
     "react-google-location": "^1.2.2",
+    "react-paginate": "^6.0.0",
     "react-router-dom": "^4.2.2",
     "react-scrollable-anchor": "^0.6.1",
     "react-slick": "^0.23.2",
