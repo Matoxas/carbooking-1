@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Validator\Constraints\DateIsInTheFuture;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -23,13 +25,42 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @DateIsInTheFuture()
      */
     private $bookedFrom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @DateIsInTheFuture()
      */
     private $bookedUntil;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $users;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $message;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $approved;
+
+    /**
+     * Booking constructor.
+     */
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +99,42 @@ class Booking
     public function setBookedUntil(\DateTimeInterface $bookedUntil): self
     {
         $this->bookedUntil = $bookedUntil;
+
+        return $this;
+    }
+
+    public function getApproved(): ?bool
+    {
+        return $this->approved;
+    }
+
+    public function setApproved(bool $approved): self
+    {
+        $this->approved = $approved;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function getUsers(): ?User
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?User $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

@@ -20,25 +20,13 @@ class ModelRepository extends ServiceEntityRepository
         parent::__construct($registry, Model::class);
     }
 
-    public function findAllModelsByBrand(int $id)
+    public function findCountOfRecords(int $brandId)
     {
         return $this->createQueryBuilder('m')
-            ->select('m.id', 'm.model')
-            ->innerJoin('m.brand', 'b')
-            ->where('b.id = :brandId')
-            ->setParameter('brandId', $id)
-            ->orderBy('m.model', 'DESC')
+            ->select('COUNT(m.id)')
+            ->where('m.brand = :brandId')
+            ->setParameter('brandId', $brandId)
             ->getQuery()
-            ->getArrayResult();
-    }
-
-    public function findAllModels()
-    {
-        return $this->createQueryBuilder('m')
-            ->select('m.id', 'm.model')
-            ->innerJoin('m.brand', 'b')
-            ->orderBy('m.model', 'DESC')
-            ->getQuery()
-            ->getArrayResult();
+            ->getSingleScalarResult();
     }
 }

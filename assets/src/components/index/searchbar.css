@@ -101,6 +101,15 @@
     margin: 0;
   }
 
+
+  .date_from{
+    padding-bottom: 1rem;
+  }
+
+    .date_until{
+    padding-top: 1rem;
+  }
+
   .searchbar-submit {
     flex-basis: 12.5%;
     padding-right: 1rem;

@@ -1,4 +1,4 @@
-Mašinos id;Nuomuojama nuo;;Nuomuojama iki;
+Mašinos id; Nuomuojuosi nuo šiandien +- x day; +- x seconds; Nuomuojuosi iki šiandien +- x day; +- x seconds
 0;-1 day;-500 seconds;+1 day;+500 seconds
 0;+1 day;+800 seconds;+3 day;+0 seconds
 0;+5 day;+0 seconds;+20 day;+0 seconds

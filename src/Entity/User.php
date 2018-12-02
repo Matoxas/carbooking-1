@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +20,7 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -31,60 +32,100 @@ class User
     private $cars;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=30)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $confirmationToken;
+    private $name;
+
+    /**
+     * @ORM\Column(type="integer", length=13)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="8")
+     */
+    private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="users")
+     */
+    private $bookings;
 
     public function __construct()
     {
         $this->cars = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getCars()
     {
         return $this->cars;
     }
 
-    /**
-     * @return mixed
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     */
     public function setEmail($email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getConfirmationToken()
+    public function getName(): ?string
     {
-        return $this->confirmationToken;
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 
     /**
-     * @param mixed $confirmationToken
+     * @return Collection|Booking[]
      */
-    public function setConfirmationToken($confirmationToken): void
+    public function getBookings(): Collection
     {
-        $this->confirmationToken = $confirmationToken;
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getUsers() === $this) {
+                $booking->setUsers(null);
+            }
+        }
+
+        return $this;
     }
 }

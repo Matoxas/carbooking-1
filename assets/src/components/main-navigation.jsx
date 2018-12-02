@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const MainNavigation = () => {
   return (
-    <div>
+    <div className="">
       <div className="main-navigation">
         <NavLink to="/feed" className="nav-link--main">
           Visi

@@ -32,38 +32,25 @@ class Model
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="brand")
+     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="model")
      */
     private $cars;
 
-    /**
-     * Model constructor.
-     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Brand|null
-     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
-    /**
-     * @param Brand|null $brand
-     * @return Model
-     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -71,34 +58,21 @@ class Model
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getModel(): ?string
     {
         return $this->model;
     }
 
-    /**
-     * @param $model
-     */
     public function setModel($model): void
     {
         $this->model = $model;
     }
 
-    /**
-     * @return Collection|Model[]
-     */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
-    /**
-     * @param Car $car
-     * @return Brand
-     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -109,10 +83,6 @@ class Model
         return $this;
     }
 
-    /**
-     * @param Car $car
-     * @return Brand
-     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->contains($car)) {

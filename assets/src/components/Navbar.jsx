@@ -2,33 +2,62 @@ import React, { Component } from "react";
 import "../style/Navbar.css";
 import Logo from "./logo";
 import $ from "jquery";
+import { NavLink } from "react-router-dom";
+import history from "../history";
+import { inject, observer } from "mobx-react";
 
+@inject("CarStore")
+@observer
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      showFullLogo: false
+      showFullLogo: false,
+      showNavBackground: false
     };
   }
 
   componentDidMount() {
-    const logoLocation = $(".index-logo-wrapper-logo").offset().top;
+    this.isHeaderSet();
+  }
 
+  isHeaderSet = () => {
+    const { showHeader } = this.props.CarStore;
+    if (showHeader) {
+      this.enableScrollEvents();
+    }
+    this.disableScrollEvents();
+  };
+
+  disableScrollEvents = () => {
     const scrollink = $(".srollink");
-    scrollink.click(function(e) {
-      e.preventDefault();
-      $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
+    $(window).scroll(function() {
+      scrollink.each(function() {
+        let sectionOffset = "";
+      });
     });
+    this.setLogo(true);
+    this.setBackground(true);
+  };
 
+  enableScrollEvents() {
+    // const logoLocation = $(".index-logo-wrapper-logo").offset().top;
+    const scrollink = $(".srollink");
     let self = this;
     //  Active link switching
     $(window).scroll(function() {
       let scrollbarLocation = $(this).scrollTop();
 
-      if (scrollbarLocation > logoLocation) {
+      if (scrollbarLocation > 30) {
         self.setLogo(true);
       } else {
         self.setLogo(false);
+      }
+
+      if (scrollbarLocation > 10) {
+        self.setBackground(true);
+      } else {
+        self.setBackground(false);
       }
 
       scrollink.each(function() {
@@ -50,9 +79,40 @@ class Navbar extends Component {
     });
   };
 
+  setBackground = bool => {
+    this.setState({
+      showNavBackground: bool
+    });
+  };
+
+  handleNavClick = (e, scrollink) => {
+    e.preventDefault();
+    $(e.target)
+      .siblings()
+      .removeClass("active");
+    history.push("/feed");
+    $("body, html").animate({ scrollTop: $(scrollink).offset().top }, 1000);
+  };
+
+  turnOffHeader = e => {
+    e.preventDefault();
+    this.props.CarStore.toggleHeader(false);
+    this.disableScrollEvents();
+    $(e.target).addClass("active");
+    $(e.target)
+      .siblings()
+      .removeClass("active");
+    history.push("/newcar");
+  };
+
   render() {
     return (
-      <header className="masthead mb-auto padding-top text-center">
+      <header
+        className={
+          (this.state.showNavBackground ? "masthead-background" : "") +
+          " masthead mb-auto padding-top text-center"
+        }
+      >
         <div className="container">
           <div className="inner">
             <div
@@ -62,18 +122,30 @@ class Navbar extends Component {
                   : "logo-mask"
               }
             >
-              <a className="srollink" href="#index">
+              <a href="#index" onClick={e => this.handleNavClick(e, "#index")}>
                 <Logo className="masthead-brand" />
               </a>
             </div>
             <nav className="nav nav-masthead justify-content-center">
-              <a href="#index" className="nav-link--hl">
+              <NavLink
+                onClick={this.turnOffHeader}
+                to="/newcar"
+                className="nav-link--hl"
+              >
                 Nuomoti dabar
-              </a>
-              <a href="#index" className="nav-link srollink">
+              </NavLink>
+              <a
+                href="#index"
+                onClick={e => this.handleNavClick(e, "#index")}
+                className="nav-link srollink"
+              >
                 Pagrindinis
               </a>
-              <a href="#mainNav" className="nav-link srollink">
+              <a
+                href="#mainNav"
+                onClick={e => this.handleNavClick(e, "#mainNav")}
+                className="nav-link srollink"
+              >
                 Nuomotis
               </a>
             </nav>

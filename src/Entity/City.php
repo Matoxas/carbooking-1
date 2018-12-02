@@ -30,50 +30,31 @@ class City
      */
     private $city;
 
-    /**
-     * City constructor.
-     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCity()
     {
         return $this->city;
     }
 
-    /**
-     * @param mixed $city
-     */
     public function setCity($city): void
     {
         $this->city = $city;
     }
 
-    /**
-     * @return Collection|Model[]
-     */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
-    /**
-     * @param Car $car
-     * @return City
-     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -84,10 +65,6 @@ class City
         return $this;
     }
 
-    /**
-     * @param Car $car
-     * @return City
-     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->contains($car)) {

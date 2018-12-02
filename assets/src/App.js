@@ -12,6 +12,7 @@ import MainNavigation from "./components/main-navigation";
 import Map from "./components/Map";
 import Favourites from "./components/Favourites";
 import Temporary from "./components/temporary";
+import NewCar from "./components/newCar/NewCar";
 
 @inject("CarStore")
 @observer
@@ -19,14 +20,38 @@ class App extends Component {
   componentDidMount() {
     {
       this.props.CarStore.getAllCars();
+      this.props.CarStore.getBrands();
+      this.loadLikesFromStorage();
     }
   }
 
+  loadLikesFromStorage = () => {
+    const local = localStorage.getItem("likes");
+    const likes = JSON.parse(local);
+    if (likes) {
+      this.props.CarStore.setLikes(likes);
+    }
+  };
+
   render() {
-    const dontShowPage = true;
+    const { showHeader } = this.props.CarStore;
+    const dontShowPage = false;
 
     if (dontShowPage) {
       return <Temporary />;
+    }
+
+    if (!showHeader) {
+      return (
+        <Router history={history}>
+          <div>
+            <Navbar />
+            <Switch>
+              <Route path="/newcar" component={NewCar} exact />
+            </Switch>
+          </div>
+        </Router>
+      );
     }
 
     return (
@@ -36,16 +61,15 @@ class App extends Component {
           <Index />
           <div className="main-wrapper" id="mainNav">
             <MainNavigation />
-            <div>
-              <Switch>
-                <Route path="/feed/carListing/:id" component={carListing} />
-                <Route path="/feed" component={Feed} />
-                <Redirect from="/" exact to="/feed" />
-                <Route path="/map" component={Map} exact />
-                <Route path="/favourites" component={Favourites} exact />
-                <Route component={Feed} />
-              </Switch>
-            </div>
+            <Switch>
+              <Route path="/newcar" component={NewCar} />
+              <Route path="/feed/carListing/:id" component={carListing} />
+              <Route path="/feed" component={Feed} />
+              <Redirect from="/" exact to="/feed" />
+              <Route path="/map" component={Map} exact />
+              <Route path="/favourites" component={Favourites} exact />
+              <Route component={Feed} />
+            </Switch>
           </div>
         </div>
       </Router>

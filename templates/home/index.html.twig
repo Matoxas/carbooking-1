@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} REACT'as!!! {% endblock %}
+{% block title %} {{ parent() }} {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('build/js/index.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('build/css/slider.css') }}">
+    {{ encore_entry_link_tags('js/index') }}
+    {{ encore_entry_link_tags('css/slider') }}
 {% endblock %}
 
 {% block body %}
@@ -14,6 +14,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('build/js/index.js') }}"></script>
-    <script src="{{ asset('build/js/slider.js') }}"></script>
+    {{ encore_entry_script_tags('js/index') }}
+    {{ encore_entry_script_tags('js/slider') }}
 {% endblock %}

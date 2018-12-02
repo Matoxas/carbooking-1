@@ -5,14 +5,26 @@ import baseUrl from "../rootConfig";
 axios.defaults.baseURL = baseUrl;
 
 class CarStore {
+  // GLOBAL PARAMETERS
   @observable
-  loading = true;
+  loading = {
+    cars: true,
+    brands: false,
+    models: false,
+    cities: false
+  };
+  @observable
+  showHeader = true;
+
+  // CAR
   @observable
   cars = [];
 
   @observable
   currentCar = {};
 
+  @observable
+  likedCars = [];
   // FILTERS OF CARS LIST
 
   @observable
@@ -22,12 +34,11 @@ class CarStore {
     location: "",
     date_from: "",
     date_until: "",
-    price_from: "",
-    price_until: ""
+    price_from: 1,
+    price_until: 99,
+    sort: "naujausi"
   };
 
-  @observable
-  sort = "naujausi";
   brands = [];
   @observable
   models = [];
@@ -36,26 +47,40 @@ class CarStore {
 
   // ==================== GETTERS ====================
 
+    @action
+    getComments = () => {
+        this.setLoading({ comments: true});
+        axios.get("comments").then(response => {
+            this.setComments(response.data.data);
+            this.setLoading({ comments: false });
+        }).catch(error => console.log(error.response));
+    };
+
   @action
   getAllCars = () => {
-    this.setLoading(true);
+    this.setLoading({ cars: true });
     axios
-      .put("cars", this.filters)
+      .get("cars", {
+        params: {
+          filters: this.filters
+        }
+      })
       .then(response => {
+        console.log(response);
         this.setCars(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ cars: false });
       })
       .catch(error => console.log(error.response));
   };
 
   @action
   getBrands = () => {
-    this.setLoading(true);
+    this.setLoading({ brands: true });
     axios
       .get("brands")
       .then(response => {
         this.setBrands(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ brands: false });
       })
       .catch(error => console.log(error.response));
   };
@@ -69,29 +94,56 @@ class CarStore {
 
   @action
   getModels = id => {
-    this.setLoading(true);
+    this.setLoading({ models: true });
     axios
       .get("/models/" + id)
       .then(response => {
         this.setModels(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ models: false });
       })
       .catch(error => console.log(error.response));
   };
 
   @action
   getCities = () => {
-    this.setLoading(true);
+    this.setLoading({ cities: true });
     axios
       .get("/cities/")
       .then(response => {
         this.setCities(response.data.data);
-        this.setLoading(false);
+        this.setLoading({ cities: false });
       })
       .catch(error => console.log(error.response));
   };
 
+  //================== POST =====================
+
+  @action
+  postReservation = reservation => {
+    axios
+      .post("/reservations", {reservation})
+      .then(function(response) {})
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  @action
+  postBadListing = carId => {
+      axios
+          .post("/report/car", {carId})
+          .then(function (response) {})
+          .catch(function (error) {
+          console.log(error);
+      })
+  };
+
   // ==================== SETTERS ====================
+
+  @action
+  toggleHeader = value => {
+    this.showHeader = value;
+  };
 
   @action
   setCars = list => {
@@ -105,7 +157,7 @@ class CarStore {
 
   @action
   setLoading = value => {
-    this.loading = value;
+    this.loading = { ...this.loading, ...value };
   };
 
   @action
@@ -128,34 +180,26 @@ class CarStore {
     this.sort = sort;
   };
 
+  @action
+  setLikes = likes => {
+    this.likedCars = likes;
+  };
+
+  @action
+  likesToggler = id => {
+    if (this.likedCars.includes(id)) {
+      this.likedCars = this.likedCars.filter(like => like != id);
+    } else {
+      this.likedCars = [...this.likedCars, id];
+    }
+    localStorage.setItem("likes", JSON.stringify(this.likedCars));
+  };
+
   // ==================== COMPUTED PROPERTIES ====================
 
-  @computed
-  get sortedCarList() {
-    switch (this.sort) {
-      case "naujausi":
-        return this.cars.slice().sort((a, b) => {
-          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
-        });
-      case "seniausi":
-        return this.cars.slice().sort((a, b) => {
-          return Date.parse(a.createdAt) - Date.parse(b.createdAt);
-        });
-      case "pigiausi":
-        return this.cars.sort((a, b) => {
-          return a.price - b.price;
-        });
-      case "brangiausi":
-        return this.cars.sort((a, b) => {
-          return b.price - a.price;
-        });
-      default:
-        return this.cars.slice().sort((a, b) => {
-          return (Date.parse(a.createdAt) - Date.parse(b.createdAt)) * -1;
-        });
-    }
+  @computed get likedCarList() {
+    return this.cars.filter(car => this.likedCars.includes(car.id));
   }
 }
-
 const store = new CarStore();
 export default store;
