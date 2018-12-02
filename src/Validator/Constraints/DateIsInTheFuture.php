@@ -28,6 +28,6 @@ class DateIsInTheFuture extends Constraint
      */
     public function validatedBy(): string
     {
-        return DateIsInTheFuture::class;
+        return DateIsInTheFutureValidator::class;
     }
 }

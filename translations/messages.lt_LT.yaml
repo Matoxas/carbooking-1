@@ -7,3 +7,7 @@ system:
 booking:
   insert:
     error: 'Rezervuoti nepavyko! Patikrinkite įvestus duomenis ir mėginkite dar kartą!'
+  date_is_reserved: 'Ši data jau yra rezervuota!'
+  bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
+renting:
+  time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'

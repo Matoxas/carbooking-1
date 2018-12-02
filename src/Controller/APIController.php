@@ -9,6 +9,8 @@ use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Service\BookingService;
+use App\Service\RentingService;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -57,6 +59,14 @@ class APIController extends FOSRestController
      * @var TranslatorInterface
      */
     private $translator;
+    /**
+     * @var BookingService
+     */
+    private $bookingService;
+    /**
+     * @var RentingService
+     */
+    private $rentingService;
 
     /**
      * TestController constructor.
@@ -68,6 +78,8 @@ class APIController extends FOSRestController
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $entityManager
      * @param TranslatorInterface $translator
+     * @param BookingService $bookingService
+     * @param RentingService $rentingService
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -77,7 +89,9 @@ class APIController extends FOSRestController
         CommentRepository $commentRepository,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        BookingService $bookingService,
+        RentingService $rentingService
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -87,6 +101,8 @@ class APIController extends FOSRestController
         $this->validator = $validator;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->bookingService = $bookingService;
+        $this->rentingService = $rentingService;
     }
 
     /**
@@ -225,7 +241,7 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/reservations", name="api_reservations_new")
+     * @Rest\Post("/new/reservation", name="api_reservation_new")
      * @param Request $request
      * @return View
      * @throws \Exception
@@ -238,7 +254,8 @@ class APIController extends FOSRestController
         $dateFrom = new \DateTime($reservation->date_from);
         $dateUntil = new \DateTime($reservation->date_until);
 
-        //TODO: ši dada, jau yra rezervuota...
+        $reservation->name = htmlspecialchars($reservation->name);
+        $reservation->message = htmlspecialchars($reservation->message);
 
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
 
@@ -246,7 +263,37 @@ class APIController extends FOSRestController
             return $this->view(
                 [
                     'status' => 'error',
-                    'messages' => $this->translator->trans('car.not_exists')
+                    'message' => $this->translator->trans('car.not_exists')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        if (!$this->bookingService->isValidDate($dateFrom, $dateUntil)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('booking.bad_date_format')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        if (!$this->rentingService->isTimeAvailable($car->getId(), $dateFrom, $dateUntil)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('renting.time_not_available')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        if ($this->bookingService->isTimeReserved($car->getId(), $dateFrom, $dateUntil)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('booking.date_is_reserved')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -255,14 +302,14 @@ class APIController extends FOSRestController
         $user = new User();
         $user->setPhone((int) $reservation->phone);
         $user->setEmail($reservation->email);
-        $user->setName($reservation->name);  //todo: special html chars filter...
+        $user->setName($reservation->name);
 
         $booking = new Booking();
         $booking->setCar($car);
         $booking->setUsers($user);
         $booking->setBookedFrom($dateFrom);
         $booking->setBookedUntil($dateUntil);
-        $booking->setMessage($reservation->message); //todo: special html chars filter...
+        $booking->setMessage($reservation->message);
         $booking->setApproved(false);
 
         $validationUser = $this->validator->validate($user);
@@ -272,7 +319,7 @@ class APIController extends FOSRestController
             return $this->view(
                 [
                     'status' => 'error',
-                    'messages' => $this->translator->trans('booking.insert.error')
+                    'message' => $this->translator->trans('booking.insert.error')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -329,6 +376,23 @@ class APIController extends FOSRestController
 
         // $car
         // TODO: Išsiųsti el-paštą su linku į ją $carId
+
+        return $this->view(
+            [
+                'status' => 'ok'
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Post("/new/comment", name="api_comment_new")
+     * @param Request $request
+     * @return View
+     */
+    public function postNewCommentAction(Request $request): View
+    {
+        // TODO: įtraukti naujo komentaro pridėjima!
 
         return $this->view(
             [
