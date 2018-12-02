@@ -182,8 +182,6 @@ class CarStore {
       //reset cars list after filters change;
       this.cars = [];
       filters.page = 1;
-    } else {
-      filters.page = this.filters.page + 1;
     }
 
     this.filters = { ...this.filters, ...filters };

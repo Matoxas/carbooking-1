@@ -51,8 +51,8 @@ class Navbar extends Component {
     } = this.props.CarStore;
 
     if (!loading.cars) {
-      if (filters.page <= total_pages) {
-        setFilters({ page: true });
+      if (filters.page < total_pages) {
+        setFilters({ page: filters.page + 1 });
         getAllCars();
       }
     }
