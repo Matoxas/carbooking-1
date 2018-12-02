@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -31,7 +32,6 @@ class Comment
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
-     * @Assert\NotBlank()
      */
     private $createdAt;
 
@@ -72,6 +72,14 @@ class Comment
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setCreatedAtOnPersist(): void
+    {
+        $this->createdAt = new \DateTime();
     }
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self
