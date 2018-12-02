@@ -32,7 +32,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('carbookingLT@gmail.com')
+            ->setFrom(['carbooking@gmail.com' => 'Car Booking'])
             ->setTo('programeriss@gmail.com')
             ->setBody($body, 'text/html');
 
