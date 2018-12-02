@@ -413,7 +413,6 @@ class APIController extends FOSRestController
         $comment->setCar($car);
         $comment->setName($commentData->name);
         $comment->setComment($commentData->text);
-        $comment->setCreatedAt(new \DateTime());
 
         $validationComment = $this->validator->validate($comment);
 
