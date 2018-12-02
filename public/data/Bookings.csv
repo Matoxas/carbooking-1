@@ -1,5 +1,5 @@
-Mašinos id; Nuomuojuosi nuo šiandien +- x day; +- x seconds; Nuomuojuosi iki šiandien +- x day; +- x seconds
-0;+1 day;+0 seconds;+25 day;+0 seconds
-1;-10 day;+0 seconds;+1 day;+0 seconds;+5 day;+0 second;+10 day;+0 seconds
-1;-10 day;+0 seconds;+10 day;+0 seconds;+30 day;+0 second;+80 day;+0 seconds
-2;-10 day;+0 seconds;+10 day;+0 seconds
+Mašinos id; Nuomuojuosi nuo šiandien +- x day; +- x seconds; Nuomuojuosi iki šiandien +- x day; +- x seconds;userId
+0;+1 day;+0 seconds;+25 day;+0 seconds;0
+1;-10 day;+0 seconds;+1 day;+0 seconds;0
+1;-10 day;+0 seconds;+10 day;+0 seconds;1
+2;-10 day;+0 seconds;+10 day;+0 seconds;2

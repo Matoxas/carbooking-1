@@ -1,5 +1,5 @@
 .newCarWrapper {
-  margin-top: 10rem;
+  margin-top: 6rem;
 }
 
 .invalid-feedback {
@@ -9,6 +9,15 @@
   font-size: 0.9rem;
   color: #dc3545;
   padding: 0.375rem 0.75rem;
+}
+
+.images-wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
 }
 
 .newCarWrapper label {
@@ -69,6 +78,12 @@
   border-color: #f47e60;
 }
 
+.newCarWrapper .btn:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .newCarWrapper .btn:hover {
   border-color: #f47e60;
 }
@@ -125,10 +140,12 @@
   border-color: #999;
   border-style: dashed;
   border-radius: 5px;
+  transition: transform ease-in-out 0.2s;
 }
 
 .dropzone--active {
-  background-color: red;
+  /* transform: scale(1.1); */
+  border-color: #c7c7c7;
 }
 
 .dropzone--active > * {
@@ -148,16 +165,44 @@
   overflow-y: hidden;
 }
 
+.imageUpload-info {
+  text-align: right;
+  font-size: 12px;
+  line-height: 16px;
+  color: #999;
+  font-weight: 400;
+  padding: 0 2px 1rem;
+  margin: 0;
+}
+
 .imageWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 190px;
-  width: 250px;
-  min-width: 250px;
-  margin: 0.5rem;
-  cursor: "pointer";
+  position: relative;
+  margin-right: 1rem;
+  width: 300px;
+  height: 250px;
+  list-style-type: none;
   overflow: hidden;
+}
+
+.images-wrapper:last-child {
+  margin-right: 0;
+}
+
+.imageWrapper img {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+
+.imageWrapper:hover {
+  transform: scale(1.05);
+  z-index: 99;
+  transition: transfrom ease-in-out 0.2s;
+  cursor: pointer;
+  border: 1px solid white;
 }
 
 .imageUpload svg {
@@ -166,6 +211,44 @@
 
 .imageUpload h5 {
   font-size: 1rem;
+}
+
+.delete-button {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  display: block;
+  background-color: rgba(51, 51, 51, 0.8);
+  color: white;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  -webkit-animation: in 0.2s;
+}
+
+.delete-button:hover {
+  -webkit-animation: out 0.2s;
+}
+
+@-webkit-keyframes in {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(90deg);
+  }
+}
+
+@-webkit-keyframes out {
+  0% {
+    -webkit-transform: rotate(90deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+  }
 }
 
 .newCarWrapper .splitWords {

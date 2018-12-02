@@ -96,7 +96,6 @@ class Navbar extends Component {
 
   turnOffHeader = e => {
     e.preventDefault();
-    this.props.CarStore.toggleHeader(false);
     this.disableScrollEvents();
     $(e.target).addClass("active");
     $(e.target)
@@ -134,6 +133,7 @@ class Navbar extends Component {
               >
                 Nuomoti dabar
               </NavLink>
+
               <a
                 href="#index"
                 onClick={e => this.handleNavClick(e, "#index")}

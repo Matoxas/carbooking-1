@@ -21,5 +21,4 @@ class CommentNormalizer implements NormalizerInterface
     {
         return $data instanceof Comment;
     }
-
 }

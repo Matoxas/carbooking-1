@@ -1,8 +1,7 @@
 // čia bus mašinų store'as
-import {observable, action, computed, autorun} from "mobx";
+import { observable, action, computed, autorun } from "mobx";
 import axios from "axios";
 import baseUrl from "../rootConfig";
-
 axios.defaults.baseURL = baseUrl;
 
 class CarStore {
@@ -14,8 +13,6 @@ class CarStore {
         models: false,
         cities: false
     };
-    @observable
-    showHeader = true;
 
     // CAR
     @observable
@@ -37,7 +34,8 @@ class CarStore {
         date_until: "",
         price_from: 1,
         price_until: 99,
-        sort: "naujausi"
+        sort: "naujausi",
+        page: 1
     };
 
     brands = [];
@@ -66,7 +64,7 @@ class CarStore {
 
     @action
     getAllCars = () => {
-        this.setLoading({cars: true});
+        this.setLoading({ cars: true });
         axios
             .get("cars", {
                 params: {
@@ -74,21 +72,20 @@ class CarStore {
                 }
             })
             .then(response => {
-                console.log(response);
                 this.setCars(response.data.data);
-                this.setLoading({cars: false});
+                this.setLoading({ cars: false });
             })
             .catch(error => console.log(error.response));
     };
 
     @action
     getBrands = () => {
-        this.setLoading({brands: true});
+        this.setLoading({ brands: true });
         axios
             .get("brands")
             .then(response => {
                 this.setBrands(response.data.data);
-                this.setLoading({brands: false});
+                this.setLoading({ brands: false });
             })
             .catch(error => console.log(error.response));
     };
@@ -102,24 +99,24 @@ class CarStore {
 
     @action
     getModels = id => {
-        this.setLoading({models: true});
+        this.setLoading({ models: true });
         axios
             .get("/models/" + id)
             .then(response => {
                 this.setModels(response.data.data);
-                this.setLoading({models: false});
+                this.setLoading({ models: false });
             })
             .catch(error => console.log(error.response));
     };
 
     @action
     getCities = () => {
-        this.setLoading({cities: true});
+        this.setLoading({ cities: true });
         axios
             .get("/cities/")
             .then(response => {
                 this.setCities(response.data.data);
-                this.setLoading({cities: false});
+                this.setLoading({ cities: false });
             })
             .catch(error => console.log(error.response));
     };
@@ -180,7 +177,7 @@ class CarStore {
 
     @action
     setLoading = value => {
-        this.loading = {...this.loading, ...value};
+        this.loading = { ...this.loading, ...value };
     };
 
     @action
@@ -195,7 +192,7 @@ class CarStore {
 
     @action
     setFilters = filters => {
-        this.filters = {...this.filters, ...filters};
+        this.filters = { ...this.filters, ...filters };
     };
 
     @action
@@ -224,6 +221,428 @@ class CarStore {
         return this.cars.filter(car => this.likedCars.includes(car.id));
     }
 }
-
 const store = new CarStore();
 export default store;
+
+// // čia bus mašinų store'as
+// import {observable, action, computed, autorun} from "mobx";
+// import axios from "axios";
+// import baseUrl from "../rootConfig";
+//
+// axios.defaults.baseURL = baseUrl;
+//
+// class CarStore {
+// <<<<<<< HEAD
+//     // GLOBAL PARAMETERS
+//     @observable
+//     loading = {
+//         cars: true,
+//         brands: false,
+//         models: false,
+//         cities: false
+//     };
+//     @observable
+//     showHeader = true;
+//
+//     // CAR
+//     @observable
+//     cars = [];
+//
+//     @observable
+//     currentCar = {};
+//
+//     @observable
+//     likedCars = [];
+//     // FILTERS OF CARS LIST
+//
+//     @observable
+//     filters = {
+//         brand: "",
+//         model: "",
+//         location: "",
+//         date_from: "",
+//         date_until: "",
+//         price_from: 1,
+//         price_until: 99,
+//         sort: "naujausi"
+//     };
+//
+//     brands = [];
+//     @observable
+//     models = [];
+//     @observable
+//     cities = [];
+//     @observable
+//     comments = [];
+//
+//     // ==================== GETTERS ====================
+//
+//     @action
+//     getComments = id => {
+//         this.setLoading({comments: true});
+//         let comments = [];
+//         axios.get("/comments/" + id)
+//             .then(response => {
+//                 this.setComments(response.data.data);
+//                 this.setLoading({comments: false});
+//                 console.log(response.data.data);
+//                 comments = response.data.data;
+//             })
+//             .catch(error => console.log(error.response));
+//     };
+//
+//     @action
+//     getAllCars = () => {
+//         this.setLoading({cars: true});
+//         axios
+//             .get("cars", {
+//                 params: {
+//                     filters: this.filters
+//                 }
+//             })
+//             .then(response => {
+//                 console.log(response);
+//                 this.setCars(response.data.data);
+//                 this.setLoading({cars: false});
+//             })
+//             .catch(error => console.log(error.response));
+//     };
+//
+//     @action
+//     getBrands = () => {
+//         this.setLoading({brands: true});
+//         axios
+//             .get("brands")
+//             .then(response => {
+//                 this.setBrands(response.data.data);
+//                 this.setLoading({brands: false});
+//             })
+//             .catch(error => console.log(error.response));
+//     };
+//
+//     @action
+//     GetCar = id => {
+//         this.currentCar = this.cars.find(car => {
+//             return car.id == id;
+//         });
+//     };
+//
+//     @action
+//     getModels = id => {
+//         this.setLoading({models: true});
+//         axios
+//             .get("/models/" + id)
+//             .then(response => {
+//                 this.setModels(response.data.data);
+//                 this.setLoading({models: false});
+//             })
+//             .catch(error => console.log(error.response));
+//     };
+//
+//     @action
+//     getCities = () => {
+//         this.setLoading({cities: true});
+//         axios
+//             .get("/cities/")
+//             .then(response => {
+//                 this.setCities(response.data.data);
+//                 this.setLoading({cities: false});
+//             })
+//             .catch(error => console.log(error.response));
+//     };
+//
+//     //================== POST =====================
+//
+//     @action
+//     postReservation = reservation => {
+//         axios
+//             .post("/new/reservation", {reservation})
+//             .then(function (response) {})
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//     };
+//
+//     @action
+//     postBadListing = carId => {
+//         axios
+//             .post("/report/car", {carId})
+//             .then(function (response) {})
+//             .catch(function (error) {
+//                 console.log(error);
+//             })
+//     };
+//
+//     @action
+//     postComment = comment => {
+//         axios
+//             .post("/new/comment", {comment})
+//             .then(function (respose) {})
+//             .catch(function (error) {
+//                 console.log(error);
+//             })
+//     };
+//
+//     // ==================== SETTERS ====================
+//
+//     @action
+//     setComments = comments => {
+//         this.comments = comments;
+//     };
+//
+//     @action
+//     toggleHeader = value => {
+//         this.showHeader = value;
+//     };
+//
+//     @action
+//     setCars = list => {
+//         this.cars = list;
+//     };
+//
+//     @action
+//     setBrands = list => {
+//         this.brands = list;
+//     };
+//
+//     @action
+//     setLoading = value => {
+//         this.loading = {...this.loading, ...value};
+//     };
+//
+//     @action
+//     setModels = value => {
+//         this.models = value;
+//     };
+//
+//     @action
+//     setCities = value => {
+//         this.cities = value;
+//     };
+//
+//     @action
+//     setFilters = filters => {
+//         this.filters = {...this.filters, ...filters};
+//     };
+//
+//     @action
+//     setSort = sort => {
+//         this.sort = sort;
+//     };
+//
+//     @action
+//     setLikes = likes => {
+//         this.likedCars = likes;
+//     };
+//
+//     @action
+//     likesToggler = id => {
+//         if (this.likedCars.includes(id)) {
+//             this.likedCars = this.likedCars.filter(like => like != id);
+//         } else {
+//             this.likedCars = [...this.likedCars, id];
+//         }
+//         localStorage.setItem("likes", JSON.stringify(this.likedCars));
+//     };
+// =======
+//   // GLOBAL PARAMETERS
+//   @observable
+//   loading = {
+//     cars: true,
+//     brands: false,
+//     models: false,
+//     cities: false
+//   };
+//
+//   // CAR
+//   @observable
+//   cars = [];
+//
+//   @observable
+//   currentCar = {};
+//
+//   @observable
+//   likedCars = [];
+//   // FILTERS OF CARS LIST
+//
+//   @observable
+//   filters = {
+//     brand: "",
+//     model: "",
+//     location: "",
+//     date_from: "",
+//     date_until: "",
+//     price_from: 1,
+//     price_until: 99,
+//     sort: "naujausi",
+//     page: 1
+//   };
+//
+//   brands = [];
+//   @observable
+//   models = [];
+//   @observable
+//   cities = [];
+//
+//   // ==================== GETTERS ====================
+//
+//   @action
+//   getComments = () => {
+//     this.setLoading({ comments: true });
+//     axios
+//       .get("comments")
+//       .then(response => {
+//         this.setComments(response.data.data);
+//         this.setLoading({ comments: false });
+//       })
+//       .catch(error => console.log(error.response));
+//   };
+//
+//   @action
+//   getAllCars = () => {
+//     this.setLoading({ cars: true });
+//     axios
+//       .get("cars", {
+//         params: {
+//           filters: this.filters
+//         }
+//       })
+//       .then(response => {
+//         this.setCars(response.data.data);
+//         this.setLoading({ cars: false });
+//       })
+//       .catch(error => console.log(error.response));
+//   };
+//
+//   @action
+//   getBrands = () => {
+//     this.setLoading({ brands: true });
+//     axios
+//       .get("brands")
+//       .then(response => {
+//         this.setBrands(response.data.data);
+//         this.setLoading({ brands: false });
+//       })
+//       .catch(error => console.log(error.response));
+//   };
+//
+//   @action
+//   GetCar = id => {
+//     this.currentCar = this.cars.find(car => {
+//       return car.id == id;
+//     });
+//   };
+//
+//   @action
+//   getModels = id => {
+//     this.setLoading({ models: true });
+//     axios
+//       .get("/models/" + id)
+//       .then(response => {
+//         this.setModels(response.data.data);
+//         this.setLoading({ models: false });
+//       })
+//       .catch(error => console.log(error.response));
+//   };
+//
+//   @action
+//   getCities = () => {
+//     this.setLoading({ cities: true });
+//     axios
+//       .get("/cities/")
+//       .then(response => {
+//         this.setCities(response.data.data);
+//         this.setLoading({ cities: false });
+//       })
+//       .catch(error => console.log(error.response));
+//   };
+//
+//   //================== POST =====================
+//
+//   @action
+//   postReservation = reservation => {
+//     axios
+//       .post("/reservations", { reservation })
+//       .then(function(response) {})
+//       .catch(function(error) {
+//         console.log(error);
+//       });
+//   };
+//
+//   @action
+//   postBadListing = carId => {
+//     axios
+//       .post("/report/car", { carId })
+//       .then(function(response) {})
+//       .catch(function(error) {
+//         console.log(error);
+//       });
+//   };
+//
+//   // ==================== SETTERS ====================
+//
+//   @action
+//   toggleHeader = value => {
+//     this.showHeader = value;
+//   };
+//
+//   @action
+//   setCars = list => {
+//     this.cars = list;
+//   };
+//
+//   @action
+//   setBrands = list => {
+//     this.brands = list;
+//   };
+//
+//   @action
+//   setLoading = value => {
+//     this.loading = { ...this.loading, ...value };
+//   };
+//
+//   @action
+//   setModels = value => {
+//     this.models = value;
+//   };
+//
+//   @action
+//   setCities = value => {
+//     this.cities = value;
+//   };
+//
+//   @action
+//   setFilters = filters => {
+//     this.filters = { ...this.filters, ...filters };
+//   };
+//
+//   @action
+//   setSort = sort => {
+//     this.sort = sort;
+//   };
+//
+//   @action
+//   setLikes = likes => {
+//     this.likedCars = likes;
+//   };
+//
+//   @action
+//   likesToggler = id => {
+//     if (this.likedCars.includes(id)) {
+//       this.likedCars = this.likedCars.filter(like => like != id);
+//     } else {
+//       this.likedCars = [...this.likedCars, id];
+//     }
+//     localStorage.setItem("likes", JSON.stringify(this.likedCars));
+//   };
+// >>>>>>> fced943cd7d5a01c6646c294f5871efb460c5316
+//
+//     // ==================== COMPUTED PROPERTIES ====================
+//
+//     @computed get likedCarList() {
+//         return this.cars.filter(car => this.likedCars.includes(car.id));
+//     }
+// }
+//
+// const store = new CarStore();
+// export default store;
