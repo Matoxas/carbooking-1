@@ -40,6 +40,4 @@ class DateIsInTheFutureValidator extends ConstraintValidator
                 ->addViolation();
         }
     }
-
-
 }

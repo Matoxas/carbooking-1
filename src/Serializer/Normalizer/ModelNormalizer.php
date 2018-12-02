@@ -19,5 +19,4 @@ class ModelNormalizer implements NormalizerInterface
     {
         return $data instanceof Model;
     }
-
 }
