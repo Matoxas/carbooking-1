@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Car;
+use App\Utils\Utils;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
@@ -21,9 +22,11 @@ class CarSubscriber implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof Car) {
-            $entityManager = $args->getObjectManager();
+            $address = $entity->getAddress();
+            $location = Utils::fetchLocationByAddress($address);
 
-            //TODO: Pagal entityje atsiųstą car->getAddress, prisettinti long ir lat
+            $entity->setLatitude($location['lat']);
+            $entity->setLongitude($location['lng']);
         }
     }
 }
