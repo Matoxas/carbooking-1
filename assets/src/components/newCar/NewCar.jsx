@@ -115,7 +115,7 @@ class NewCar extends Component {
     fd.append("email", this.state.email);
     fd.append("name", this.state.name);
     fd.append("date_from", this.state.date_from);
-    fd.append("date_until", this.state.data_until);
+    fd.append("date_until", this.state.date_until);
 
     //pridedam visus paveikslėlius
     this.state.images.forEach(image => {
@@ -123,7 +123,7 @@ class NewCar extends Component {
     });
 
     axios
-      .post("http://localhost/api/cars/new", fd)
+      .post("http://localhost/api/new/car", fd)
       .then(response => {
         console.log(response);
       })
