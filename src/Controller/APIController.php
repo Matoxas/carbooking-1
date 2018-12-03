@@ -266,6 +266,11 @@ class APIController extends FOSRestController
         $reservation->name = htmlspecialchars($reservation->name);
         $reservation->message = htmlspecialchars($reservation->message);
 
+        $reservation->phone = str_replace('+370', '', $reservation->phone);
+        if (strlen($reservation->phone) == 9) {
+            $reservation->phone = substr($reservation->phone, 1);
+        }
+
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
 
         if ($car === null) {
