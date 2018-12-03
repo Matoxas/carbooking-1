@@ -178,7 +178,7 @@ class NewCar extends Component {
   };
 
   handleFromChange = date => {
-    this.updateErrors({ date_from: "" });
+    this.updateErrors({ date_until: "", date_from: "" });
     this.setState({
       date_from: date
     });
@@ -186,7 +186,7 @@ class NewCar extends Component {
   };
 
   handleUntilChange = date => {
-    this.updateErrors({ date_until: "" });
+    this.updateErrors({ date_until: "", date_from: "" });
     this.setState({
       date_until: date
     });
