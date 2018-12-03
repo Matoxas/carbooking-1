@@ -1,0 +1,16 @@
+<h3 style="color: #cd3334;">Gautas nusiskundimas apie netinkamą skelbimą!</h3>
+<br/>
+Sveiki, <br/>
+<br/>
+Buvo gautas anoniminis pranešimas apie netinkamą automobilį:<br />
+<b>Markė:</b> {{ car.brand.brand }}<br/>
+<b>Modelis:</b> {{ car.model.model }}<br/>
+<b>Miestas:</b> {{ car.city.city }}<br/>
+<br/>
+<b>Automobilio savininkas:</b><br/>
+<b>El-paštas:</b> {{ car.user.email }}<br/>
+<b>Mobulusis:</b> +370 {{ car.user.phone }}<br/>
+<br/>
+<a href="{{ url('car_listing_by_id', { 'id': car.id }) }}">&#187; Plačiau apie automobilį</a><br/>
+<br/>
+carbookinglt@gmail.com

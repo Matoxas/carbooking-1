@@ -80,7 +80,14 @@ class carInfo extends Component {
     };
 
     handleUntilChange = date => {
-        this.setState({date_until: date})
+        this.setState({date_until: date});
+        console.log(this.state.date_from);
+        console.log(this.state.date_until);
+        let timeDiff = Math.abs(this.state.date_until.getTime() - this.state.date_from.getTime());
+        let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        console.log(diffDays);
+        // const date_sum = (this.state.date_until - this.state.date_from);
+        // console.log(date_sum);
     };
 
     handleNameChange = name => {

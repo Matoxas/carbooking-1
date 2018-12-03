@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Mailer\Mailer;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
@@ -68,6 +69,10 @@ class APIController extends FOSRestController
      * @var RentingService
      */
     private $rentingService;
+    /**
+     * @var Mailer
+     */
+    private $mailer;
 
     /**
      * TestController constructor.
@@ -81,6 +86,7 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param BookingService $bookingService
      * @param RentingService $rentingService
+     * @param Mailer $mailer
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -92,7 +98,8 @@ class APIController extends FOSRestController
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator,
         BookingService $bookingService,
-        RentingService $rentingService
+        RentingService $rentingService,
+        Mailer $mailer
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -104,6 +111,7 @@ class APIController extends FOSRestController
         $this->translator = $translator;
         $this->bookingService = $bookingService;
         $this->rentingService = $rentingService;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -258,6 +266,11 @@ class APIController extends FOSRestController
         $reservation->name = htmlspecialchars($reservation->name);
         $reservation->message = htmlspecialchars($reservation->message);
 
+        $reservation->phone = str_replace('+370', '', $reservation->phone);
+        if (strlen($reservation->phone) == 9) {
+            $reservation->phone = substr($reservation->phone, 1);
+        }
+
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
 
         if ($car === null) {
@@ -333,10 +346,7 @@ class APIController extends FOSRestController
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            // TODO: Išsiųsti el-paštą su tekstu:
-                // Klaidos kodas: $errorCode
-                // Kelias: /api/reservations
-                // Klaidos žinutė: $exception->getMessage()
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [
@@ -375,8 +385,7 @@ class APIController extends FOSRestController
             );
         }
 
-        // $car
-        // TODO: Išsiųsti el-paštą su linku į ją $carId
+        $this->mailer->sendReportCarEmail($car);
 
         return $this->view(
             [
@@ -413,7 +422,6 @@ class APIController extends FOSRestController
         $comment->setCar($car);
         $comment->setName($commentData->name);
         $comment->setComment($commentData->text);
-        $comment->setCreatedAt(new \DateTime());
 
         $validationComment = $this->validator->validate($comment);
 
@@ -433,10 +441,7 @@ class APIController extends FOSRestController
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            // TODO: Išsiųsti el-paštą su tekstu:
-            // Klaidos kodas: $errorCode
-            // Kelias: /api/reservations
-            // Klaidos žinutė: $exception->getMessage()
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [
