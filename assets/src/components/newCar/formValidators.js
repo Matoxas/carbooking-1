@@ -1,3 +1,5 @@
+import { getLatLng, geocodeByAddress } from "react-places-autocomplete";
+
 const Validators = {
   brand: (value, updateErrors) => {
     if (value.length <= 0) {
@@ -21,25 +23,82 @@ const Validators = {
       });
       return false;
     }
-    return true;
-  },
-  city: (value, updateErrors) => {
-    if (value.length <= 0) {
-      updateErrors({ city: "pasirinkite miestą!" });
+    if (value.length >= 200) {
+      updateErrors({
+        description: "aprašymas negali viršyti 200 simbolių ribos"
+      });
       return false;
     }
     return true;
   },
-  address: (value, updateErrors) => {
+  address: (value, updateErrors, setCity, allCities) => {
+    let result = true;
     if (value.length <= 0) {
-      updateErrors({ address: "pasirinkite adresą!" });
+      updateErrors({ address: "įveskite adresą!" });
       return false;
     }
-    return true;
+    result = geocodeByAddress(value)
+      .then(results => {
+        //tikrinam ar pasirinkta šalis yra Lietuva
+        const country =
+          results[0].address_components[4].short_name == "LT"
+            ? results[0].address_components[4].short_name == "LT"
+            : results[0].address_components[5].short_name == "LT";
+
+        //tikrinam ar miestas yra 1 ar 2 array objektas
+        const city = results[0].address_components[1].types.includes("locality")
+          ? results[0].address_components[1].short_name
+          : results[0].address_components[2].short_name;
+
+        //jei šalis Lietuva
+        if (country) {
+          //tikrinam ar pasirinktas miestas yra leistinų miestų sąraše
+          const validCity =
+            allCities.filter(function(item) {
+              const cityInArray = item.city == city;
+
+              //jei taip, priskiriam miesto id į state
+              if (cityInArray) {
+                setCity(item.id);
+              }
+              return cityInArray;
+            }).length > 0;
+          // jei viskas ok, grąžinam true
+          if (validCity) {
+            return true;
+          } else {
+            updateErrors({
+              address:
+                "Deja, jūsų mieste galimybės nuomoti automobilio kol kas nėra."
+            });
+            return false;
+          }
+        } else {
+          updateErrors({ address: "Įveskite vietą Lietuvos teritorijoje!" });
+          return false;
+        }
+      })
+      .catch(error => {
+        updateErrors({ address: "neteisingai įvestas adresas!" });
+        return false;
+      });
+
+    return result;
   },
   images: (value, updateErrors) => {
     if (value.length <= 0) {
       updateErrors({ images: "įkelkite bent vieną nuotrauką!" });
+      return false;
+    }
+    return true;
+  },
+  name: (value, updateErrors) => {
+    if (value.length <= 0) {
+      updateErrors({ name: "įveskite vardą!" });
+      return false;
+    }
+    if (value.length >= 20) {
+      updateErrors({ name: "ilgiausias vardo ilgis - 20 simbolių" });
       return false;
     }
     return true;
@@ -97,6 +156,11 @@ const Validators = {
   phone: (value, updateErrors) => {
     if (value.length <= 0) {
       updateErrors({ phone: "įveskite telefono numerį!" });
+      return false;
+    }
+    const pattern = new RegExp(/^\+?(\d{3})\D?\D?(\d{3})\D?(\d{5})$/);
+    if (!pattern.test(value)) {
+      updateErrors({ phone: "įveskite teisingą telefono numerį" });
       return false;
     }
     return true;

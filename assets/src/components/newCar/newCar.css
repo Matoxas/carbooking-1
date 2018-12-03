@@ -35,6 +35,12 @@
   width: 100%;
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+  border-radius: none;
+  background-color: #f4f4f4;
+}
+
 .newCarWrapper input {
   width: 100%;
 }

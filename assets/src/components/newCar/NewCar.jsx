@@ -10,6 +10,7 @@ import Loading from "../loading";
 import Validators from "./formValidators";
 import axios from "axios";
 import $ from "jquery";
+import PlacesAutocomplete from "react-places-autocomplete";
 
 registerLocale("lt", lt);
 @inject("CarStore")
@@ -28,6 +29,11 @@ class NewCar extends Component {
       phone: "",
       email: "",
       name: "",
+      date_from: moment(new Date()).toDate(),
+      date_until: moment(this.date_from)
+        .add(1, "d")
+        .toDate(),
+      images: [],
 
       errors: {
         brand: "",
@@ -42,29 +48,28 @@ class NewCar extends Component {
         images: "",
         date_from: "",
         date_until: ""
-      },
-
-      date_from: moment(new Date()).toDate(),
-      date_until: moment(this.date_from)
-        .add(1, "d")
-        .toDate(),
-      images: []
+      }
     };
   }
 
   componentDidMount() {
+    const { getAllCities, allCities } = this.props.CarStore;
+    if (allCities.length <= 0) {
+      getAllCities();
+    }
     //scroll to top when component loads
-    $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
-    this.props.CarStore.getAllCities();
+    // $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
   }
 
   formSubmit = () => {
+    const { allCities } = this.props.CarStore;
+
+    //validuojam įvestas reikšmes
     Validators.brand(this.state.brand, this.updateErrors);
     Validators.model(this.state.model, this.updateErrors);
     Validators.price(this.state.price, this.updateErrors);
-    Validators.address(this.state.address, this.updateErrors);
-    Validators.city(this.state.city, this.updateErrors);
     Validators.email(this.state.email, this.updateErrors);
+    Validators.name(this.state.name, this.updateErrors);
     Validators.description(this.state.description, this.updateErrors);
     Validators.phone(this.state.phone, this.updateErrors);
     Validators.images(this.state.images, this.updateErrors);
@@ -74,30 +79,51 @@ class NewCar extends Component {
       this.updateErrors
     );
 
-    this.sendFormToRoute();
+    //tikrinam asinchronišką validaciją
+    const callBack = Validators.address(
+      this.state.address,
+      this.updateErrors,
+      this.setCity,
+      allCities
+    );
 
-    //   const errors = this.state.errors;
-    //   const HasErrors = errors.filter(error => error == "");
-
-    //   if (HasErrors.length > 0) {
-    //     alert("yra errorų");
-    //   } else {
-    //     alert("success");
-    //   }
+    // jei gavom promise, o ne false...
+    if (callBack) {
+      callBack.then(result => {
+        if (result == true) {
+          //tikrinam ar visos errorų žinutės tuščios
+          result = Object.values(this.state.errors).every(error => error == "");
+          //jei taip, siunčiam duomenis į BE
+          if (result) {
+            this.sendFormToRoute();
+          }
+        }
+      });
+    }
   };
 
   sendFormToRoute = () => {
     const fd = new FormData();
+    //pridedam visus duomenis
     fd.append("brand", this.state.brand);
-    fd.append("brand", this.state.model);
-    fd.append(
-      "image",
-      this.state.images[0].file,
-      this.state.images[0].file.name
-    );
+    fd.append("model", this.state.model);
+    fd.append("city", this.state.city);
+    fd.append("address", this.state.address);
+    fd.append("price", this.state.price);
+    fd.append("description", this.state.description);
+    fd.append("phone", this.state.phone);
+    fd.append("email", this.state.email);
+    fd.append("name", this.state.name);
+    fd.append("date_from", this.state.date_from);
+    fd.append("date_until", this.state.data_until);
+
+    //pridedam visus paveikslėlius
+    this.state.images.forEach(image => {
+      fd.append("image[]", image.file, image.file.name);
+    });
 
     axios
-      .post("http://localhost/api/newcar", fd)
+      .post("http://localhost/api/cars/new", fd)
       .then(response => {
         console.log(response);
       })
@@ -118,7 +144,13 @@ class NewCar extends Component {
 
   setImages = images => {
     this.setState({
-      images: images
+      images
+    });
+  };
+
+  setCity = city => {
+    this.setState({
+      city: city
     });
   };
 
@@ -159,6 +191,11 @@ class NewCar extends Component {
     this.validateDates();
   };
 
+  handleChangeAddress = address => {
+    this.setState({ address });
+    this.updateErrors({ address: "" });
+  };
+
   validateDates = () => {
     if (this.state.date_from >= this.state.date_until) {
       this.setState({
@@ -184,8 +221,14 @@ class NewCar extends Component {
   };
 
   render() {
-    const { brands, models, allCities } = this.props.CarStore;
+    const { brands, models } = this.props.CarStore;
     const load = this.props.CarStore.loading;
+
+    const searchOptions = {
+      // types: ["address"],
+      strictbounds: true,
+      componentRestrictions: { country: "ltu" }
+    };
 
     if (load.brands || load.cities) {
       return (
@@ -308,46 +351,61 @@ class NewCar extends Component {
             <div className="card">
               <div className="form-group row">
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Miestas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <select
-                      name="city"
-                      className="form-control"
-                      id="inputState"
-                    >
-                      <option value="" disabled selected>
-                        Pasirink automobilio miestą
-                      </option>
-
-                      {allCities.map(city => (
-                        <option key={city.id} value={city.id}>
-                          {city.city}
-                        </option>
-                      ))}
-                    </select>
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-                  {this.state.errors.city.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.city}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Adresas:
                 </label>
                 <div className="col-sm-9 col-md-10">
                   <div className="relative">
-                    <select className="form-control" id="inputState">
-                      <option value="" disabled selected>
-                        Pasirink vietos adresą
-                      </option>
-                    </select>
-                    <i className="fa fa-caret-down" aria-hidden="true" />
+                    <PlacesAutocomplete
+                      value={this.state.address}
+                      onChange={this.handleChangeAddress}
+                      onSelect={this.handleChangeAddress}
+                      searchOptions={searchOptions}
+                      clearItemsOnError={true}
+                    >
+                      {({
+                        getInputProps,
+                        suggestions,
+                        getSuggestionItemProps,
+                        loading
+                      }) => (
+                        <div>
+                          <input
+                            {...getInputProps({
+                              placeholder: "įveskite automobilio lokaciją",
+                              className: "form-control"
+                            })}
+                          />
+                          <div className="autocomplete-dropdown-container">
+                            {loading && <div>Kraunasi...</div>}
+                            {suggestions.map(suggestion => {
+                              const className = suggestion.active
+                                ? "suggestion-item--active"
+                                : "suggestion-item";
+                              // inline style for demonstration purpose
+                              const style = suggestion.active
+                                ? {
+                                    backgroundColor: "#fafafa",
+                                    cursor: "pointer"
+                                  }
+                                : {
+                                    backgroundColor: "#ffffff",
+                                    cursor: "pointer"
+                                  };
+                              return (
+                                <div
+                                  {...getSuggestionItemProps(suggestion, {
+                                    className,
+                                    style
+                                  })}
+                                >
+                                  <span>{suggestion.description}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </PlacesAutocomplete>
                   </div>
                   {this.state.errors.address.length > 0 && (
                     <span className="invalid-feedback">
@@ -445,6 +503,27 @@ class NewCar extends Component {
             <div className="card">
               <div className="form-group row">
                 <label className="col-sm-3 col-md-2" htmlFor="inputState">
+                  Vardas:
+                </label>
+                <div className="col-sm-9 col-md-10">
+                  <div className="relative">
+                    <input
+                      name="name"
+                      onChange={this.setValues}
+                      type="text"
+                      className="form-control"
+                      placeholder="įveskite savo vardą"
+                    />
+                  </div>
+                  {this.state.errors.name.length > 0 && (
+                    <span className="invalid-feedback">
+                      {this.state.errors.name}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group row">
+                <label className="col-sm-3 col-md-2" htmlFor="inputState">
                   Telefonas:
                 </label>
                 <div className="col-sm-9 col-md-10">
@@ -487,8 +566,8 @@ class NewCar extends Component {
               </div>
             </div>
             <button
-              onClick={this.formSubmit}
               type="button"
+              onClick={this.formSubmit}
               className="btn btn-info"
             >
               Paskelbti kataloge
