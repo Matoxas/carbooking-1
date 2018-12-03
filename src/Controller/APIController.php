@@ -341,10 +341,7 @@ class APIController extends FOSRestController
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            // TODO: Išsiųsti el-paštą su tekstu:
-                // Klaidos kodas: $errorCode
-                // Kelias: /api/reservations
-                // Klaidos žinutė: $exception->getMessage()
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [
@@ -383,8 +380,7 @@ class APIController extends FOSRestController
             );
         }
 
-        // $car
-        // TODO: Išsiųsti el-paštą su linku į ją $carId
+        $this->mailer->sendReportCarEmail($car);
 
         return $this->view(
             [
@@ -440,10 +436,7 @@ class APIController extends FOSRestController
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            // TODO: Išsiųsti el-paštą su tekstu:
-            // Klaidos kodas: $errorCode
-            // Kelias: /api/reservations
-            // Klaidos žinutė: $exception->getMessage()
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [

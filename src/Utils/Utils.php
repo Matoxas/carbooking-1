@@ -6,8 +6,7 @@ class Utils
 {
     public static function fetchLocationByAddress(string $address): array
     {
-        //$key = getenv('MAP_API_KEY');
-        $key = 'AIzaSyDGwf3wXD5z0XqaolwPbRVRKGIkDnK5ql4';
+        $key = getenv('MAP_API_KEY');
 
         $queryUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . $key;
 
