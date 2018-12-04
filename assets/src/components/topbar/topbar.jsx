@@ -101,16 +101,10 @@ class Topbar extends Component {
                 onChange={this.changeCity}
                 className="form-control"
                 id="inputState"
+                value={location}
               >
                 <option value="">Visi miestai</option>
                 {cities.map(city => {
-                  if (city.id == location) {
-                    return (
-                      <option selected key={city.id} value={city.id}>
-                        {city.city}
-                      </option>
-                    );
-                  }
                   return (
                     <option key={city.id} value={city.id}>
                       {city.city}
@@ -131,16 +125,10 @@ class Topbar extends Component {
                 onChange={this.changeBrand}
                 className="form-control"
                 id="inputState"
+                value={brand_filter}
               >
                 <option value="">Visi gamintojai</option>
                 {brands.map(brand => {
-                  if (brand.id == brand_filter) {
-                    return (
-                      <option selected key={brand.id} value={brand.id}>
-                        {brand.brand}
-                      </option>
-                    );
-                  }
                   return (
                     <option key={brand.id} value={brand.id}>
                       {brand.brand}
@@ -161,17 +149,11 @@ class Topbar extends Component {
                 onChange={this.changeModel}
                 className="form-control"
                 id="inputState"
+                value={model_filter}
               >
                 <option value="">Visi modeliai</option>
 
                 {models.map(model => {
-                  if (model.id == model_filter) {
-                    return (
-                      <option selected key={model.id} value={model.id}>
-                        {model.model}
-                      </option>
-                    );
-                  }
                   return (
                     <option key={model.id} value={model.id}>
                       {model.model}
@@ -211,27 +193,12 @@ class Topbar extends Component {
                 onChange={this.handleSortChange}
                 className="form-control"
                 id="inputState"
+                value={sort_filter}
               >
-                {sort_filter == "naujausi" ? (
-                  <option selected>Naujausi viršuje</option>
-                ) : (
-                  <option>Naujausi viršuje</option>
-                )}
-                {sort_filter == "seniausi" ? (
-                  <option selected>Seniausi viršuje</option>
-                ) : (
-                  <option>Seniausi viršuje</option>
-                )}
-                {sort_filter == "pigiausi" ? (
-                  <option selected>Pigiausi viršuje</option>
-                ) : (
-                  <option>Pigiausi viršuje</option>
-                )}
-                {sort_filter == "brangiausi" ? (
-                  <option selected>Brangiausi viršuje</option>
-                ) : (
-                  <option>Brangiausi viršuje</option>
-                )}
+                <option value="naujausi">Naujausi viršuje</option>
+                <option value="seniausi">Seniausi viršuje</option>
+                <option value="pigiausi">Pigiausi viršuje</option>
+                <option value="brangiausi">Brangiausi viršuje</option>
               </select>
               <i className="fa fa-caret-down" aria-hidden="true" />
             </div>

@@ -60,7 +60,7 @@ class NewCar extends Component {
       getAllCities();
     }
     //scroll to top when component loads
-    // $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
+    window.scrollTo(0, 0);
   }
 
   formSubmit = () => {
@@ -275,8 +275,9 @@ class NewCar extends Component {
                       name="brand"
                       className="form-control"
                       id="inputState"
+                      value=""
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Pasirink automobilio gamintoją
                       </option>
 
@@ -307,8 +308,9 @@ class NewCar extends Component {
                       name="model"
                       className="form-control"
                       id="inputState"
+                      value=""
                     >
-                      <option value="-1" disabled selected>
+                      <option value="-1" disabled>
                         Pasirink automobilio modelį
                       </option>
                       {models.map(model => (

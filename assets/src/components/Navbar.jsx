@@ -18,6 +18,14 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
+    //check if to display full logo on load
+
+    if (window.location.pathname == "/newcar") {
+      this.setLogo(true);
+      this.setBackground(true);
+    }
+
+    // all things related scrolling
     this.enableScrollEvents();
   }
 
@@ -103,6 +111,7 @@ class Navbar extends Component {
 
   handleNavClick = (e, scrollink) => {
     e.preventDefault();
+    $(e.target).addClass("active");
     $(e.target)
       .siblings()
       .removeClass("active");
