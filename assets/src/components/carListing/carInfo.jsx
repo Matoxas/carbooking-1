@@ -3,6 +3,7 @@ import Comment from './comment';
 import './carListing.css';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
+import axios from "axios";
 
 @inject("CarStore")
 @observer
@@ -22,13 +23,26 @@ class carInfo extends Component {
             comments: [],
             commentName: "",
             commentText: "",
+            response: {},
         };
     }
+
+    postReservation = reservation => {
+        axios
+            .post("/new/reservation", {reservation})
+            .then(response => {
+                this.setState({response: response.data.data});
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                this.setState({response: error.response.data});
+                resp = error.response.data;
+            });
+    };
 
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const {postReservation} = this.props.CarStore;
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
@@ -41,10 +55,9 @@ class carInfo extends Component {
                 message: message,
             };
 
-            postReservation(reservation);
-            const {reservationResponse, reservationErrorMessage} = this.props.CarStore;
+            this.postReservation(reservation);
 
-            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui: " + reservationResponse.message + reservationErrorMessage);
+            alert(this.state.response.message);
 
             document.getElementById("clear-reservation-input").reset();
 

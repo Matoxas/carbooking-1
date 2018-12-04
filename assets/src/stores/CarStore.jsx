@@ -12,7 +12,8 @@ class CarStore {
         cars: false,
         brands: false,
         models: false,
-        cities: false
+        cities: false,
+        responses: false,
     };
 
     // CAR LIST
@@ -50,19 +51,10 @@ class CarStore {
     allCities = [];
     @observable
     reservationResponse = {};
+    @observable
+    reservationError = {};
 
     // ==================== GETTERS ====================
-
-    @action
-    getComments = () => {
-        this.setLoading({comments: true});
-        axios
-            .get("comments")
-            .then(response => {
-                this.setLoading({comments: false});
-            })
-            .catch(error => console.log(error.response));
-    };
 
     @action
     getAllCars = () => {
@@ -147,6 +139,7 @@ class CarStore {
             })
             .catch(error => {
                 console.log(error.response.data);
+                this.setLoading(error);
                 this.setReservationError(error.response.data);
             });
     };
@@ -178,6 +171,7 @@ class CarStore {
     @action
     setReservationError = error => {
         console.log(error);
+        this.reservationError = error;
     };
 
     @action
