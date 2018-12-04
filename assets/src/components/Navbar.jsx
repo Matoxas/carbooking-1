@@ -107,7 +107,9 @@ class Navbar extends Component {
       .siblings()
       .removeClass("active");
     history.push("/feed");
-    $("body, html").animate({ scrollTop: $(scrollink).offset().top }, 1000);
+    if ($(scrollink).offset()) {
+      $("body, html").animate({ scrollTop: $(scrollink).offset().top }, 1000);
+    }
   };
 
   handleOutsineNavClick = (e, link) => {
