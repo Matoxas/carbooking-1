@@ -22,15 +22,8 @@ class AdminController extends AbstractController
      */
     public function showReviews()
     {
-        //$reviews = $this->getDoctrine()
-        //    ->getRepository('App:Review')
-        //    ->findAll();
-        $reviews = $this->getDoctrine()
-            ->getRepository('App:User')
-            ->findAll();
-        //var_dump($reviews);
         return $this->render('admin/reviews/show.html.twig', [
-            'reviews' => '$reviews',
+            'reviews' => 'reviews',
         ]);
     }
     /**
