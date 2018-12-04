@@ -63,7 +63,7 @@ class comment extends Component {
         return (
             <div>
                 {renderComments}
-                <div className="page-numbers"> //NOT finished page design
+                <div className="page-numbers">
                     {renderPageNumbers}
                 </div>
             </div>
