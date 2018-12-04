@@ -48,6 +48,8 @@ class CarStore {
     cities = [];
     @observable
     allCities = [];
+    @observable
+    reservationResponse = {};
 
     // ==================== GETTERS ====================
 
@@ -133,28 +135,19 @@ class CarStore {
             .catch(error => console.log(error.response));
     };
 
-    @action
-    getReservationResponse = reservation => {
-        axios
-            .get("/new/reservation", {reservation})
-            .then(response => {
-                console.log("response ", response.data.data);
-            })
-            .catch(error => console.log(error.response));
-    };
-
     //================== POST =====================
 
     @action
     postReservation = reservation => {
         axios
-            .post("new/reservation", reservation)
-            .then(function (response) {
-                console.log(response.data.data);
-                // this.getReservationResponse();
+            .post("/new/reservation", {reservation})
+            .then(response => {
+                this.setReservationResponse(response.data);
+                console.log(response);
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(error => {
+                console.log(error.response.data);
+                this.setReservationError(error.response.data);
             });
     };
 
@@ -173,7 +166,7 @@ class CarStore {
     postComment = comment => {
         axios
             .post("/new/comment", {comment})
-            .then(function (respose) {
+            .then(function (response) {
             })
             .catch(function (error) {
                 console.log(error);
@@ -181,6 +174,16 @@ class CarStore {
     };
 
     // ==================== SETTERS ====================
+
+    @action
+    setReservationError = error => {
+        console.log(error);
+    };
+
+    @action
+    setReservationResponse = response => {
+        this.reservationResponse = response;
+    };
 
     @action
     toggleHeader = value => {

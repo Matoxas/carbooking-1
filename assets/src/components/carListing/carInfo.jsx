@@ -28,7 +28,7 @@ class carInfo extends Component {
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const {postReservation, getReservationResponse} = this.props.CarStore;
+            const {postReservation} = this.props.CarStore;
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
@@ -42,9 +42,9 @@ class carInfo extends Component {
             };
 
             postReservation(reservation);
-            // getReservationResponse(reservation);
+            const {reservationResponse, reservationErrorMessage} = this.props.CarStore;
 
-            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
+            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui: " + reservationResponse.message + reservationErrorMessage);
 
             document.getElementById("clear-reservation-input").reset();
 
