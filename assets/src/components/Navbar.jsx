@@ -18,28 +18,10 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    this.isHeaderSet();
+    this.enableScrollEvents();
   }
 
-  isHeaderSet = () => {
-    const showHeader = true;
-
-    if (showHeader) {
-      this.enableScrollEvents();
-    }
-    this.disableScrollEvents();
-  };
-
-  disableScrollEvents = () => {
-    const scrollink = $(".srollink");
-    $(window).scroll(function() {
-      scrollink.each(function() {
-        let sectionOffset = "";
-      });
-    });
-    this.setLogo(true);
-    this.setBackground(true);
-  };
+  //load on scroll
 
   pageUp = () => {
     const {
@@ -73,26 +55,35 @@ class Navbar extends Component {
         }
       }
 
-      if (scrollbarLocation > 30) {
+      if (window.location.pathname == "/newcar") {
         self.setLogo(true);
-      } else {
-        self.setLogo(false);
-      }
-
-      if (scrollbarLocation > 10) {
         self.setBackground(true);
       } else {
-        self.setBackground(false);
+        if (scrollbarLocation > 30) {
+          self.setLogo(true);
+        } else {
+          self.setLogo(false);
+        }
+
+        if (scrollbarLocation > 10) {
+          self.setBackground(true);
+        } else {
+          self.setBackground(false);
+        }
       }
 
       scrollink.each(function() {
-        let sectionOffset = $(this.hash).offset().top - 30;
-
-        if (sectionOffset <= scrollbarLocation) {
-          $(this).addClass("active");
-          $(this)
-            .siblings()
-            .removeClass("active");
+        //change active links on scroll if path is not newCar
+        if (window.location.pathname == "/newcar") {
+          let sectionOffset = 0;
+        } else {
+          let sectionOffset = $(this.hash).offset().top - 30;
+          if (sectionOffset <= scrollbarLocation) {
+            $(this).addClass("active");
+            $(this)
+              .siblings()
+              .removeClass("active");
+          }
         }
       });
     });
@@ -119,14 +110,15 @@ class Navbar extends Component {
     $("body, html").animate({ scrollTop: $(scrollink).offset().top }, 1000);
   };
 
-  turnOffHeader = e => {
+  handleOutsineNavClick = (e, link) => {
     e.preventDefault();
-    this.disableScrollEvents();
+    history.push(link);
     $(e.target).addClass("active");
     $(e.target)
       .siblings()
       .removeClass("active");
-    history.push("/newcar");
+    this.setLogo(true);
+    this.setBackground(true);
   };
 
   render() {
@@ -151,13 +143,13 @@ class Navbar extends Component {
               </a>
             </div>
             <nav className="nav nav-masthead justify-content-center">
-              <NavLink
-                onClick={this.turnOffHeader}
-                to="/newcar"
+              <a
+                onClick={e => this.handleOutsineNavClick(e, "/newcar")}
+                href="/newcar"
                 className="nav-link--hl"
               >
                 Nuomoti dabar
-              </NavLink>
+              </a>
 
               <a
                 href="#index"

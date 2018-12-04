@@ -129,7 +129,7 @@
   }
 }
 
-/* @media (min-width: 992px) {
+@media (min-width: 992px) {
   .index-logo-wrapper-logo {
     padding-right: 2rem;
     padding-left: 3rem;
@@ -153,4 +153,4 @@
     color: white;
     font-size: 35px;
   }
-} */
+}
