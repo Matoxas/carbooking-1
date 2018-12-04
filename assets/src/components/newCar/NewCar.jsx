@@ -11,6 +11,8 @@ import Validators from "./formValidators";
 import axios from "axios";
 import $ from "jquery";
 import PlacesAutocomplete from "react-places-autocomplete";
+import baseUrl from "../../rootConfig";
+axios.defaults.baseURL = baseUrl;
 
 registerLocale("lt", lt);
 @inject("CarStore")
@@ -58,7 +60,7 @@ class NewCar extends Component {
       getAllCities();
     }
     //scroll to top when component loads
-    // $("body, html").animate({ scrollTop: $(".masthead").offset().top }, 1000);
+    window.scrollTo(0, 0);
   }
 
   formSubmit = () => {
@@ -123,7 +125,7 @@ class NewCar extends Component {
     });
 
     axios
-      .post("http://localhost/api/new/car", fd)
+      .post("new/car", fd)
       .then(response => {
         console.log(response);
       })
@@ -154,16 +156,6 @@ class NewCar extends Component {
     });
   };
 
-  onDeleteImage = id => {
-    this.setImagesErrorMessage("");
-    this.setState(prevState => {
-      const images = prevState.images;
-      const index = images.findIndex(image => image.id == id);
-      images.splice(index, 1);
-      return { images };
-    });
-  };
-
   setBrand = e => {
     const { getModels } = this.props.CarStore;
     getModels(e.target.value);
@@ -174,6 +166,16 @@ class NewCar extends Component {
         ...this.state.errors,
         brand: ""
       }
+    });
+  };
+
+  onDeleteImage = id => {
+    this.setImagesErrorMessage("");
+    this.setState(prevState => {
+      const images = prevState.images;
+      const index = images.findIndex(image => image.id == id);
+      images.splice(index, 1);
+      return { images };
     });
   };
 
@@ -273,8 +275,9 @@ class NewCar extends Component {
                       name="brand"
                       className="form-control"
                       id="inputState"
+                      value=""
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Pasirink automobilio gamintoją
                       </option>
 
@@ -305,8 +308,9 @@ class NewCar extends Component {
                       name="model"
                       className="form-control"
                       id="inputState"
+                      value=""
                     >
-                      <option value="-1" disabled selected>
+                      <option value="-1" disabled>
                         Pasirink automobilio modelį
                       </option>
                       {models.map(model => (

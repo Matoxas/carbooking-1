@@ -40,6 +40,10 @@
   outline: none;
 }
 
+.searchbar select {
+  cursor: pointer;
+}
+
 .searchbar-item {
   display: flex;
   flex: 1 1 auto;
@@ -101,12 +105,11 @@
     margin: 0;
   }
 
-
-  .date_from{
+  .date_from {
     padding-bottom: 1rem;
   }
 
-    .date_until{
+  .date_until {
     padding-top: 1rem;
   }
 

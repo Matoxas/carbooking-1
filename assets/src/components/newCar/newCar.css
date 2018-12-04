@@ -1,5 +1,5 @@
 .newCarWrapper {
-  margin-top: 6rem;
+  margin-top: 5rem;
 }
 
 .invalid-feedback {
@@ -267,6 +267,10 @@
 }
 
 @media (max-width: 575.98px) {
+  .newCarWrapper {
+    margin-top: 7rem;
+  }
+
   .border-left {
     border-left: 0px !important;
     border-top: 1px solid #e6e6e6;
@@ -283,5 +287,11 @@
   .newCarWrapper .btn {
     float: none;
     width: 100%;
+  }
+}
+
+@media (min-width: 575.98px) and (max-width: 768px) {
+  .newCarWrapper {
+    margin-top: 7rem;
   }
 }
