@@ -136,7 +136,7 @@ class CarStore {
     @action
     getReservationResponse = reservation => {
         axios
-            .get("/reservations", {reservation})
+            .get("/new/reservation", {reservation})
             .then(response => {
                 console.log("response ", response.data.data);
             })
@@ -148,7 +148,7 @@ class CarStore {
     @action
     postReservation = reservation => {
         axios
-            .post("/reservations", {reservation})
+            .post("new/reservation", reservation)
             .then(function (response) {
                 console.log(response.data.data);
                 // this.getReservationResponse();

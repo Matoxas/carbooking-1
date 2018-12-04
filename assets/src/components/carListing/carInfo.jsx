@@ -41,8 +41,8 @@ class carInfo extends Component {
                 message: message,
             };
 
-            // postReservation(reservation);
-            getReservationResponse(reservation);
+            postReservation(reservation);
+            // getReservationResponse(reservation);
 
             alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
 
