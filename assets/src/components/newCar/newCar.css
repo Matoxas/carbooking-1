@@ -207,7 +207,8 @@
   transform: scale(1.05);
   z-index: 99;
   transition: transfrom ease-in-out 0.2s;
-  cursor: pointer;
+  cursor: -webkit-grab;
+  cursor: grab;
   border: 1px solid white;
 }
 
@@ -220,6 +221,7 @@
 }
 
 .delete-button {
+  cursor: pointer;
   position: absolute;
   height: 20px;
   width: 20px;
