@@ -4,7 +4,7 @@ import Switch from "react-router-dom/Switch";
 
 //Components
 import Feed from "./components/Feed";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Index from "./components/index/Index";
 import carListing from "./components/carListing/carListing";
 import MainNavigation from "./components/main-navigation";
