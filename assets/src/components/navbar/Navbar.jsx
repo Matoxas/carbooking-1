@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import "../style/Navbar.css";
-import Logo from "./logo";
+import "./Navbar.css";
+import Logo from "../logo";
 import $ from "jquery";
-import { NavLink } from "react-router-dom";
-import history from "../history";
+import history from "../../history";
 import { inject, observer } from "mobx-react";
 
 @inject("CarStore")
@@ -13,7 +12,8 @@ class Navbar extends Component {
     super(props);
     this.state = {
       showFullLogo: false,
-      showNavBackground: false
+      showNavBackground: false,
+      showMenu: false
     };
   }
 
@@ -28,6 +28,14 @@ class Navbar extends Component {
     // all things related scrolling
     this.enableScrollEvents();
   }
+
+  //mobile menu toggle
+
+  toggleMenu = () => {
+    this.setState({
+      showMenu: !this.state.showMenu
+    });
+  };
 
   //load on scroll
 
@@ -153,7 +161,15 @@ class Navbar extends Component {
                 <Logo className="masthead-brand" />
               </a>
             </div>
-            <nav className="nav nav-masthead justify-content-center">
+            <div onClick={this.toggleMenu} className="burgerIcon">
+              <i className="fas fa-bars" />
+            </div>
+            <nav
+              className={
+                (this.state.showMenu ? "opened" : "") +
+                " nav nav-masthead justify-content-center"
+              }
+            >
               <a
                 onClick={e => this.handleOutsineNavClick(e, "/newcar")}
                 href="/newcar"
