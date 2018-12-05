@@ -68,6 +68,7 @@ class CarStore {
             .then(response => {
                 this.setCars(response.data);
                 this.setLoading({cars: false});
+                console.log(response.data.data);
             })
             .catch(error => console.log(error.response));
     };
@@ -159,7 +160,7 @@ class CarStore {
     postComment = comment => {
         axios
             .post("/new/comment", {comment})
-            .then(function (response) {
+            .then(response => {
             })
             .catch(function (error) {
                 console.log(error);

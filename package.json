@@ -15,7 +15,6 @@
     "popper.js": "^1.14.4",
     "sass-loader": "^7.1.0",
     "webpack-notifier": "^1.7.0",
-    "copy-webpack-plugin": "^4.6.0",
     "admin-lte": "3.0.0-alpha.2"
   },
   "license": "UNLICENSED",
