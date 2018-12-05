@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import lt from "date-fns/locale/lt";
-import "./newCar.css";
 import moment from "moment";
-import ImageUpload from "./imageUpload";
 import Loading from "../loading";
 import Validators from "./formValidators";
 import axios from "axios";
-import $ from "jquery";
-import PlacesAutocomplete from "react-places-autocomplete";
+import "./newCar.css";
+import NewCarForm from "./newCarForm";
 import baseUrl from "../../rootConfig";
 axios.defaults.baseURL = baseUrl;
 
-registerLocale("lt", lt);
 @inject("CarStore")
 @observer
 class NewCar extends Component {
@@ -161,7 +155,7 @@ class NewCar extends Component {
     getModels(e.target.value);
     this.setState({
       brand: e.target.value,
-      model: "-1",
+      model: "",
       errors: {
         ...this.state.errors,
         brand: ""
@@ -228,12 +222,6 @@ class NewCar extends Component {
     const { brands, models } = this.props.CarStore;
     const load = this.props.CarStore.loading;
 
-    const searchOptions = {
-      // types: ["address"],
-      strictbounds: true,
-      componentRestrictions: { country: "ltu" }
-    };
-
     if (load.brands || load.cities) {
       return (
         <div className="main">
@@ -250,335 +238,24 @@ class NewCar extends Component {
       <div className="main-wrapper">
         <div className="container">
           <div className="main newCarWrapper">
-            <h2>Siūlyk savo automobilį</h2>
-            <h5>pradėk įkeldamas keletą nuotraukų</h5>
-            <div className="card">
-              <ImageUpload
-                onDelete={this.onDeleteImage}
-                setImagesErrorMessage={this.setImagesErrorMessage}
-                images={this.state.images}
-                setImages={this.setImages}
-                errors={this.state.errors.images}
-              />
-            </div>
-
-            <h5>automobilio informacija</h5>
-            <div className="card">
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Gamintojas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <select
-                      onChange={this.setBrand}
-                      name="brand"
-                      className="form-control"
-                      id="inputState"
-                      value=""
-                    >
-                      <option value="" disabled>
-                        Pasirink automobilio gamintoją
-                      </option>
-
-                      {brands.map(brand => (
-                        <option key={brand.id} value={brand.id}>
-                          {brand.brand}
-                        </option>
-                      ))}
-                    </select>
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-
-                  {this.state.errors.brand.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.brand}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Modelis:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <select
-                      onChange={this.setValues}
-                      name="model"
-                      className="form-control"
-                      id="inputState"
-                      value=""
-                    >
-                      <option value="-1" disabled>
-                        Pasirink automobilio modelį
-                      </option>
-                      {models.map(model => (
-                        <option key={model.id} value={model.id}>
-                          {model.model}
-                        </option>
-                      ))}
-                    </select>
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-                  {this.state.errors.model.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.model}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Aprašymas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <textarea
-                      onChange={this.setValues}
-                      className="form-control"
-                      name="description"
-                      rows="1"
-                      id="inputState"
-                      placeholder="Trumpai aprašyk automobilį"
-                    />
-                  </div>
-                  {this.state.errors.description.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.description}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <h5>vietos informacija</h5>
-            <div className="card">
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Adresas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <PlacesAutocomplete
-                      value={this.state.address}
-                      onChange={this.handleChangeAddress}
-                      onSelect={this.handleChangeAddress}
-                      searchOptions={searchOptions}
-                      clearItemsOnError={true}
-                    >
-                      {({
-                        getInputProps,
-                        suggestions,
-                        getSuggestionItemProps,
-                        loading
-                      }) => (
-                        <div>
-                          <input
-                            {...getInputProps({
-                              placeholder: "įveskite automobilio lokaciją",
-                              className: "form-control"
-                            })}
-                          />
-                          <div className="autocomplete-dropdown-container">
-                            {loading && <div>Kraunasi...</div>}
-                            {suggestions.map(suggestion => {
-                              const className = suggestion.active
-                                ? "suggestion-item--active"
-                                : "suggestion-item";
-                              // inline style for demonstration purpose
-                              const style = suggestion.active
-                                ? {
-                                    backgroundColor: "#fafafa",
-                                    cursor: "pointer"
-                                  }
-                                : {
-                                    backgroundColor: "#ffffff",
-                                    cursor: "pointer"
-                                  };
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, {
-                                    className,
-                                    style
-                                  })}
-                                >
-                                  <span>{suggestion.description}</span>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </PlacesAutocomplete>
-                  </div>
-                  {this.state.errors.address.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.address}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <h5>laikas ir kaina</h5>
-            <div className="card">
-              <div className="form-group row">
-                <label className="col-sm-2" htmlFor="inputState">
-                  Nuomos pradžia:
-                </label>
-                <div className="col-sm-4">
-                  <div className="relative pb-mobile">
-                    <DatePicker
-                      className="form-control"
-                      locale={"lt"}
-                      name="date_from"
-                      minDate={new Date()}
-                      maxDate={moment(new Date())
-                        .add(31, "d")
-                        .toDate()}
-                      selected={this.state.date_from}
-                      onChange={this.handleFromChange}
-                    />
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-                  {this.state.errors.date_from.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.date_from}
-                    </span>
-                  )}
-                </div>
-                <label
-                  className="col-sm-2 border-left pt-mobile"
-                  htmlFor="inputState"
-                >
-                  Nuomos pabaiga:
-                </label>
-                <div className="col-sm-4">
-                  <div className="relative">
-                    <DatePicker
-                      className="form-control"
-                      locale={"lt"}
-                      name="date_until"
-                      minDate={moment(this.state.date_from)
-                        .add(1, "d")
-                        .toDate()}
-                      maxDate={moment(this.state.date_from)
-                        .add(31, "d")
-                        .toDate()}
-                      selected={this.state.date_until}
-                      onChange={this.handleUntilChange}
-                    />
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-                  {this.state.errors.date_until.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.date_until}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Paros kaina:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      max="99"
-                      name="price"
-                      onChange={this.setValues}
-                      className="form-control"
-                      placeholder="0.00 €"
-                    />
-                  </div>
-                  {this.state.errors.price.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.price}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <h5>kontaktinė informacija</h5>
-            <div className="card">
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Vardas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <input
-                      name="name"
-                      onChange={this.setValues}
-                      type="text"
-                      className="form-control"
-                      placeholder="įveskite savo vardą"
-                    />
-                  </div>
-                  {this.state.errors.name.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.name}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  Telefonas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <input
-                      name="phone"
-                      onChange={this.setValues}
-                      type="text"
-                      className="form-control"
-                      placeholder="+370"
-                    />
-                  </div>
-                  {this.state.errors.phone.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.phone}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="form-group row">
-                <label className="col-sm-3 col-md-2" htmlFor="inputState">
-                  El.paštas:
-                </label>
-                <div className="col-sm-9 col-md-10">
-                  <div className="relative">
-                    <input
-                      name="email"
-                      onChange={this.setValues}
-                      type="email"
-                      className="form-control"
-                      placeholder="pavyzdys@mail.lt"
-                    />
-                  </div>
-                  {this.state.errors.email.length > 0 && (
-                    <span className="invalid-feedback">
-                      {this.state.errors.email}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={this.formSubmit}
-              className="btn btn-info"
-            >
-              Paskelbti kataloge
-            </button>
-            <div className="clearfix" />
+            <NewCarForm
+              address={this.state.address}
+              date_from={this.state.date_from}
+              date_until={this.state.date_until}
+              errors={this.state.errors}
+              brands={brands}
+              models={models}
+              images={this.state.images}
+              handleChangeAddress={this.handleChangeAddress}
+              handleFromChange={this.handleFromChange}
+              handleUntilChange={this.handleUntilChange}
+              onDelete={this.onDeleteImage}
+              setBrand={this.setBrand}
+              setImages={this.setImages}
+              setImagesErrorMessage={this.setImagesErrorMessage}
+              setValues={this.setValues}
+              formSubmit={this.formSubmit}
+            />
           </div>
         </div>
       </div>

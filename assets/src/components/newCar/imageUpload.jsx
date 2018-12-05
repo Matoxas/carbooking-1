@@ -143,7 +143,7 @@ class ImageUpload extends Component {
                   className="btn btn-secondary"
                   onClick={() => open()}
                 >
-                  pasirink iš kompiuterio
+                  pasirink iš katalogo
                 </button>
               </div>
             )}

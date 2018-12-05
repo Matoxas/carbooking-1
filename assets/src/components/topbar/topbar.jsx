@@ -27,9 +27,8 @@ class Topbar extends Component {
 
   updateDimensions = () => {
     const windowWidth = window.innerWidth;
-    console.log(windowWidth);
 
-    // sets the width of reel-container state to (window size - 400px)
+    // sets the to current windowWidth
     this.setState({ windowWidth });
   };
 
@@ -98,6 +97,12 @@ class Topbar extends Component {
     getAllCars();
   };
 
+  setValues = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     const { cities, brands, models } = this.props.CarStore;
     const { location, brand, model, sort } = this.props.CarStore.filters;
@@ -160,7 +165,3 @@ class Topbar extends Component {
 }
 
 export default Topbar;
-
-{
-  /* <i class="fa fa-caret-down" aria-hidden="true"></i> */
-}
