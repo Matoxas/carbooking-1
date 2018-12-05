@@ -219,6 +219,7 @@ class carInfo extends Component {
                                 <div>
                                     <DatePicker
                                         className="input--stretch"
+                                        excludeDates={[new Date(), 1]}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         onChange={this.handleFromChange}
@@ -230,6 +231,7 @@ class carInfo extends Component {
                                 <div>
                                     <DatePicker
                                         className="input--stretch"
+                                        excludeDates={[new Date(), 1]}
                                         // locale={"lt"}
                                         selected={this.state.date_until}
                                         onChange={this.handleUntilChange}
