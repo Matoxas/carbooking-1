@@ -39,8 +39,8 @@ Encore
     ]))
 
     //.splitEntryChunks()
-    //.enableSingleRuntimeChunk()
-    .disableSingleRuntimeChunk()
+    .enableSingleRuntimeChunk()
+    //.disableSingleRuntimeChunk()
 
     /*
      * FEATURE CONFIG

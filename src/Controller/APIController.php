@@ -385,6 +385,11 @@ class APIController extends FOSRestController
             );
         }
 
+        $car->setConfirmed(false);
+
+        $this->entityManager->persist($car);
+        $this->entityManager->flush();
+
         $this->mailer->sendReportCarEmail($car);
 
         return $this->view(

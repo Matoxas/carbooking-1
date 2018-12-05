@@ -1,5 +1,9 @@
 car:
   not_exists: 'Nepavyko rasti nurodytos mašinos!'
+  deleted: 'Mašina buvo sėkmingai pašalinta!'
+  updated: 'Informacija apie mašiną, sėkmingai atnaujinta!'
+  error:
+    unknown: 'Įvyko nenumatyta klaida. Mėginkite vėliau!'
 brand:
   not_exists: 'Nepavyko rasti nurodytos markės!'
 system:
@@ -22,3 +26,11 @@ security:
     or: 'ARBA'
     homepage: 'Pagrindinis puslapis'
     error: 'Klaidingi duomenys!'
+admin:
+  logout: 'Atsijungti'
+  cars:
+    show: 'Visi automobiliai'
+    not:
+      confirmed: 'Neperžiūrėti auto...'
+    title:
+      show: 'Automobilių sąrašas'

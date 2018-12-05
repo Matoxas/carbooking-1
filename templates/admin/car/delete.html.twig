@@ -1,0 +1,30 @@
+<div class="modal-header p-1 pl-3 pr-3">
+    <h4 class="modal-title"><small>Automobilio Pašalinimas Iš Puslapio!</small></h4>
+    <button type="button" class="close pt-4" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+{{ form_start(form) }}
+<div class="modal-body font-size-2">
+    <div class="form-group">
+        <label>Automobilio ID:</label>
+        {{ car.id }}<br/>
+        <label>Markė:</label>
+        {{ car.brand.brand }}<br/>
+        <label>Modelis:</label>
+        {{ car.model.model }}<br/>
+    </div>
+    <div class="form-group">
+        <label>Automobilio sav.:</label>
+        {{ car.user.name }}<br/>
+        <label>Automobilio sav. el-paštas:</label>
+        {{ car.user.email }}}<br/>
+        <label>Automobilio sav.: numeris:</label>
+        +370 {{ car.user.phone }}
+    </div>
+</div>
+<div class="modal-footer p-2 pl-3 pr-4">
+    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Atšaukti</button>
+    <button type="submit" class="btn btn-sm btn-danger" formnovalidate>PAŠALINTI</button>
+</div>
+<div style="display: none">{{ form_widget(form) }}</div>
+{{ form_end(form) }}

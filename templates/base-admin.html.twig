@@ -7,8 +7,8 @@
     <title>NFQ | {% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('build/css/adminlte/admin-lte.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/css/adminlte/app.css') }}">
+    {{ encore_entry_link_tags('css/adminlte/admin-lte') }}
+    {{ encore_entry_link_tags('css/adminlte/app') }}
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -35,38 +35,9 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- Notifications Dropdown Menu -->
-            <!--
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
-            </li>
-            -->
             <li class="nav-item">
-                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-                            class="fa fa-th-large"></i></a>
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                    <i class="fa fa-th-large"></i></a>
             </li>
         </ul>
     </nav>
@@ -85,7 +56,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fa fa-ban"></i> Dėmesio!</h5>
-                    {{ message }}
+                    {{ message|trans }}
                 </div>
             </div>
         {% endfor %}
@@ -94,7 +65,7 @@
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fa fa-info"></i> Svarbu!</h5>
-                    {{ message }}
+                    {{ message|trans }}
                 </div>
             </div>
         {% endfor %}
@@ -103,7 +74,7 @@
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fa fa-warning"></i> Įspėjimas!</h5>
-                    {{ message }}
+                    {{ message|trans }}
                 </div>
             </div>
         {% endfor %}
@@ -112,7 +83,7 @@
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fa fa-check"></i> Atlikta!</h5>
-                    {{ message }}
+                    {{ message|trans }}
                 </div>
             </div>
         {% endfor %}
@@ -149,7 +120,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"><a href="{{ path('security_logout') }}">
-                                <i class="fa fa-sign-out"></i> Atsijungti</a>
+                                <i class="fa fa-sign-out"></i> {{ 'admin.logout'|trans }}</a>
                         </li>
                     </ul>
                 </nav>
@@ -169,6 +140,7 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('build/js/adminlte/adminlte.min.js') }}"></script>
 <!-- App -->
-<script src="{{ asset('build/js/adminlte/app.js') }}"></script>
+{{ encore_entry_script_tags('js/adminlte/app') }}
+
 </body>
 </html>

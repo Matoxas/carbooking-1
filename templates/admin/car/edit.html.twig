@@ -1,0 +1,59 @@
+<div class="modal-header p-1 pl-3 pr-3">
+    <h4 class="modal-title"><small>Automobilio Pašalinimas Iš Puslapio!</small></h4>
+    <button type="button" class="close pt-4" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+{{ form_start(form) }}
+<div class="modal-body font-size-2">
+    <div class="form-group">
+        <label>Automobilio ID:</label>
+        {{ car.id }}<br/>
+        <label>Markė:</label>
+        {{ car.brand.brand }}<br/>
+        <label>Modelis:</label>
+        {{ car.model.model }}<br/>
+    </div>
+    <div class="form-group">
+        <label>Automobilio sav.:</label>
+        {{ car.user.name }}<br/>
+        <label>Automobilio sav. el-paštas:</label>
+        {{ car.user.email }}}<br/>
+        <label>Automobilio sav.: numeris:</label>
+        +370 {{ car.user.phone }}
+    </div>
+    <table border="0" style="width: 100%;">
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label>Rodomas viešai
+                        {{ form_widget(form.public, {
+                            'label': false,
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'car.edit.input'
+                            }
+                        }) }}
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>Peržiūrėtas
+                        {{ form_widget(form.confirmed, {
+                            'label': false,
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'car.edit.input'
+                            }
+                        }) }}
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer p-2 pl-3 pr-4">
+    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Atšaukti</button>
+    <button type="submit" class="btn btn-sm btn-orange" formnovalidate>ATNAUJINTI</button>
+</div>
+{{ form_end(form) }}
