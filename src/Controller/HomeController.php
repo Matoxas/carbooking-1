@@ -23,7 +23,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/feed/carListing/{id}", name="car_listing_by_id")
+     * @Route("/feed/carListing/{id}", name="home_car_listing_by_id")
      */
     public function carListingById($id)
     {

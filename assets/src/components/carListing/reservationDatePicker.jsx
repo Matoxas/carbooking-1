@@ -14,6 +14,7 @@ export default class reservationDatePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            excludedDates: new Date(),
             date_from: new Date(),
             date_until: moment(this.startDate)
                 .add(7, "d")
@@ -43,6 +44,7 @@ export default class reservationDatePicker extends Component {
                 <DatePicker
                     className="input--stretch"
                     // locale={"lt"}
+                    excludeDates={[new Date(), 1]}
                     selected={this.state.date_from}
                     onChange={this.handleFromChange}
                 />

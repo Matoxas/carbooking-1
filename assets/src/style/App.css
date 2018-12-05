@@ -468,7 +468,8 @@ body {
 /* =========================== ETC ===========================  */
 
 .map--size {
-  height: 400px !important;
+  height: 600px !important;
+  margin-bottom: 15px;
 }
 
 /* =========================== UNIVERSAL MODIFIERS ===========================  */

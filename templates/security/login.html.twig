@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/adminlte/admin-lte.css') }}">
+{% endblock %}
+
+{% block body %}
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="{{ path('home') }}"><b>Car</b>Booking</a>
+            </div>
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">{{ 'security.login.title'|trans }}</p>
+
+                    <form action="{{ path('security_login') }}" method="post">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" name="_email" value="{{ last_email }}" required="required" placeholder="{{ 'security.login.email'|trans }}">
+                            <div class="input-group-append">
+                                <span class="fa fa-envelope input-group-text"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" name="_password" required="required"  placeholder="{{ 'security.login.password'|trans }}">
+                            <div class="input-group-append">
+                                <span class="fa fa-lock input-group-text"></span>
+                            </div>
+                        </div>
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ 'security.login.error'|trans }}
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}">
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <button type="submit" name="Login" class="btn btn-primary btn-block btn-flat">{{ 'security.login.submit'|trans }}</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+
+                    <div class="social-auth-links text-center mb-3">
+                        <p>- {{ 'security.login.or'|trans }} -</p>
+                    </div>
+                    <!-- /.social-auth-links -->
+
+                    <p class="mb-1">
+                        <a href="{{ path('home') }}">{{ 'security.login.homepage'|trans }}</a>
+                    </p>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+    </body>
+{% endblock %}

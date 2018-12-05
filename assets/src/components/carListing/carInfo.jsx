@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import Comment from './comment';
 import './carListing.css';
+import ReservationDatePicker from './reservationDatePicker';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
+import axios from "axios";
 
 @inject("CarStore")
 @observer
@@ -22,13 +24,25 @@ class carInfo extends Component {
             comments: [],
             commentName: "",
             commentText: "",
+            response: {},
         };
     }
+
+    postReservation = reservation => {
+        axios
+            .post("/new/reservation", {reservation})
+            .then(response => {
+                this.setState({response: response.data.data});
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                this.setState({response: error.response.data});
+            });
+    };
 
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const {postReservation} = this.props.CarStore;
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
@@ -41,9 +55,9 @@ class carInfo extends Component {
                 message: message,
             };
 
-            postReservation(reservation);
+            this.postReservation(reservation);
 
-            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
+            alert(this.state.response.message);
 
             document.getElementById("clear-reservation-input").reset();
 
@@ -205,6 +219,7 @@ class carInfo extends Component {
                                 <div>
                                     <DatePicker
                                         className="input--stretch"
+                                        excludeDates={[new Date(), 1]}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         onChange={this.handleFromChange}
@@ -216,6 +231,7 @@ class carInfo extends Component {
                                 <div>
                                     <DatePicker
                                         className="input--stretch"
+                                        excludeDates={[new Date(), 1]}
                                         // locale={"lt"}
                                         selected={this.state.date_until}
                                         onChange={this.handleUntilChange}
@@ -244,6 +260,7 @@ class carInfo extends Component {
                         </div>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">Pranešti apie netinkamą skelbimą</p>
+                        <ReservationDatePicker/>
                     </div>
                 </div>
             </div>
