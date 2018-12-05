@@ -1,0 +1,59 @@
+<div class="modal-header p-1 pl-3 pr-3">
+    <h4 class="modal-title"><small>{{ 'admin.car.edit.title'|trans }}</small></h4>
+    <button type="button" class="close pt-4" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+{{ form_start(form) }}
+<div class="modal-body font-size-2">
+    <div class="form-group">
+        <label>{{ 'admin.car.edit.carId'|trans }}:</label>
+        {{ car.id }}<br/>
+        <label>{{ 'admin.car.edit.brand'|trans }}:</label>
+        {{ car.brand.brand }}<br/>
+        <label>{{ 'admin.car.edit.model'|trans }}:</label>
+        {{ car.model.model }}<br/>
+    </div>
+    <div class="form-group">
+        <label>{{ 'admin.car.owner.name'|trans }}:</label>
+        {{ car.user.name }}<br/>
+        <label>{{ 'admin.car.owner.email'|trans }}:</label>
+        {{ car.user.email }}}<br/>
+        <label>{{ 'admin.car.owner.phone'|trans }}:</label>
+        +370 {{ car.user.phone }}
+    </div>
+    <table border="0" style="width: 100%;">
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label>{{ 'admin.car.edit.publish'|trans }}
+                        {{ form_widget(form.publish, {
+                            'label': false,
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'car.edit.input'
+                            }
+                        }) }}
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>{{ 'admin.car.edit.confirmed'|trans }}
+                        {{ form_widget(form.confirmed, {
+                            'label': false,
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'car.edit.input'
+                            }
+                        }) }}
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer p-2 pl-3 pr-4">
+    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'admin.car.cancel'|trans }}</button>
+    <button type="submit" class="btn btn-sm btn-orange" formnovalidate>{{ 'admin.car.update'|trans }}</button>
+</div>
+{{ form_end(form) }}
