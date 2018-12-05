@@ -32,5 +32,43 @@ admin:
     show: 'Visi automobiliai'
     not:
       confirmed: 'Neperžiūrėti auto...'
+      publish: 'Nepaskelbti auto...'
     title:
       show: 'Automobilių sąrašas'
+  car:
+    delete:
+      title: 'Automobilio Pašalinimas Iš Puslapio!'
+      carId: 'Automobilio ID'
+      brand: 'Markė'
+      model: 'Modelis'
+    owner:
+      phone: 'Automobilio sav. numeris'
+      email: 'Automobilio sav. el-paštas'
+      name: 'Automobilio sav.'
+    cancel: 'Atšaukti'
+    remove: 'PAŠALINTI'
+    update: 'ATNAUJINTI'
+    edit:
+      title: 'Automobilio Informacijos atnaujinimas'
+      carId: 'Automobilio ID'
+      brand: 'Markė'
+      model: 'Modelis'
+      confirmed: 'Peržiūrėtas'
+      publish: 'Rodomas viešai'
+    show:
+      title: 'Paruoštas sąrašas'
+      audoId: 'Auto ID'
+      link: 'Skelbimas'
+      not_confirm: 'Neperžiūrėtas'
+      confirm: 'Peržiūrėtas'
+      not_publish: 'Nepaskelbtas'
+      publish: 'Paskelbtas'
+      actions: 'Veiksmai'
+      city: 'Miestas'
+      model: 'Modelis'
+      brand: 'Markė'
+flashes:
+  danger: 'Dėmesio!'
+  important: 'Svarbu!'
+  attencion: 'Įspėjimas'
+  done: 'Atlikta sėkmingai!'

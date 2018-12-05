@@ -98,7 +98,7 @@ class Car
     /**
      * @ORM\Column(type="boolean")
      */
-    private $public;
+    private $publish;
 
     /**
      * @ORM\Column(type="boolean")
@@ -321,14 +321,14 @@ class Car
         return $this;
     }
 
-    public function getPublic(): ?bool
+    public function getPublish(): ?bool
     {
-        return $this->public;
+        return $this->publish;
     }
 
-    public function setPublic(bool $public): self
+    public function setPublish(bool $publish): self
     {
-        $this->public = $public;
+        $this->publish = $publish;
 
         return $this;
     }

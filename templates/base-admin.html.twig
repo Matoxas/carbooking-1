@@ -55,7 +55,7 @@
             <div class="card-body">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fa fa-ban"></i> Dėmesio!</h5>
+                    <h5><i class="icon fa fa-ban"></i> {{ 'flashes.danger'|trans }}!</h5>
                     {{ message|trans }}
                 </div>
             </div>
@@ -64,7 +64,7 @@
             <div class="card-body">
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fa fa-info"></i> Svarbu!</h5>
+                    <h5><i class="icon fa fa-info"></i> {{ 'flashes.important'|trans }}!</h5>
                     {{ message|trans }}
                 </div>
             </div>
@@ -73,7 +73,7 @@
             <div class="card-body">
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fa fa-warning"></i> Įspėjimas!</h5>
+                    <h5><i class="icon fa fa-warning"></i> {{ 'flashes.attencion'|trans }}!</h5>
                     {{ message|trans }}
                 </div>
             </div>
@@ -82,7 +82,7 @@
             <div class="card-body">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fa fa-check"></i> Atlikta!</h5>
+                    <h5><i class="icon fa fa-check"></i> {{ 'flashes.done'|trans }}!</h5>
                     {{ message|trans }}
                 </div>
             </div>

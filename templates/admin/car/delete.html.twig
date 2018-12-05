@@ -1,30 +1,30 @@
 <div class="modal-header p-1 pl-3 pr-3">
-    <h4 class="modal-title"><small>Automobilio Pašalinimas Iš Puslapio!</small></h4>
+    <h4 class="modal-title"><small>{{ 'admin.car.delete.title'|trans }}</small></h4>
     <button type="button" class="close pt-4" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 
 {{ form_start(form) }}
 <div class="modal-body font-size-2">
     <div class="form-group">
-        <label>Automobilio ID:</label>
+        <label>{{ 'admin.car.delete.carId'|trans }}:</label>
         {{ car.id }}<br/>
-        <label>Markė:</label>
+        <label>{{ 'admin.car.delete.brand'|trans }}:</label>
         {{ car.brand.brand }}<br/>
-        <label>Modelis:</label>
+        <label>{{ 'admin.car.delete.model'|trans }}:</label>
         {{ car.model.model }}<br/>
     </div>
     <div class="form-group">
-        <label>Automobilio sav.:</label>
+        <label>{{ 'admin.car.owner.name'|trans }}:</label>
         {{ car.user.name }}<br/>
-        <label>Automobilio sav. el-paštas:</label>
+        <label>{{ 'admin.car.owner.email'|trans }}:</label>
         {{ car.user.email }}}<br/>
-        <label>Automobilio sav.: numeris:</label>
+        <label>{{ 'admin.car.owner.phone'|trans }}:</label>
         +370 {{ car.user.phone }}
     </div>
 </div>
 <div class="modal-footer p-2 pl-3 pr-4">
-    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Atšaukti</button>
-    <button type="submit" class="btn btn-sm btn-danger" formnovalidate>PAŠALINTI</button>
+    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'admin.car.cancel'|trans }}</button>
+    <button type="submit" class="btn btn-sm btn-danger" formnovalidate>{{ 'admin.car.remove'|trans }}</button>
 </div>
 <div style="display: none">{{ form_widget(form) }}</div>
 {{ form_end(form) }}

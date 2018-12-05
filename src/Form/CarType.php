@@ -13,7 +13,7 @@ class CarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('public', CheckboxType::class, [
+            ->add('publish', CheckboxType::class, [
                 'required' => true
             ])
             ->add('confirmed', CheckboxType::class, [

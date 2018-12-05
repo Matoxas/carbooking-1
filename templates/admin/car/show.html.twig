@@ -11,22 +11,22 @@
                 <div class="col-md-9">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Paruoštas sąrašas</h3>
+                            <h3 class="card-title">{{ 'admin.car.show.title'|trans }}</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body p-0">
                             <table class="table table-striped">
                                 <tbody><tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Auto id</th>
-                                    <th>Markė</th>
-                                    <th>Modelis</th>
-                                    <th>Miestas</th>
-                                    <th>Automobilio sav.</th>
-                                    <th>Paskelbtas</th>
-                                    <th>Patvirtintas</th>
-                                    <th>Skelbimas</th>
-                                    <th style="width: 110px">Veiksmai</th>
+                                    <th>{{ 'admin.car.show.audoId'|trans }}</th>
+                                    <th>{{ 'admin.car.show.brand'|trans }}</th>
+                                    <th>{{ 'admin.car.show.model'|trans }}</th>
+                                    <th>{{ 'admin.car.show.city'|trans }}</th>
+                                    <th>{{ 'admin.car.owner.name'|trans }}</th>
+                                    <th>{{ 'admin.car.show.publish'|trans }}</th>
+                                    <th>{{ 'admin.car.show.confirm'|trans }}</th>
+                                    <th>{{ 'admin.car.show.link'|trans }}</th>
+                                    <th style="width: 110px">{{ 'admin.car.show.actions'|trans }}</th>
                                 </tr>
                                 {% for car in cars %}
                                     <tr>
@@ -37,22 +37,22 @@
                                         <td>{{ car.city.city }}</td>
                                         <td>{{ car.user.name }}</td>
                                         <td>
-                                            {% if car.public == true %}
-                                                <span class="badge bg-success">Paskelbtas</span>
+                                            {% if car.publish == true %}
+                                                <span class="badge bg-success">{{ 'admin.car.show.publish'|trans }}</span>
                                             {% else %}
-                                                <span class="badge bg-danger">Nepaskelbtas</span>
+                                                <span class="badge bg-danger">{{ 'admin.car.show.not_publish'|trans }}</span>
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if car.confirmed == true %}
-                                                <span class="badge bg-success">Peržiūrėtas</span>
+                                                <span class="badge bg-success">{{ 'admin.car.show.confirm'|trans }}</span>
                                             {% else %}
-                                                <span class="badge bg-danger">Neperžiūrėtas</span>
+                                                <span class="badge bg-danger">{{ 'admin.car.show.not_confirm'|trans }}</span>
                                             {% endif %}
                                         </td>
                                         <td>
                                             <a href="{{ path('home_car_listing_by_id', { 'id': car.id }) }}"
-                                               target="_blank">Peržiūrėti
+                                               target="_blank">{{ 'admin.car.show.link'|trans }}
                                             </a>
                                         </td>
                                         <td>

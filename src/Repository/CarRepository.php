@@ -29,7 +29,7 @@ class CarRepository extends ServiceEntityRepository
     public function findFilterAndSortingCars(array $filters = null, int $startRecord = null, int $recordsPerPage = null)
     {
         $queryBuilder = $this->createQueryBuilder('car')
-            ->where('car.public = true');
+            ->where('car.publish = true');
 
         if ($filters != null) {
             $this->filters($queryBuilder, $filters);

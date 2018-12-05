@@ -4,7 +4,6 @@ namespace App\Controller;
 use App\Entity\Car;
 use App\Entity\Image;
 use App\Form\CarType;
-use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,6 +43,20 @@ class AdminController extends AbstractController
     {
         $cars = $this->getDoctrine()->getRepository(Car::class)
             ->findBy(['confirmed' => false]);
+
+        return $this->render('admin/car/show.html.twig', [
+            'cars' => $cars,
+            'cars_count' => count($cars)
+        ]);
+    }
+
+    /**
+     * @Route("/cars/npublish", name="admin_cars_npublish")
+     */
+    public function showNotPublishedCars()
+    {
+        $cars = $this->getDoctrine()->getRepository(Car::class)
+            ->findBy(['publish' => false]);
 
         return $this->render('admin/car/show.html.twig', [
             'cars' => $cars,

@@ -35,6 +35,7 @@ class CarExtension extends AbstractExtension
     {
         return [
             new TwigFunction('notConfirmedCarsCount', [$this, 'notConfirmedCarsCount']),
+            new TwigFunction('notPublishedCarsCount', [$this, 'notPublishedCarsCount']),
         ];
     }
 
@@ -51,6 +52,16 @@ class CarExtension extends AbstractExtension
     {
         $cars = $this->entityManager->getRepository(Car::class)
             ->findBy(['confirmed' => false]);
+
+        $count = count($cars);
+
+        return $count;
+    }
+
+    public function notPublishedCarsCount()
+    {
+        $cars = $this->entityManager->getRepository(Car::class)
+            ->findBy(['publish' => false]);
 
         $count = count($cars);
 

@@ -31,7 +31,7 @@ class CarFixtures extends Fixture implements DependentFixtureInterface
     {
         $car = new Car();
 
-        $car->setPublic(true);
+        $car->setPublish(true);
         $car->setConfirmed(true);
         $car->setPrice($data[0]);
 
