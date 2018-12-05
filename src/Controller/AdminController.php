@@ -20,7 +20,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        return $this->redirectToRoute('admin_cars_nconfirmed');
+        return $this->redirectToRoute('admin_cars_show');
     }
 
     /**
