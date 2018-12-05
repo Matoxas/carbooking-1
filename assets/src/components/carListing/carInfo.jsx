@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Comment from './comment';
 import './carListing.css';
+import ReservationDatePicker from './reservationDatePicker';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
 import axios from "axios";
@@ -36,7 +37,6 @@ class carInfo extends Component {
             .catch(error => {
                 console.log(error.response.data);
                 this.setState({response: error.response.data});
-                resp = error.response.data;
             });
     };
 
@@ -258,6 +258,7 @@ class carInfo extends Component {
                         </div>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">Pranešti apie netinkamą skelbimą</p>
+                        <ReservationDatePicker/>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-day-picker/lib/style.css";
 import "./carListing.css";
 // registerLocale("lt", lt);
+import 'react-dates/initialize';
+import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 import moment from "moment";
 import {inject, observer} from "mobx-react";
 // import lt from "date-fns/locale/lt";
@@ -40,12 +43,14 @@ export default class reservationDatePicker extends Component {
     render() {
         return (
             <div>
-                <DatePicker
-                    className="input--stretch"
-                    // locale={"lt"}
-                    selected={this.state.date_from}
-                    onChange={this.handleFromChange}
-                />
+                {/*<DatePicker*/}
+                    {/*className="input--stretch"*/}
+                    {/*// locale={"lt"}*/}
+                    {/*selected={this.state.date_from}*/}
+                    {/*onChange={this.handleFromChange}*/}
+                {/*/>*/}
+                <DateRangePicker
+                    startDate={null}/>
             </div>
         );
     }
