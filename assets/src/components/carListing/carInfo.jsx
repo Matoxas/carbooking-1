@@ -5,6 +5,7 @@ import ReservationDatePicker from './reservationDatePicker';
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
 import axios from "axios";
+import moment from "moment";
 
 @inject("CarStore")
 @observer
@@ -25,7 +26,15 @@ class carInfo extends Component {
             commentName: "",
             commentText: "",
             response: {},
+            bookingDates: {},
+            blockDate: moment(this.date_from)
+            .add(7, "d")
+            .toDate(),
+            blockDates: moment(this.date_from)
+                .add(8, "d")
+                .toDate(),
         };
+        // this.getBookingDates();
     }
 
     postReservation = reservation => {
@@ -38,6 +47,15 @@ class carInfo extends Component {
                 console.log(error.response.data);
                 this.setState({response: error.response.data});
             });
+    };
+
+    getBookingDates = () => {
+        axios
+            .get("/bookingDates/" + this.props.carId)
+            .then(response => {
+                this.setState({bookingDates: response.data.data});
+            })
+            .catch(error => console.log(error));
     };
 
     handleSubmit = e => {
@@ -219,7 +237,7 @@ class carInfo extends Component {
                                 <div>
                                     <DatePicker
                                         className="input--stretch"
-                                        excludeDates={[new Date(), 1]}
+                                        excludeDates={[this.state.blockDate, this.state.blockDates, 1]}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         onChange={this.handleFromChange}
