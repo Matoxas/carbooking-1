@@ -385,6 +385,11 @@ class APIController extends FOSRestController
             );
         }
 
+        $car->setConfirmed(false);
+
+        $this->entityManager->persist($car);
+        $this->entityManager->flush();
+
         $this->mailer->sendReportCarEmail($car);
 
         return $this->view(
@@ -467,10 +472,10 @@ class APIController extends FOSRestController
      */
     public function postNewCarAction(Request $request): View
     {
-        foreach($_GET as $key => $value) {
+        foreach ($_GET as $key => $value) {
             echo "GET parameter '$key' has '$value' <br/>";
         }
-        foreach($_POST as $key => $value) {
+        foreach ($_POST as $key => $value) {
             echo "POST parameter '$key' has '$value' <br/>";
         }
         foreach ($_FILES as $FILE) {

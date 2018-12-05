@@ -95,6 +95,16 @@ class Car
      */
     private $confirmationToken;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $publish;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $confirmed;
+
     public function __construct()
     {
         $this->renting = new ArrayCollection();
@@ -307,6 +317,30 @@ class Car
     public function setConfirmationToken(?string $confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    public function getPublish(): ?bool
+    {
+        return $this->publish;
+    }
+
+    public function setPublish(bool $publish): self
+    {
+        $this->publish = $publish;
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?bool
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(bool $confirmed): self
+    {
+        $this->confirmed = $confirmed;
 
         return $this;
     }
