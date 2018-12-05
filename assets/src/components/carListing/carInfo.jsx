@@ -278,7 +278,6 @@ class carInfo extends Component {
                         </div>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">Pranešti apie netinkamą skelbimą</p>
-                        <ReservationDatePicker/>
                     </div>
                 </div>
             </div>
