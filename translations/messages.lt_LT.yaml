@@ -4,6 +4,7 @@ car:
   updated: 'Informacija apie mašiną, sėkmingai atnaujinta!'
   error:
     unknown: 'Įvyko nenumatyta klaida. Mėginkite vėliau!'
+  not_valid: ' Nevisi laukeliai užpildyti tinkamai! Patikrinkite duomenis ir mėginkite dar kartą!'
 brand:
   not_exists: 'Nepavyko rasti nurodytos markės!'
 system:
