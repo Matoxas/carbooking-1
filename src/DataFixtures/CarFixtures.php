@@ -60,6 +60,8 @@ class CarFixtures extends Fixture implements DependentFixtureInterface
         $user = $this->getReference('user:' . $data[9]);
         $car->setUser($user);
 
+        $car->setDescription($data[10]);
+
         $this->addReference(
             'car:' . $index,
             $car
