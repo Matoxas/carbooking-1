@@ -21,22 +21,37 @@ const SubmitModal = props => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle className="text-center" id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title">
           {props.formStatus == "PENDING" && "Reikia patvirtinimo!"}
           {props.formStatus == "LOADING" &&
             "Palaukite, sekelbimas įkeliamas..."}
+          {props.formStatus == "SUCCESS" &&
+            "Sveikiname, skelbimas sėkmingai įkeltas!"}
+          {props.formStatus == "FAILURE" && "Deja, kažkas ne taip!"}
         </DialogTitle>
         <DialogContent>
+          {props.formStatus == "PENDING" && (
+            <DialogContentText id="alert-dialog-description">
+              Ar patvirtinate, kad jūsų įrašyti duomenys yra teisingi ir
+              sutinkate pateiktą informaciją skelbti viešai?
+            </DialogContentText>
+          )}
           {props.formStatus == "LOADING" && (
             <div style={spinnerSize} className="flex flex-center">
               <Loading className={"loading"} />
             </div>
           )}
 
-          {props.formStatus == "PENDING" && (
+          {props.formStatus == "SUCCESS" && (
+            <div style={spinnerSize} className="flex flex-center">
+              <Loading className={"loading"} />
+            </div>
+          )}
+
+          {props.formStatus == "FAILURE" && (
             <DialogContentText id="alert-dialog-description">
-              Ar patvirtinate, kad jūsų įrašyti duomenys yra teisingi ir
-              sutinkate pateiktą informaciją skelbti viešai?
+              Panašu, kad įkeliant automobilį įvyko klaida, patikrinkite ar
+              teisingai įvedėte visus duomenis ir bandykite vėl.
             </DialogContentText>
           )}
         </DialogContent>
@@ -48,6 +63,24 @@ const SubmitModal = props => {
             </Button>
             <Button onClick={props.formSubmit} color="primary" autoFocus>
               Sutinku
+            </Button>
+          </DialogActions>
+        )}
+
+        {props.formStatus == "SUCCESS" && (
+          <DialogActions>
+            <Button onClick={props.onClose} color="primary">
+              Grįžti
+            </Button>
+            <Button onClick={props.onClose} color="primary" autoFocus>
+              Peržiūrėti skelbimą
+            </Button>
+          </DialogActions>
+        )}
+        {props.formStatus == "FAILURE" && (
+          <DialogActions>
+            <Button onClick={props.onClose} color="primary">
+              Grįžti
             </Button>
           </DialogActions>
         )}

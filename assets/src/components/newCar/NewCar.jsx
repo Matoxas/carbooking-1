@@ -57,6 +57,10 @@ class NewCar extends Component {
     window.scrollTo(0, 0);
   }
 
+  clearForm = () => {
+    //TODO CLEAR STATE
+  };
+
   formSubmit = () => {
     const { allCities } = this.props.CarStore;
 
@@ -83,9 +87,8 @@ class NewCar extends Component {
       allCities
     );
 
-    // jei gavom promise, o ne false...
-    if (callBack) {
-      const submitResult = callBack.then(result => {
+    const submitResult = Promise.resolve(callBack)
+      .then(result => {
         if (result == true) {
           //tikrinam ar visos errorų žinutės tuščios
           result = Object.values(this.state.errors).every(error => error == "");
@@ -98,11 +101,12 @@ class NewCar extends Component {
             return false;
           }
         }
+      })
+      .catch(error => {
+        return error;
       });
-      return submitResult;
-    } else {
-      return false;
-    }
+
+    return submitResult;
   };
 
   sendFormToRoute = () => {
@@ -128,9 +132,11 @@ class NewCar extends Component {
     return axios
       .post("new/car", fd)
       .then(response => {
-        return true;
+        return response;
       })
-      .catch(error => false);
+      .catch(error => {
+        return error;
+      });
   };
 
   setValues = e => {
@@ -246,6 +252,7 @@ class NewCar extends Component {
         <div className="container">
           <div className="main newCarWrapper">
             <NewCarForm
+              clearForm={this.clearForm}
               address={this.state.address}
               date_from={this.state.date_from}
               date_until={this.state.date_until}

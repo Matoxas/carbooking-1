@@ -42,8 +42,23 @@ class NewCarForm extends Component {
     Promise.resolve(this.props.formSubmit()).then(response => {
       if (!response) {
         this.handleModalClose();
+        this.setState({
+          formStatus: "PENDING"
+        });
       } else {
-        // TODO WHEN ALL GOOD
+        // jei response teigiamas, keičiam formos statusą į SUCCESS
+        if (response.status === 200) {
+          this.props.clearForm();
+          this.setState({
+            formStatus: "SUCCESS"
+          });
+        } else {
+          console.log(response);
+          //priešingu atveju, keičiam formos statusą į FAILURE
+          this.setState({
+            formStatus: "FAILURE"
+          });
+        }
       }
     });
   };

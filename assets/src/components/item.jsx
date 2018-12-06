@@ -7,11 +7,6 @@ moment.locale("lt");
 @inject("CarStore")
 @observer
 class Item extends Component {
-  // constructor(){
-  //   super();
-  //   this.state =
-  // }
-
   handleLikeSubmit = (e, car) => {
     e.preventDefault();
     const { likesToggler } = this.props.CarStore;
