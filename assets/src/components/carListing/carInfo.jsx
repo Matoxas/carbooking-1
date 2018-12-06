@@ -15,8 +15,10 @@ class carInfo extends Component {
     this.state = {
       reservationClicked: false,
       reservationButtonText: "Rezervuoti",
-      date_from: new Date(),
-      date_until: new Date(),
+      date_from: moment(new Date()).toDate(),
+      date_until: moment(this.date_from)
+        .add(1, "d")
+        .toDate(),
       name: "",
       email: "",
       phone: "",
