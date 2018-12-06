@@ -41,16 +41,16 @@ export class MapContainer extends Component {
                 google={this.props.google}
                 zoom={this.props.zoom}
                 style={mapStyles}
-                initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
+                // initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
                 scrollwheel={false}
-                maxZoom={10}
-                minZoom={10}
+                maxZoom={16}
+                minZoom={16}
             >
                 <Marker
                     onClick={this.onMarkerClick}
                     icon={{
                         url: "https://www.logolynx.com/images/logolynx/f6/f6999054e09462b3f267ef4bf7b8c47e.png",
-                        scaledSize: new google.maps.Size(120, 120),
+                        scaledSize: new google.maps.Size(160, 160),
                     }}
                 />
                 <InfoWindow

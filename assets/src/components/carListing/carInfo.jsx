@@ -188,7 +188,7 @@ class carInfo extends Component {
               <div className="col-lg-3 info-description">Aprašymas</div>
               <div className="col-lg-9">
                 <p className="info--normal">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    {this.props.car.description}
                 </p>
               </div>
               <hr />
@@ -269,18 +269,19 @@ class carInfo extends Component {
                   <DatePicker
                     className="form-control"
                     //   locale={"lt"}
-                    name="date_from"
-                    excludeDates={[
-                      this.state.blockDate,
-                      this.state.blockDates,
-                      1
-                    ]}
-                    minDate={new Date()}
-                    maxDate={moment(new Date())
-                      .add(31, "d")
-                      .toDate()}
+                    excludeDates={this.state.bookingDates}
+                      // locale={"lt"}
                     selected={this.state.date_from}
-                    onChange={this.state.handleFromChange}
+                    selectsEnd
+                    startDate={this.state.date_from}
+                    endDate={this.state.date_until}
+                    minDate={moment(this.state.date_from)
+                        .add(1, "d")
+                        .toDate()}
+                    maxDate={moment(this.state.date_from)
+                        .add(31, "d")
+                        .toDate()}
+                    onChange={this.handleFromChange}
                   />
                   <i className="fa fa-caret-down" aria-hidden="true" />
                 </div>
@@ -290,6 +291,7 @@ class carInfo extends Component {
                     className="form-control"
                     //   locale={"lt"}
                     name="date_until"
+                    selectsEnd
                     excludeDates={[
                       this.state.blockDate,
                       this.state.blockDates,
