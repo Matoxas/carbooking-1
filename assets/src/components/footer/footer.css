@@ -1,0 +1,29 @@
+#footer {
+  background-color: rgba(57, 57, 57, 0.9);
+}
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-buttons .btn {
+  margin: 2rem 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+}
+
+.footer-buttons .btn:hover {
+  color: #f47e60;
+  border-color: #f47e60;
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-text p {
+  margin: 0;
+  padding: 1rem 0;
+}

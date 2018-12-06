@@ -78,7 +78,7 @@
   border-left: 1px solid #e6e6e6;
 }
 
-.newCarWrapper .btn {
+.newCarWrapper .btn-info {
   float: right;
   background-color: #f47e60;
   border-color: #f47e60;
@@ -88,26 +88,6 @@
   content: "";
   display: block;
   clear: both;
-}
-
-.newCarWrapper .btn:hover {
-  border-color: #f47e60;
-}
-
-.newCarWrapper .btn-secondary:focus {
-  box-shadow: none;
-}
-
-.newCarWrapper .btn-secondary {
-  background-color: white;
-  border: 1px solid #f47e60;
-  color: #f47e60;
-}
-
-.newCarWrapper .btn-secondary:hover {
-  background-color: #f47e60;
-  border: 1px solid white;
-  color: white;
 }
 
 .react-datepicker-wrapper,
@@ -286,7 +266,7 @@
     padding-bottom: 1rem;
   }
 
-  .newCarWrapper .btn {
+  .newCarWrapper .btn-info {
     float: none;
     width: 100%;
   }
