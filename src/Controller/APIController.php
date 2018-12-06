@@ -6,6 +6,7 @@ use App\Entity\Booking;
 use App\Entity\Car;
 use App\Entity\City;
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Renting;
 use App\Entity\User;
 use App\Mailer\Mailer;
@@ -536,18 +537,6 @@ class APIController extends FOSRestController
             );
         }
 
-        $error = $this->uploadImages($request);
-
-        if ($error !== null) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans($error)
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
         try {
             $this->entityManager->persist($user);
             $this->entityManager->persist($car);
@@ -567,6 +556,18 @@ class APIController extends FOSRestController
             );
         }
 
+        $error = $this->uploadImages($request, $car);
+
+        if ($error !== null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans($error)
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         return $this->view(
             [
                 'status' => 'ok'
@@ -577,9 +578,10 @@ class APIController extends FOSRestController
 
     /**
      * @param Request $request
+     * @param Car $car
      * @return string
      */
-    private function uploadImages(Request $request): ?string
+    private function uploadImages(Request $request, Car $car): ?string
     {
         $message = null;
         $target_dir = "uploads/";
@@ -616,6 +618,13 @@ class APIController extends FOSRestController
                         $message = "Įkeliant failą įvyko nenumatyta klaida.";
                     }
                 }
+
+                $image = new Image();
+                $ex = explode("/", $target_file);
+                $image->setImage($ex[1]);
+                $image->setCar($car);
+                $this->entityManager->persist($image);
+                $this->entityManager->flush();
             }
         }
 
