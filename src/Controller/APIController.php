@@ -568,7 +568,8 @@ class APIController extends FOSRestController
         foreach ($request->files->get('image') as $image) {
             $target_file = $target_dir . basename($_FILES["image"]["name"]);
 
-            var_dump($target_file);die;
+            var_dump($target_file);
+            die;
 
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
