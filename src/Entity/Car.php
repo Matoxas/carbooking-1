@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Car
 {
@@ -56,7 +57,6 @@ class Car
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
      */
     private $createdAt;
 
@@ -362,5 +362,15 @@ class Car
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setCreatedAtOnPersist(): void
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTime();
+        }
     }
 }

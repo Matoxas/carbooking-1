@@ -36,7 +36,6 @@ class CarNormalizer implements NormalizerInterface
             'latitude'      => $object->getLatitude(),
             'longitude'     => $object->getLongitude(),
             'city'          => $object->getCity()->getCity(),
-            'email'         => $object->getUser()->getEmail(),
             'brand'         => $object->getBrand()->getBrand(),
             'model'         => $object->getModel()->getModel(),
             'images'        => $this->getImages($object),
