@@ -22,11 +22,13 @@ class CarSubscriber implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof Car) {
-            $address = $entity->getAddress();
-            $location = Utils::fetchLocationByAddress($address);
+            if ($entity->getLatitude() == null || $entity->getLongitude() == null) {
+                $address = $entity->getAddress();
+                $location = Utils::fetchLocationByAddress($address);
 
-            $entity->setLatitude($location['lat']);
-            $entity->setLongitude($location['lng']);
+                $entity->setLatitude($location['lat']);
+                $entity->setLongitude($location['lng']);
+            }
         }
     }
 }

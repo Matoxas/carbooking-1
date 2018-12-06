@@ -105,6 +105,13 @@ class Car
      */
     private $confirmed;
 
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->renting = new ArrayCollection();
@@ -341,6 +348,18 @@ class Car
     public function setConfirmed(bool $confirmed): self
     {
         $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
