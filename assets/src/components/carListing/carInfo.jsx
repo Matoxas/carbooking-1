@@ -26,36 +26,45 @@ class carInfo extends Component {
       commentName: "",
       commentText: "",
       response: {},
-      bookingDates: {},
-      blockDate: moment(this.date_from)
-        .add(7, "d")
-        .toDate(),
-      blockDates: moment(this.date_from)
-        .add(8, "d")
-        .toDate()
+      bookingDates: []
     };
-    // this.getBookingDates();
   }
+
+  componentDidMount() {
+    // console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
+    const datesArray = this.getDates(
+      this.state.blockDate,
+      this.state.blockDates
+    );
+    console.log(datesArray);
+    this.setState({ bookingDates: datesArray });
+  }
+
+  getDates = (startDate, endDate) => {
+    let dates = [],
+      currentDate = startDate,
+      addDays = function(days) {
+        let date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+      };
+    while (currentDate <= endDate) {
+      dates.push(currentDate);
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  };
 
   postReservation = reservation => {
     axios
       .post("/new/reservation", { reservation })
       .then(response => {
-        this.setState({ response: response.data.data });
+        alert(response.data.data.message);
       })
       .catch(error => {
         console.log(error.response.data);
-        this.setState({ response: error.response.data });
+        alert(error.response.data.message);
       });
-  };
-
-  getBookingDates = () => {
-    axios
-      .get("/bookingDates/" + this.props.carId)
-      .then(response => {
-        this.setState({ bookingDates: response.data.data });
-      })
-      .catch(error => console.log(error));
   };
 
   handleSubmit = e => {
@@ -74,9 +83,6 @@ class carInfo extends Component {
       };
 
       this.postReservation(reservation);
-
-      alert(this.state.response.message);
-
       document.getElementById("clear-reservation-input").reset();
 
       this.setState({
@@ -113,13 +119,12 @@ class carInfo extends Component {
 
   handleUntilChange = date => {
     this.setState({ date_until: date });
+    // this.setState({date_from: date_until});
     console.log(this.state.date_from);
     console.log(this.state.date_until);
-    let timeDiff = Math.abs(
-      this.state.date_until.getTime() - this.state.date_from.getTime()
-    );
-    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    console.log(diffDays);
+    // let timeDiff = Math.abs(this.state.date_until.getTime() - this.state.date_from.getTime());
+    // let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    // console.log(diffDays);
     // const date_sum = (this.state.date_until - this.state.date_from);
     // console.log(date_sum);
   };
