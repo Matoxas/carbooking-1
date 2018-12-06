@@ -34,7 +34,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom(['carbooking@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
             ->setTo('programeriss@gmail.com')
             ->setBody($body, 'text/html');
 
@@ -50,8 +50,8 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Nenumatyta klaida!'))
-            ->setFrom(['carbooking@gmail.com' => 'Car Booking'])
-            ->setTo('carbooking@gmail.com')
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo('carbookinglt@gmail.com')
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
@@ -64,8 +64,8 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Netinkamas skelbimas!'))
-            ->setFrom(['carbooking@gmail.com' => 'Car Booking'])
-            ->setTo('carbooking@gmail.com')
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo('carbookinglt@gmail.com')
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
