@@ -14,6 +14,7 @@ use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Security\TokenGenerator;
 use App\Service\BookingService;
 use App\Service\RentingService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,6 +77,10 @@ class APIController extends FOSRestController
      * @var Mailer
      */
     private $mailer;
+    /**
+     * @var TokenGenerator
+     */
+    private $tokenGenerator;
 
     /**
      * TestController constructor.
@@ -90,6 +95,7 @@ class APIController extends FOSRestController
      * @param BookingService $bookingService
      * @param RentingService $rentingService
      * @param Mailer $mailer
+     * @param TokenGenerator $tokenGenerator
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -102,7 +108,8 @@ class APIController extends FOSRestController
         TranslatorInterface $translator,
         BookingService $bookingService,
         RentingService $rentingService,
-        Mailer $mailer
+        Mailer $mailer,
+        TokenGenerator $tokenGenerator
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -115,6 +122,7 @@ class APIController extends FOSRestController
         $this->bookingService = $bookingService;
         $this->rentingService = $rentingService;
         $this->mailer = $mailer;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     /**
@@ -518,9 +526,19 @@ class APIController extends FOSRestController
             );
         }
 
+        if (count($request->files->all()['image']) == 0) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_valid_image')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         $error = $this->uploadImages($request);
 
-        if ($error === null) {
+        if ($error !== null) {
             return $this->view(
                 [
                     'status' => 'error',
@@ -563,55 +581,45 @@ class APIController extends FOSRestController
      */
     private function uploadImages(Request $request): ?string
     {
+        $message = null;
         $target_dir = "uploads/";
 
-        foreach ($request->files->get('image') as $image) {
-            $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        foreach ($_FILES as $file) {
+            for ($i = 0; $i < count($file['name']); $i++) {
+                $fileName = $this->tokenGenerator->getRandomSecureToken(30);
+                $target_file = $target_dir . $fileName . '.' . pathinfo($file["name"][$i])['extension'];
 
-            var_dump($target_file);
-            die;
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            // Check if image file is a actual image or fake image
-            if (isset($_POST["submit"])) {
-                $check = getimagesize($_FILES["image"]["tmp_name"]);
-                if ($check !== false) {
-                    echo "File is an image - " . $check["mime"] . ".";
-                    $uploadOk = 1;
-                } else {
-                    echo "File is not an image.";
-                    $uploadOk = 0;
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($file["tmp_name"][$i]);
+                if ($check === false) {
+                    $message = "Įkeltas failas, nėra nuotrauka!";
                 }
-            }
-            // Check if file already exists
-            if (file_exists($target_file)) {
-                echo "Sorry, file already exists.";
-                $uploadOk = 0;
-            }
-            // Check file size
-            if ($_FILES["image"]["size"] > 500000) {
-                echo "Sorry, your file is too large.";
-                $uploadOk = 0;
-            }
-            // Allow certain file formats
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif") {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                $uploadOk = 0;
-            }
-            // Check if $uploadOk is set to 0 by an error
-            if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
-                // if everything is ok, try to upload file
-            } else {
-                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                    echo "The file " . basename($_FILES["image"]["name"]) . " has been uploaded.";
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                    $message = "Tokiu pavadinimu jau yra įkelta nuotrauka!";
+                }
+                // Check file size
+                if ($file["size"][$i] > 10000000) {
+                    $message = "Įkeliamas failas, per didelis!";
+                }
+                // Allow certain file formats
+                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif") {
+                    $message = "Netinkamas formatas! Galimi formatai: JPG, JPEG, PNG, GIF.";
+                }
+                // Check if $message === null
+
+                if ($message === null) {
+                    if (!move_uploaded_file($file["tmp_name"][$i], $target_file)) {
+                        $message = "Įkeliant failą įvyko nenumatyta klaida.";
+                    }
                 }
             }
         }
+
+        return $message;
     }
 
     /**
