@@ -54,6 +54,12 @@ class CarListing extends Component {
     this.setState({ comments: comments });
   };
 
+  addComment = comment => {
+    this.setState({
+      comments: [...this.state.comments, comment]
+    });
+  };
+
   render() {
     const { loading: load } = this.props.CarStore;
 
@@ -79,7 +85,11 @@ class CarListing extends Component {
           </div>
           <div className="row">
             <div className="col-md-11">
-              <CarInfo car={car} comments={this.state.comments} />
+              <CarInfo
+                car={car}
+                addComment={this.addComment}
+                comments={this.state.comments}
+              />
             </div>
             <div className="col-md-1" />
           </div>

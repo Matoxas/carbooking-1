@@ -111,8 +111,16 @@ class carInfo extends Component {
     };
     document.getElementById("clear-comment-input").reset();
 
+    //siunčiam komentarą į api
     postComment(comment);
-    alert("Komentaras paskelbtas");
+    //TODO IF ALL GOOD
+    //pertvarkom komentaro stuktūrą ir atvaizduojam komentarą lokaliai
+    const restructuredComment = {
+      comment: comment.text,
+      name: comment.name,
+      createdAt: new Date().toJSON().replace("T", " ")
+    };
+    this.props.addComment(restructuredComment);
   };
 
   handleFromChange = date => {
