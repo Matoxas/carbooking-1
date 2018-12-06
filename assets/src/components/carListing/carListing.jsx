@@ -63,7 +63,7 @@ class CarListing extends Component {
   render() {
     const { loading: load } = this.props.CarStore;
 
-    if (load.cars || load.brands) {
+    if (load.cars) {
       return (
         <div className="main">
           <div className="container">

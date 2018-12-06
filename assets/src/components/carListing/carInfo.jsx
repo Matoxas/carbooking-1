@@ -33,7 +33,10 @@ class carInfo extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
+      if (this.props.car.bookingDates.length !== 0) {
+
+      }
+    console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
     const datesArray = this.getDates(
       this.state.blockDate,
       this.state.blockDates
