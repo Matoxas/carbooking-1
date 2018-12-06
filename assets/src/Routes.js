@@ -11,6 +11,7 @@ import MainNavigation from "./components/main-navigation";
 import Map from "./components/Map";
 import Favourites from "./components/Favourites";
 import NewCar from "./components/newCar/NewCar";
+import Footer from "./components/footer/footer";
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route path="/newCar" component={NewCar} exact />
         <Route component={indexRoutes} />
       </Switch>
+      <Footer />
     </div>
   );
 };

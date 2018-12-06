@@ -73,7 +73,7 @@ class CarListing extends Component {
 
     return (
       <div className="product">
-        <div className="container card">
+        <div className="container card margin-bottom--big">
           <div>
             <CarImage image={car} />
           </div>

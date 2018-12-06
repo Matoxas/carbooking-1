@@ -19,7 +19,7 @@ class Items extends Component {
           ))}
         </div>
         {load.cars && (
-          <div className="flex flex-center mt-5 text-center">
+          <div className="flex flex-center mt-5 mb-5 text-center">
             <Loading className={"loading"} />
           </div>
         )}

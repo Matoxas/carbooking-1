@@ -20,7 +20,8 @@ class NewCarForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      formStatus: "PENDING" // PENDING/LOADING/SUCCESS/FAILURE
     };
   }
 
@@ -33,8 +34,18 @@ class NewCarForm extends Component {
   };
 
   handleFormSubmit = () => {
-    this.handleModalClose();
-    this.props.formSubmit();
+    //Keičiam statusą į loading
+    this.setState({
+      formStatus: "LOADING"
+    });
+    //tinrinam ką grąžina submit
+    Promise.resolve(this.props.formSubmit()).then(response => {
+      if (!response) {
+        this.handleModalClose();
+      } else {
+        // TODO WHEN ALL GOOD
+      }
+    });
   };
 
   render() {
@@ -369,12 +380,13 @@ class NewCarForm extends Component {
           Paskelbti kataloge
         </button>
         <SubmitModal
+          formStatus={this.state.formStatus}
           formSubmit={this.handleFormSubmit}
           open={this.state.modalIsOpen}
           onClose={this.handleModalClose}
           onOpen={this.handleModalkOpen}
         />
-        <div className="clearfix" />
+        <div className="clearfix margin-bottom--big" />
       </React.Fragment>
     );
   }

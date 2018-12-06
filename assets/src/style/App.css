@@ -226,6 +226,34 @@ body {
   top: 10%;
 }
 
+/* BUTTON STYLES */
+
+.btn {
+  border-color: #f47e60;
+  background-color: #f47e60;
+  color: white;
+}
+
+.btn:hover {
+  border-color: #f47e60;
+}
+
+.btn-secondary:focus {
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: white;
+  border: 1px solid #f47e60;
+  color: #f47e60;
+}
+
+.btn-secondary:hover {
+  background-color: #f47e60;
+  border: 1px solid white;
+  color: white;
+}
+
 /* ================== SIDEBAR ====================== */
 
 .sidebar {

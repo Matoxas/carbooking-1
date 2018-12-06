@@ -85,16 +85,23 @@ class NewCar extends Component {
 
     // jei gavom promise, o ne false...
     if (callBack) {
-      callBack.then(result => {
+      const submitResult = callBack.then(result => {
         if (result == true) {
           //tikrinam ar visos errorų žinutės tuščios
           result = Object.values(this.state.errors).every(error => error == "");
           //jei taip, siunčiam duomenis į BE
           if (result) {
             this.sendFormToRoute();
+            return true;
+          } else {
+            //jei ne, grąžinam false
+            return false;
           }
         }
       });
+      return submitResult;
+    } else {
+      return false;
     }
   };
 
