@@ -91,8 +91,8 @@ class NewCar extends Component {
           result = Object.values(this.state.errors).every(error => error == "");
           //jei taip, siunčiam duomenis į BE
           if (result) {
-            this.sendFormToRoute();
-            return true;
+            result = this.sendFormToRoute();
+            return result;
           } else {
             //jei ne, grąžinam false
             return false;
@@ -117,20 +117,20 @@ class NewCar extends Component {
     fd.append("phone", this.state.phone);
     fd.append("email", this.state.email);
     fd.append("name", this.state.name);
-    fd.append("date_from", this.state.date_from);
-    fd.append("date_until", this.state.date_until);
+    fd.append("date_from", this.state.date_from.toJSON().replace("T", " "));
+    fd.append("date_until", this.state.date_until.toJSON().replace("T", " "));
 
     //pridedam visus paveikslėlius
     this.state.images.forEach(image => {
       fd.append("image[]", image.file, image.file.name);
     });
 
-    axios
+    return axios
       .post("new/car", fd)
       .then(response => {
-        console.log(response);
+        return true;
       })
-      .catch(error => console.log(error.response));
+      .catch(error => false);
   };
 
   setValues = e => {
