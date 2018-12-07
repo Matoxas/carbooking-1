@@ -135,7 +135,7 @@ const Validators = {
       return false;
     }
 
-    if (value <= 0) {
+    if (value <= 1) {
       updateErrors({ price: "kaina negali būti mažesnė nei 1€" });
       return false;
     }
