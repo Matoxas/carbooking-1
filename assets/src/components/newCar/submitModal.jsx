@@ -130,7 +130,10 @@ class SubmitModal extends Component {
           )}
           {formStatus == "FAILURE" && (
             <DialogActions>
-              <Button onClick={this.props.onClose} color="primary">
+              <Button
+                onClick={() => this.props.onClose("PENDING")}
+                color="primary"
+              >
                 Grįžti
               </Button>
             </DialogActions>
