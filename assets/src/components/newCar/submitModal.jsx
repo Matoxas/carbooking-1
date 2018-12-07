@@ -1,94 +1,144 @@
+import React, { Component } from "react";
+import Lottie from "react-lottie";
 import Loading from "../loading";
-import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { Link } from "react-router-dom";
+import success from "../../extras/checked_done_.json";
+// import success from "./success_animation.json";
+
+const spinnerWrapper = {
+  maxHeight: "200px",
+  marginTOp: "2vw",
+  height: "150px",
+  maxWidth: "400px",
+  marginTop: "2vw",
+  minWidth: "200px"
+};
 
 const spinnerSize = {
-  height: "30vh",
-  width: "30vw",
-  padding: "0 24px 24px"
+  height: "100%",
+  width: "auto"
 };
 
-const SubmitModal = props => {
-  return (
-    <React.Fragment>
-      <Dialog
-        open={props.open}
-        onClose={props.onClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {props.formStatus == "PENDING" && "Reikia patvirtinimo!"}
-          {props.formStatus == "LOADING" &&
-            "Palaukite, sekelbimas įkeliamas..."}
-          {props.formStatus == "SUCCESS" &&
-            "Sveikiname, skelbimas sėkmingai įkeltas!"}
-          {props.formStatus == "FAILURE" && "Deja, kažkas ne taip!"}
-        </DialogTitle>
-        <DialogContent>
-          {props.formStatus == "PENDING" && (
-            <DialogContentText id="alert-dialog-description">
-              Ar patvirtinate, kad jūsų įrašyti duomenys yra teisingi ir
-              sutinkate pateiktą informaciją skelbti viešai?
-            </DialogContentText>
-          )}
-          {props.formStatus == "LOADING" && (
-            <div style={spinnerSize} className="flex flex-center">
-              <Loading className={"loading"} />
-            </div>
-          )}
-
-          {props.formStatus == "SUCCESS" && (
-            <DialogContentText id="alert-dialog-description">
-              Dabar galite peržiūrėti savo skelbimą, arba grįžti ir nuomoti
-              automobilius kitomis dienomis.
-            </DialogContentText>
-          )}
-
-          {props.formStatus == "FAILURE" && (
-            <DialogContentText id="alert-dialog-description">
-              Panašu, kad įkeliant automobilį įvyko klaida, patikrinkite ar
-              teisingai įvedėte visus duomenis ir bandykite vėl.
-            </DialogContentText>
-          )}
-        </DialogContent>
-
-        {props.formStatus == "PENDING" && (
-          <DialogActions>
-            <Button onClick={props.onClose} color="primary">
-              Atšaukti
-            </Button>
-            <Button onClick={props.formSubmit} color="primary" autoFocus>
-              Sutinku
-            </Button>
-          </DialogActions>
-        )}
-
-        {props.formStatus == "SUCCESS" && (
-          <DialogActions>
-            <Button onClick={props.onClose} color="primary">
-              Grįžti
-            </Button>
-            <Button onClick={props.onClose} color="primary" autoFocus>
-              Peržiūrėti skelbimą
-            </Button>
-          </DialogActions>
-        )}
-        {props.formStatus == "FAILURE" && (
-          <DialogActions>
-            <Button onClick={props.onClose} color="primary">
-              Grįžti
-            </Button>
-          </DialogActions>
-        )}
-      </Dialog>
-    </React.Fragment>
-  );
+const marginTop = {
+  marginTop: "2vw"
 };
+
+const defaultOptions = {
+  loop: false,
+  autoplay: true,
+  animationData: success,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
+
+class SubmitModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isStopped: false,
+      isPaused: false
+    };
+  }
+
+  render() {
+    const { formStatus } = this.props;
+
+    return (
+      <React.Fragment>
+        <Dialog
+          open={this.props.open}
+          onClose={this.props.onClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {formStatus == "PENDING" && "Reikia patvirtinimo!"}
+            {formStatus == "LOADING" && "Palaukite, sekelbimas įkeliamas..."}
+            {formStatus == "SUCCESS" &&
+              "Sveikiname, skelbimas sėkmingai įkeltas!"}
+            {formStatus == "FAILURE" && "Deja, kažkas ne taip!"}
+          </DialogTitle>
+          <DialogContent>
+            {formStatus == "PENDING" && (
+              <DialogContentText id="alert-dialog-description">
+                Ar patvirtinate, kad jūsų įrašyti duomenys yra teisingi ir
+                sutinkate pateiktą informaciją skelbti viešai?
+              </DialogContentText>
+            )}
+            {formStatus == "LOADING" && (
+              <div style={spinnerWrapper} className="flex flex-center">
+                <Loading style={spinnerSize} className={"loading"} />
+              </div>
+            )}
+
+            {formStatus == "SUCCESS" && (
+              // <DialogContentText id="alert-dialog-description">
+              //   Dabar galite peržiūrėti savo skelbimą, arba grįžti ir nuomoti
+              //   automobilį kitomis dienomis.
+              // </DialogContentText>
+              <div
+                style={{ ...spinnerWrapper, ...marginTop }}
+                className="flex flex-center"
+              >
+                <Lottie
+                  options={defaultOptions}
+                  height={"100%"}
+                  width={"auto"}
+                  isStopped={this.state.isStopped}
+                  isPaused={this.state.isPaused}
+                />
+              </div>
+            )}
+
+            {formStatus == "FAILURE" && (
+              <DialogContentText id="alert-dialog-description">
+                Panašu, kad įkeliant automobilį įvyko klaida, patikrinkite ar
+                teisingai įvedėte visus duomenis ir bandykite vėl.
+              </DialogContentText>
+            )}
+          </DialogContent>
+
+          {formStatus == "PENDING" && (
+            <DialogActions>
+              <Button onClick={this.props.onClose} color="primary">
+                Atšaukti
+              </Button>
+              <Button onClick={this.props.formSubmit} color="primary" autoFocus>
+                Sutinku
+              </Button>
+            </DialogActions>
+          )}
+
+          {formStatus == "SUCCESS" && (
+            <DialogActions>
+              <Button onClick={this.props.onClose} color="primary">
+                Grįžti
+              </Button>
+              <Link to={`/feed/carListing/${this.props.carId}`}>
+                <Button color="primary" autoFocus>
+                  Peržiūrėti skelbimą
+                </Button>
+              </Link>
+            </DialogActions>
+          )}
+          {formStatus == "FAILURE" && (
+            <DialogActions>
+              <Button onClick={this.props.onClose} color="primary">
+                Grįžti
+              </Button>
+            </DialogActions>
+          )}
+        </Dialog>
+      </React.Fragment>
+    );
+  }
+}
 
 export default SubmitModal;
