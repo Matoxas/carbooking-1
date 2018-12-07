@@ -74,12 +74,12 @@ const Validators = {
             return false;
           }
         } else {
-          updateErrors({ address: "Netinkamai įvestas adresas!" });
+          updateErrors({ address: "Patikslinkite adresą!" });
           return false;
         }
       })
       .catch(error => {
-        updateErrors({ address: "Neteisingai įvestas adresas!" });
+        updateErrors({ address: "Netinkamas adresas!" });
         return false;
       });
 

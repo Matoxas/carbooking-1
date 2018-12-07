@@ -1,6 +1,6 @@
 /* ================== GLOBAL STYLES ====================== */
 
-@font-face {
+/* @font-face {
   font-family: Cereal;
   src: url(/public/fonts/AirbnbCereal-Light.ttf);
   font-weight: 300;
@@ -34,7 +34,7 @@
   font-family: Cereal;
   src: url(/public/fonts/AirbnbCereal-Black.ttf);
   font-weight: 800;
-}
+} */
 
 @import url("https://fonts.googleapis.com/css?family=Roboto|Work+Sans");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");

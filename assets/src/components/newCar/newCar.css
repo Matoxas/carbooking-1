@@ -91,6 +91,14 @@
   border-color: #f47e60;
 }
 
+.newCarWrapper .btn-secondary,
+.btn-secondary:focus,
+.btn-secondary:hover {
+  border-color: #f47e60;
+  background-color: white;
+  color: #f47e60;
+}
+
 .newCarWrapper .btn-info:focus {
   box-shadow: none;
 }

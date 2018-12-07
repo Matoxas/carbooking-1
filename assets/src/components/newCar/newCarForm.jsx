@@ -36,11 +36,9 @@ class NewCarForm extends Component {
     this.setState({ modalIsOpen: true });
   };
 
-  handleModalClose = (formStatus = null) => {
+  handleModalClose = () => {
     this.setState({ modalIsOpen: false });
-    if (formStatus) {
-      this.changeFormStatus(formStatus);
-    }
+    this.changeFormStatus("PENDING");
   };
 
   handleFormSubmit = () => {
@@ -50,10 +48,12 @@ class NewCarForm extends Component {
     Promise.resolve(this.props.formSubmit()).then(response => {
       if (!response) {
         this.handleModalClose();
-        this.changeFormStatus("LOADING");
+        this.changeFormStatus("PENDING");
       } else {
+        console.log(response);
         // jei response teigiamas, keičiam formos statusą į SUCCESS
         if (response.status === 200) {
+          console.log(response);
           this.props.clearForm();
           this.setState({
             formStatus: "SUCCESS",
@@ -61,7 +61,7 @@ class NewCarForm extends Component {
           });
         } else {
           //priešingu atveju, keičiam formos statusą į FAILURE
-          this.changeFormStatus("LOADING");
+          this.changeFormStatus("FAILURE");
         }
       }
     });
