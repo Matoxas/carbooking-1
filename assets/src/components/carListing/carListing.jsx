@@ -98,7 +98,6 @@ class CarListing extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-11">
-                            {this.state.car.description}
                             <CarInfo
                             car={this.state.car}
                             addComment={this.addComment}
