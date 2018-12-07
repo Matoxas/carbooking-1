@@ -485,7 +485,7 @@ class APIController extends FOSRestController
         $phone = $this->formatPhoneNumber($request->get('phone'));
         //$from = new \DateTime($request->get('date_from'));
         //$until = new \DateTime($request->get('date_until'));
-        $from = new \DateTime();
+        $from = new \DateTime('2018-12-06');
         $until = new \DateTime('2019-01-01');
 
         $user = new User();
@@ -570,7 +570,8 @@ class APIController extends FOSRestController
 
         return $this->view(
             [
-                'status' => 'ok'
+                'status' => 'ok',
+                'carId' => $car->getId()
             ],
             Response::HTTP_OK
         );
