@@ -7,10 +7,18 @@ moment.locale("lt");
 @inject("CarStore")
 @observer
 class Item extends Component {
-  // constructor(){
-  //   super();
-  //   this.state =
-  // }
+  constructor() {
+    super();
+    this.state = {
+      image: ""
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      image: this.props.car.images[0]
+    });
+  }
 
   handleLikeSubmit = (e, car) => {
     e.preventDefault();
@@ -25,14 +33,32 @@ class Item extends Component {
     return likedCars.includes(car.id);
   };
 
+  changeImageOnHover = () => {
+    if (this.props.car.images[1]) {
+      this.setState({
+        image: this.props.car.images[1]
+      });
+    }
+  };
+
+  changeImageOnHoverOff = () => {
+    this.setState({
+      image: this.props.car.images[0]
+    });
+  };
+
   render() {
     const { car } = this.props;
     return (
       <Link to={`/feed/carListing/${car.id}`}>
-        <div className="card">
+        <div
+          onMouseOver={this.changeImageOnHover}
+          onMouseOut={this.changeImageOnHoverOff}
+          className="card"
+        >
           <div className="card-body">
             <div className="card-image">
-              <img src={`/${car.images[0]}`} alt="" />
+              <img src={`/${this.state.image}`} alt="" />
             </div>
             <p className="card-time">{moment(car.createdAt).fromNow(true)}</p>
             <p
