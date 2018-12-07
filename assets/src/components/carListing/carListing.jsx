@@ -28,7 +28,6 @@ class CarListing extends Component {
         $("body, html").animate({scrollTop: $("#mainNav").offset().top}, 1000);
         this.getComments(this.props.match.params.id);
         this.getCar(this.props.match.params.id);
-        console.log(this.state.car);
     }
 
     getCar = id => {
@@ -36,7 +35,6 @@ class CarListing extends Component {
             .then(response => {
                 this.setState({car: response.data.data});
                 this.setState({loading: false});
-                console.log(response.data.data);
             }).catch(error => console.log(error));
     };
 
@@ -46,18 +44,11 @@ class CarListing extends Component {
             .get("/comments/" + id)
             .then(response => {
                 this.setComments(response.data.data);
-                console.log(response.data.data);
                 comments = response.data.data;
             })
             .catch(error => console.log(error.response));
         return comments;
     };
-
-    // getCar() {
-    //     const routeId = this.props.match.params.id;
-    //     const {CarStore} = this.props;
-    //     CarStore.GetCar(routeId);
-    // }
 
     ShowCalendar = () => {
         this.setState({showCalendar: true});
@@ -87,8 +78,6 @@ class CarListing extends Component {
                 </div>
             );
         }
-        // this.getCar();
-        // const car = this.props.CarStore.currentCar;
 
         return (
             <div className="product">

@@ -68,7 +68,6 @@ class CarStore {
             .then(response => {
                 this.setCars(response.data);
                 this.setLoading({cars: false});
-                console.log(response.data.data);
             })
             .catch(error => console.log(error.response));
     };
@@ -136,10 +135,8 @@ class CarStore {
             .post("/new/reservation", {reservation})
             .then(response => {
                 this.setReservationResponse(response.data);
-                console.log(response);
             })
             .catch(error => {
-                console.log(error.response.data);
                 this.setLoading(error);
                 this.setReservationError(error.response.data);
             });
@@ -171,7 +168,6 @@ class CarStore {
 
     @action
     setReservationError = error => {
-        console.log(error);
         this.reservationError = error;
     };
 
