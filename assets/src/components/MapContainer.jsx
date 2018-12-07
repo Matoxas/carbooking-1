@@ -41,7 +41,7 @@ export class MapContainer extends Component {
                 google={this.props.google}
                 zoom={this.props.zoom}
                 style={mapStyles}
-                // initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
+                initialCenter={{lat: this.props.latitude, lng: this.props.longitude}}
                 scrollwheel={false}
                 maxZoom={16}
                 minZoom={16}
