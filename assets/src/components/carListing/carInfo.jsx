@@ -266,7 +266,7 @@ class carInfo extends Component {
                 <div className="relative clearfix">
                   <DatePicker
                     className="form-control"
-                    //   locale={"lt"}
+                    name="date_from"
                     excludeDates={this.state.bookingDates}
                       // locale={"lt"}
                     selected={this.state.date_from}
@@ -276,7 +276,7 @@ class carInfo extends Component {
                     minDate={moment(this.state.date_from)
                         .add(1, "d")
                         .toDate()}
-                    maxDate={moment(this.state.date_from)
+                    maxDate={moment(this.state.date_until)
                         .add(31, "d")
                         .toDate()}
                     onChange={this.handleFromChange}
@@ -289,19 +289,17 @@ class carInfo extends Component {
                     className="form-control"
                     //   locale={"lt"}
                     name="date_until"
+                    excludeDates={this.state.bookingDates}
+                    selected={this.state.date_until}
                     selectsEnd
-                    excludeDates={[
-                      this.state.blockDate,
-                      this.state.blockDates,
-                      1
-                    ]}
+                    startDate={this.state.date_until}
+                    endDate={this.state.date_until}
                     minDate={moment(this.state.date_from)
                       .add(1, "d")
                       .toDate()}
-                    maxDate={moment(this.state.date_from)
+                    maxDate={moment(this.state.date_until)
                       .add(31, "d")
                       .toDate()}
-                    selected={this.state.date_until}
                     onChange={this.state.handleUntilChange}
                   />
                   <i className="fa fa-caret-down" aria-hidden="true" />
