@@ -337,7 +337,7 @@ class carInfo extends Component {
                   onChange={this.handlePhoneChange}
                   className="form-control"
                   type="text"
-                  placeholder="Įrašykite savo tel. numerį"
+                  placeholder="+370"
                 />
                 <div className="form-group">
                   <textarea
