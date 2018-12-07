@@ -9,7 +9,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 const spinnerSize = {
   height: "30vh",
-  width: "30vw"
+  width: "30vw",
+  padding: "0 24px 24px"
 };
 
 const SubmitModal = props => {
@@ -43,9 +44,10 @@ const SubmitModal = props => {
           )}
 
           {props.formStatus == "SUCCESS" && (
-            <div style={spinnerSize} className="flex flex-center">
-              <Loading className={"loading"} />
-            </div>
+            <DialogContentText id="alert-dialog-description">
+              Dabar galite peržiūrėti savo skelbimą, arba grįžti ir nuomoti
+              automobilius kitomis dienomis.
+            </DialogContentText>
           )}
 
           {props.formStatus == "FAILURE" && (
