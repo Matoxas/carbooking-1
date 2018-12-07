@@ -91,6 +91,10 @@
   border-color: #f47e60;
 }
 
+.newCarWrapper .btn-info:focus {
+  box-shadow: none;
+}
+
 .newCarWrapper .btn:after {
   content: "";
   display: block;

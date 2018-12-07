@@ -21,7 +21,8 @@ class NewCarForm extends Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      formStatus: "PENDING" // PENDING/LOADING/SUCCESS/FAILURE
+      formStatus: "PENDING", // PENDING/LOADING/SUCCESS/FAILURE
+      carId: ""
     };
   }
 
@@ -50,10 +51,10 @@ class NewCarForm extends Component {
         if (response.status === 200) {
           this.props.clearForm();
           this.setState({
-            formStatus: "SUCCESS"
+            formStatus: "SUCCESS",
+            carId: response.data.carId
           });
         } else {
-          console.log(response);
           //priešingu atveju, keičiam formos statusą į FAILURE
           this.setState({
             formStatus: "FAILURE"
@@ -391,11 +392,13 @@ class NewCarForm extends Component {
           type="button"
           onClick={this.handleModalOpen}
           className="btn btn-info"
+          disabled={!this.props.doesFormHasErrors()}
         >
           Paskelbti kataloge
         </button>
         <SubmitModal
           formStatus={this.state.formStatus}
+          carId={this.state.carId}
           formSubmit={this.handleFormSubmit}
           open={this.state.modalIsOpen}
           onClose={this.handleModalClose}

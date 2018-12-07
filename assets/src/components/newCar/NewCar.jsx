@@ -58,6 +58,7 @@ class NewCar extends Component {
   }
 
   clearForm = () => {
+    console.log("TODO form to clear");
     //TODO CLEAR STATE
   };
 
@@ -91,7 +92,7 @@ class NewCar extends Component {
       .then(result => {
         if (result == true) {
           //tikrinam ar visos errorų žinutės tuščios
-          result = Object.values(this.state.errors).every(error => error == "");
+          result = this.doesFormHasErrors();
           //jei taip, siunčiam duomenis į BE
           if (result) {
             result = this.sendFormToRoute();
@@ -107,6 +108,10 @@ class NewCar extends Component {
       });
 
     return submitResult;
+  };
+
+  doesFormHasErrors = () => {
+    return Object.values(this.state.errors).every(error => error == "");
   };
 
   sendFormToRoute = () => {
@@ -252,6 +257,7 @@ class NewCar extends Component {
         <div className="container">
           <div className="main newCarWrapper">
             <NewCarForm
+              doesFormHasErrors={this.doesFormHasErrors}
               clearForm={this.clearForm}
               address={this.state.address}
               date_from={this.state.date_from}
