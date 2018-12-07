@@ -197,10 +197,6 @@ class carInfo extends Component {
               <hr />
               <div className="col-lg-3 info-description">Savininkas</div>
               <div className="col-lg-9">
-                <p className="info--normal info--owner">
-                  <i className="far fa-envelope info--envelope" />
-                  {this.props.car.email}
-                </p>
                 <p className="info--normal info--owner info--owner-raise">
                   <i className="fas fa-phone info--envelope" />
                   {this.props.car.phone}
