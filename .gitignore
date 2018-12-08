@@ -26,6 +26,7 @@
 /node_modules
 .env
 .idea
+.htaccess
 npm-debug.log
 /project.tar.gz
 /.deploy/*.retry

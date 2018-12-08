@@ -1,5 +1,41 @@
 /* ================== GLOBAL STYLES ====================== */
 
+/* @font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-Light.ttf);
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-Book.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-Medium.ttf);
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-Bold.ttf);
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-ExtraBold.ttf);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Cereal;
+  src: url(/public/fonts/AirbnbCereal-Black.ttf);
+  font-weight: 800;
+} */
+
 @import url("https://fonts.googleapis.com/css?family=Roboto|Work+Sans");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /* Links */
@@ -29,7 +65,8 @@ button:focus {
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif, "Open Sans";
+  font-family: "Roboto ", Cereal, sans-serif, "Open Sans" !important;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,7 +74,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "Roboto", "Open Sans", sans-serif;
+  font-family: "Roboto", Cereal "Open Sans", sans-serif !important;
 }
 
 html,
@@ -109,7 +146,7 @@ body {
 
 .card {
   border: none;
-  border-radius: 2px;
+  border-radius: 5px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
 }
@@ -118,7 +155,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f47e60;
+  background-color: white;
   height: 200px;
   width: 100%;
   overflow: hidden;
@@ -226,6 +263,34 @@ body {
   top: 10%;
 }
 
+/* BUTTON STYLES */
+
+.btn {
+  border-color: #f47e60;
+  background-color: #f47e60;
+  color: white;
+}
+
+.btn:hover {
+  border-color: #f47e60;
+}
+
+.btn-secondary:focus {
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: white;
+  border: 1px solid #f47e60;
+  color: #f47e60;
+}
+
+.btn-secondary:hover {
+  background-color: #f47e60;
+  border: 1px solid white;
+  color: white;
+}
+
 /* ================== SIDEBAR ====================== */
 
 .sidebar {
@@ -300,7 +365,7 @@ body {
 }
 
 .machine {
-  width: 60vmin;
+  width: 120px;
 }
 
 .machine .small {
@@ -468,7 +533,8 @@ body {
 /* =========================== ETC ===========================  */
 
 .map--size {
-  height: 400px !important;
+  height: 600px !important;
+  margin-bottom: 15px;
 }
 
 /* =========================== UNIVERSAL MODIFIERS ===========================  */
@@ -535,16 +601,40 @@ body {
   clear: both;
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 /* ================== MEDIA QUERRIES ====================== */
 
-/* Extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) {
+@media (max-width: 450px) {
+  .mobile-menu {
+    display: block;
+  }
+
+  .m-hidden {
+    display: none;
+  }
+
+  .scroll-down {
+    bottom: 10px;
+  }
+
+  .machine {
+    width: 50vmin;
+  }
+  .card-image {
+    height: 220px;
+  }
+}
+
+@media (min-width: 450px) and (max-width: 575.98px) {
   .scroll-down {
     bottom: 10px;
   }
 
   .card-image {
-    height: 350px;
+    height: 330px;
   }
 
   .mobile-menu {
@@ -554,20 +644,24 @@ body {
   .m-hidden {
     display: none;
   }
+
+  .machine {
+    width: 50vmin;
+  }
 }
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
+  .card-image {
+    height: 160px;
+  }
+
   .scroll-down {
     bottom: 15px;
   }
 
   .machine {
-    width: 60vmin;
-  }
-
-  .card-image {
-    height: 200px;
+    width: 20vmin;
   }
 
   .mobile-menu {
@@ -582,11 +676,7 @@ body {
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
   .card-image {
-    height: 150px;
-  }
-
-  .machine {
-    width: 40vmin;
+    height: 130px;
   }
 
   .card-title {
@@ -606,11 +696,7 @@ body {
   }
 
   .card-image {
-    height: 180px;
-  }
-
-  .machine {
-    width: 30vmin;
+    height: 140px;
   }
 }
 
@@ -621,10 +707,6 @@ body {
   }
 
   .card-image {
-    height: 210px;
-  }
-
-  .machine {
-    width: 20vmin;
+    height: 160px;
   }
 }

@@ -4,8 +4,7 @@ import { inject, observer } from "mobx-react";
 import history from "./history";
 import Routes from "./Routes";
 import Temporary from "./components/temporary";
-
-// Components
+import "./style/App.css";
 
 @inject("CarStore")
 @observer

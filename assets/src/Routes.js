@@ -1,14 +1,17 @@
 import React from "react";
-import Feed from "./components/Feed";
-import Navbar from "./components/Navbar";
-import Index from "./components/index/Index";
+import { Route, Redirect } from "react-router-dom";
 import Switch from "react-router-dom/Switch";
+
+//Components
+import Feed from "./components/feed/Feed";
+import Navbar from "./components/navbar/Navbar";
+import Index from "./components/index/Index";
 import carListing from "./components/carListing/carListing";
 import MainNavigation from "./components/main-navigation";
-import Map from "./components/Map";
-import Favourites from "./components/Favourites";
+import Map from "./components/map/Map";
+import Favourites from "./components/feed/Favourites";
 import NewCar from "./components/newCar/NewCar";
-import { Route, Redirect } from "react-router-dom";
+import Footer from "./components/footer/footer";
 
 const Routes = () => {
   return (
@@ -18,6 +21,7 @@ const Routes = () => {
         <Route path="/newCar" component={NewCar} exact />
         <Route component={indexRoutes} />
       </Switch>
+      <Footer />
     </div>
   );
 };

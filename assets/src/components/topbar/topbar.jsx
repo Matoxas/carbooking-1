@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-import { ReactBootstrapSlider } from "react-bootstrap-slider";
 import "./topbar.css";
+import TopbarFilters from "./topbarFilters";
+import TopbarSorts from "./topbarSorts";
 
 @inject("CarStore")
 @observer
@@ -10,9 +11,26 @@ class Topbar extends Component {
     super(props);
     const { price_from, price_until } = props.CarStore.filters;
     this.state = {
-      price: [price_from, price_until]
+      price: [price_from, price_until],
+      windowWidth: window.innerWidth
     };
   }
+
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    const windowWidth = window.innerWidth;
+
+    // sets the to current windowWidth
+    this.setState({ windowWidth });
+  };
 
   handleSortChange = e => {
     let sort = e.target.value.toLowerCase().split(" ");
@@ -79,164 +97,67 @@ class Topbar extends Component {
     getAllCars();
   };
 
+  setValues = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     const { cities, brands, models } = this.props.CarStore;
-    const {
-      location,
-      brand: brand_filter,
-      model: model_filter,
-      sort: sort_filter
-    } = this.props.CarStore.filters;
+    const { location, brand, model, sort } = this.props.CarStore.filters;
+    const { windowWidth } = this.state;
 
     return (
       <div className="topbar margin-bottom min-height">
         <div className="topbar-content">
-          {/* <div className="filters"> */}
-          <div className="form-group">
-            <label className="d-md-none" htmlFor="inputState">
-              Miestas:
-            </label>
-            <div className="relative">
-              <select
-                onChange={this.changeCity}
-                className="form-control"
-                id="inputState"
-              >
-                <option value="">Visi miestai</option>
-                {cities.map(city => {
-                  if (city.id == location) {
-                    return (
-                      <option selected key={city.id} value={city.id}>
-                        {city.city}
-                      </option>
-                    );
-                  }
-                  return (
-                    <option key={city.id} value={city.id}>
-                      {city.city}
-                    </option>
-                  );
-                })}
-              </select>
-              <i className="fa fa-caret-down" aria-hidden="true" />
-            </div>
-          </div>
-
-          <div className="form-group gamintojai">
-            <label className="d-md-none" htmlFor="inputState">
-              Gamintojas:
-            </label>
-            <div className="relative">
-              <select
-                onChange={this.changeBrand}
-                className="form-control"
-                id="inputState"
-              >
-                <option value="">Visi gamintojai</option>
-                {brands.map(brand => {
-                  if (brand.id == brand_filter) {
-                    return (
-                      <option selected key={brand.id} value={brand.id}>
-                        {brand.brand}
-                      </option>
-                    );
-                  }
-                  return (
-                    <option key={brand.id} value={brand.id}>
-                      {brand.brand}
-                    </option>
-                  );
-                })}
-              </select>
-              <i className="fa fa-caret-down" aria-hidden="true" />
-            </div>
-          </div>
-
-          <div className="form-group modeliai">
-            <label className="d-md-none" htmlFor="inputState">
-              Modelis:
-            </label>
-            <div className="relative">
-              <select
-                onChange={this.changeModel}
-                className="form-control"
-                id="inputState"
-              >
-                <option value="">Visi modeliai</option>
-
-                {models.map(model => {
-                  if (model.id == model_filter) {
-                    return (
-                      <option selected key={model.id} value={model.id}>
-                        {model.model}
-                      </option>
-                    );
-                  }
-                  return (
-                    <option key={model.id} value={model.id}>
-                      {model.model}
-                    </option>
-                  );
-                })}
-              </select>
-              <i className="fa fa-caret-down" aria-hidden="true" />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label className="d-md-none" htmlFor="ReactBootstrapSlider">
-              Kaina:
-            </label>
-            <div className="slider">
-              <ReactBootstrapSlider
-                value={this.state.price}
-                change={this.changePrice}
-                slideStop={this.savePrice}
-                step={1}
-                max={99}
-                min={1}
-                orientation="horizontal"
-                reversed={false}
+          {windowWidth > "991.98" ? (
+            <div className="filters-wrapper">
+              <TopbarFilters
+                brand_filter={brand}
+                model_filter={model}
+                location={location}
+                {...this.state}
+                cities={cities}
+                brands={brands}
+                models={models}
+                changeCity={this.changeCity}
+                changeBrand={this.changeBrand}
+                changeModel={this.changeModel}
+                changePrice={this.changePrice}
+                savePrice={this.savePrice}
               />
-              <span className="left">{"€" + this.state.price[0]}</span>
-              <span className="right">{"€" + this.state.price[1]}</span>
             </div>
-          </div>
-          <div className="form-group">
-            <label className="d-md-none" htmlFor="inputState">
-              Rodoma:
-            </label>
-            <div className="relative">
-              <select
-                onChange={this.handleSortChange}
-                className="form-control"
-                id="inputState"
-              >
-                {sort_filter == "naujausi" ? (
-                  <option selected>Naujausi viršuje</option>
-                ) : (
-                  <option>Naujausi viršuje</option>
-                )}
-                {sort_filter == "seniausi" ? (
-                  <option selected>Seniausi viršuje</option>
-                ) : (
-                  <option>Seniausi viršuje</option>
-                )}
-                {sort_filter == "pigiausi" ? (
-                  <option selected>Pigiausi viršuje</option>
-                ) : (
-                  <option>Pigiausi viršuje</option>
-                )}
-                {sort_filter == "brangiausi" ? (
-                  <option selected>Brangiausi viršuje</option>
-                ) : (
-                  <option>Brangiausi viršuje</option>
-                )}
-              </select>
-              <i className="fa fa-caret-down" aria-hidden="true" />
+          ) : (
+            <TopbarFilters
+              brand_filter={brand}
+              model_filter={model}
+              location={location}
+              {...this.state}
+              cities={cities}
+              brands={brands}
+              models={models}
+              changeCity={this.changeCity}
+              changeBrand={this.changeBrand}
+              changeModel={this.changeModel}
+              changePrice={this.changePrice}
+              savePrice={this.savePrice}
+            />
+          )}
+
+          {windowWidth > "991.98" ? (
+            <div className="filters-wrapper">
+              <TopbarSorts
+                sort_filter={sort}
+                handleSortChange={this.handleSortChange}
+              />
             </div>
-          </div>
-          {/* </div> */}
+          ) : (
+            <TopbarSorts
+              sort_filter={sort}
+              handleSortChange={this.handleSortChange}
+            />
+          )}
         </div>
       </div>
     );
@@ -244,7 +165,3 @@ class Topbar extends Component {
 }
 
 export default Topbar;
-
-{
-  /* <i class="fa fa-caret-down" aria-hidden="true"></i> */
-}

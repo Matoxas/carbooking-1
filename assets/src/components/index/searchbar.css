@@ -40,6 +40,10 @@
   outline: none;
 }
 
+.searchbar select {
+  cursor: pointer;
+}
+
 .searchbar-item {
   display: flex;
   flex: 1 1 auto;
@@ -53,7 +57,7 @@
   width: 100%;
 }
 
-.searchbar-submit {
+.submit-button {
   cursor: pointer;
   background-color: #f47e60;
   border: none;
@@ -61,6 +65,11 @@
   margin-top: 1rem;
   color: white;
   width: 100%;
+  border-radius: 0.25rem;
+}
+
+.submit-button--searchbar {
+  border-radius: 0;
 }
 
 .react-datepicker-wrapper,
@@ -89,7 +98,7 @@
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 767.98px) {
   .searchbar-item,
-  .searchbar-submit {
+  .submit-button {
     flex-basis: 25%;
     height: 40px;
     border-bottom: none;
@@ -101,18 +110,20 @@
     margin: 0;
   }
 
-
-  .date_from{
+  .date_from {
     padding-bottom: 1rem;
   }
 
-    .date_until{
+  .date_until {
     padding-top: 1rem;
   }
 
-  .searchbar-submit {
+  .submit-button {
     flex-basis: 12.5%;
     padding-right: 1rem;
+  }
+
+  .submit-button--searchbar {
     border-radius: 1rem;
   }
 

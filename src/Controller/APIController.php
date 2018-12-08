@@ -3,12 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\Car;
+use App\Entity\City;
+use App\Entity\Comment;
+use App\Entity\Image;
+use App\Entity\Renting;
 use App\Entity\User;
+use App\Mailer\Mailer;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Security\TokenGenerator;
 use App\Service\BookingService;
 use App\Service\RentingService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,6 +74,14 @@ class APIController extends FOSRestController
      * @var RentingService
      */
     private $rentingService;
+    /**
+     * @var Mailer
+     */
+    private $mailer;
+    /**
+     * @var TokenGenerator
+     */
+    private $tokenGenerator;
 
     /**
      * TestController constructor.
@@ -80,6 +95,8 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param BookingService $bookingService
      * @param RentingService $rentingService
+     * @param Mailer $mailer
+     * @param TokenGenerator $tokenGenerator
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -91,7 +108,9 @@ class APIController extends FOSRestController
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator,
         BookingService $bookingService,
-        RentingService $rentingService
+        RentingService $rentingService,
+        Mailer $mailer,
+        TokenGenerator $tokenGenerator
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -103,6 +122,8 @@ class APIController extends FOSRestController
         $this->translator = $translator;
         $this->bookingService = $bookingService;
         $this->rentingService = $rentingService;
+        $this->mailer = $mailer;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     /**
@@ -234,7 +255,7 @@ class APIController extends FOSRestController
         return $this->view(
             [
                 'carId' => $carId,
-                'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'ASC'])
+                'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'DESC'])
             ],
             Response::HTTP_OK
         );
@@ -256,6 +277,8 @@ class APIController extends FOSRestController
 
         $reservation->name = htmlspecialchars($reservation->name);
         $reservation->message = htmlspecialchars($reservation->message);
+
+        $reservation->phone = $this->formatPhoneNumber($reservation->phone);
 
         $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
 
@@ -332,10 +355,7 @@ class APIController extends FOSRestController
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            // TODO: Išsiųsti el-paštą su tekstu:
-                // Klaidos kodas: $errorCode
-                // Kelias: /api/reservations
-                // Klaidos žinutė: $exception->getMessage()
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [
@@ -374,8 +394,12 @@ class APIController extends FOSRestController
             );
         }
 
-        // $car
-        // TODO: Išsiųsti el-paštą su linku į ją $carId
+        $car->setConfirmed(false);
+
+        $this->entityManager->persist($car);
+        $this->entityManager->flush();
+
+        $this->mailer->sendReportCarEmail($car);
 
         return $this->view(
             [
@@ -389,10 +413,58 @@ class APIController extends FOSRestController
      * @Rest\Post("/new/comment", name="api_comment_new")
      * @param Request $request
      * @return View
+     * @throws \Exception
      */
     public function postNewCommentAction(Request $request): View
     {
-        // TODO: įtraukti naujo komentaro pridėjima!
+        $commentData = $request->getContent('comment');
+        $commentData = json_decode($commentData)->comment;
+
+        $car = $this->carRepository->find($commentData->carId);
+
+        if ($car === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_exists')
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $comment = new Comment();
+        $comment->setCar($car);
+        $comment->setName($commentData->name);
+        $comment->setComment($commentData->text);
+
+        $validationComment = $this->validator->validate($comment);
+
+        if (0 !== count($validationComment)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('comment.bad_data')
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $this->entityManager->persist($comment);
+
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            $errorCode = rand(1000, 9999);
+            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
+
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         return $this->view(
             [
@@ -403,74 +475,174 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/newcar", name="api_car_new")
+     * @Rest\Post("/new/car", name="api_car_new")
      * @param Request $request
      * @return View
+     * @throws \Exception
      */
     public function postNewCarAction(Request $request): View
     {
-        foreach($_GET as $key => $value) {
-            echo "GET parameter '$key' has '$value' <br/>";
+        $phone = $this->formatPhoneNumber($request->get('phone'));
+        //$from = new \DateTime($request->get('date_from'));
+        //$until = new \DateTime($request->get('date_until'));
+        $from = new \DateTime('2018-12-06');
+        $until = new \DateTime('2019-01-01');
+
+        $user = new User();
+        $user->setName($request->get('name'));
+        $user->setEmail($request->get('email'));
+        $user->setPhone($phone);
+
+        $city = $this->cityRepository->find($request->get('city'));
+        $model = $this->modelRepository->find($request->get('model'));
+        $brand = $this->brandRepository->find($request->get('brand'));
+
+        $car = new Car();
+        $car->setUser($user);
+        $car->setConfirmed(true);
+        $car->setPublish(true);
+        $car->setCity($city);
+        $car->setModel($model);
+        $car->setBrand($brand);
+        $car->setAddress($request->get('address'));
+        $car->setPrice($request->get('price'));
+        $car->setDescription($request->get('description'));
+
+        $renting = new Renting();
+        $renting->setRentedFrom($from);
+        $renting->setRentedUntil($until);
+        $renting->setCar($car);
+
+        $validationUser = $this->validator->validate($user);
+        $validationCar = $this->validator->validate($car);
+        $validationRenting = $this->validator->validate($renting);
+
+        if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_valid')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-        foreach($_POST as $key => $value) {
-            echo "POST parameter '$key' has '$value' <br/>";
+
+        if (count($request->files->all()['image']) == 0) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('car.not_valid_image')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-        foreach ($_FILES as $FILE) {
-            var_dump($FILE);
+
+        try {
+            $this->entityManager->persist($user);
+            $this->entityManager->persist($car);
+            $this->entityManager->persist($renting);
+
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            $errorCode = rand(1000, 9999);
+            $this->mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
+
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         }
-        // var_dump($_FILES['image']);
-        //die;
-        /*
-                $target_dir = "uploads/";
-                $target_file = $target_dir . basename($_FILES["image"]["name"]);
-                $uploadOk = 1;
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        // Check if image file is a actual image or fake image
-                if (isset($_POST["submit"])) {
-                    $check = getimagesize($_FILES["image"]["tmp_name"]);
-                    if ($check !== false) {
-                        echo "File is an image - " . $check["mime"] . ".";
-                        $uploadOk = 1;
-                    } else {
-                        echo "File is not an image.";
-                        $uploadOk = 0;
-                    }
-                }
-        // Check if file already exists
-                if (file_exists($target_file)) {
-                    echo "Sorry, file already exists.";
-                    $uploadOk = 0;
-                }
-        // Check file size
-                if ($_FILES["image"]["size"] > 500000) {
-                    echo "Sorry, your file is too large.";
-                    $uploadOk = 0;
-                }
-        // Allow certain file formats
-                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                    && $imageFileType != "gif") {
-                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                    $uploadOk = 0;
-                }
-        // Check if $uploadOk is set to 0 by an error
-                if ($uploadOk == 0) {
-                    echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-                } else {
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                        echo "The file " . basename($_FILES["image"]["name"]) . " has been uploaded.";
-                    } else {
-                        echo "Sorry, there was an error uploading your file.";
-                    }
-                }
-        */
-        echo "<br/>";
+
+        $error = $this->uploadImages($request, $car);
+
+        if ($error !== null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans($error)
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         return $this->view(
             [
                 'status' => 'ok',
-                'message' => ''
+                'carId' => $car->getId()
             ],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * @param Request $request
+     * @param Car $car
+     * @return string
+     */
+    private function uploadImages(Request $request, Car $car): ?string
+    {
+        $message = null;
+        $target_dir = "uploads/";
+
+        foreach ($_FILES as $file) {
+            for ($i = 0; $i < count($file['name']); $i++) {
+                $fileName = $this->tokenGenerator->getRandomSecureToken(30);
+                $target_file = $target_dir . $fileName . '.' . pathinfo($file["name"][$i])['extension'];
+
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($file["tmp_name"][$i]);
+                if ($check === false) {
+                    $message = "Įkeltas failas, nėra nuotrauka!";
+                }
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                    $message = "Tokiu pavadinimu jau yra įkelta nuotrauka!";
+                }
+                // Check file size
+                if ($file["size"][$i] > 10000000) {
+                    $message = "Įkeliamas failas, per didelis!";
+                }
+                // Allow certain file formats
+                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif") {
+                    $message = "Netinkamas formatas! Galimi formatai: JPG, JPEG, PNG, GIF.";
+                }
+                // Check if $message === null
+
+                if ($message === null) {
+                    if (!move_uploaded_file($file["tmp_name"][$i], $target_file)) {
+                        $message = "Įkeliant failą įvyko nenumatyta klaida.";
+                    }
+                }
+
+                $image = new Image();
+                $ex = explode("/", $target_file);
+                $image->setImage($ex[1]);
+                $image->setCar($car);
+                $this->entityManager->persist($image);
+                $this->entityManager->flush();
+            }
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param string $phone
+     * @return int
+     */
+    private function formatPhoneNumber(string $phone): int
+    {
+        $phone = str_replace('+370', '', $phone);
+        if (strlen($phone) == 9) {
+            $phone = substr($phone, 1);
+        }
+
+        return $phone;
     }
 }

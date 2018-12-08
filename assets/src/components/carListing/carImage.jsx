@@ -8,9 +8,13 @@ class carImage extends Component {
                     <div className="carousel-item active">
                         <img className="d-block w-100 product-image" src={`/${this.props.image.images[0]}`} alt=""/>
                     </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100 product-image" src={`/${this.props.image.images[0]}`} alt=""/>
-                    </div>
+                    {this.props.image.images.map((image, index) => {
+                        if (index > 0) {
+                            return (<div className="carousel-item">
+                                <img className="d-block w-100 product-image" src={`/${image}`} alt=""/>
+                            </div>)
+                        }
+                    })}
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>

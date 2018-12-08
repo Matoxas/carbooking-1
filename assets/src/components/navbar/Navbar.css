@@ -1,0 +1,159 @@
+/* ================== NAVBAR STYLES ====================== */
+
+.logo-mask {
+  height: 100%;
+  width: 30px;
+  overflow: hidden;
+  margin: 0 auto;
+  transition: all 0.3s linear;
+}
+
+.logo-mask--opened {
+  width: 150px;
+}
+
+.nav-masthead .nav-link {
+  padding: 0.25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  border-bottom: 0.25rem solid transparent;
+}
+
+.masthead {
+  position: fixed;
+  width: 100%;
+  overflow: visible;
+  z-index: 999;
+  padding-bottom: 1rem;
+  transition: all 0.2s linear;
+}
+
+.masthead-background {
+  background-color: rgba(57, 57, 57, 0.9);
+}
+
+.masthead .container {
+  position: relative;
+}
+
+.nav-masthead .nav-link:hover {
+  border-bottom-color: rgba(219, 122, 122, 0.25);
+}
+
+.nav-link--hl {
+  color: #f47e60;
+  padding: 0.25rem;
+  /* border: 2px solid #f47e60 !important; */
+  background-color: transparent;
+  margin-right: 1rem;
+  font-weight: 700;
+  border-bottom: 0.25rem solid transparent;
+}
+
+.nav-link--hl:hover {
+  text-decoration: none;
+  color: #f47e60;
+  border-bottom-color: rgba(219, 122, 122, 0.25);
+  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.nav-link--hl:focus {
+  color: #f47e60;
+}
+
+.nav-link--hl.active {
+  color: #f47e60;
+  border-bottom-color: #f47e60;
+}
+
+.nav-masthead .nav-link + .nav-link {
+  margin-left: 1rem;
+}
+
+.burgerIcon {
+  display: none;
+  float: right;
+  padding-top: 5px;
+  height: 100%;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.burgerIcon:hover {
+  cursor: pointer;
+}
+
+.nav-link.active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.masthead-brand {
+  fill: white;
+  padding-top: 10px;
+  width: 150px;
+  height: 100%;
+}
+
+@media (max-width: 576px) {
+  .logo-mask {
+    float: left;
+  }
+
+  .nav-masthead {
+    display: none;
+    position: absolute;
+    width: 100%;
+    float: none;
+    left: 0;
+    top: 3rem;
+    z-index: 99;
+    background-color: rgba(57, 57, 57, 0.9);
+    border-bottom-color: rgba(57, 57, 57, 0.2);
+  }
+
+  .nav-masthead.opened {
+    display: block;
+  }
+
+  .nav-masthead a,
+  .nav-masthead .nav-link,
+  .nav-masthead a:hover,
+  .nav-masthead .nav-link:hover {
+    margin: 0;
+    display: block;
+    padding: 1rem 0;
+    border-bottom: 0.2rem solid;
+    border-bottom-color: #3a3a3a;
+  }
+
+  .nav-link.active {
+    border-bottom-color: white !important;
+  }
+
+  .nav-link--hl.active {
+    border-bottom-color: #f47e60 !important;
+  }
+
+  .nav-masthead .nav-link + .nav-link {
+    margin-left: 0;
+  }
+
+  .burgerIcon {
+    display: block;
+  }
+}
+
+@media (min-width: 48em) {
+  .logo-mask {
+    float: left;
+  }
+
+  .masthead-brand {
+    /* float: left; */
+  }
+  .nav-masthead {
+    float: right;
+  }
+}

@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Car
 {
@@ -56,7 +57,6 @@ class Car
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
      */
     private $createdAt;
 
@@ -94,6 +94,23 @@ class Car
      * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $confirmationToken;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $publish;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $confirmed;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10")
+     */
+    private $description;
 
     public function __construct()
     {
@@ -309,5 +326,51 @@ class Car
         $this->confirmationToken = $confirmationToken;
 
         return $this;
+    }
+
+    public function getPublish(): ?bool
+    {
+        return $this->publish;
+    }
+
+    public function setPublish(bool $publish): self
+    {
+        $this->publish = $publish;
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?bool
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(bool $confirmed): self
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setCreatedAtOnPersist(): void
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTime();
+        }
     }
 }

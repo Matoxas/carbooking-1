@@ -1,7 +1,11 @@
-import React, {Component} from 'react';
-import './carListing.css';
+import React, {Component} from "react";
+import Comment from "./comment";
+import "./carListing.css";
+import ReservationDatePicker from "./reservationDatePicker";
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
+import axios from "axios";
+import moment from "moment";
 
 @inject("CarStore")
 @observer
@@ -10,21 +14,78 @@ class carInfo extends Component {
         super();
         this.state = {
             reservationClicked: false,
-            reservationButtonText: "Reserve",
-            date_from: new Date(),
+            reservationButtonText: "Rezervuoti",
+            date_from: moment(new Date()).toDate(),
             date_until: new Date(),
             name: "",
             email: "",
             phone: "",
             message: "",
             value: null,
+            comments: [],
+            commentName: "",
+            commentText: "",
+            response: {},
+            bookingDates: {},
+            rentedDates: [],
         };
     }
+
+    componentDidMount() {
+        if (this.props.car.bookingDates.length !== 0) {
+            console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
+            this.setState({
+                minDate: this.props.car.bookingDates[0].bookedFrom,
+                maxDate: this.props.car.bookingDates[0].bookedUntil,
+                date_from: this.props.car.bookingDates[0].bookedFrom,
+                date_until: this.props.car.bookingDates[0].bookedUntil,
+            });
+        }
+        let dates = [];
+        let datesArray = [];
+        if (this.props.car.rentDates.length !== 0) {
+            console.log(this.props.car.rentDates[0].rentedFrom);
+            this.props.car.rentDates.map(date => {
+                datesArray = this.getDates(
+                    date.rentedFrom,
+                    date.rentedUntil,
+                );
+                dates.push(datesArray);
+            });
+        }
+        console.log(dates);
+    }
+
+    getDates = (startDate, endDate) => {
+        let dates = [],
+            currentDate = startDate,
+            addDays = function(days) {
+                let date = new Date(this.valueOf());
+                date.setDate(date.getDate() + days);
+                return date;
+            };
+        while (currentDate <= endDate) {
+            dates.push(currentDate);
+            currentDate = addDays.call(currentDate, 1);
+        }
+        return dates;
+    };
+
+    postReservation = reservation => {
+        axios
+            .post("/new/reservation", {reservation})
+            .then(response => {
+                alert(response.data.data.message);
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                alert(error.response.data.message);
+            });
+    };
 
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const {postReservation} = this.props.CarStore;
             const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
@@ -34,159 +95,273 @@ class carInfo extends Component {
                 name: name,
                 email: email,
                 phone: phone,
-                message: message,
+                message: message
             };
 
-            postReservation(reservation);
-
-            alert("Jūsų rezervacija išsiųsta savininko patvirtinimui");
+            this.postReservation(reservation);
+            document.getElementById("clear-reservation-input").reset();
 
             this.setState({
                 reservationClicked: false,
-                reservationButtonText: "Reserve",
+                reservationButtonText: "Rezervuoti"
             });
         } else {
             this.setState({
                 reservationClicked: true,
-                reservationButtonText: "Submit reservation",
+                reservationButtonText: "Patvirtinti rezervaciją"
             });
         }
     };
 
+    handleSubmitComment = e => {
+        e.preventDefault();
+        const {postComment} = this.props.CarStore;
+        const {commentName, commentText} = this.state;
+
+        const comment = {
+            carId: this.props.car.id,
+            name: commentName,
+            text: commentText
+        };
+        document.getElementById("clear-comment-input").reset();
+
+        //siunčiam komentarą į api
+        postComment(comment);
+        //TODO IF ALL GOOD
+        //pertvarkom komentaro stuktūrą ir atvaizduojam komentarą lokaliai
+        const restructuredComment = {
+            comment: comment.text,
+            name: comment.name,
+            createdAt: new Date().toJSON().replace("T", " ")
+        };
+        this.props.addComment(restructuredComment);
+    };
+
     handleFromChange = date => {
-        this.setState({date_from: date})
+        this.setState({date_from: date});
     };
 
     handleUntilChange = date => {
-        this.setState({date_until: date})
+        this.setState({date_until: date});
+        // this.setState({date_from: date_until});
+        console.log(this.state.date_from);
+        console.log(this.state.date_until);
+        // let timeDiff = Math.abs(this.state.date_until.getTime() - this.state.date_from.getTime());
+        // let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        // console.log(diffDays);
+        // const date_sum = (this.state.date_until - this.state.date_from);
+        // console.log(date_sum);
     };
 
     handleNameChange = name => {
-        this.setState({name: name.target.value})
+        this.setState({name: name.target.value});
     };
 
     handleMessageChange = message => {
-        this.setState({message: message.target.value})
+        this.setState({message: message.target.value});
     };
 
     handleEmailChange = email => {
-        this.setState({email: email.target.value})
+        this.setState({email: email.target.value});
     };
 
     handlePhoneChange = phone => {
-        this.setState({phone: phone.target.value})
+        this.setState({phone: phone.target.value});
+    };
+
+    handleCommentName = name => {
+        this.setState({commentName: name.target.value});
+    };
+
+    handleCommentText = text => {
+        this.setState({commentText: text.target.value});
     };
 
     handleBadListing = () => {
-        const { postBadListing } = this.props.CarStore;
+        const {postBadListing} = this.props.CarStore;
         postBadListing(this.props.car.id);
+        alert("Dėkui, jūsų pranešimas buvo išsiųstas");
     };
 
     render() {
+
         return (
             <div className="info">
                 <div className="row">
-                    <div className="col-lg-8">
+                    <div className="col-lg-7">
                         <div className="row">
-                            <div className="col-lg-4 info-description">
+                            <div className="col-lg-3 info-description"/>
+                            <div className="col-lg-9">
+                                <p className="info--big">
+                                    {this.props.car.brand} {this.props.car.model}
+                                </p>
                             </div>
-                            <div className="col-lg-8">
-                                <p className="info--big">{this.props.car.brand} {this.props.car.model}</p>
-                            </div>
-                            <div className="col-lg-4 info-description">
-                                Vieta
-                            </div>
-                            <div className="col-lg-8">
+                            <div className="col-lg-3 info-description">Vieta</div>
+                            <div className="col-lg-9">
                                 <p className="info--normal">{this.props.car.city}</p>
                             </div>
-                            <div className="col-lg-4 info-description">
-                                Aprašymas
-                            </div>
-                            <div className="col-lg-8">
-                                <p className="info--normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            <div className="col-lg-3 info-description">Aprašymas</div>
+                            <div className="col-lg-9">
+                                <p className="info--normal">
+                                    {this.props.car.description}
                                 </p>
                             </div>
                             <hr/>
-                            <div className="col-lg-4 info-description">
-                                Savininkas
-                            </div>
-                            <div className="col-lg-8">
-                                <p className="info--normal info--owner">
-                                    <i className="far fa-envelope info--envelope"/>
-                                    {this.props.car.email}
-                                </p>
+                            <div className="col-lg-3 info-description">Savininkas</div>
+                            <div className="col-lg-9">
                                 <p className="info--normal info--owner info--owner-raise">
                                     <i className="fas fa-phone info--envelope"/>
                                     {this.props.car.phone}
                                 </p>
                             </div>
-                            <div className="col-lg-4 info-description">
-                                Komentarai
+                            <div className="col-lg-3 info-description">Komentarai</div>
+                            <div className="col-lg-9">
+                                {this.props.comments.length ? (
+                                    <Comment comments={this.props.comments}/>
+                                ) : (
+                                    <p>Šis skelbimas neturi jokių komentarų.</p>
+                                )}
                             </div>
-                            <div className="col-lg-8">
-                                <p className="info--normal">Labai gera masina, tikrai dar daug kartu noresiu ja as nuomuotis</p>
-                            </div>
-                            <div className="col-lg-4"/>
-                            <div className="col-lg-8">
-                                <button onClick={this.handleBadListing} className="btn btn-warning info-button">
-                                    Pranešti apie netinkamą skelbimą
+                            <div className="col-lg-3"/>
+                            <div className="col-lg-9 info--newComment">
+                                <hr/>
+                                <button
+                                    className="btn btn-warning btn-comment"
+                                    data-toggle="collapse"
+                                    data-target="#collapseComment"
+                                    aria-expanded="false"
+                                    aria-controls="collapseComment"
+                                >
+                                    Parašyti komentarą
                                 </button>
+                                <div
+                                    className="form-group collapse form-group-separate"
+                                    id="collapseComment"
+                                >
+                                    <form id="clear-comment-input">
+                                        <input
+                                            onChange={this.handleCommentName}
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="Įrašykite savo vardą"
+                                        />
+                                        <textarea
+                                            onChange={this.handleCommentText}
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="Komentaras..."
+                                        />
+                                        <br/>
+                                        <button
+                                            onClick={this.handleSubmitComment}
+                                            className="btn btn-warning info-button"
+                                            data-toggle="collapse"
+                                            data-target="#collapseComment"
+                                            aria-expanded="false"
+                                            aria-controls="collapseComment"
+                                        >
+                                            Skelbti
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-4 info-price">
+                    <div className="col-lg-4  offset-lg-1 info-price">
                         <span className="info-price--currency">€</span>
                         <span className="info-price--value">{this.props.car.price}</span>
                         <span className="info-price--small">dienai</span>
                         <div className="info-dates">
-                            <div className="info--relative">
-                                <p className="info-p">Pradžios data</p>
-                                <div>
+                            <div className="form-group">
+                                <label className="" htmlFor="inputState">
+                                    Nuomos pradžia:
+                                </label>
+                                <div className="relative clearfix">
                                     <DatePicker
-                                        className="input--stretch"
+                                        className="form-control"
+                                        name="date_from"
+                                        // excludeDates={this.state.bookingDates}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
+                                        selectsStart
+                                        startDate={new Date(this.state.date_from)}
+                                        endDate={this.state.date_until}
+                                        minDate={new Date(this.state.minDate)}
+                                        maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleFromChange}
                                     />
+                                    <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
-                            </div>
-                            <div className="info--relative">
-                                <p className="info-p">Pabaigos data</p>
-                                <div>
+                                <label htmlFor="inputState">Nuomos pabaiga:</label>
+                                <div className="relative clearfix">
                                     <DatePicker
-                                        className="input--stretch"
-                                        // locale={"lt"}
-                                        selected={this.state.date_until}
+                                        className="form-control"
+                                        //   locale={"lt"}
+                                        name="date_until"
+                                        // excludeDates={this.state.bookingDates}
+                                        selected={new Date(this.state.date_until)}
+                                        selectsEnd
+                                        startDate={this.state.date_from}
+                                        endDate={this.state.date_until}
+                                        minDate={new Date(this.state.minDate)}
+                                        maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleUntilChange}
                                     />
+                                    <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <button onClick={this.handleSubmit} className="btn btn-warning info-button"
-                                    data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                    aria-controls="collapseExample">
-                                {this.state.reservationButtonText}
-                            </button>
-                        </div>
-                        <div>
-                            <div className="form-group collapse form-group-separate" id="collapseExample">
-                                <input onChange={this.handleNameChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo vardą"/>
-                                <input onChange={this.handleEmailChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo el. paštą"/>
-                                <input onChange={this.handlePhoneChange} className="form-control" type="text"
-                                       placeholder="Įrašykite savo tel. numerį"/>
+                        <button
+                            onClick={this.handleSubmit}
+                            className="btn btn-warning info-button"
+                            data-toggle="collapse"
+                            data-target="#collapseReports"
+                            aria-expanded="false"
+                            aria-controls="collapseReport"
+                        >
+                            {this.state.reservationButtonText}
+                        </button>
+                        <div
+                            className="form-group collapse form-group-separate"
+                            id="collapseReports"
+                        >
+                            <form id="clear-reservation-input">
+                                <input
+                                    onChange={this.handleNameChange}
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Įrašykite savo vardą"
+                                />
+                                <input
+                                    onChange={this.handleEmailChange}
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Įrašykite savo el. paštą"
+                                />
+                                <input
+                                    onChange={this.handlePhoneChange}
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="+370"
+                                />
                                 <div className="form-group">
-                                    <textarea onChange={this.handleMessageChange} className="form-control" type="text"
-                                              placeholder="Žinutė savininkui..."/>
+                  <textarea
+                      onChange={this.handleMessageChange}
+                      className="form-control"
+                      type="text"
+                      placeholder="Žinutė savininkui..."
+                  />
                                 </div>
-                            </div>
+                            </form>
                         </div>
+                        <hr/>
+                        <p onClick={this.handleBadListing} className="info-report">
+                            Pranešti apie netinkamą skelbimą
+                        </p>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

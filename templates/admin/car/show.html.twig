@@ -1,0 +1,81 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}{{ 'admin.cars.title.show'|trans }}{% endblock %}
+
+{% block body_title %}{{ 'admin.cars.title.show'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ 'admin.car.show.title'|trans }}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <table class="table table-striped">
+                                <tbody><tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>{{ 'admin.car.show.audoId'|trans }}</th>
+                                    <th>{{ 'admin.car.show.brand'|trans }}</th>
+                                    <th>{{ 'admin.car.show.model'|trans }}</th>
+                                    <th>{{ 'admin.car.show.city'|trans }}</th>
+                                    <th>{{ 'admin.car.owner.name'|trans }}</th>
+                                    <th>{{ 'admin.car.show.publish'|trans }}</th>
+                                    <th>{{ 'admin.car.show.confirm'|trans }}</th>
+                                    <th>{{ 'admin.car.show.link'|trans }}</th>
+                                    <th style="width: 110px">{{ 'admin.car.show.actions'|trans }}</th>
+                                </tr>
+                                {% for car in cars %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ car.id }}</td>
+                                        <td>{{ car.brand.brand }}</td>
+                                        <td>{{ car.model.model }}</td>
+                                        <td>{{ car.city.city }}</td>
+                                        <td>{{ car.user.name }}</td>
+                                        <td>
+                                            {% if car.publish == true %}
+                                                <span class="badge bg-success">{{ 'admin.car.show.publish'|trans }}</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">{{ 'admin.car.show.not_publish'|trans }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if car.confirmed == true %}
+                                                <span class="badge bg-success">{{ 'admin.car.show.confirm'|trans }}</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">{{ 'admin.car.show.not_confirm'|trans }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('home_car_listing_by_id', { 'id': car.id }) }}"
+                                               target="_blank">{{ 'admin.car.show.link'|trans }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('admin_car_edit', { 'car': car.id }) }}"
+                                               class="btn btn-sm btn-primary btn-xs modal-button">
+                                                <span class="fa fa-edit"></span>
+                                            </a>&nbsp;
+                                            <a href="{{ path('admin_car_delete', { 'car': car.id }) }}"
+                                               class="btn btn-sm btn-danger btn-xs modal-button">
+                                                <span class="fa fa-close"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+{% endblock %}

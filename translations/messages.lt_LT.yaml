@@ -1,5 +1,11 @@
 car:
   not_exists: 'Nepavyko rasti nurodytos mašinos!'
+  deleted: 'Mašina buvo sėkmingai pašalinta!'
+  updated: 'Informacija apie mašiną, sėkmingai atnaujinta!'
+  error:
+    unknown: 'Įvyko nenumatyta klaida. Mėginkite vėliau!'
+  not_valid: ' Nevisi laukeliai užpildyti tinkamai! Patikrinkite duomenis ir mėginkite dar kartą!'
+  not_valid_image: 'Būtina įkelti, bent vieną nuotrauką!'
 brand:
   not_exists: 'Nepavyko rasti nurodytos markės!'
 system:
@@ -11,3 +17,60 @@ booking:
   bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
+comment:
+  bad_data: 'Patikrinkite ar abu laukelius užpildėti tinkamai ir mėginkite dar kartą!'
+security:
+  login:
+    title: 'Prašome prisijungti'
+    email: 'El-paštas'
+    password: 'Slaptažodis'
+    submit: 'Prisijungti'
+    or: 'ARBA'
+    homepage: 'Pagrindinis puslapis'
+    error: 'Klaidingi duomenys!'
+admin:
+  logout: 'Atsijungti'
+  cars:
+    show: 'Visi automobiliai'
+    not:
+      confirmed: 'Neperžiūrėti auto...'
+      publish: 'Nepaskelbti auto...'
+    title:
+      show: 'Automobilių sąrašas'
+  car:
+    delete:
+      title: 'Automobilio Pašalinimas Iš Puslapio!'
+      carId: 'Automobilio ID'
+      brand: 'Markė'
+      model: 'Modelis'
+    owner:
+      phone: 'Automobilio sav. numeris'
+      email: 'Automobilio sav. el-paštas'
+      name: 'Automobilio sav.'
+    cancel: 'Atšaukti'
+    remove: 'PAŠALINTI'
+    update: 'ATNAUJINTI'
+    edit:
+      title: 'Automobilio Informacijos atnaujinimas'
+      carId: 'Automobilio ID'
+      brand: 'Markė'
+      model: 'Modelis'
+      confirmed: 'Peržiūrėtas'
+      publish: 'Rodomas viešai'
+    show:
+      title: 'Paruoštas sąrašas'
+      audoId: 'Auto ID'
+      link: 'Skelbimas'
+      not_confirm: 'Neperžiūrėtas'
+      confirm: 'Peržiūrėtas'
+      not_publish: 'Nepaskelbtas'
+      publish: 'Paskelbtas'
+      actions: 'Veiksmai'
+      city: 'Miestas'
+      model: 'Modelis'
+      brand: 'Markė'
+flashes:
+  danger: 'Dėmesio!'
+  important: 'Svarbu!'
+  attencion: 'Įspėjimas'
+  done: 'Atlikta sėkmingai!'

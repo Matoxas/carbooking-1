@@ -90,7 +90,7 @@ class Searchbar extends Component {
                 </option>
               ))}
             </select>
-            <i className="fa fa-caret-down" aria-hidden="true" />
+            <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
         </div>
         <div className="searchbar-item from">
@@ -102,7 +102,7 @@ class Searchbar extends Component {
               selected={this.state.date_from}
               onChange={this.handleFromChange}
             />
-            <i className="fa fa-caret-down" aria-hidden="true" />
+            <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
         </div>
         <div className="searchbar-item to">
@@ -114,10 +114,13 @@ class Searchbar extends Component {
               selected={this.state.date_until}
               onChange={this.handleUntilChange}
             />
-            <i className="fa fa-caret-down" aria-hidden="true" />
+            <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
         </div>
-        <button onClick={this.handleSubmit} className="searchbar-submit">
+        <button
+          onClick={this.handleSubmit}
+          className="submit-button submit-button--searchbar"
+        >
           Ieškoti
         </button>
       </form>
