@@ -601,6 +601,10 @@ body {
   clear: both;
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 /* ================== MEDIA QUERRIES ====================== */
 
 @media (max-width: 450px) {

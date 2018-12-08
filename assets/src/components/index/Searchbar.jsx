@@ -117,7 +117,10 @@ class Searchbar extends Component {
             <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
         </div>
-        <button onClick={this.handleSubmit} className="searchbar-submit">
+        <button
+          onClick={this.handleSubmit}
+          className="submit-button submit-button--searchbar"
+        >
           Ieškoti
         </button>
       </form>
