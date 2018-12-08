@@ -25,7 +25,7 @@ class NoResults extends Component {
     return (
       <div className="feed-error">
         <div className="feed-error-illustation">
-          <SearchIllustation />
+          <SearchIllustation className="searchIllustration" />
         </div>
         <div className="feed-error-text">
           <h4 className="feed-error-text feed-error-text--title">
