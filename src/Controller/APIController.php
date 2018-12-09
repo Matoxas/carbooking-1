@@ -475,14 +475,29 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/new/car", name="api_car_new")
+     * @Rest\Post("/new/subscribe", name="api_subscribe_new")
      * @param Request $request
      * @return View
      */
-    public function postNewSubscribe(Request $request): View
+    public function postNewSubscribeAction(Request $request): View
     {
         dump($request);
         die;
+    }
+
+    /**
+     * @Rest\Get("/reservation/{hash}", name="api_reservation_info")
+     * @return View
+     */
+    public function getReservationInfoAction(string $hash): View
+    {
+        return $this->view(
+            [
+                'status' => 'ok',
+                'message' => 'Jūs el-paštas patvirtintas! Visa reikalinga informacija el-paštu išsiųsta!'. $hash
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
