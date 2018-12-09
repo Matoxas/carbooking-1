@@ -74,3 +74,8 @@ flashes:
   important: 'Svarbu!'
   attencion: 'Įspėjimas'
   done: 'Atlikta sėkmingai!'
+upload:
+  image:
+    unknown: 'Įkeliant failą įvyko nenumatyta klaida.'
+    wrong_format: 'Netinkamas formatas! Galimi formatai: JPG, JPEG, PNG.'
+    size: 'Įkeliamas failas, per didelis!'
