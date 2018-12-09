@@ -15,7 +15,6 @@ class DateIsInTheFutureValidator extends ConstraintValidator
     private $entityManager;
 
     /**
-     * CarExistsValidator constructor.
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
@@ -35,7 +34,7 @@ class DateIsInTheFutureValidator extends ConstraintValidator
 
         $now = new \DateTime();
 
-        if ($now > $date) {
+        if ($now->format("Y-m-d") > $date->format("Y-m-d")) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

@@ -65,7 +65,8 @@ class Navbar extends Component {
       let scrollbarLocation = $(this).scrollTop();
 
       // Load feed on scroll
-      if (scrollbarLocation == $(document).height() - $(window).height()) {
+      // if (scrollbarLocation == $(document).height() - $(window).height())
+      if (scrollbarLocation >= $("#footer").offset().top - $(window).height()) {
         if (window.location.pathname == "/feed") {
           self.pageUp();
         }
