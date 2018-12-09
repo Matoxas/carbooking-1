@@ -15,7 +15,7 @@ class Index extends Component {
       <div className="index">
         <div className="container pt-4">
           <div id="index">
-            <div className="flex flex-center flex-column relative fullHeight text-center">
+            <div className="flex flex-center flex-column fullHeight text-center">
               <div className="index-logo-wrapper">
                 <div className="index-logo-wrapper-logo">
                   <Logo className="logo" />
@@ -41,9 +41,3 @@ class Index extends Component {
 }
 
 export default Index;
-
-// const scrollink = $(".nav-link");
-// scrollink.click(function(e) {
-//   e.preventDefault();
-//   $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
-// });

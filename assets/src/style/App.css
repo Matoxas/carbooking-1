@@ -307,7 +307,10 @@ body {
   opacity: 1;
   -webkit-transition: all 0.5s ease-in 3s;
   transition: all 0.5s ease-in 3s;
-  margin-top: 5vh;
+  position: absolute;
+  bottom: 5vh;
+  left: 50%;
+  margin-left: -16px;
   display: block;
   -webkit-animation: bounce 2s infinite 2s;
   animation: bounce 2s infinite 2s;
@@ -619,9 +622,15 @@ body {
   .card-image {
     height: 220px;
   }
+  .scroll-down {
+    bottom: 10px;
+  }
 }
 
 @media (min-width: 450px) and (max-width: 575.98px) {
+  .scroll-down {
+    bottom: 10px;
+  }
   .card-image {
     height: 330px;
   }
@@ -655,6 +664,10 @@ body {
 
   .m-hidden {
     display: none;
+  }
+
+  .scroll-down {
+    bottom: 15px;
   }
 }
 
