@@ -396,7 +396,7 @@ class NewCarForm extends Component {
           type="button"
           onClick={this.handleModalOpen}
           className="btn btn-info"
-          disabled={!this.props.doesFormHasErrors()}
+          // disabled={!this.props.doesFormHasErrors()}
         >
           Paskelbti kataloge
         </button>

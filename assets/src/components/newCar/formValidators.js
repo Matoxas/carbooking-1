@@ -6,6 +6,7 @@ const Validators = {
       updateErrors({ brand: "pasirinkite gamintoją!" });
       return false;
     }
+    updateErrors({ brand: "" });
     return true;
   },
 
@@ -14,6 +15,7 @@ const Validators = {
       updateErrors({ model: "pasirinkite modelį!" });
       return false;
     }
+    updateErrors({ model: "" });
     return true;
   },
   description: (value, updateErrors) => {
@@ -29,6 +31,7 @@ const Validators = {
       });
       return false;
     }
+    updateErrors({ description: "" });
     return true;
   },
   address: (value, updateErrors, setCity, allCities) => {
@@ -90,6 +93,7 @@ const Validators = {
       updateErrors({ images: "įkelkite bent vieną nuotrauką!" });
       return false;
     }
+    updateErrors({ images: "" });
     return true;
   },
   name: (value, updateErrors) => {
@@ -101,6 +105,7 @@ const Validators = {
       updateErrors({ name: "ilgiausias vardo ilgis - 20 simbolių" });
       return false;
     }
+    updateErrors({ name: "" });
     return true;
   },
   email: (value, updateErrors) => {
@@ -116,7 +121,7 @@ const Validators = {
       updateErrors({ email: "įveskite teisingą el.paštą!" });
       return false;
     }
-
+    updateErrors({ email: "" });
     return true;
   },
   date: (date_from, date_until, updateErrors) => {
@@ -127,6 +132,7 @@ const Validators = {
       });
       return false;
     }
+    updateErrors({ date_until: "", date_from: "" });
     return true;
   },
   price: (value, updateErrors) => {
@@ -150,7 +156,7 @@ const Validators = {
       updateErrors({ price: "neteisingas kainos formatas!" });
       return false;
     }
-
+    updateErrors({ price: "" });
     return true;
   },
   phone: (value, updateErrors) => {
@@ -163,6 +169,7 @@ const Validators = {
       updateErrors({ phone: "įveskite teisingą telefono numerį" });
       return false;
     }
+    updateErrors({ name: "" });
     return true;
   }
 };

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import Items from "./items";
-import Topbar from "./topbar/topbar";
+import Topbar from "../topbar/topbar";
 import { inject, observer } from "mobx-react";
-import Loading from "./loading";
-import "./topbar/topbar.css";
+import Loading from "../loading";
+import "../topbar/topbar.css";
+import "./feed.css";
+import NoResults from "./NoResults";
 
 @inject("CarStore")
 @observer
@@ -56,6 +58,18 @@ class Feed extends Component {
         </div>
       );
     }
+
+    if (cars.length == 0) {
+      return (
+        <div className="main">
+          <div className="container">
+            {topbar}
+            <NoResults />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="main">
         <div className="container">
