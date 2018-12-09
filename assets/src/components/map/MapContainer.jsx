@@ -45,6 +45,7 @@ export class MapContainer extends Component {
         scrollwheel={false}
         maxZoom={16}
         minZoom={16}
+        disableDefaultUI={true}
       >
         <Marker
           onClick={this.onMarkerClick}
