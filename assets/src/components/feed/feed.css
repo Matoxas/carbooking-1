@@ -83,7 +83,7 @@
 }
 
 .invalid-input {
-  border-color: #dc3545;
+  border-color: #dc3545 !important;
 }
 
 @media (max-width: 768px) {

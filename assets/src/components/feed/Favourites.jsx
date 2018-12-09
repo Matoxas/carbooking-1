@@ -6,7 +6,7 @@ import Item from "./item";
 @observer
 class Favourites extends Component {
   render() {
-    const { likedCarList: cars } = this.props.CarStore;
+    const { likedCars: cars } = this.props.CarStore;
     return (
       <div className="container">
         <h2>Jūsų mėgstami automobiliai</h2>

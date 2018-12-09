@@ -21,7 +21,7 @@ class NewCarForm extends Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      formStatus: "PENDING", // PENDING/LOADING/SUCCESS/FAILURE
+      formStatus: "LOADING", // PENDING/LOADING/SUCCESS/FAILURE
       carId: ""
     };
   }
@@ -45,11 +45,13 @@ class NewCarForm extends Component {
   };
 
   handleFormSubmit = () => {
+    this.handleModalOpen();
     //Keičiam statusą į loading
     this.changeFormStatus("LOADING");
     //tinrinam ką grąžina submit
     Promise.resolve(this.props.formSubmit()).then(response => {
       if (!response) {
+        //jei negaunam response uždarom modalßß
         this.handleModalClose();
         this.changeFormStatus("PENDING");
       } else {
@@ -111,7 +113,7 @@ class NewCarForm extends Component {
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
 
-              {this.props.errors.brand.length > 0 && (
+              {this.props.hasSpecificError("brand") && (
                 <span className="invalid-feedback">
                   {this.props.errors.brand}
                 </span>
@@ -142,7 +144,7 @@ class NewCarForm extends Component {
                 </select>
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
-              {this.props.errors.model.length > 0 && (
+              {this.props.hasSpecificError("model") && (
                 <span className="invalid-feedback">
                   {this.props.errors.model}
                 </span>
@@ -165,7 +167,7 @@ class NewCarForm extends Component {
                   placeholder="Trumpai aprašyk automobilį"
                 />
               </div>
-              {this.props.errors.description.length > 0 && (
+              {this.props.hasSpecificError("description") && (
                 <span className="invalid-feedback">
                   {this.props.errors.description}
                 </span>
@@ -234,7 +236,7 @@ class NewCarForm extends Component {
                   )}
                 </PlacesAutocomplete>
               </div>
-              {this.props.errors.address.length > 0 && (
+              {this.props.hasSpecificError("address") && (
                 <span className="invalid-feedback">
                   {this.props.errors.address}
                 </span>
@@ -264,7 +266,7 @@ class NewCarForm extends Component {
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
-              {this.props.errors.date_from.length > 0 && (
+              {this.props.hasSpecificError("date_from") && (
                 <span className="invalid-feedback">
                   {this.props.errors.date_from}
                 </span>
@@ -293,7 +295,7 @@ class NewCarForm extends Component {
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
-              {this.props.errors.date_until.length > 0 && (
+              {this.props.hasSpecificError("date_until") && (
                 <span className="invalid-feedback">
                   {this.props.errors.date_until}
                 </span>
@@ -317,7 +319,7 @@ class NewCarForm extends Component {
                   placeholder="0.00 €"
                 />
               </div>
-              {this.props.errors.price.length > 0 && (
+              {this.props.hasSpecificError("price") && (
                 <span className="invalid-feedback">
                   {this.props.errors.price}
                 </span>
@@ -342,7 +344,7 @@ class NewCarForm extends Component {
                   placeholder="įveskite savo vardą"
                 />
               </div>
-              {this.props.errors.name.length > 0 && (
+              {this.props.hasSpecificError("name") && (
                 <span className="invalid-feedback">
                   {this.props.errors.name}
                 </span>
@@ -384,7 +386,7 @@ class NewCarForm extends Component {
                   placeholder="pavyzdys@mail.lt"
                 />
               </div>
-              {this.props.errors.email.length > 0 && (
+              {this.props.hasSpecificError("email") && (
                 <span className="invalid-feedback">
                   {this.props.errors.email}
                 </span>
@@ -394,7 +396,7 @@ class NewCarForm extends Component {
         </div>
         <button
           type="button"
-          onClick={this.handleModalOpen}
+          onClick={this.handleFormSubmit}
           className="btn btn-info"
           // disabled={!this.props.doesFormHasErrors()}
         >

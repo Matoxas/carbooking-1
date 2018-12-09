@@ -20,17 +20,22 @@ class Item extends Component {
     });
   }
 
-  handleLikeSubmit = (e, car) => {
+  handleLikeSubmit = e => {
     e.preventDefault();
+    const { car } = this.props;
     const { likesToggler } = this.props.CarStore;
     likesToggler(car);
   };
 
   isLiked = () => {
-    const { car } = this.props;
+    const { car: currentCar } = this.props;
     const { likedCars } = this.props.CarStore;
 
-    return likedCars.includes(car.id);
+    return (
+      likedCars.filter(car => {
+        return car.id == currentCar.id;
+      }).length > 0
+    );
   };
 
   changeImageOnHover = () => {
@@ -61,10 +66,7 @@ class Item extends Component {
               <img src={`/${this.state.image}`} alt="" />
             </div>
             <p className="card-time">{moment(car.createdAt).fromNow(true)}</p>
-            <p
-              onClick={e => this.handleLikeSubmit(e, car.id)}
-              className="card-like"
-            >
+            <p onClick={this.handleLikeSubmit} className="card-like">
               <i className={(this.isLiked() ? "fas" : "far") + " fa-heart"} />
             </p>
             <h5 className="card-title">{car.brand}</h5>

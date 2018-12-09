@@ -113,6 +113,10 @@ class NewCar extends Component {
     return Object.values(this.state.errors).every(error => error == "");
   };
 
+  hasSpecificError = input => {
+    return this.state.errors[input].length > 0;
+  };
+
   sendFormToRoute = () => {
     const fd = new FormData();
     //pridedam visus duomenis
@@ -257,6 +261,7 @@ class NewCar extends Component {
           <div className="main newCarWrapper">
             <NewCarForm
               doesFormHasErrors={this.doesFormHasErrors}
+              hasSpecificError={this.hasSpecificError}
               clearForm={this.clearForm}
               address={this.state.address}
               date_from={this.state.date_from}
