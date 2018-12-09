@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Comment from "./comment";
 import "./carListing.css";
+import Dialog from "./Dialog";
 import ReservationDatePicker from "./reservationDatePicker";
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
@@ -28,6 +29,8 @@ class carInfo extends Component {
             response: {},
             bookingDates: {},
             rentedDates: [],
+            showAlertWindow: false,
+            alertText: "kazkas tik nepavyko",
         };
     }
 
@@ -59,7 +62,7 @@ class carInfo extends Component {
     getDates = (startDate, endDate) => {
         let dates = [],
             currentDate = startDate,
-            addDays = function(days) {
+            addDays = function (days) {
                 let date = new Date(this.valueOf());
                 date.setDate(date.getDate() + days);
                 return date;
@@ -79,10 +82,23 @@ class carInfo extends Component {
             })
             .catch(error => {
                 console.log(error.response.data.status);
+                this.setState({
+                    showAlertWindow: true,
+                    alertHeader: "Rezervacija pavyko",
+                    alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
+                });
                 if (error.response.data.status == "ok") {
-                    alert("Masina sekmingai uzrezervuota");
+                    this.setState({
+                        showAlertWindow: true,
+                        alertHeader: "Rezervacija pavyko",
+                        alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
+                    });
                 } else {
-                    alert(error.response.data.message);
+                    this.setState({
+                        showAlertWindow: true,
+                        alertHeader: "Rezervacija nepavyko",
+                        alertText: error.response.data.message
+                    });
                 }
             });
     };
@@ -187,8 +203,11 @@ class carInfo extends Component {
         alert("Dėkui, jūsų pranešimas buvo išsiųstas");
     };
 
-    render() {
+    handleAlert = () => {
+        this.setState({showAlertWindow: false})
+    };
 
+    render() {
         return (
             <div className="info">
                 <div className="row">
@@ -325,6 +344,10 @@ class carInfo extends Component {
                         >
                             {this.state.reservationButtonText}
                         </button>
+                        {this.state.showAlertWindow ? (<div onClick={this.handleAlert}>
+                            <Dialog alertHeader={this.state.alertHeader}
+                                    alertMessage={this.state.alertText}/>
+                        </div>) : null}
                         <div
                             className="form-group collapse form-group-separate"
                             id="collapseReports"
