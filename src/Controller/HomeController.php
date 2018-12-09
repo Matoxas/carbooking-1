@@ -31,6 +31,14 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/feed/carListing/{id}/{hash}", name="home_car_listing_by_id_plus_hash")
+     */
+    public function carListingByIdPlusHash($id, $hash)
+    {
+        return $this->render('home/index.html.twig');
+    }
+
+    /**
      * @Route("/carListing", name="home_car_listing")
      */
     public function carListing()
