@@ -15,7 +15,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $page = $client->request('GET', '/login');
+        $page = $client->request('GET', 'https://carbooking.projektai.nfqakademija.lt/admin');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
