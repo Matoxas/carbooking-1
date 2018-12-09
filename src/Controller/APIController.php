@@ -7,6 +7,7 @@ use App\Entity\Car;
 use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Renting;
+use App\Entity\Subscribe;
 use App\Entity\User;
 use App\Mailer\Mailer;
 use App\Repository\BrandRepository;
@@ -478,11 +479,77 @@ class APIController extends FOSRestController
      * @Rest\Post("/new/subscribe", name="api_subscribe_new")
      * @param Request $request
      * @return View
+     * @throws \Exception
      */
     public function postNewSubscribeAction(Request $request): View
     {
         $email = $request->get('email');
         $filters = $request->get('filters');
+
+        $subscribe = new Subscribe();
+        $subscribe->setEmail($email);
+
+        if ($filters['location'] != '' && is_numeric($filters['location'])) {
+            $city = $this->cityRepository->find($filters['location']);
+            $subscribe->setCity($city);
+        }
+
+        if ($filters['brand'] != '' && is_numeric($filters['brand'])) {
+            $brand = $this->brandRepository->find($filters['brand']);
+            $subscribe->setBrand($brand);
+        }
+
+        if ($filters['model'] != '' && is_numeric($filters['model'])) {
+            $model = $this->modelRepository->find($filters['model']);
+            $subscribe->setModel($model);
+        }
+
+        if ($filters['price_from'] != '' && is_numeric($filters['price_from'])) {
+            $subscribe->setPriceFrom($filters['price_from']);
+        }
+
+        if ($filters['price_until'] != '' && is_numeric($filters['price_until'])) {
+            $subscribe->setPriceUntil($filters['price_until']);
+        }
+
+        if ($filters['date_from'] != '') {
+            $dateFrom = new \DateTime($filters['date_from']);
+            $subscribe->setDateFrom($dateFrom);
+        }
+
+        if ($filters['date_until'] != '') {
+            $dateUntil = new \DateTime($filters['date_until']);
+            $subscribe->setDateUntil($dateUntil);
+        }
+
+        $validationSubscribe = $this->validator->validate($subscribe);
+
+        if (0 !== count($validationSubscribe)) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('subscribe.insert.error')
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
+            $this->entityManager->persist($subscribe);
+
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            $errorCode = rand(1000, 9999);
+            $this->mailer->sendErrorEmail($errorCode, '/api/new/subscribe', $exception->getMessage());
+
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         return $this->view(
             [

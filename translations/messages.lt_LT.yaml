@@ -89,3 +89,6 @@ upload:
     unknown: 'Įkeliant failą įvyko nenumatyta klaida.'
     wrong_format: 'Netinkamas formatas! Galimi formatai: JPG, JPEG, PNG.'
     size: 'Įkeliamas failas, per didelis!'
+subscribe:
+  insert:
+    error: 'Patikrinkite el-paštą ir mėginkite dar kartą!'

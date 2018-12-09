@@ -30,9 +30,15 @@ class City
      */
     private $city;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Subscribe", mappedBy="city")
+     */
+    private $subscribes;
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
+        $this->subscribes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,6 +78,37 @@ class City
 
             if ($car->getCity() === $this) {
                 $car->setCity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscribe[]
+     */
+    public function getSubscribes(): Collection
+    {
+        return $this->subscribes;
+    }
+
+    public function addSubscribe(Subscribe $subscribe): self
+    {
+        if (!$this->subscribes->contains($subscribe)) {
+            $this->subscribes[] = $subscribe;
+            $subscribe->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribe(Subscribe $subscribe): self
+    {
+        if ($this->subscribes->contains($subscribe)) {
+            $this->subscribes->removeElement($subscribe);
+            // set the owning side to null (unless already changed)
+            if ($subscribe->getCity() === $this) {
+                $subscribe->setCity(null);
             }
         }
 
