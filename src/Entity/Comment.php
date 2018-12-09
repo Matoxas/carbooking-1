@@ -21,12 +21,14 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(min="3")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(min="3")
      */
     private $comment;
 

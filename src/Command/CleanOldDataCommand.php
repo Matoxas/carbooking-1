@@ -22,6 +22,10 @@ class CleanOldDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        //Jeigu mašina neturi aktyvių datų, daugiau, kaip 2sav.... trinti ją ir userį...
+
+        //Jeigu useris, jau daugiau, kaip 1sav. neprisijungęs ir neturi mašinų nieko... trinti...
+
         $io->text('> Deleting old cars...');
         //TODO: Ištrinti senas mašinas...
 

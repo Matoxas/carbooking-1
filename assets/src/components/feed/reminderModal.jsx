@@ -49,7 +49,7 @@ class reminderModal extends Component {
     };
 
     axios
-      .post("/api/new/subscribe", result)
+      .post("/new/subscribe", result)
       .then(response => {
         console.log(response);
       })

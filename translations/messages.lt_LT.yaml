@@ -18,6 +18,10 @@ booking:
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
 comment:
+  deleted: 'Komentaras buvo sėkmingai pašalintas!'
+  bad_data: 'Patikrinkite laukelius ir mėginkite dar kartą!'
+comments:
+  deleted: 'Komentarai buvo sėkmingai pašalinti!'
   bad_data: 'Patikrinkite ar abu laukelius užpildėti tinkamai ir mėginkite dar kartą!'
 security:
   login:
@@ -69,6 +73,12 @@ admin:
       city: 'Miestas'
       model: 'Modelis'
       brand: 'Markė'
+      comments: 'Komentarai'
+    exit: 'Išeiti'
+    comments:
+      title: 'Komentarai apie automobilį'
+      delete:
+        all: 'Ištrinti visus komentarus!'
 flashes:
   danger: 'Dėmesio!'
   important: 'Svarbu!'

@@ -481,8 +481,15 @@ class APIController extends FOSRestController
      */
     public function postNewSubscribeAction(Request $request): View
     {
-        dump($request);
-        die;
+        $email = $request->get('email');
+        $filters = $request->get('filters');
+
+        return $this->view(
+            [
+                'status' => 'ok'
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**

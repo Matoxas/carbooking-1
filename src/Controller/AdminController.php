@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Form\CarType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,7 +66,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/car/edit/{car}", name="admin_car_edit")
+     * @Route("/car/{car}/edit", name="admin_car_edit")
      * @param Request $request
      * @param Car|null $car
      * @return \Symfony\Component\HttpFoundation\Response
@@ -109,7 +110,7 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/car/delete/{car}", name="admin_car_delete")
+     * @Route("/car/{car}/delete", name="admin_car_delete")
      * @param Request $request
      * @param Car|null $car
      * @return \Symfony\Component\HttpFoundation\Response
@@ -175,5 +176,69 @@ class AdminController extends AbstractController
             'car' => $car,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/car/{car}/comments", name="admin_car_comments")
+     * @param Request $request
+     * @param Car|null $car
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function carComments(Request $request, Car $car = null)
+    {
+        if (!$car) {
+            throw new NotFoundHttpException("car.not_exists");
+        }
+
+        $comments = $car->getComments()->toArray();
+
+        return $this->render('admin/car/comments.html.twig', [
+            'car' => $car,
+            'comments' => $comments
+        ]);
+    }
+
+    /**
+     * @Route("/car/{car}/comment/{comment}/delete", name="admin_car_comment_delete")
+     * @param Request $request
+     * @param Car|null $car
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteCarComment(Request $request, Car $car = null, Comment $comment)
+    {
+        if (!$car) {
+            throw new NotFoundHttpException("car.not_exists");
+        }
+
+        $this->getDoctrine()->getManager()->remove($comment);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash('success', 'comment.deleted');
+
+        return $this->redirectToRoute('admin_cars_show');
+    }
+
+    /**
+     * @Route("/car/{car}/comments/delete", name="admin_car_comments_delete")
+     * @param Request $request
+     * @param Car|null $car
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteCarComments(Request $request, Car $car = null)
+    {
+        if (!$car) {
+            throw new NotFoundHttpException("car.not_exists");
+        }
+
+        $comments = $car->getComments()->toArray();
+
+        foreach ($comments as $comment) {
+            $this->getDoctrine()->getManager()->remove($comment);
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash('success', 'comments.deleted');
+
+        return $this->redirectToRoute('admin_cars_show');
     }
 }
