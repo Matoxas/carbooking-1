@@ -27,6 +27,7 @@
         <!-- Delivery is disabled by default via "null://localhost" -->
         <env name="MAILER_URL" value="null://localhost"/>
         <!-- ###- symfony/swiftmailer-bundle ### -->
+        <server name="KERNEL_CLASS" value="App\Kernel" />
     </php>
 
     <testsuites>
