@@ -591,7 +591,7 @@ class APIController extends FOSRestController
 
             $message = $this->uploadImage($image, $imgName);
 
-            if ($message !== null) {
+            if ($message === null) {
                 $image = new Image();
                 $image->setImage($imgName);
                 $image->setCar($car);
