@@ -41,9 +41,3 @@ class Index extends Component {
 }
 
 export default Index;
-
-// const scrollink = $(".nav-link");
-// scrollink.click(function(e) {
-//   e.preventDefault();
-//   $("body, html").animate({ scrollTop: $(this.hash).offset().top }, 1000);
-// });
