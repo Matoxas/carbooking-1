@@ -4,30 +4,43 @@ namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SecurityControllerTest extends  WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
-    public function testLogin()
+    /**
+     * @param $email
+     * @param $password
+     * @dataProvider getIncorrectLoginDataProvider
+     */
+    public function testLogin($email, $password): void
     {
         $client = static::createClient();
-        $loginPage = $client->request('GET', '/admin');
+
+        $page = $client->request('GET', 'https://carbooking.projektai.nfqakademija.lt/login');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
-        $loginButton = $loginPage->selectButton('security.login.homepage');
+        $loginButton = $page->selectButton('Prisijungti');
         $loginForm = $loginButton->form([
-            'login[_username]' => 'carbookinglt@email.com',
-            'login[_password]' => 'admin'
+            '_email' => $email,
+            '_password' => $password
         ]);
+
         $client->submit($loginForm);
 
-        $redirect = $client->followRedirect();
-        $this->assertContains('admin.logout', $client->getResponse()->getContent());
-
-        $logoutLink = $redirect
-            ->filter('a:contains("admin.logout")')
-            ->link();
-        $client->click($logoutLink);
         $client->followRedirect();
-        $this->assertContains('Prisijungti', $client->getResponse()->getContent());
+
+        $this->assertContains('Klaidingi duomenys!', $client->getResponse()->getContent());
+    }
+
+    public function getIncorrectLoginDataProvider()
+    {
+        return [
+            ["testas@email.com", 'admin'],
+            ["testas@gmail.com", ''],
+            ["' or 1 = 1", ''],
+            ['', "' or 1 = 1"],
+            [-1, false],
+            [true, PHP_INT_MAX]
+        ];
     }
 }

@@ -75,11 +75,15 @@ class carInfo extends Component {
         axios
             .post("/new/reservation", {reservation})
             .then(response => {
-                alert(response.data.data.message);
+                alert("jūsų rezervacija patvritinta sėkmingai");
             })
             .catch(error => {
-                console.log(error.response.data);
-                alert(error.response.data.message);
+                console.log(error.response.data.status);
+                if (error.response.data.status == "ok") {
+                    alert("Masina sekmingai uzrezervuota");
+                } else {
+                    alert(error.response.data.message);
+                }
             });
     };
 
@@ -286,8 +290,8 @@ class carInfo extends Component {
                                         selectsStart
                                         startDate={new Date(this.state.date_from)}
                                         endDate={this.state.date_until}
-                                        minDate={new Date(this.state.minDate)}
-                                        maxDate={new Date(this.state.maxDate)}
+                                        // minDate={new Date(this.state.minDate)}
+                                        // maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleFromChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
@@ -303,8 +307,8 @@ class carInfo extends Component {
                                         selectsEnd
                                         startDate={this.state.date_from}
                                         endDate={this.state.date_until}
-                                        minDate={new Date(this.state.minDate)}
-                                        maxDate={new Date(this.state.maxDate)}
+                                        // minDate={new Date(this.state.minDate)}
+                                        // maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleUntilChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>

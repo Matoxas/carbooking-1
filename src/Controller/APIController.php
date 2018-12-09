@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\Car;
-use App\Entity\City;
 use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Renting;
@@ -22,6 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -483,10 +483,8 @@ class APIController extends FOSRestController
     public function postNewCarAction(Request $request): View
     {
         $phone = $this->formatPhoneNumber($request->get('phone'));
-        //$from = new \DateTime($request->get('date_from'));
-        //$until = new \DateTime($request->get('date_until'));
-        $from = new \DateTime('2018-12-06');
-        $until = new \DateTime('2019-01-01');
+        $from = new \DateTime($request->get('date_from'));
+        $until = new \DateTime($request->get('date_until'));
 
         $user = new User();
         $user->setName($request->get('name'));
@@ -537,11 +535,23 @@ class APIController extends FOSRestController
             );
         }
 
-        try {
-            $this->entityManager->persist($user);
-            $this->entityManager->persist($car);
-            $this->entityManager->persist($renting);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($car);
+        $this->entityManager->persist($renting);
 
+        $error = $this->uploadImages($request, $car);
+
+        if ($error !== null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans($error)
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
             $this->entityManager->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
@@ -553,18 +563,6 @@ class APIController extends FOSRestController
                     'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
                 ],
                 Response::HTTP_NOT_FOUND
-            );
-        }
-
-        $error = $this->uploadImages($request, $car);
-
-        if ($error !== null) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans($error)
-                ],
-                Response::HTTP_BAD_REQUEST
             );
         }
 
@@ -585,44 +583,17 @@ class APIController extends FOSRestController
     private function uploadImages(Request $request, Car $car): ?string
     {
         $message = null;
-        $target_dir = "uploads/";
+        $images = $request->files->get('image');
 
-        foreach ($_FILES as $file) {
-            for ($i = 0; $i < count($file['name']); $i++) {
-                $fileName = $this->tokenGenerator->getRandomSecureToken(30);
-                $target_file = $target_dir . $fileName . '.' . pathinfo($file["name"][$i])['extension'];
+        /** @var UploadedFile $image */
+        foreach ($images as $image) {
+            $imgName = $this->tokenGenerator->getRandomSecureToken(30) . '.' . $image->guessExtension();
 
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $message = $this->uploadImage($image, $imgName);
 
-                // Check if image file is a actual image or fake image
-                $check = getimagesize($file["tmp_name"][$i]);
-                if ($check === false) {
-                    $message = "Įkeltas failas, nėra nuotrauka!";
-                }
-                // Check if file already exists
-                if (file_exists($target_file)) {
-                    $message = "Tokiu pavadinimu jau yra įkelta nuotrauka!";
-                }
-                // Check file size
-                if ($file["size"][$i] > 10000000) {
-                    $message = "Įkeliamas failas, per didelis!";
-                }
-                // Allow certain file formats
-                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                    && $imageFileType != "gif") {
-                    $message = "Netinkamas formatas! Galimi formatai: JPG, JPEG, PNG, GIF.";
-                }
-                // Check if $message === null
-
-                if ($message === null) {
-                    if (!move_uploaded_file($file["tmp_name"][$i], $target_file)) {
-                        $message = "Įkeliant failą įvyko nenumatyta klaida.";
-                    }
-                }
-
+            if ($message === null) {
                 $image = new Image();
-                $ex = explode("/", $target_file);
-                $image->setImage($ex[1]);
+                $image->setImage($imgName);
                 $image->setCar($car);
                 $this->entityManager->persist($image);
                 $this->entityManager->flush();
@@ -630,6 +601,33 @@ class APIController extends FOSRestController
         }
 
         return $message;
+    }
+
+    /**
+     * Upload one image
+     * @param UploadedFile $image
+     * @param string $imgName
+     * @return string|null
+     */
+    private function uploadImage(UploadedFile $image, string $imgName): ?string
+    {
+        $imageFileType = $image->guessExtension();
+
+        if ($image->getSize() > 10000000) {
+            return $this->translator->trans('upload.image.size');
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            return $this->translator->trans('upload.image.wrong_format');
+        }
+
+        try {
+            $image->move("uploads/", $imgName);
+        } catch (\Exception $exception) {
+            return $this->translator->trans('upload.image.unknown');
+        }
+
+        return null;
     }
 
     /**
