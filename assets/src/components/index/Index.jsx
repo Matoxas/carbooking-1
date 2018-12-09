@@ -15,7 +15,7 @@ class Index extends Component {
       <div className="index">
         <div className="container pt-4">
           <div id="index">
-            <div className="flex flex-center flex-column fullHeight text-center">
+            <div className="flex flex-center flex-column relative fullHeight text-center">
               <div className="index-logo-wrapper">
                 <div className="index-logo-wrapper-logo">
                   <Logo className="logo" />

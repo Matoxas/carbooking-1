@@ -408,7 +408,7 @@ class NewCarForm extends Component {
           onClose={this.handleModalClose}
           onOpen={this.handleModalkOpen}
         />
-        <div className="clearfix margin-bottom--big" />
+        <div className="clearfix margin-bottom" />
       </React.Fragment>
     );
   }
