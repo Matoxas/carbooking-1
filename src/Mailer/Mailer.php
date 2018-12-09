@@ -3,6 +3,7 @@
 namespace App\Mailer;
 
 use App\Entity\Car;
+use App\Entity\Subscriber;
 
 class Mailer
 {
@@ -66,6 +67,35 @@ class Mailer
         $message = (new \Swift_Message('Netinkamas skelbimas!'))
             ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
             ->setTo('carbookinglt@gmail.com')
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailForSucessufullySubscribe(Subscriber $subscriber)
+    {
+        $body = $this->twig->render('email/subscribeFirstTime.html.twig', [
+            'subscriber' => $subscriber
+        ]);
+
+        $message = (new \Swift_Message('Sėkmingai užsiprenumeravote!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($subscriber->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailSubscriber(Subscriber $subscriber, Car $car)
+    {
+        $body = $this->twig->render('email/subscriber.html.twig', [
+            'subscriber' => $subscriber,
+            'car' => $car
+        ]);
+
+        $message = (new \Swift_Message('Įkeltas naujas automobilis, kurio ieškojote!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($subscriber->getEmail())
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);

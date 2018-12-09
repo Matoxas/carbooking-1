@@ -31,7 +31,7 @@ class City
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Subscribe", mappedBy="city")
+     * @ORM\OneToMany(targetEntity="Subscriber", mappedBy="city")
      */
     private $subscribes;
 
@@ -85,14 +85,14 @@ class City
     }
 
     /**
-     * @return Collection|Subscribe[]
+     * @return Collection|Subscriber[]
      */
     public function getSubscribes(): Collection
     {
         return $this->subscribes;
     }
 
-    public function addSubscribe(Subscribe $subscribe): self
+    public function addSubscribe(Subscriber $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
             $this->subscribes[] = $subscribe;
@@ -102,7 +102,7 @@ class City
         return $this;
     }
 
-    public function removeSubscribe(Subscribe $subscribe): self
+    public function removeSubscribe(Subscriber $subscribe): self
     {
         if ($this->subscribes->contains($subscribe)) {
             $this->subscribes->removeElement($subscribe);

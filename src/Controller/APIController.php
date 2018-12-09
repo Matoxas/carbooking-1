@@ -7,7 +7,7 @@ use App\Entity\Car;
 use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Renting;
-use App\Entity\Subscribe;
+use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Mailer\Mailer;
 use App\Repository\BrandRepository;
@@ -15,6 +15,7 @@ use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
+use App\Repository\SubscriberRepository;
 use App\Security\TokenGenerator;
 use App\Service\BookingService;
 use App\Service\RentingService;
@@ -83,6 +84,10 @@ class APIController extends FOSRestController
      * @var TokenGenerator
      */
     private $tokenGenerator;
+    /**
+     * @var SubscriberRepository
+     */
+    private $subscriberRepository;
 
     /**
      * TestController constructor.
@@ -111,7 +116,8 @@ class APIController extends FOSRestController
         BookingService $bookingService,
         RentingService $rentingService,
         Mailer $mailer,
-        TokenGenerator $tokenGenerator
+        TokenGenerator $tokenGenerator,
+        SubscriberRepository $subscriberRepository
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -125,6 +131,7 @@ class APIController extends FOSRestController
         $this->rentingService = $rentingService;
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
+        $this->subscriberRepository = $subscriberRepository;
     }
 
     /**
@@ -486,7 +493,7 @@ class APIController extends FOSRestController
         $email = $request->get('email');
         $filters = $request->get('filters');
 
-        $subscribe = new Subscribe();
+        $subscribe = new Subscriber();
         $subscribe->setEmail($email);
 
         if ($filters['location'] != '' && is_numeric($filters['location'])) {
@@ -550,6 +557,8 @@ class APIController extends FOSRestController
                 Response::HTTP_NOT_FOUND
             );
         }
+
+        $this->mailer->sendEmailForSucessufullySubscribe($subscribe);
 
         return $this->view(
             [
@@ -666,6 +675,8 @@ class APIController extends FOSRestController
             );
         }
 
+        $this->sendEmailSubscribers($car, $renting);
+
         return $this->view(
             [
                 'status' => 'ok',
@@ -742,5 +753,49 @@ class APIController extends FOSRestController
         }
 
         return $phone;
+    }
+
+    /**
+     * @param Car $car
+     * @param Renting $renting
+     */
+    private function sendEmailSubscribers(Car $car, Renting $renting): void
+    {
+        $subscribers = $this->subscriberRepository->findAll();
+
+        /** @var Subscriber $subscriber */
+        foreach ($subscribers as $subscriber) {
+            if ($subscriber->getPriceFrom() > $car->getPrice()) {
+                continue;
+            }
+
+            if ($subscriber->getPriceUntil() < $car->getPrice()) {
+                continue;
+            }
+
+            if ($subscriber->getCity() !== null && $subscriber->getCity()->getId() != $car->getCity()->getId()) {
+                continue;
+            }
+
+            if ($subscriber->getBrand() !== null && $subscriber->getBrand()->getId() != $car->getBrand()->getId()) {
+                continue;
+            }
+
+            if ($subscriber->getModel() !== null && $subscriber->getModel()->getId() != $car->getModel()->getId()) {
+                continue;
+            }
+
+            if ($subscriber->getDateFrom() !== null &&
+                $subscriber->getDateFrom()->format('Y-m-d') < $renting->getRentedFrom()->format('Y-m-d')) {
+                continue;
+            }
+
+            if ($subscriber->getDateUntil() !== null &&
+                $subscriber->getDateUntil()->format('Y-m-d') < $renting->getRentedUntil()->format('Y-m-d')) {
+                continue;
+            }
+
+            $this->mailer->sendEmailSubscriber($subscriber, $car);
+        }
     }
 }

@@ -34,7 +34,7 @@ class Brand
     private $cars;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Subscribe", mappedBy="brand")
+     * @ORM\OneToMany(targetEntity="Subscriber", mappedBy="brand")
      */
     private $subscribes;
 
@@ -119,14 +119,14 @@ class Brand
     }
 
     /**
-     * @return Collection|Subscribe[]
+     * @return Collection|Subscriber[]
      */
     public function getSubscribes(): Collection
     {
         return $this->subscribes;
     }
 
-    public function addSubscribe(Subscribe $subscribe): self
+    public function addSubscribe(Subscriber $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
             $this->subscribes[] = $subscribe;
@@ -136,7 +136,7 @@ class Brand
         return $this;
     }
 
-    public function removeSubscribe(Subscribe $subscribe): self
+    public function removeSubscribe(Subscriber $subscribe): self
     {
         if ($this->subscribes->contains($subscribe)) {
             $this->subscribes->removeElement($subscribe);
