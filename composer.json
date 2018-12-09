@@ -13,7 +13,6 @@
         "friendsofsymfony/rest-bundle": "^2.4",
         "jms/serializer": "^2.0",
         "nelmio/cors-bundle": "^1.5",
-        "phpunit/phpunit": "^7.5",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "*",
@@ -25,7 +24,6 @@
         "symfony/form": "4.1.*",
         "symfony/monolog-bundle": "^3.3",
         "symfony/orm-pack": "^1.0",
-        "symfony/profiler-pack": "^1.0",
         "symfony/security": "4.1.*",
         "symfony/security-bundle": "4.1.*",
         "symfony/serializer": "4.1.*",
@@ -35,6 +33,7 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "^4.1",
         "symfony/webpack-encore-bundle": "^1.0",
+        "symfony/profiler-pack": "^1.0",
         "symfony/yaml": "*"
     },
     "require-dev": {
