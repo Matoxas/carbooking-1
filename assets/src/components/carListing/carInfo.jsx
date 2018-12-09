@@ -78,8 +78,12 @@ class carInfo extends Component {
                 alert("jūsų rezervacija patvritinta sėkmingai");
             })
             .catch(error => {
-                console.log(error.response.data);
-                alert(error.response.data.message);
+                console.log(error.response.data.status);
+                if (error.response.data.status == "ok") {
+                    alert("Masina sekmingai uzrezervuota");
+                } else {
+                    alert(error.response.data.message);
+                }
             });
     };
 
