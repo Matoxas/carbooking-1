@@ -478,6 +478,17 @@ class APIController extends FOSRestController
      * @Rest\Post("/new/car", name="api_car_new")
      * @param Request $request
      * @return View
+     */
+    public function postNewSubscribe(Request $request): View
+    {
+        dump($request);
+        die;
+    }
+
+    /**
+     * @Rest\Post("/new/car", name="api_car_new")
+     * @param Request $request
+     * @return View
      * @throws \Exception
      */
     public function postNewCarAction(Request $request): View
