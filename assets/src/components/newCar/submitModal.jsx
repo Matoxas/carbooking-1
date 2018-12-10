@@ -14,6 +14,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
+    useNextVariants: true,
     primary: {
       // light: will be calculated from palette.primary.main,
       light: "#fee7de",
@@ -90,7 +91,10 @@ class SubmitModal extends Component {
                 </DialogContentText>
               )}
               {formStatus == "LOADING" && (
-                <div style={spinnerWrapper} className="flex flex-center">
+                <div
+                  style={spinnerWrapper}
+                  className="flex modal-load flex-center"
+                >
                   <Loading style={spinnerSize} className={"loading"} />
                 </div>
               )}

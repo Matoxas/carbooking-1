@@ -48,7 +48,7 @@ class NewCarForm extends Component {
     this.handleModalOpen();
     //Keičiam statusą į loading
     this.changeFormStatus("LOADING");
-    //tinrinam ką grąžina submit
+    // //tinrinam ką grąžina submit
     Promise.resolve(this.props.formSubmit()).then(response => {
       if (!response) {
         //jei negaunam response uždarom modalßß

@@ -33,7 +33,7 @@ const indexRoutes = () => (
       <MainNavigation />
       <Switch>
         <Route path="/feed/carListing/:id" component={carListing} />
-        <Route path="/feed" component={Feed} />
+        <Route path="/feed/:hash" component={Feed} />
         <Redirect from="/" exact to="/feed" />
         <Route path="/map" component={Map} exact />
         <Route path="/favourites" component={Favourites} exact />
