@@ -14,6 +14,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
+    useNextVariants: true,
     primary: {
       // light: will be calculated from palette.primary.main,
       light: "#fee7de",

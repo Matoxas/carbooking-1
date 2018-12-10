@@ -6,18 +6,40 @@ import Loading from "../loading";
 import "../topbar/topbar.css";
 import "./feed.css";
 import NoResults from "./NoResults";
-
+import axios from "axios";
+import EditCar from "../editCar/EditCar";
 @inject("CarStore")
 @observer
 class Feed extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      toggler: false
+      toggler: false,
+      editableCar: {}
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.checkIfHashValid();
+  }
+
+  checkIfHashValid = () => {
+    const params = this.props.match.params;
+    if (params.hash) {
+      axios
+        .get("/car/" + params.hash)
+        .then(response => {
+          if (response.data.data) {
+            this.setState({
+              editableCar: response.data.data
+            });
+          }
+        })
+        .catch(error => {
+          return error;
+        });
+    }
+  };
 
   toggleMobile = () => {
     const { toggler } = this.state;

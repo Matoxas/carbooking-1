@@ -78,13 +78,7 @@ class reminderModal extends Component {
   };
 
   updateErrors = errors => {
-    this.setState(prevState => ({
-      ...prevState,
-      errors: {
-        ...prevState.errors,
-        ...errors
-      }
-    }));
+    this.setState({ errors: { ...errors } });
   };
 
   doesFormHasErrors = () => {
@@ -125,7 +119,7 @@ class reminderModal extends Component {
                 />
                 {this.doesFormHasErrors() && (
                   <span className="invalid-feedback">
-                    Įveskite teisingą el. paštą
+                    {this.state.errors.email}
                   </span>
                 )}
               </div>

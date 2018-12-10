@@ -104,7 +104,7 @@ class ImageUpload extends Component {
             </DragDropContext>
             {images.length < 5 && (
               <Uploader className="nothing" onDrop={this.onDrop}>
-                <button type="button" className="btn btn-secondary">
+                <button type="button" className="btn btn-secondary ml-1">
                   +
                 </button>
               </Uploader>
