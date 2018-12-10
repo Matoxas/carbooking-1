@@ -40,6 +40,15 @@
   outline: none;
 }
 
+select option:hover,
+select option:checked {
+  box-shadow: 0 0 10px 100px #f47e60 inset;
+}
+
+select:focus > option:checked {
+  background: #f47e60 !important;
+}
+
 .searchbar select {
   cursor: pointer;
 }

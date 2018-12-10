@@ -32,7 +32,7 @@ class NoResults extends Component {
             Deja, nėra ką rodyti :(
           </h4>
           <h5 className="feed-error-text feed-error-text--description">
-            Galite pabandyti pakeisti paieškos filtrus, arba
+            Galite pabandyti kitą paiešką, arba
             <span className="semi-bold-text">
               užsisakyti priminimą el. paštu!
             </span>
