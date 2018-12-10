@@ -6,8 +6,7 @@ import "./newCar.css";
 import NewCarForm from "./newCarForm";
 import axios from "axios";
 import { inject, observer } from "mobx-react";
-import baseUrl from "../../rootConfig";
-axios.defaults.baseURL = baseUrl;
+
 @inject("CarStore")
 @observer
 class NewCar extends Component {
@@ -57,8 +56,18 @@ class NewCar extends Component {
   }
 
   clearForm = () => {
-    console.log("TODO form to clear");
-    //TODO CLEAR STATE
+    this.setState({
+      images: [],
+      brand: "",
+      model: "",
+      city: "",
+      address: "",
+      price: "",
+      description: "",
+      phone: "",
+      email: "",
+      name: ""
+    });
   };
 
   formSubmit = () => {

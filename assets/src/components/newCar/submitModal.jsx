@@ -91,7 +91,10 @@ class SubmitModal extends Component {
                 </DialogContentText>
               )}
               {formStatus == "LOADING" && (
-                <div style={spinnerWrapper} className="flex flex-center">
+                <div
+                  style={spinnerWrapper}
+                  className="flex modal-load flex-center"
+                >
                   <Loading style={spinnerSize} className={"loading"} />
                 </div>
               )}
