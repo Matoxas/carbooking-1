@@ -60,7 +60,6 @@
     "react-google-geocoder": "^0.2.0",
     "react-google-location": "^1.2.2",
     "react-lottie": "^1.2.3",
-    "react-paginate": "^6.0.0",
     "react-places-autocomplete": "^7.2.0",
     "react-router-dom": "^4.2.2",
     "react-scrollable-anchor": "^0.6.1",

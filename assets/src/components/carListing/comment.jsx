@@ -6,7 +6,8 @@ class comment extends Component {
         super();
         this.state = {
             currentPage: 1,
-            commentsPerPage: 5
+            commentsPerPage: 5,
+            showPageNumbers: true
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -47,7 +48,23 @@ class comment extends Component {
             pageNumbers.push(i);
         }
 
+        if (this.props.comments.length / commentsPerPage <= 1) {
+            this.setState({showPageNumbers: false});
+        }
+
         const renderPageNumbers = pageNumbers.map(number => {
+            if (number == this.state.currentPage) {
+                return (
+                    <a
+                        className="active page-numbers-li"
+                        key={number}
+                        id={number}
+                        onClick={this.handleClick}
+                    >
+                        {number}
+                    </a>
+                );
+            }
             return (
                 <a
                     className="page-numbers-li"
@@ -63,8 +80,10 @@ class comment extends Component {
         return (
             <div>
                 {renderComments}
-                <div className="page-numbers">
-                    {renderPageNumbers}
+                <div className="pagination page-numbers">
+                    {this.state.showPageNumbers ? (
+                        renderPageNumbers
+                    ) : null}
                 </div>
             </div>
         );

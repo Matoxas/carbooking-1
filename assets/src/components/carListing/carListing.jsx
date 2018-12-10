@@ -48,7 +48,13 @@ class CarListing extends Component {
                     showDialog: true
                 });
             })
-            .catch(error => console.log(error.data))
+            .catch(error => {
+                this.setState({
+                    dialogHeader: "Rezervacija nepatvirtinta",
+                    dialogText: "Kažkas atsitiko blogai",
+                    showDialog: true
+                });
+            })
     };
 
     getCar = id => {

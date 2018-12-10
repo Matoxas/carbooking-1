@@ -76,16 +76,16 @@ img {
     text-align: center;
   }
 
-  .info--normal {
-    border-bottom: 1px solid #dcdcdc;
-  }
-
   .info--owner {
     border-bottom: 0;
   }
 
   .info--owner-raise {
     padding-bottom: 26px;
+  }
+
+  .product-image {
+      min-height: 0;
   }
 }
 
@@ -284,7 +284,7 @@ img {
 
 .form-control:disabled,
 .form-control[readonly] {
-  border-radius: none;
+  border-radius: 0;
   background-color: #f4f4f4;
 }
 
@@ -295,3 +295,22 @@ img {
 .info-dates .fa.fa-caret-down {
   right: 5px;
 }
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination a.active {
+    background-color: #f47e60;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
