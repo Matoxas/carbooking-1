@@ -200,11 +200,19 @@ class carInfo extends Component {
     handleBadListing = () => {
         const {postBadListing} = this.props.CarStore;
         postBadListing(this.props.car.id);
-        alert("Dėkui, jūsų pranešimas buvo išsiųstas");
+        this.setState({
+            badListingText: "Dėkui, jūsų pranešimas buvo išsiųstas",
+            badListingShow: true
+        });
+        // alert("Dėkui, jūsų pranešimas buvo išsiųstas");
     };
 
     handleAlert = () => {
         this.setState({showAlertWindow: false})
+    };
+
+    handleBadListingDialog = () => {
+        this.setState({badListingShow: false})
     };
 
     render() {
@@ -385,6 +393,9 @@ class carInfo extends Component {
                         <p onClick={this.handleBadListing} className="info-report">
                             Pranešti apie netinkamą skelbimą
                         </p>
+                        {this.state.badListingShow ? (<div onClick={this.handleBadListingDialog}>
+                            <Dialog alertMessage={this.state.badListingText}/>
+                        </div>) : null}
                     </div>
                 </div>
             </div>
