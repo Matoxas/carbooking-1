@@ -107,7 +107,7 @@ class CarStore {
   getCities = () => {
     this.setLoading({ cities: true });
     axios
-      .get("/cities/")
+      .get("/cities")
       .then(response => {
         this.setCities(response.data.data);
         this.setLoading({ cities: false });

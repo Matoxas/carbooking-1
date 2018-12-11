@@ -1,2 +1,2 @@
-const baseUrl = "http://carbooking.projektai.nfqakademija.lt/api/";
+const baseUrl = window.location.protocol + "//" + window.location.hostname + "/api/";
 export default baseUrl;
