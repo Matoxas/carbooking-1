@@ -23,52 +23,39 @@ class NewCar extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.validateAll();
-  }
-
-  validateAll = () => {
+  formSubmit = () => {
     const { allCities } = this.props.CarStore;
     const { currentCar } = this.props.CarFormStore;
 
-    const validations = [
-      Validators.brand(currentCar.brand, this.updateErrors),
-      Validators.model(currentCar.model, this.updateErrors),
-      Validators.price(currentCar.price, this.updateErrors),
-      Validators.email(currentCar.email, this.updateErrors),
-      Validators.name(currentCar.name, this.updateErrors),
-      Validators.description(currentCar.description, this.updateErrors),
-      Validators.phone(currentCar.phone, this.updateErrors),
-      Validators.images(currentCar.images, this.updateErrors),
-      Validators.date(
-        currentCar.date_from,
-        currentCar.date_until,
-        this.updateErrors
-      ),
-      Validators.address(
-        currentCar.address,
-        this.updateErrors,
-        this.setCity,
-        allCities
-      )
-    ];
+    //validuojam įvestas reikšmes
+    Validators.brand(currentCar.brand, this.updateErrors);
+    Validators.model(currentCar.model, this.updateErrors);
+    Validators.price(currentCar.price, this.updateErrors);
+    Validators.email(currentCar.email, this.updateErrors);
+    Validators.name(currentCar.name, this.updateErrors);
+    Validators.description(currentCar.description, this.updateErrors);
+    Validators.phone(currentCar.phone, this.updateErrors);
+    Validators.images(currentCar.images, this.updateErrors);
+    Validators.date(
+      currentCar.date_from,
+      currentCar.date_until,
+      this.updateErrors
+    );
 
-    //tikrinam ar visos validacijos grąžina true
+    //tikrinam asinchronišką validaciją
+    const callBack = Validators.address(
+      currentCar.address,
+      this.updateErrors,
+      this.setCity,
+      allCities
+    );
 
-    return validations.every(validation => {
-      return Promise.resolve(validation).then(result => {
-        return result == true;
-      });
-    });
-  };
-
-  formSubmit = () => {
-    const submitResult = Promise.resolve(this.validateAll())
+    const submitResult = Promise.resolve(callBack)
       .then(result => {
         if (result == true) {
           //tikrinam ar visos errorų žinutės tuščios
-          result = this.TrueForNoErrors();
-          //jei nėra errorų, siunčiam duomenis į BE
+          result = this.doesFormHasErrors();
+          //jei taip, siunčiam duomenis į BE
           if (result) {
             result = this.sendFormToRoute();
             return result;
@@ -85,7 +72,7 @@ class NewCar extends Component {
     return submitResult;
   };
 
-  TrueForNoErrors = () => {
+  doesFormHasErrors = () => {
     const { errors } = this.props.CarFormStore;
     return Object.values(errors).every(error => error == "");
   };
@@ -138,10 +125,10 @@ class NewCar extends Component {
     setCurrentCarErrors({ [e.target.name]: "" });
   };
 
-  setCity = value => {
+  setCity = city => {
     const { setCurrentCarValues } = this.props.CarFormStore;
     //set value
-    setCurrentCarValues({ city: value });
+    setCurrentCarValues({ city });
   };
 
   setBrand = e => {
@@ -227,11 +214,6 @@ class NewCar extends Component {
     }
   };
 
-  setImages = images => {
-    const { setCurrentCarValues } = this.props.CarFormStore;
-    setCurrentCarValues({ images });
-  };
-
   setImagesErrorMessage = message => {
     const { setCurrentCarErrors } = this.props.CarFormStore;
     setCurrentCarErrors({ images: message });
@@ -267,7 +249,7 @@ class NewCar extends Component {
         <div className="container">
           <div className="main newCarWrapper">
             <NewCarForm
-              TrueForNoErrors={this.TrueForNoErrors}
+              doesFormHasErrors={this.doesFormHasErrors}
               hasSpecificError={this.hasSpecificError}
               clearForm={this.clearForm}
               address={currentCar.address}
