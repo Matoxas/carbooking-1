@@ -31,11 +31,7 @@ class carInfo extends Component {
             rentedDates: [],
             showAlertWindow: false,
             alertText: "kazkas tik nepavyko",
-            excludeDates: [],
-            minDate: moment(new Date()).toDate(),
-            maxDate: moment(this.date_from)
-                .add(30, "d")
-                .toDate()
+            excludeDates: []
         };
     }
 
@@ -193,12 +189,14 @@ class carInfo extends Component {
     };
 
     render() {
+        let minDate = new Date();
+        let maxDate = new Date();
         if (this.props.car.bookingDates.length !== 0) {
-            console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
-            const minDate = this.props.car.bookingDates[0].bookedFrom;
-            const maxDate = this.props.car.bookingDates[0].bookedUntil;
-            const date_from = this.props.car.bookingDates[0].bookedFrom;
-            const date_until = this.props.car.bookingDates[0].bookedFrom;
+            minDate = this.props.car.bookingDates[0].bookedFrom;
+            maxDate = this.props.car.bookingDates[0].bookedUntil;
+        } else {
+            minDate = moment(new Date()).toDate();
+            maxDate = moment(this.date_from).add(30, "d").toDate();
         }
         let dates = [];
         let datesArray = [];
@@ -211,8 +209,6 @@ class carInfo extends Component {
                 dates.push(datesArray);
             });
         }
-        console.log(this.state.excludeDates);
-
         return (
             <div className="info">
                 <div className="row">
@@ -314,8 +310,8 @@ class carInfo extends Component {
                                         selectsStart
                                         startDate={new Date(this.state.date_from)}
                                         endDate={this.state.date_until}
-                                        minDate={new Date(this.state.minDate)}
-                                        maxDate={new Date(this.state.maxDate)}
+                                        minDate={minDate}
+                                        maxDate={maxDate}
                                         onChange={this.handleFromChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
@@ -331,8 +327,8 @@ class carInfo extends Component {
                                         selectsEnd
                                         startDate={this.state.date_from}
                                         endDate={this.state.date_until}
-                                        minDate={new Date(this.state.minDate)}
-                                        maxDate={new Date(this.state.maxDate)}
+                                        minDate={minDate}
+                                        maxDate={maxDate}
                                         onChange={this.handleUntilChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
