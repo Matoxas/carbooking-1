@@ -174,6 +174,11 @@ class NewCar extends Component {
     setCurrentCarValues({ images });
   };
 
+  setImages = images => {
+    const { setCurrentCarValues } = this.props.CarFormStore;
+    setCurrentCarValues({ images });
+  };
+
   handleFromChange = date => {
     const {
       setCurrentCarValues,
