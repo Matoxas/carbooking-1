@@ -31,47 +31,24 @@ class carInfo extends Component {
             rentedDates: [],
             showAlertWindow: false,
             alertText: "kazkas tik nepavyko",
+            excludeDates: [],
+            minDate: moment(new Date()).toDate(),
+            maxDate: moment(this.date_from)
+                .add(30, "d")
+                .toDate()
         };
     }
 
-    componentDidMount() {
-        if (this.props.car.bookingDates.length !== 0) {
-            console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
-            this.setState({
-                minDate: this.props.car.bookingDates[0].bookedFrom,
-                maxDate: this.props.car.bookingDates[0].bookedUntil,
-                date_from: this.props.car.bookingDates[0].bookedFrom,
-                date_until: this.props.car.bookingDates[0].bookedUntil,
-            });
-        }
-        let dates = [];
-        let datesArray = [];
-        if (this.props.car.rentDates.length !== 0) {
-            console.log(this.props.car.rentDates[0].rentedFrom);
-            this.props.car.rentDates.map(date => {
-                datesArray = this.getDates(
-                    date.rentedFrom,
-                    date.rentedUntil,
-                );
-                dates.push(datesArray);
-            });
-        }
-        console.log(dates);
-    }
+    componentDidMount() {}
 
-    getDates = (startDate, endDate) => {
-        let dates = [],
-            currentDate = startDate,
-            addDays = function (days) {
-                let date = new Date(this.valueOf());
-                date.setDate(date.getDate() + days);
-                return date;
-            };
-        while (currentDate <= endDate) {
-            dates.push(currentDate);
-            currentDate = addDays.call(currentDate, 1);
+    getDates = (start, end) => {
+        var arr = new Array();
+        var dt = new Date(start);
+        while (dt <= end) {
+            arr.push(new Date(dt));
+            dt.setDate(dt.getDate() + 1);
         }
-        return dates;
+        return arr;
     };
 
     postReservation = reservation => {
@@ -216,6 +193,26 @@ class carInfo extends Component {
     };
 
     render() {
+        if (this.props.car.bookingDates.length !== 0) {
+            console.log(this.props.car.bookingDates[0].bookedFrom, this.props.car.bookingDates[0].bookedUntil);
+            const minDate = this.props.car.bookingDates[0].bookedFrom;
+            const maxDate = this.props.car.bookingDates[0].bookedUntil;
+            const date_from = this.props.car.bookingDates[0].bookedFrom;
+            const date_until = this.props.car.bookingDates[0].bookedFrom;
+        }
+        let dates = [];
+        let datesArray = [];
+        if (this.props.car.rentDates.length !== 0) {
+            this.props.car.rentDates.map(date => {
+                datesArray = this.getDates(
+                    new Date(date.rentedFrom),
+                    new Date(date.rentedUntil),
+                );
+                dates.push(datesArray);
+            });
+        }
+        console.log(this.state.excludeDates);
+
         return (
             <div className="info">
                 <div className="row">
@@ -311,14 +308,14 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        // excludeDates={this.state.bookingDates}
+                                        excludeDates={datesArray}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
                                         startDate={new Date(this.state.date_from)}
                                         endDate={this.state.date_until}
-                                        // minDate={new Date(this.state.minDate)}
-                                        // maxDate={new Date(this.state.maxDate)}
+                                        minDate={new Date(this.state.minDate)}
+                                        maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleFromChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
@@ -329,13 +326,13 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        // excludeDates={this.state.bookingDates}
+                                        excludeDates={datesArray}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
                                         startDate={this.state.date_from}
                                         endDate={this.state.date_until}
-                                        // minDate={new Date(this.state.minDate)}
-                                        // maxDate={new Date(this.state.maxDate)}
+                                        minDate={new Date(this.state.minDate)}
+                                        maxDate={new Date(this.state.maxDate)}
                                         onChange={this.handleUntilChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
