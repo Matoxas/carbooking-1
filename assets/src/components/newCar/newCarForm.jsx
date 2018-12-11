@@ -6,7 +6,7 @@ import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
 import SubmitModal from "./submitModal";
-
+import { inject, observer } from "mobx-react";
 import "./newCar.css";
 registerLocale("lt", lt);
 
@@ -15,7 +15,8 @@ const searchOptions = {
   strictbounds: true,
   componentRestrictions: { country: "ltu" }
 };
-
+@inject("CarFormStore")
+@observer
 class NewCarForm extends Component {
   constructor(props) {
     super(props);
@@ -64,6 +65,7 @@ class NewCarForm extends Component {
           });
         } else {
           //priešingu atveju, keičiam formos statusą į FAILURE
+          console.log(response);
           this.changeFormStatus("FAILURE");
         }
       }
@@ -71,6 +73,7 @@ class NewCarForm extends Component {
   };
 
   render() {
+    const { currentCar } = this.props.CarFormStore;
     return (
       <React.Fragment>
         <h2>Siūlyk savo automobilį</h2>
@@ -99,6 +102,7 @@ class NewCarForm extends Component {
                   className="form-control"
                   id="inputState"
                   defaultValue=""
+                  value={currentCar.brand}
                 >
                   <option value="" disabled>
                     Pasirink automobilio gamintoją
@@ -132,6 +136,7 @@ class NewCarForm extends Component {
                   className="form-control"
                   id="inputState"
                   defaultValue=""
+                  value={currentCar.model}
                 >
                   <option value="" disabled>
                     Pasirink automobilio modelį
@@ -161,6 +166,7 @@ class NewCarForm extends Component {
                 <textarea
                   onChange={this.props.setValues}
                   className="form-control"
+                  value={currentCar.description}
                   name="description"
                   rows="1"
                   id="inputState"
@@ -185,7 +191,7 @@ class NewCarForm extends Component {
             <div className="col-sm-9 col-md-10">
               <div className="relative">
                 <PlacesAutocomplete
-                  value={this.props.address}
+                  value={currentCar.address}
                   onChange={this.props.handleChangeAddress}
                   onSelect={this.props.handleChangeAddress}
                   searchOptions={searchOptions}
@@ -314,6 +320,7 @@ class NewCarForm extends Component {
                   min="0"
                   max="99"
                   name="price"
+                  value={currentCar.price}
                   onChange={this.props.setValues}
                   className="form-control"
                   placeholder="0.00 €"
@@ -338,6 +345,7 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="name"
+                  value={currentCar.name}
                   onChange={this.props.setValues}
                   type="text"
                   className="form-control"
@@ -359,6 +367,7 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="phone"
+                  value={currentCar.phone}
                   onChange={this.props.setValues}
                   type="text"
                   className="form-control"
@@ -380,6 +389,7 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="email"
+                  value={currentCar.email}
                   onChange={this.props.setValues}
                   type="email"
                   className="form-control"
@@ -398,7 +408,7 @@ class NewCarForm extends Component {
           type="button"
           onClick={this.handleFormSubmit}
           className="btn btn-info"
-          // disabled={!this.props.doesFormHasErrors()}
+          // disabled={!this.props.TrueForNoErrors()}
         >
           Paskelbti kataloge
         </button>

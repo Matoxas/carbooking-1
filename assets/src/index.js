@@ -6,9 +6,10 @@ import * as serviceWorker from "./serviceWorker";
 
 import { Provider } from "mobx-react";
 import CarStore from "./stores/CarStore";
+import CarFormStore from "./stores/CarFormStore";
 
 const Root = (
-  <Provider CarStore={CarStore}>
+  <Provider CarFormStore={CarFormStore} CarStore={CarStore}>
     <App />
   </Provider>
 );
