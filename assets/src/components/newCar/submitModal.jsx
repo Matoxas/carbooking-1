@@ -10,7 +10,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Link } from "react-router-dom";
 import success from "../../extras/checked_done_.json";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-// import success from "./success_animation.json";
 
 const theme = createMuiTheme({
   palette: {

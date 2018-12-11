@@ -8,100 +8,67 @@ import axios from "axios";
 import { inject, observer } from "mobx-react";
 
 @inject("CarStore")
+@inject("CarFormStore")
 @observer
 class NewCar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      brand: "",
-      model: "",
-      city: "",
-      address: "",
-      price: "",
-      description: "",
-      phone: "",
-      email: "",
-      name: "",
-      date_from: moment(new Date()).toDate(),
-      date_until: moment(this.date_from)
-        .add(1, "d")
-        .toDate(),
-      images: [],
-
-      errors: {
-        brand: "",
-        model: "",
-        city: "",
-        address: "",
-        price: "",
-        description: "",
-        phone: "",
-        email: "",
-        name: "",
-        images: "",
-        date_from: "",
-        date_until: ""
-      }
-    };
-  }
-
   componentDidMount() {
     const { getAllCities, allCities } = this.props.CarStore;
+
+    //scroll to top when component loads
+    window.scrollTo(0, 0);
+
+    //load available cities if not loaded yet
     if (allCities.length <= 0) {
       getAllCities();
     }
-    //scroll to top when component loads
-    window.scrollTo(0, 0);
   }
 
-  clearForm = () => {
-    this.setState({
-      images: [],
-      brand: "",
-      model: "",
-      city: "",
-      address: "",
-      price: "",
-      description: "",
-      phone: "",
-      email: "",
-      name: ""
+  componentWillUnmount() {
+    this.validateAll();
+  }
+
+  validateAll = () => {
+    const { allCities } = this.props.CarStore;
+    const { currentCar } = this.props.CarFormStore;
+
+    const validations = [
+      Validators.brand(currentCar.brand, this.updateErrors),
+      Validators.model(currentCar.model, this.updateErrors),
+      Validators.price(currentCar.price, this.updateErrors),
+      Validators.email(currentCar.email, this.updateErrors),
+      Validators.name(currentCar.name, this.updateErrors),
+      Validators.description(currentCar.description, this.updateErrors),
+      Validators.phone(currentCar.phone, this.updateErrors),
+      Validators.images(currentCar.images, this.updateErrors),
+      Validators.date(
+        currentCar.date_from,
+        currentCar.date_until,
+        this.updateErrors
+      ),
+      Validators.address(
+        currentCar.address,
+        this.updateErrors,
+        this.setCity,
+        allCities
+      )
+    ];
+
+    //tikrinam ar visos validacijos grąžina true
+
+    return validations.every(validation => {
+      return Promise.resolve(validation).then(result => {
+        return result == true;
+      });
     });
   };
 
   formSubmit = () => {
-    const { allCities } = this.props.CarStore;
-
-    //validuojam įvestas reikšmes
-    Validators.brand(this.state.brand, this.updateErrors);
-    Validators.model(this.state.model, this.updateErrors);
-    Validators.price(this.state.price, this.updateErrors);
-    Validators.email(this.state.email, this.updateErrors);
-    Validators.name(this.state.name, this.updateErrors);
-    Validators.description(this.state.description, this.updateErrors);
-    Validators.phone(this.state.phone, this.updateErrors);
-    Validators.images(this.state.images, this.updateErrors);
-    Validators.date(
-      this.state.date_from,
-      this.state.date_until,
-      this.updateErrors
-    );
-
-    //tikrinam asinchronišką validaciją
-    const callBack = Validators.address(
-      this.state.address,
-      this.updateErrors,
-      this.setCity,
-      allCities
-    );
-
-    const submitResult = Promise.resolve(callBack)
+    const submitResult = Promise.resolve(this.validateAll())
       .then(result => {
         if (result == true) {
           //tikrinam ar visos errorų žinutės tuščios
-          result = this.doesFormHasErrors();
-          //jei taip, siunčiam duomenis į BE
+          result = this.TrueForNoErrors();
+          //jei nėra errorų, siunčiam duomenis į BE
           if (result) {
             result = this.sendFormToRoute();
             return result;
@@ -118,31 +85,34 @@ class NewCar extends Component {
     return submitResult;
   };
 
-  doesFormHasErrors = () => {
-    return Object.values(this.state.errors).every(error => error == "");
+  TrueForNoErrors = () => {
+    const { errors } = this.props.CarFormStore;
+    return Object.values(errors).every(error => error == "");
   };
 
   hasSpecificError = input => {
-    return this.state.errors[input].length > 0;
+    const { errors } = this.props.CarFormStore;
+    return errors[input].length > 0;
   };
 
   sendFormToRoute = () => {
+    const { currentCar } = this.props.CarFormStore;
     const fd = new FormData();
     //pridedam visus duomenis
-    fd.append("brand", this.state.brand);
-    fd.append("model", this.state.model);
-    fd.append("city", this.state.city);
-    fd.append("address", this.state.address);
-    fd.append("price", this.state.price);
-    fd.append("description", this.state.description);
-    fd.append("phone", this.state.phone);
-    fd.append("email", this.state.email);
-    fd.append("name", this.state.name);
-    fd.append("date_from", this.state.date_from.toJSON().replace("T", " "));
-    fd.append("date_until", this.state.date_until.toJSON().replace("T", " "));
+    fd.append("brand", currentCar.brand);
+    fd.append("model", currentCar.model);
+    fd.append("city", currentCar.city);
+    fd.append("address", currentCar.address);
+    fd.append("price", currentCar.price);
+    fd.append("description", currentCar.description);
+    fd.append("phone", currentCar.phone);
+    fd.append("email", currentCar.email);
+    fd.append("name", currentCar.name);
+    fd.append("date_from", currentCar.date_from.toJSON().replace("T", " "));
+    fd.append("date_until", currentCar.date_until.toJSON().replace("T", " "));
 
     //pridedam visus paveikslėlius
-    this.state.images.forEach(image => {
+    currentCar.images.forEach(image => {
       fd.append("image[]", image.file, image.file.name);
     });
 
@@ -157,100 +127,128 @@ class NewCar extends Component {
   };
 
   setValues = e => {
-    const data = this.state;
-    data[e.target.name] = e.target.value;
-    this.setState({
-      ...data,
-      errors: {
-        ...this.state.errors,
-        [e.target.name]: ""
-      }
-    });
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors
+    } = this.props.CarFormStore;
+
+    //set value
+    setCurrentCarValues({ [e.target.name]: e.target.value });
+    //clear error
+    setCurrentCarErrors({ [e.target.name]: "" });
   };
 
-  setImages = images => {
-    this.setState({
-      images
-    });
-  };
-
-  setCity = city => {
-    this.setState({
-      city: city
-    });
+  setCity = value => {
+    const { setCurrentCarValues } = this.props.CarFormStore;
+    //set value
+    setCurrentCarValues({ city: value });
   };
 
   setBrand = e => {
     const { getModels } = this.props.CarStore;
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors
+    } = this.props.CarFormStore;
     getModels(e.target.value);
-    this.setState({
+    setCurrentCarValues({
       brand: e.target.value,
+      model: ""
+    });
+    setCurrentCarErrors({ brand: "" });
+  };
+
+  clearForm = () => {
+    const { setCurrentCarValues } = this.props.CarFormStore;
+    setCurrentCarValues({
+      images: [],
+      brand: "",
       model: "",
-      errors: {
-        ...this.state.errors,
-        brand: ""
-      }
+      city: "",
+      address: "",
+      price: "",
+      description: "",
+      phone: "",
+      email: "",
+      name: ""
     });
   };
 
   onDeleteImage = id => {
-    this.setImagesErrorMessage("");
-    this.setState(prevState => {
-      const images = prevState.images;
-      const index = images.findIndex(image => image.id == id);
-      images.splice(index, 1);
-      return { images };
-    });
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors,
+      currentCar
+    } = this.props.CarFormStore;
+    setCurrentCarErrors({ images: "" });
+    const images = currentCar.images;
+    const index = images.findIndex(image => image.id == id);
+    images.splice(index, 1);
+    setCurrentCarValues({ images });
   };
 
   handleFromChange = date => {
-    this.updateErrors({ date_until: "", date_from: "" });
-    this.setState({
-      date_from: date
-    });
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors
+    } = this.props.CarFormStore;
+    setCurrentCarErrors({ date_until: "", date_from: "" });
+    setCurrentCarValues({ date_from: date });
     this.validateDates();
   };
 
   handleUntilChange = date => {
-    this.updateErrors({ date_until: "", date_from: "" });
-    this.setState({
-      date_until: date
-    });
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors
+    } = this.props.CarFormStore;
+    setCurrentCarErrors({ date_until: "", date_from: "" });
+    setCurrentCarValues({ date_until: date });
     this.validateDates();
   };
 
   handleChangeAddress = address => {
-    this.setState({ address });
-    this.updateErrors({ address: "" });
+    const {
+      setCurrentCarValues,
+      setCurrentCarErrors
+    } = this.props.CarFormStore;
+    setCurrentCarErrors({ address: "" });
+    setCurrentCarValues({ address });
   };
 
   validateDates = () => {
-    if (this.state.date_from >= this.state.date_until) {
-      this.setState({
-        date_until: moment(this.state.date_from)
+    const { setCurrentCarValues, currentCar } = this.props.CarFormStore;
+    if (currentCar.date_from >= currentCar.date_until) {
+      setCurrentCarValues({
+        date_until: moment(currentCar.date_from)
           .add(1, "d")
           .toDate()
       });
     }
   };
 
+  setImages = images => {
+    const { setCurrentCarValues } = this.props.CarFormStore;
+    setCurrentCarValues({ images });
+  };
+
   setImagesErrorMessage = message => {
-    this.updateErrors({ images: message });
+    const { setCurrentCarErrors } = this.props.CarFormStore;
+    setCurrentCarErrors({ images: message });
   };
 
   updateErrors = errors => {
-    this.setState(prevState => ({
-      ...prevState,
-      errors: {
-        ...prevState.errors,
-        ...errors
-      }
-    }));
+    const { errors: prevErrors, setCurrentCarErrors } = this.props.CarFormStore;
+    setCurrentCarErrors({
+      ...prevErrors,
+      ...errors
+    });
   };
 
   render() {
     const { brands, models } = this.props.CarStore;
     const load = this.props.CarStore.loading;
+    const { errors, currentCar } = this.props.CarFormStore;
 
     if (load.brands || load.cities) {
       return (
@@ -269,16 +267,16 @@ class NewCar extends Component {
         <div className="container">
           <div className="main newCarWrapper">
             <NewCarForm
-              doesFormHasErrors={this.doesFormHasErrors}
+              TrueForNoErrors={this.TrueForNoErrors}
               hasSpecificError={this.hasSpecificError}
               clearForm={this.clearForm}
-              address={this.state.address}
-              date_from={this.state.date_from}
-              date_until={this.state.date_until}
-              errors={this.state.errors}
+              address={currentCar.address}
+              date_from={currentCar.date_from}
+              date_until={currentCar.date_until}
+              errors={errors}
               brands={brands}
               models={models}
-              images={this.state.images}
+              images={currentCar.images}
               handleChangeAddress={this.handleChangeAddress}
               handleFromChange={this.handleFromChange}
               handleUntilChange={this.handleUntilChange}

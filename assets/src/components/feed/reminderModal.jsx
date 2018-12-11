@@ -14,7 +14,9 @@ import { inject, observer } from "mobx-react";
 import success from "../../extras/checked_done_.json";
 
 const theme = createMuiTheme({
+  useNextVariants: true,
   palette: {
+    useNextVariants: true,
     primary: {
       // light: will be calculated from palette.primary.main,
       light: "#fee7de",
