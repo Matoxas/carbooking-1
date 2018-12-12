@@ -74,7 +74,7 @@ img {
   }
 
   .info-description {
-    text-align: center;
+    text-align: left;
   }
 
   .info--owner {
@@ -133,11 +133,13 @@ img {
 
 .info--normal {
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .info--big {
   font-size: 2em;
   font-weight: 400;
+  text-align: left;
 }
 
 .light-text {
