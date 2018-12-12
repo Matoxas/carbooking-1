@@ -34,24 +34,27 @@ class EditCar extends React.Component {
 
   ValidateCarId = id => {
     const { setLoading } = this.props.CarFormStore;
-    const { carId } = this.props;
     setLoading(true);
-    axios
-      .get("/car/" + id)
-      .then(response => {
-        if (response.status == 200) {
-          this.setEditableCar(response.data.data);
-          setLoading(false);
-        } else {
+    if (id) {
+      axios
+        .get("/car/" + id)
+        .then(response => {
+          if (response.status == 200) {
+            this.setEditableCar(response.data.data);
+            setLoading(false);
+          } else {
+            this.props.resetHash();
+            history.push("/feed");
+            setLoading(false);
+          }
+        })
+        .catch(error => {
+          this.props.resetHash();
           history.push("/feed");
           setLoading(false);
-        }
-      })
-      .catch(error => {
-        history.push("/feed");
-        setLoading(false);
-        return error;
-      });
+          return error;
+        });
+    }
   };
 
   setEditableCar = car => {
@@ -83,6 +86,7 @@ class EditCar extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
     this.clearEdit();
+    this.props.resetHash();
     history.push("/feed");
   };
 

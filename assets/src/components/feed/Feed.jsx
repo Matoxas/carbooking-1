@@ -33,6 +33,12 @@ class Feed extends Component {
     }
   };
 
+  resetHash = () => {
+    this.setState({
+      hash: ""
+    });
+  };
+
   toggleMobile = () => {
     const { toggler } = this.state;
     this.setState({
@@ -59,6 +65,10 @@ class Feed extends Component {
         </div>
       </div>
     );
+
+    if (this.state.hash) {
+      return <EditCar resetHash={this.resetHash} carId={this.state.hash} />;
+    }
 
     if ((load.cars && cars.length == 0) || load.brands) {
       return (
@@ -91,7 +101,6 @@ class Feed extends Component {
           <div className="row">
             <div className="col-lg-12">
               <Items />
-              <EditCar carId={this.state.hash} />
             </div>
           </div>
         </div>
