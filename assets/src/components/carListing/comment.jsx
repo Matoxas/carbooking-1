@@ -20,6 +20,7 @@ class comment extends Component {
 
     render() {
         const {currentPage, commentsPerPage} = this.state;
+        let showPageNumbers = "";
 
         const indexOfLastComment = currentPage * commentsPerPage;
         const indexOfFirstComment = indexOfLastComment - commentsPerPage;
@@ -49,11 +50,13 @@ class comment extends Component {
         }
 
         if (this.props.comments.length / commentsPerPage <= 1) {
-            this.setState({showPageNumbers: false});
+            showPageNumbers = false;
+        } else {
+            showPageNumbers = true;
         }
 
         const renderPageNumbers = pageNumbers.map(number => {
-            if (number == this.state.currentPage) {
+            if (number === this.state.currentPage) {
                 return (
                     <a
                         className="active page-numbers-li"
@@ -81,7 +84,7 @@ class comment extends Component {
             <div>
                 {renderComments}
                 <div className="pagination page-numbers">
-                    {this.state.showPageNumbers ? (
+                    {showPageNumbers ? (
                         renderPageNumbers
                     ) : null}
                 </div>
