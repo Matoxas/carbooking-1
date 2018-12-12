@@ -33,10 +33,16 @@ class Brand
      */
     private $cars;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Subscriber", mappedBy="brand")
+     */
+    private $subscribes;
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
         $this->models = new ArrayCollection();
+        $this->subscribes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,6 +112,37 @@ class Brand
 
             if ($car->getBrand() === $this) {
                 $car->setBrand(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscriber[]
+     */
+    public function getSubscribes(): Collection
+    {
+        return $this->subscribes;
+    }
+
+    public function addSubscribe(Subscriber $subscribe): self
+    {
+        if (!$this->subscribes->contains($subscribe)) {
+            $this->subscribes[] = $subscribe;
+            $subscribe->setBrand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribe(Subscriber $subscribe): self
+    {
+        if ($this->subscribes->contains($subscribe)) {
+            $this->subscribes->removeElement($subscribe);
+            // set the owning side to null (unless already changed)
+            if ($subscribe->getBrand() === $this) {
+                $subscribe->setBrand(null);
             }
         }
 
