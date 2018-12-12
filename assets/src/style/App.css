@@ -307,11 +307,9 @@ body {
   opacity: 1;
   -webkit-transition: all 0.5s ease-in 3s;
   transition: all 0.5s ease-in 3s;
-  position: absolute;
-  bottom: 5vh;
-  left: 50%;
-  margin-left: -16px;
   display: block;
+  position: absolute;
+  bottom: 1.5rem;
   -webkit-animation: bounce 2s infinite 2s;
   animation: bounce 2s infinite 2s;
   -webkit-transition: all 0.2s ease-in;

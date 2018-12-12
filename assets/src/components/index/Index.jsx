@@ -13,9 +13,9 @@ class Index extends Component {
   render() {
     return (
       <div className="index">
-        <div className="container pt-4">
+        <div className="container">
           <div id="index">
-            <div className="flex flex-center flex-column fullHeight text-center">
+            <div className="flex flex-center flex-column relative fullHeight text-center">
               <div className="index-logo-wrapper">
                 <div className="index-logo-wrapper-logo">
                   <Logo className="logo" />
@@ -25,14 +25,14 @@ class Index extends Component {
                 </div>
               </div>
               <Searchbar />
+              <a
+                href="#mainNav"
+                onClick={this.handleClick}
+                className="scroll-down srollink"
+              >
+                <ArrorDown />
+              </a>
             </div>
-            <a
-              href="#mainNav"
-              onClick={this.handleClick}
-              className="scroll-down srollink"
-            >
-              <ArrorDown />
-            </a>
           </div>
         </div>
       </div>
