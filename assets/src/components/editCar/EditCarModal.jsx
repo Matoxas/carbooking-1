@@ -11,7 +11,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import EditCarForm from "./EditCarForm";
-import Grid from "@material-ui/core/Grid";
 import DialogContent from "@material-ui/core/DialogContent";
 
 const theme = createMuiTheme({
@@ -49,33 +48,21 @@ function Transition(props) {
 }
 
 class EditCarModal extends React.Component {
-  state = {
-    open: true
-  };
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   render() {
     const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <Dialog
           fullScreen
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={this.props.open}
+          onClose={this.props.handleClose}
           TransitionComponent={Transition}
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
               <IconButton
                 color="secondary"
-                onClick={this.handleClose}
+                onClick={this.props.handleClose}
                 aria-label="Close"
               >
                 <CloseIcon />
@@ -85,19 +72,23 @@ class EditCarModal extends React.Component {
                 color="secondary"
                 className={classes.flex}
               >
-                Automobilio redagavimas
+                <span className="d-none d-md-block">
+                  {` ${this.props.editableCar.brand} ${
+                    this.props.editableCar.model
+                  } `}
+                </span>
               </Typography>
-              <Button color="error" onClick={this.handleClose}>
+              <Button color="secondary" onClick={this.props.handleClose}>
                 Noriu ištrinti
               </Button>
-              <Button color="secondary" onClick={this.handleClose}>
+              <Button color="secondary" onClick={this.props.handleClose}>
                 Išsaugoti
               </Button>
             </Toolbar>
           </AppBar>
           <div className="main-wrapper">
             <DialogContent>
-              <div className="main newCarWrapper mt-0">
+              <div className="main newCarWrapper mb-5 mt-0">
                 <EditCarForm />
               </div>
             </DialogContent>
