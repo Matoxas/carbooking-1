@@ -1,13 +1,11 @@
 import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
+import ImageUpload from "../newCar/imageUpload";
 import DatePicker, { registerLocale } from "react-datepicker";
-import ImageUpload from "./imageUpload";
 import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
-import SubmitModal from "./submitModal";
-import { inject, observer } from "mobx-react";
-import "./newCar.css";
 registerLocale("lt", lt);
 
 const searchOptions = {
@@ -15,146 +13,112 @@ const searchOptions = {
   strictbounds: true,
   componentRestrictions: { country: "ltu" }
 };
+
 @inject("CarFormStore")
 @observer
-class NewCarForm extends Component {
+class EditCarForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalIsOpen: false,
-      formStatus: "LOADING", // PENDING/LOADING/SUCCESS/FAILURE
-      carId: ""
-    };
+    this.state = { state: "" };
   }
 
-  changeFormStatus = status => {
-    this.setState({
-      formStatus: status
-    });
+  componentDidMount() {
+    this.validateDates();
+  }
+
+  setValues = e => {
+    const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
+
+    //set value
+    setEditableCar({ [e.target.name]: e.target.value });
+    //clear error
+    setEditableCarErrors({ [e.target.name]: "" });
   };
 
-  handleModalOpen = () => {
-    this.setState({ modalIsOpen: true });
+  setImages = images => {
+    const { setEditableCar } = this.props.CarFormStore;
+    setEditableCar({ images });
   };
 
-  handleModalClose = (status = null) => {
-    this.setState({ modalIsOpen: false });
-    if (status) {
-      this.changeFormStatus(status);
+  setImagesErrorMessage = message => {
+    const { setEditableCarErrors } = this.props.CarFormStore;
+    setEditableCarErrors({ images: message });
+  };
+
+  onDeleteImage = id => {
+    const { setEditableCarErrors, editableCar } = this.props.CarFormStore;
+    setEditableCarErrors({ images: "" });
+    const images = editableCar.images;
+    const index = images.findIndex(image => image.id == id);
+    images.splice(index, 1);
+    this.setImages(images);
+  };
+
+  handleFromChange = date => {
+    const { setEditableCarErrors, setEditableCar } = this.props.CarFormStore;
+    setEditableCarErrors({ date_until: "", date_from: "" });
+    setEditableCar({ date_from: date });
+    this.validateDates();
+  };
+
+  handleUntilChange = date => {
+    const { setEditableCarErrors, setEditableCar } = this.props.CarFormStore;
+    setEditableCarErrors({ date_until: "", date_from: "" });
+    setEditableCar({ date_until: date });
+    this.validateDates();
+  };
+
+  handleChangeAddress = address => {
+    const { setEditableCarErrors, setEditableCar } = this.props.CarFormStore;
+    setEditableCarErrors({ address: "" });
+    setEditableCar({ address });
+  };
+
+  validateDates = () => {
+    const { editableCar, setEditableCar } = this.props.CarFormStore;
+    if (editableCar.date_from >= editableCar.date_until) {
+      setEditableCar({
+        date_until: moment(editableCar.date_from)
+          .add(1, "d")
+          .toDate()
+      });
     }
-    this.changeFormStatus("PENDING");
+
+    if (moment(editableCar.date_from).toDate() < new Date()) {
+      setEditableCar({
+        date_from: new Date()
+      });
+    }
   };
 
-  handleFormSubmit = () => {
-    this.handleModalOpen();
-    //Keičiam statusą į loading
-    this.changeFormStatus("LOADING");
-    // //tinrinam ką grąžina submit
-    Promise.resolve(this.props.formSubmit()).then(response => {
-      if (!response) {
-        //jei negaunam response uždarom modalßß
-        this.handleModalClose();
-        this.changeFormStatus("PENDING");
-      } else {
-        // jei response teigiamas, keičiam formos statusą į SUCCESS
-        if (response.status === 200) {
-          this.props.clearForm();
-          this.setState({
-            formStatus: "SUCCESS",
-            carId: response.data.carId
-          });
-        } else {
-          //priešingu atveju, keičiam formos statusą į FAILURE
-          console.log(response);
-          this.changeFormStatus("FAILURE");
-        }
-      }
-    });
+  doesFormHasErrors = () => {
+    const { editableCarErrors } = this.props.CarFormStore;
+    return Object.values(editableCarErrors).every(error => error == "");
+  };
+
+  hasSpecificError = input => {
+    const { editableCarErrors } = this.props.CarFormStore;
+    return editableCarErrors[input].length > 0;
   };
 
   render() {
-    const { currentCar } = this.props.CarFormStore;
+    const { editableCar, editableCarErrors } = this.props.CarFormStore;
+
     return (
       <React.Fragment>
-        <h2>Siūlyk savo automobilį</h2>
-        <h5>pradėk įkeldamas keletą nuotraukų</h5>
+        <h5>keisk esamas nuotraukas, arba pridėk naujų</h5>
         <div className="card">
           <ImageUpload
-            onDelete={this.props.onDelete}
-            setImagesErrorMessage={this.props.setImagesErrorMessage}
-            images={this.props.images}
-            setImages={this.props.setImages}
-            errors={this.props.errors.images}
+            onDelete={this.onDeleteImage}
+            setImagesErrorMessage={this.setImagesErrorMessage}
+            images={editableCar.images}
+            setImages={this.setImages}
+            errors={editableCarErrors.images}
           />
         </div>
 
-        <h5>automobilio informacija</h5>
+        <h5>Automobilio informacija</h5>
         <div className="card">
-          <div className="form-group row">
-            <label className="col-sm-3 col-md-2" htmlFor="inputState">
-              Gamintojas:
-            </label>
-            <div className="col-sm-9 col-md-10">
-              <div className="relative">
-                <select
-                  onChange={this.props.setBrand}
-                  name="brand"
-                  className="form-control"
-                  id="inputState"
-                  value={currentCar.brand}
-                >
-                  <option value="" disabled>
-                    Pasirink automobilio gamintoją
-                  </option>
-
-                  {this.props.brands.map(brand => (
-                    <option key={brand.id} value={brand.id}>
-                      {brand.brand}
-                    </option>
-                  ))}
-                </select>
-                <i className="fa fa-caret-down" aria-hidden="true" />
-              </div>
-
-              {this.props.hasSpecificError("brand") && (
-                <span className="invalid-feedback">
-                  {this.props.errors.brand}
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 col-md-2" htmlFor="inputState">
-              Modelis:
-            </label>
-            <div className="col-sm-9 col-md-10">
-              <div className="relative">
-                <select
-                  onChange={this.props.setValues}
-                  name="model"
-                  className="form-control"
-                  id="inputState"
-                  value={currentCar.model}
-                >
-                  <option value="" disabled>
-                    Pasirink automobilio modelį
-                  </option>
-                  {this.props.models.map(model => (
-                    <option key={model.id} value={model.id}>
-                      {model.model}
-                    </option>
-                  ))}
-                </select>
-                <i className="fa fa-caret-down" aria-hidden="true" />
-              </div>
-              {this.props.hasSpecificError("model") && (
-                <span className="invalid-feedback">
-                  {this.props.errors.model}
-                </span>
-              )}
-            </div>
-          </div>
-
           <div className="form-group row">
             <label className="col-sm-3 col-md-2" htmlFor="inputState">
               Aprašymas:
@@ -162,18 +126,18 @@ class NewCarForm extends Component {
             <div className="col-sm-9 col-md-10">
               <div className="relative">
                 <textarea
-                  onChange={this.props.setValues}
+                  onChange={this.setValues}
                   className="form-control"
-                  value={currentCar.description}
+                  value={editableCar.description}
                   name="description"
                   rows="1"
                   id="inputState"
                   placeholder="Trumpai aprašyk automobilį"
                 />
               </div>
-              {this.props.hasSpecificError("description") && (
+              {this.hasSpecificError("description") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.description}
+                  {editableCarErrors.description}
                 </span>
               )}
             </div>
@@ -189,9 +153,9 @@ class NewCarForm extends Component {
             <div className="col-sm-9 col-md-10">
               <div className="relative">
                 <PlacesAutocomplete
-                  value={currentCar.address}
-                  onChange={this.props.handleChangeAddress}
-                  onSelect={this.props.handleChangeAddress}
+                  value={editableCar.address}
+                  onChange={this.handleChangeAddress}
+                  onSelect={this.handleChangeAddress}
                   searchOptions={searchOptions}
                   clearItemsOnError={true}
                 >
@@ -240,9 +204,9 @@ class NewCarForm extends Component {
                   )}
                 </PlacesAutocomplete>
               </div>
-              {this.props.hasSpecificError("address") && (
+              {this.hasSpecificError("address") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.address}
+                  {editableCarErrors.address}
                 </span>
               )}
             </div>
@@ -265,14 +229,14 @@ class NewCarForm extends Component {
                   maxDate={moment(new Date())
                     .add(31, "d")
                     .toDate()}
-                  selected={this.props.date_from}
-                  onChange={this.props.handleFromChange}
+                  selected={editableCar.date_from}
+                  onChange={this.handleFromChange}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
-              {this.props.hasSpecificError("date_from") && (
+              {this.hasSpecificError("date_from") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.date_from}
+                  {editableCarErrors.date_from}
                 </span>
               )}
             </div>
@@ -288,20 +252,20 @@ class NewCarForm extends Component {
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
-                  minDate={moment(this.props.date_from)
+                  minDate={moment(editableCar.date_from)
                     .add(1, "d")
                     .toDate()}
-                  maxDate={moment(this.props.date_from)
+                  maxDate={moment(editableCar.date_from)
                     .add(31, "d")
                     .toDate()}
-                  selected={this.props.date_until}
-                  onChange={this.props.handleUntilChange}
+                  selected={editableCar.date_until}
+                  onChange={editableCar.handleUntilChange}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
-              {this.props.hasSpecificError("date_until") && (
+              {this.hasSpecificError("date_until") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.date_until}
+                  {editableCarErrors.date_until}
                 </span>
               )}
             </div>
@@ -318,15 +282,15 @@ class NewCarForm extends Component {
                   min="0"
                   max="99"
                   name="price"
-                  value={currentCar.price}
-                  onChange={this.props.setValues}
+                  value={editableCar.price}
+                  onChange={this.setValues}
                   className="form-control"
                   placeholder="0.00 €"
                 />
               </div>
-              {this.props.hasSpecificError("price") && (
+              {this.hasSpecificError("price") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.price}
+                  {editableCarErrors.price}
                 </span>
               )}
             </div>
@@ -343,16 +307,16 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="name"
-                  value={currentCar.name}
-                  onChange={this.props.setValues}
+                  value={editableCar.name}
+                  onChange={this.setValues}
                   type="text"
                   className="form-control"
                   placeholder="įveskite savo vardą"
                 />
               </div>
-              {this.props.hasSpecificError("name") && (
+              {this.hasSpecificError("name") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.name}
+                  {editableCarErrors.name}
                 </span>
               )}
             </div>
@@ -365,16 +329,16 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="phone"
-                  value={currentCar.phone}
-                  onChange={this.props.setValues}
+                  value={editableCar.phone}
+                  onChange={this.setValues}
                   type="text"
                   className="form-control"
                   placeholder="+370"
                 />
               </div>
-              {this.props.errors.phone.length > 0 && (
+              {editableCarErrors.phone.length > 0 && (
                 <span className="invalid-feedback">
-                  {this.props.errors.phone}
+                  {editableCarErrors.phone}
                 </span>
               )}
             </div>
@@ -387,41 +351,24 @@ class NewCarForm extends Component {
               <div className="relative">
                 <input
                   name="email"
-                  value={currentCar.email}
-                  onChange={this.props.setValues}
+                  value={editableCar.email}
+                  onChange={this.setValues}
                   type="email"
                   className="form-control"
                   placeholder="pavyzdys@mail.lt"
                 />
               </div>
-              {this.props.hasSpecificError("email") && (
+              {this.hasSpecificError("email") && (
                 <span className="invalid-feedback">
-                  {this.props.errors.email}
+                  {editableCarErrors.email}
                 </span>
               )}
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={this.handleFormSubmit}
-          className="btn btn-info"
-          // disabled={!this.props.TrueForNoErrors()}
-        >
-          Paskelbti kataloge
-        </button>
-        <SubmitModal
-          formStatus={this.state.formStatus}
-          carId={this.state.carId}
-          formSubmit={this.handleFormSubmit}
-          open={this.state.modalIsOpen}
-          onClose={this.handleModalClose}
-          onOpen={this.handleModalkOpen}
-        />
-        <div className="clearfix margin-bottom" />
       </React.Fragment>
     );
   }
 }
 
-export default NewCarForm;
+export default EditCarForm;

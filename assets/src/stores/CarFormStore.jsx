@@ -6,6 +6,9 @@ class CarFormStore {
   // GLOBAL PARAMETERS
 
   @observable
+  loading = false;
+
+  @observable
   currentCar = {
     brand: "",
     model: "",
@@ -39,9 +42,48 @@ class CarFormStore {
     date_until: ""
   };
 
+  // EDITABLE CAR
+
+  @observable
+  editableCar = {
+    brand: "",
+    model: "",
+    address: "",
+    price: "",
+    description: "",
+    phone: "",
+    email: "",
+    name: "",
+    date_from: "",
+    date_until: "",
+    images: []
+  };
+
+  //EDITABLE CAR ERRORS
+
+  @observable
+  editableCarErrors = {
+    id: "",
+    city: "",
+    address: "",
+    price: "",
+    description: "",
+    phone: "",
+    email: "",
+    name: "",
+    images: "",
+    date_from: "",
+    date_until: ""
+  };
+
   // ==================== GETTERS ====================
 
   // ==================== SETTERS ====================
+
+  @action
+  setLoading = bool => {
+    this.loading = bool;
+  };
 
   @action
   setCurrentCarValues = values => {
@@ -55,6 +97,24 @@ class CarFormStore {
   setCurrentCarErrors = values => {
     this.errors = {
       ...this.errors,
+      ...values
+    };
+  };
+
+  // EDITABLE CAR SETTERS
+
+  @action
+  setEditableCar = values => {
+    this.editableCar = {
+      ...this.editableCar,
+      ...values
+    };
+  };
+
+  @action
+  setEditableCarErrors = values => {
+    this.editableCarErrros = {
+      ...this.editableCarErrros,
       ...values
     };
   };

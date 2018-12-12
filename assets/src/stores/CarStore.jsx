@@ -95,7 +95,7 @@ class CarStore {
   getModels = id => {
     this.setLoading({ models: true });
     axios
-      .get("/models/" + id)
+      .get("models/" + id)
       .then(response => {
         this.setModels(response.data.data);
         this.setLoading({ models: false });
@@ -107,7 +107,7 @@ class CarStore {
   getCities = () => {
     this.setLoading({ cities: true });
     axios
-      .get("/cities/")
+      .get("cities")
       .then(response => {
         this.setCities(response.data.data);
         this.setLoading({ cities: false });
@@ -119,7 +119,7 @@ class CarStore {
   getAllCities = () => {
     this.setLoading({ cities: true });
     axios
-      .get("/cities/all")
+      .get("cities/all")
       .then(response => {
         this.setAllCities(response.data.data);
         this.setLoading({ cities: false });

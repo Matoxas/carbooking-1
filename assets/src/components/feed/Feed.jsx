@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import Items from "./items";
 import Topbar from "../topbar/topbar";
-import { inject, observer } from "mobx-react";
 import Loading from "../loading";
 import "../topbar/topbar.css";
 import "./feed.css";
 import NoResults from "./NoResults";
 import axios from "axios";
 import EditCar from "../editCar/EditCar";
+import { inject, observer } from "mobx-react";
 @inject("CarStore")
+@inject("CarFormStore")
 @observer
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
       toggler: false,
-      editableCar: {}
+      hash: ""
     };
   }
 
@@ -25,20 +26,51 @@ class Feed extends Component {
 
   checkIfHashValid = () => {
     const params = this.props.match.params;
+    const { setLoading } = this.props.CarFormStore;
+
     if (params.hash) {
+      setLoading(true);
       axios
         .get("/car/" + params.hash)
         .then(response => {
-          if (response.data.data) {
-            this.setState({
-              editableCar: response.data.data
-            });
+          if (response.status == 200) {
+            this.setEditableCar(response.data.data);
+            setLoading(false);
+          } else {
+            setLoading(false);
           }
         })
         .catch(error => {
+          setLoading(false);
           return error;
         });
     }
+  };
+
+  setEditableCar = car => {
+    const { setEditableCar: setCar } = this.props.CarFormStore;
+
+    const images = car.images.map((image, index) => {
+      return {
+        preview: "/" + image,
+        id: index + 1
+      };
+    });
+
+    setCar({
+      id: car.id,
+      brand: car.brand,
+      model: car.model,
+      address: car.address,
+      price: car.price,
+      description: car.description,
+      phone: car.phone,
+      email: car.email,
+      name: car.name,
+      date_from: car.rentDates[0].rentedFrom,
+      date_until: car.rentDates[0].rentedUntil,
+      images
+    });
   };
 
   toggleMobile = () => {
@@ -99,6 +131,7 @@ class Feed extends Component {
           <div className="row">
             <div className="col-lg-12">
               <Items />
+              <EditCar />
             </div>
           </div>
         </div>
