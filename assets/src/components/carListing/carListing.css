@@ -314,3 +314,7 @@ img {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.input--error {
+    color: #ff1100;
+}

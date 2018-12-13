@@ -2,11 +2,12 @@ import React, {Component} from "react";
 import Comment from "./comment";
 import "./carListing.css";
 import Dialog from "./Dialog";
-import ReservationDatePicker from "./reservationDatePicker";
+import Validators from "./carListingValidators";
 import DatePicker from "react-datepicker/es";
 import {inject, observer} from "mobx-react";
 import axios from "axios";
 import moment from "moment";
+import {Button, Collapse} from "mdbreact";
 
 @inject("CarStore")
 @observer
@@ -31,15 +32,16 @@ class carInfo extends Component {
             rentedDates: [],
             showAlertWindow: false,
             alertText: "kazkas tik nepavyko",
-            excludeDates: []
+            excludeDates: [],
+            showCommentNameError: false,
+            showCommentTextError: false,
+            commentCollapse: false
         };
     }
 
-    componentDidMount() {}
-
     getDates = (start, end) => {
-        var arr = new Array();
-        var dt = new Date(start);
+        let arr = [];
+        let dt = new Date(start);
         while (dt <= end) {
             arr.push(new Date(dt));
             dt.setDate(dt.getDate() + 1);
@@ -107,27 +109,64 @@ class carInfo extends Component {
     };
 
     handleSubmitComment = e => {
-        e.preventDefault();
-        const {postComment} = this.props.CarStore;
-        const {commentName, commentText} = this.state;
+        const commentNameError = Validators.commentName(this.state.commentName);
+        const commentTextError = Validators.commentText(this.state.commentText);
+        let showError = false;
+        if (commentNameError !== "") {
+            this.setState({
+                showCommentNameError: true,
+                commentNameError: commentNameError
+            });
+            showError = true;
+        } else this.setState({showCommentNameError: false});
+        if (commentTextError !== "") {
+            this.setState({
+                showCommentTextError: true,
+                commentTextError: commentTextError
+            });
+            showError = true;
+        } else this.setState({showCommentTextError: false});
+        if (showError) {
+            this.setState({
+                commentCollapse: true,
+            });
+            e.preventDefault();
+        } else {
+            this.setState({
+                commentCollapse: false,
+                commentName: "",
+                commentText: ""
+            });
+            e.preventDefault();
+            const {postComment} = this.props.CarStore;
+            const {commentName, commentText} = this.state;
 
-        const comment = {
-            carId: this.props.car.id,
-            name: commentName,
-            text: commentText
-        };
-        document.getElementById("clear-comment-input").reset();
+            const comment = {
+                carId: this.props.car.id,
+                name: commentName,
+                text: commentText
+            };
+            document.getElementById("clear-comment-input").reset();
 
-        //siunčiam komentarą į api
-        postComment(comment);
-        //TODO IF ALL GOOD
-        //pertvarkom komentaro stuktūrą ir atvaizduojam komentarą lokaliai
-        const restructuredComment = {
-            comment: comment.text,
-            name: comment.name,
-            createdAt: new Date().toJSON().replace("T", " ")
-        };
-        this.props.addComment(restructuredComment);
+            //siunčiam komentarą į api
+            postComment(comment);
+            //TODO IF ALL GOOD
+            //pertvarkom komentaro stuktūrą ir atvaizduojam komentarą lokaliai
+            const restructuredComment = {
+                comment: comment.text,
+                name: comment.name,
+                createdAt: new Date().toJSON().replace("T", " ")
+            };
+            this.props.addComment(restructuredComment);
+        }
+    };
+
+    toggleComment = () => {
+        this.setState({commentCollapse: !this.state.commentCollapse})
+    };
+
+    updadeErrors = (error) => {
+
     };
 
     handleFromChange = date => {
@@ -136,14 +175,6 @@ class carInfo extends Component {
 
     handleUntilChange = date => {
         this.setState({date_until: date});
-        // this.setState({date_from: date_until});
-        console.log(this.state.date_from);
-        console.log(this.state.date_until);
-        // let timeDiff = Math.abs(this.state.date_until.getTime() - this.state.date_from.getTime());
-        // let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        // console.log(diffDays);
-        // const date_sum = (this.state.date_until - this.state.date_from);
-        // console.log(date_sum);
     };
 
     handleNameChange = name => {
@@ -177,7 +208,6 @@ class carInfo extends Component {
             badListingText: "Dėkui, jūsų pranešimas buvo išsiųstas",
             badListingShow: true
         });
-        // alert("Dėkui, jūsų pranešimas buvo išsiųstas");
     };
 
     handleAlert = () => {
@@ -189,22 +219,12 @@ class carInfo extends Component {
     };
 
     render() {
-        let minDate = new Date();
-        let maxDate = new Date();
-        if (this.props.car.bookingDates.length !== 0) {
-            minDate = this.props.car.bookingDates[0].bookedFrom;
-            maxDate = this.props.car.bookingDates[0].bookedUntil;
-        } else {
-            minDate = moment(new Date()).toDate();
-            maxDate = moment(this.date_from).add(30, "d").toDate();
-        }
-        let dates = [];
         let datesArray = [];
-        if (this.props.car.rentDates.length !== 0) {
-            this.props.car.rentDates.map(date => {
+        if (this.props.car.bookingDates.length !== 0) {
+            this.props.car.bookingDates.map(date => {
                 datesArray = this.getDates(
-                    new Date(date.rentedFrom),
-                    new Date(date.rentedUntil),
+                    new Date(date.bookedFrom),
+                    new Date(date.bookedUntil),
                 );
                 dates.push(datesArray);
             });
@@ -249,45 +269,45 @@ class carInfo extends Component {
                             <div className="col-lg-3"/>
                             <div className="col-lg-9 info--newComment">
                                 <hr/>
-                                <button
-                                    className="btn btn-warning btn-comment"
-                                    data-toggle="collapse"
-                                    data-target="#collapseComment"
-                                    aria-expanded="false"
-                                    aria-controls="collapseComment"
-                                >
+                                <button onClick={this.toggleComment} className="btn btn-warning btn-comment">
                                     Parašyti komentarą
                                 </button>
-                                <div
-                                    className="form-group collapse form-group-separate"
-                                    id="collapseComment"
-                                >
-                                    <form id="clear-comment-input">
-                                        <input
-                                            onChange={this.handleCommentName}
-                                            className="form-control"
-                                            type="text"
-                                            placeholder="Įrašykite savo vardą"
-                                        />
-                                        <textarea
-                                            onChange={this.handleCommentText}
-                                            className="form-control"
-                                            type="text"
-                                            placeholder="Komentaras..."
-                                        />
-                                        <br/>
-                                        <button
-                                            onClick={this.handleSubmitComment}
-                                            className="btn btn-warning info-button"
-                                            data-toggle="collapse"
-                                            data-target="#collapseComment"
-                                            aria-expanded="false"
-                                            aria-controls="collapseComment"
-                                        >
-                                            Skelbti
-                                        </button>
-                                    </form>
-                                </div>
+                                <Collapse isOpen={this.state.commentCollapse}>
+                                    <div className="form-group form-group-separate">
+                                        <form id="clear-comment-input">
+                                            <input
+                                                onChange={this.handleCommentName}
+                                                value={this.state.commentName}
+                                                className="form-control"
+                                                type="text"
+                                                placeholder="Įrašykite savo vardą"
+                                            />
+                                            {this.state.showCommentNameError ? (
+                                                <div className="input--error">{this.state.commentNameError}</div>
+                                            ) : null}
+                                            <textarea
+                                                onChange={this.handleCommentText}
+                                                value={this.state.commentText}
+                                                className="form-control"
+                                                placeholder="Komentaras..."
+                                            />
+                                            {this.state.showCommentTextError ? (
+                                                <div className="input--error">{this.state.commentTextError}</div>
+                                            ) : null}
+                                            <br/>
+                                            <button
+                                                onClick={this.handleSubmitComment}
+                                                className="btn btn-warning info-button"
+                                                data-toggle="collapse"
+                                                data-target="#collapseComment"
+                                                aria-expanded="false"
+                                                aria-controls="collapseComment"
+                                            >
+                                                Skelbti
+                                            </button>
+                                        </form>
+                                    </div>
+                                </Collapse>
                             </div>
                         </div>
                     </div>
@@ -308,10 +328,10 @@ class carInfo extends Component {
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
-                                        startDate={new Date(this.state.date_from)}
+                                        startDate={this.state.date_from}
                                         endDate={this.state.date_until}
-                                        minDate={minDate}
-                                        maxDate={maxDate}
+                                        minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
+                                        maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
                                         onChange={this.handleFromChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
@@ -327,8 +347,8 @@ class carInfo extends Component {
                                         selectsEnd
                                         startDate={this.state.date_from}
                                         endDate={this.state.date_until}
-                                        minDate={minDate}
-                                        maxDate={maxDate}
+                                        minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
+                                        maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
                                         onChange={this.handleUntilChange}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
