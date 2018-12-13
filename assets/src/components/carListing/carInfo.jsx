@@ -395,7 +395,8 @@ class carInfo extends Component {
               id="collapseReports"
             >
               <p class=" color-gray mt-2 mb-2">
-                Preliminari kaina už laikotarpį: {this.state.totalPrice} €
+                Preliminari kaina už laikotarpį:{" "}
+                <span className="color-primary">{this.state.totalPrice} €</span>
               </p>
               <form id="clear-reservation-input">
                 <input
