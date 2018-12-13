@@ -37,7 +37,10 @@ class NoResults extends Component {
               užsisakykite priminimą el. paštu!
             </span>
           </h5>
-          <button onClick={this.handleClickOpen} className="submit-button">
+          <button
+            onClick={this.handleClickOpen}
+            className=" gradient submit-button"
+          >
             Užsakyti
           </button>
           <ReminderModal

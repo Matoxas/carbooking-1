@@ -16,8 +16,10 @@ class carInfo extends Component {
     this.state = {
       reservationClicked: false,
       reservationButtonText: "Rezervuoti",
-      date_from: moment(new Date()).toDate(),
-      date_until: new Date(),
+      date_from: new Date().setHours(0, 0, 0, 0),
+      date_until: moment(this.date_from)
+        .add(1, "d")
+        .valueOf(),
       name: "",
       email: "",
       phone: "",
@@ -31,11 +33,14 @@ class carInfo extends Component {
       rentedDates: [],
       showAlertWindow: false,
       alertText: "kazkas tik nepavyko",
-      excludeDates: []
+      excludeDates: [],
+      totalPrice: 0
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.calculateSum();
+  }
 
   getDates = (start, end) => {
     var arr = new Array();
@@ -131,12 +136,43 @@ class carInfo extends Component {
   };
 
   handleFromChange = date => {
-    this.setState({ date_from: date });
+    this.setState({ date_from: this.dateWithoutTime(date) }, this.calculateSum);
+  };
+
+  dateWithoutTime = date => {
+    return date.setHours(0, 0, 0, 0);
+  };
+
+  calculateSum = () => {
+    console.log("date_from:", this.state.date_from);
+    console.log("date_until:", this.state.date_until);
+    if (this.state.date_until > this.state.date_from) {
+      const resultInMiliseconds = this.state.date_until - this.state.date_from;
+
+      const ResultInDays = Math.floor(
+        resultInMiliseconds / (1000 * 60 * 60 * 24)
+      );
+
+      const totalPrice =
+        Math.round(ResultInDays * this.props.car.price * 100) / 100;
+
+      this.setState({
+        totalPrice
+      });
+    } else {
+      this.setState({
+        totalPrice: 0
+      });
+    }
   };
 
   handleUntilChange = date => {
-    this.setState({ date_until: date });
+    this.setState(
+      { date_until: this.dateWithoutTime(date) },
+      this.calculateSum
+    );
     // this.setState({date_from: date_until});
+
     console.log(this.state.date_from);
     console.log(this.state.date_until);
     // let timeDiff = Math.abs(this.state.date_until.getTime() - this.state.date_from.getTime());
@@ -338,7 +374,7 @@ class carInfo extends Component {
             </div>
             <button
               onClick={this.handleSubmit}
-              className="btn btn-warning info-button"
+              className="btn btn-warning gradient info-button"
               data-toggle="collapse"
               data-target="#collapseReports"
               aria-expanded="false"
@@ -358,6 +394,9 @@ class carInfo extends Component {
               className="form-group collapse form-group-separate"
               id="collapseReports"
             >
+              <p class=" color-gray mt-2 mb-2">
+                Preliminari kaina už laikotarpį: {this.state.totalPrice} €
+              </p>
               <form id="clear-reservation-input">
                 <input
                   onChange={this.handleNameChange}

@@ -537,6 +537,43 @@ body {
 
 /* =========================== UNIVERSAL MODIFIERS ===========================  */
 
+.color-gray {
+  color: #6c757d;
+}
+
+.color-primary {
+  color: #f47e60;
+}
+
+.color-secondary {
+  color: #eec170;
+}
+
+.color-danger {
+  color: #e15b64;
+}
+
+.color-black {
+  color: #333;
+}
+
+.color-lightGray {
+  color: #f4f4f4;
+}
+
+.gradient:hover {
+  /* background-color: #f47e60 !important;
+  background-image: -webkit-linear-gradient(
+    top,
+    #f47e60 0,
+    #e15b64 100%
+  ) !important; */
+
+  background-color: #e5765a !important;
+  border-color: #e5765a;
+  color: white;
+}
+
 .relative {
   position: relative;
   width: 100%;
@@ -578,6 +615,14 @@ body {
   display: flex;
 }
 
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -601,6 +646,14 @@ body {
 
 .fullWidth {
   width: 100%;
+}
+
+.btn-warning:not(:disabled):not(.disabled):active,
+.btn-warning:not(:disabled):not(.disabled).active,
+.show > .btn-warning.dropdown-toggle {
+  color: #f47e60;
+  background-color: white;
+  border-color: #f47e60;
 }
 
 /* ================== MEDIA QUERRIES ====================== */

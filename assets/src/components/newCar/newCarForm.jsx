@@ -405,7 +405,7 @@ class NewCarForm extends Component {
         <button
           type="button"
           onClick={this.handleFormSubmit}
-          className="btn btn-info"
+          className="btn gradient float-right"
           // disabled={!this.props.TrueForNoErrors()}
         >
           Paskelbti kataloge
