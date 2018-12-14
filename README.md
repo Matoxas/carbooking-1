@@ -7,15 +7,15 @@ Mašinų nuomos sistema
 
 # Turinys
 
- - [Projekto aprašymas](#Projekto aprašymas)
+ - [Projekto aprašymas](#Projekto_aprašymas)
  - [Reikalavimai](#Reikalavimai)
- - [Projekto paleidimas](#Projekto paleidimas)
- - [Patogiai darbo aplinkai](#Patogiai darbo aplinkai)
+ - [Projekto paleidimas](#Projekto_paleidimas)
+ - [Patogiai darbo aplinkai](#Patogiai_darbo_aplinkai)
  - [Komanda](#Komanda)
 
 # Projekto aprašymas
 
-Populiarėjant automobilių nuomavimosi iš žmonių tendencijai, sukūrėme tinklapį - [**Car Booking**](https://carbooking.projektai.nfqakademija.lt), 
+Populiarėjant automobilių nuomai iš kitų žmonių, sukūrėme tinklapį - [**Car Booking**](https://carbooking.projektai.nfqakademija.lt), 
 taip siekdami sutraukti tikslinę auditoriją į vieną vietą ir sutaupyti laiką automobilių paieškose.
 
 Šio tinklapio dėka, galime išsinuomoti patikusį automobilį arba 

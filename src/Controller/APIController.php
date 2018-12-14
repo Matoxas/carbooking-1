@@ -103,6 +103,7 @@ class APIController extends FOSRestController
      * @param RentingService $rentingService
      * @param Mailer $mailer
      * @param TokenGenerator $tokenGenerator
+     * @param SubscriberRepository $subscriberRepository
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -624,7 +625,6 @@ class APIController extends FOSRestController
         $validationCar = $this->validator->validate($car);
         $validationRenting = $this->validator->validate($renting);
 
-        /*
         if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
             return $this->view(
                 [
@@ -633,7 +633,7 @@ class APIController extends FOSRestController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        }*/
+        }
 
         if (count($request->files->all()['image']) == 0) {
             return $this->view(
@@ -708,7 +708,15 @@ class APIController extends FOSRestController
                 $image->setImage($imgName);
                 $image->setCar($car);
                 $this->entityManager->persist($image);
-                $this->entityManager->flush();
+
+                try {
+                    $this->entityManager->flush();
+                } catch (\Exception $exception) {
+                    $errorCode = rand(1000, 9999);
+                    $this->mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
+
+                    $message = $this->translator->trans('system.unknown', ['code' => $errorCode]);
+                }
             }
         }
 
