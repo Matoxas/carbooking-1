@@ -59,28 +59,19 @@ class carInfo extends Component {
         axios
             .post("/new/reservation", {reservation})
             .then(response => {
-                alert("jūsų rezervacija patvritinta sėkmingai");
-            })
-            .catch(error => {
-                console.log(error.response.data.status);
                 this.setState({
                     showAlertWindow: true,
                     alertHeader: "Rezervacija pavyko",
                     alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
                 });
-                if (error.response.data.status == "ok") {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija pavyko",
-                        alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
-                    });
-                } else {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija nepavyko",
-                        alertText: error.response.data.message
-                    });
-                }
+            })
+            .catch(error => {
+                console.log(error.response.data.status);
+                this.setState({
+                    showAlertWindow: true,
+                    alertHeader: "Rezervacija nepavyko",
+                    alertText: error.response.data.message
+                });
             });
     };
 
@@ -242,6 +233,7 @@ class carInfo extends Component {
 
     render() {
         let datesArray = [];
+        let dates = [];
         if (this.props.car.bookingDates.length !== 0) {
             this.props.car.bookingDates.map(date => {
                 datesArray = this.getDates(
@@ -352,7 +344,7 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
@@ -370,7 +362,7 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
                                         startDate={this.state.date_from}
