@@ -22,6 +22,7 @@ class ClusterMarker extends React.PureComponent {
             lat={marker.lat}
             image={marker.image}
             lng={marker.lng}
+            price={marker.price}
             name={marker.name}
             points={this.props.points}
             inGroup

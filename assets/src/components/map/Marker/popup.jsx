@@ -7,11 +7,12 @@ export default class MyGreatPlaceWithControllableHover extends Component {
 
   render() {
     return (
-      <div className="hint hint--html hint--info hint--top">
-        <div>{this.props.text}</div>
-        <div style={{ width: 80 }} className="hint__content">
-          Сlick me
-        </div>
+      <div className={(this.props.showPopUp ? "open" : "") + " top"}>
+        <p>
+          {this.props.data.name} |{" "}
+          <span className="light-text">{this.props.data.price} €</span>
+        </p>
+        <i />
       </div>
     );
   }

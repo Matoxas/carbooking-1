@@ -36,6 +36,7 @@ export class GoogleMap extends Component {
       return {
         image: car.images[0],
         name: car.brand + " " +car.model,
+        price: car.price,
         id: car.id,
         lat: car.latitude,
         lng: car.longitude
@@ -54,11 +55,12 @@ export class GoogleMap extends Component {
   createClusters = props => {
 
     this.setState({
-      clusters: this.getClusters(props).map(({ wx, wy, numPoints, image, name, id, points }) => ({
+      clusters: this.getClusters(props).map(({ wx, wy, numPoints, image, price, name, id, points }) => ({
             lat: wy,
             lng: wx,
             image,
             name,
+            price,
             numPoints,
             id,
             points,
@@ -103,6 +105,7 @@ export class GoogleMap extends Component {
                   name={item.points[0].name}
                   image={item.points[0].image}
                   key={index}
+                  price={item.points[0].price}
                   id={item.points[0].id}
                   lat={item.points[0].lat}
                   lng={item.points[0].lng}
