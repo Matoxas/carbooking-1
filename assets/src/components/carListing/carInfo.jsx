@@ -49,6 +49,8 @@ class carInfo extends Component {
             arr.push(new Date(dt));
             dt.setDate(dt.getDate() + 1);
         }
+        arr.push(new Date(end));
+        return arr;
     };
 
     componentDidMount() {
@@ -59,28 +61,19 @@ class carInfo extends Component {
         axios
             .post("/new/reservation", {reservation})
             .then(response => {
-                alert("jūsų rezervacija patvritinta sėkmingai");
-            })
-            .catch(error => {
-                console.log(error.response.data.status);
                 this.setState({
                     showAlertWindow: true,
                     alertHeader: "Rezervacija pavyko",
                     alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
                 });
-                if (error.response.data.status == "ok") {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija pavyko",
-                        alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
-                    });
-                } else {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija nepavyko",
-                        alertText: error.response.data.message
-                    });
-                }
+            })
+            .catch(error => {
+                console.log(error.response.data.status);
+                this.setState({
+                    showAlertWindow: true,
+                    alertHeader: "Rezervacija nepavyko",
+                    alertText: error.response.data.message
+                });
             });
     };
 
@@ -242,6 +235,7 @@ class carInfo extends Component {
 
     render() {
         let datesArray = [];
+        let dates = [];
         if (this.props.car.bookingDates.length !== 0) {
             this.props.car.bookingDates.map(date => {
                 datesArray = this.getDates(
@@ -352,7 +346,7 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates[0]}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
@@ -370,7 +364,7 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates[0]}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
                                         startDate={this.state.date_from}
@@ -407,10 +401,7 @@ class carInfo extends Component {
                         >
                             <p class=" color-gray mt-2 mb-2">
                                 Preliminari kaina už laikotarpį:
-                                <span className="color-primary">
-                  {" "}
-                                    {this.state.totalPrice} €
-                </span>
+                                <span className="color-primary">{" "}{this.state.totalPrice} €</span>
                             </p>
                             <form id="clear-reservation-input">
                                 <input
