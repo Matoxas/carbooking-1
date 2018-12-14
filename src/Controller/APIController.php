@@ -10,12 +10,14 @@ use App\Entity\Renting;
 use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Mailer\Mailer;
+use App\Repository\BookingRepository;
 use App\Repository\BrandRepository;
 use App\Repository\CarRepository;
 use App\Repository\CityRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ModelRepository;
 use App\Repository\SubscriberRepository;
+use App\Repository\UserRepository;
 use App\Security\TokenGenerator;
 use App\Service\BookingService;
 use App\Service\RentingService;
@@ -88,6 +90,10 @@ class APIController extends FOSRestController
      * @var SubscriberRepository
      */
     private $subscriberRepository;
+    /**
+     * @var BookingRepository
+     */
+    private $bookingRepository;
 
     /**
      * TestController constructor.
@@ -104,6 +110,7 @@ class APIController extends FOSRestController
      * @param Mailer $mailer
      * @param TokenGenerator $tokenGenerator
      * @param SubscriberRepository $subscriberRepository
+     * @param BookingRepository $bookingRepository
      */
     public function __construct(
         CityRepository $cityRepository,
@@ -118,7 +125,8 @@ class APIController extends FOSRestController
         RentingService $rentingService,
         Mailer $mailer,
         TokenGenerator $tokenGenerator,
-        SubscriberRepository $subscriberRepository
+        SubscriberRepository $subscriberRepository,
+        BookingRepository $bookingRepository
     ) {
         $this->cityRepository = $cityRepository;
         $this->brandRepository = $brandRepository;
@@ -133,6 +141,7 @@ class APIController extends FOSRestController
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->subscriberRepository = $subscriberRepository;
+        $this->bookingRepository = $bookingRepository;
     }
 
     /**
@@ -399,6 +408,8 @@ class APIController extends FOSRestController
             );
         }
 
+        $this->mailer->sendEmailForReservationApproved($user, $booking);
+
         return $this->view(
             [
                 'status' => 'ok'
@@ -594,15 +605,48 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/reservation/{hash}", name="api_reservation_info")
+     * @Rest\Get("/reservation/{token}", name="api_reservation_approve")
+     * @param string $token
      * @return View
      */
-    public function getReservationInfoAction(string $hash): View
+    public function getReservationInfoAction(string $token): View
     {
+        $booking = $this->bookingRepository->findBy(['token' => $token]);
+
+        if ($booking === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('booking.token_is_expired')
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        if ($booking[0]->getApproved()) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $this->translator->trans('booking.token_is_used')
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        $bookingData = $booking[0]->setApproved(true);
+        $this->entityManager->persist($bookingData);
+        $this->entityManager->flush();
+
+        $carOwner = $booking[0]->getCar();
+        $bookingUser = $booking[0]->getUsers();
+
+        $this->mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser);
+        $this->mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser);
+
         return $this->view(
             [
                 'status' => 'ok',
-                'message' => 'Jūs el-paštas patvirtintas! Visa reikalinga informacija el-paštu išsiųsta!'. $hash
+                'message' => $this->translator->trans('booking.success')
             ],
             Response::HTTP_OK
         );
@@ -719,6 +763,18 @@ class APIController extends FOSRestController
      * @throws \Exception
      */
     public function postEditCarAction(Request $request, string $token): View
+    {
+        var_dump($token);
+        var_dump($request); die;
+    }
+
+    /**
+     * @Rest\Post("/delete/car/{token}", name="api_car_new")
+     * @param Request $request
+     * @return View
+     * @throws \Exception
+     */
+    public function postDeleteCarAction(Request $request, string $token): View
     {
         var_dump($token);
         var_dump($request); die;
