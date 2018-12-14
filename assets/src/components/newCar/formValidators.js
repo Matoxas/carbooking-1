@@ -131,13 +131,21 @@ const Validators = {
     dateFromRefactored.setHours(0, 0, 0, 0);
     dateUntilRefactored.setHours(0, 0, 0, 0);
 
-    if (dateFromRefactored >= dateUntilRefactored) {
+    if (dateFromRefactored > dateUntilRefactored) {
       updateErrors({
         date_from: "nuomos pradžia negali prasidėti veliau nei baigtis!",
         date_until: "nuomos pabaiga negali būti ankščiau nei pradžia!"
       });
       return false;
-    }
+    };
+
+    if (dateFromRefactored == dateUntilRefactored) {
+        updateErrors({
+          date_from: "minimalus nuomos laikotarpis - viena para!",
+          date_until: "minimalus nuomos laikotarpis - viena para!"
+        });
+        return false;
+  };
     updateErrors({ date_until: "", date_from: "" });
     return true;
   },

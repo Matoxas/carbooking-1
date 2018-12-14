@@ -75,8 +75,8 @@ class EditCar extends React.Component {
       price: car.price,
       description: car.description,
       phone: car.phone,
-      email: car.email,
-      name: car.name,
+      // email: car.email,
+      // name: car.name,
       date_from: car.rentDates[0].rentedFrom,
       date_until: car.rentDates[0].rentedUntil,
       images
