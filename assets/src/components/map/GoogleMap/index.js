@@ -7,11 +7,12 @@ import { inject, observer } from "mobx-react";
 import MapWrapper from './MapWrapper';
 import { Component } from 'react';
 
+
 const MAP = {
   defaultZoom: 8,
   defaultCenter: { lat: 54.687157, lng: 25.279652 },
   options: {
-    maxZoom: 16,
+    maxZoom: 14,
   },
 };
 
@@ -35,7 +36,7 @@ export class GoogleMap extends Component {
       return {
         image: car.images[0],
         name: car.brand + " " +car.model,
-        id: index,
+        id: car.id,
         lat: car.latitude,
         lng: car.longitude
     }
@@ -50,33 +51,16 @@ export class GoogleMap extends Component {
     return clusters(this.state.mapOptions);
   };
 
-
-
-  onChildClick = (e) =>{
-    console.log(e);
-  }
-
-
-  onChildMouseEnter = (e) =>{
-    console.log(e);
-  }
-
-  onChildMouseLeave= (e) =>{
-    console.log(e);
-  }
-
-
-
   createClusters = props => {
 
     this.setState({
-      clusters: this.getClusters(props).map(({ wx, wy, numPoints, image, name, points }) => ({
+      clusters: this.getClusters(props).map(({ wx, wy, numPoints, image, name, id, points }) => ({
             lat: wy,
             lng: wx,
             image,
             name,
             numPoints,
-            id: `${numPoints}_${points[0].id}`,
+            id,
             points,
           })),
           // center: {
@@ -109,9 +93,6 @@ export class GoogleMap extends Component {
           defaultCenter={MAP.defaultCenter}
           options={MAP.options}
           onChange={this.handleMapChange}
-          onChildClick={this.onChildClick}
-          onChildMouseEnter={this.onChildMouseEnter}
-          onChildMouseLeave={this.onChildMouseLeave}
           yesIWantToUseGoogleMapApiInternals
           bootstrapURLKeys={{ key: 'AIzaSyAS3ix4rVY4A-T4yPzWlEi766ycl2mY818' }}
         >
@@ -122,6 +103,7 @@ export class GoogleMap extends Component {
                   name={item.points[0].name}
                   image={item.points[0].image}
                   key={index}
+                  id={item.points[0].id}
                   lat={item.points[0].lat}
                   lng={item.points[0].lng}
                 />

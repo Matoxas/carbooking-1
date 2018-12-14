@@ -17,6 +17,7 @@ const MarkerStyled = styled.div`
   background-position: center;
   transition: transform 0.3s;
   animation: ${easyMove} 0.3s;
+  cursor: pointer;
   overflow: hidden;
 
   &:hover {

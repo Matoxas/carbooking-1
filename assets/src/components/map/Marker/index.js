@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import MarkerStyled from './MarkerStyled';
 import MarkerInGroupStyled from './MarkerInGroupStyled';
-
+import MyGreatPlaceWithControllableHover from './popup';
+import history from "../../../history";
 const imgStyle = {
 
     height: "100%",
@@ -17,9 +17,18 @@ class Marker extends React.PureComponent {
     inGroup: false,
   };
 
+  handleClick = () =>{
+
+    if (this.props.id){
+      history.push("/feed/carListing/"+this.props.id);
+    }
+  }
+
   render() {
     return (
-      <div>
+      // <div>
+      // <MyGreatPlaceWithControllableHover/>
+      <div onClick={this.handleClick}>
         {this.props.inGroup
           ? <MarkerInGroupStyled>
              <img style={imgStyle} src={this.props.image} alt="img"/>
@@ -28,6 +37,7 @@ class Marker extends React.PureComponent {
               <img style={imgStyle} src={this.props.image} alt="img"/>
             </MarkerStyled>}
       </div>
+      // </div>
     );
   }
 }

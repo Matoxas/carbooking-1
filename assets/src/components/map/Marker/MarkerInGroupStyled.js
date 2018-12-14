@@ -17,6 +17,7 @@ const MarkerInGroupStyled = styled.div`
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  cursor: pointer
 `;
 
 export default MarkerInGroupStyled;
