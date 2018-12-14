@@ -5,8 +5,3 @@
 API:
     type: rest
     resource: App\Controller\APIController
-
-home:
-    path:       /
-    controller: App\Controller\HomeController::index
-    schemes:    [https]
