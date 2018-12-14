@@ -117,11 +117,12 @@ class Mailer
         $this->mailer->send($message);
     }
 
-    public function sendEmailForSucessufullyReservationCarOwner(Car $car, User $user)
+    public function sendEmailForSucessufullyReservationCarOwner(Car $car, User $user, Booking $booking)
     {
         $body = $this->twig->render('email/sucessufully_reservation_car_owner.html.twig', [
             'user' => $user,
-            'car' => $car
+            'car' => $car,
+            'booking' => $booking
         ]);
 
         $message = (new \Swift_Message('Jūsų automobilį, ką tik užsirezervavo!'))
@@ -132,11 +133,12 @@ class Mailer
         $this->mailer->send($message);
     }
 
-    public function sendEmailForSucessufullyReservationClient(Car $car, User $user)
+    public function sendEmailForSucessufullyReservationClient(Car $car, User $user, Booking $booking)
     {
         $body = $this->twig->render('email/sucessufully_reservation_client.html.twig', [
             'user' => $user,
-            'car' => $car
+            'car' => $car,
+            'booking' => $booking
         ]);
 
         $message = (new \Swift_Message('Rezervacija atlikta sėkmingai!'))

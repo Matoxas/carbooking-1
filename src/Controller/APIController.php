@@ -640,8 +640,8 @@ class APIController extends FOSRestController
         $carOwner = $booking[0]->getCar();
         $bookingUser = $booking[0]->getUsers();
 
-        $this->mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser);
-        $this->mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser);
+        $this->mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser, $booking[0]);
+        $this->mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser, $booking[0]);
 
         return $this->view(
             [

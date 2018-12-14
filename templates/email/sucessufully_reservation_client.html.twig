@@ -12,6 +12,10 @@ Vardas: {{ car.user.name }}<br/>
 Telefonas: {{ car.user.phone }}<br/>
 El-paštas: {{ car.user.email }}<br/>
 <br/>
+Rezervavimosi laikotarpis:<br/>
+Pradžia: {{ booking.bookedFrom|format('Y-m-d') }}<br/>
+Pabaiga: {{ booking.bookedUntil|format('Y-m-d') }}<br/>
+<br/>
 Automobilis: <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
 <br/>
 <br/>
