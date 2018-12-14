@@ -165,7 +165,6 @@ class APIController extends FOSRestController
         );
     }
 
-
     /**
      * @Rest\Get("/car/{carId}", name="api_cars_carId")
      * @param int $carId
@@ -175,6 +174,31 @@ class APIController extends FOSRestController
     {
         return $this->view(
             ['data' => $this->carRepository->find($carId)],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Get("/get/car/{token}", name="api_car_token")
+     * @param string $token
+     * @return View
+     */
+    public function getCarByTokenAction(string $token): View
+    {
+        /** @var array $data */
+        $data = $this->carRepository->findBy(['token' => $token]);
+
+        if ($data != null) {
+            $email = $data[0]->getUser()->getEmail();
+            $name = $data[0]->getUser()->getName();
+            array_push($data, ['email' => $email, 'name' => $name]);
+        }
+
+        return $this->view(
+            [
+                'token' => $token,
+                'data' => $data
+            ],
             Response::HTTP_OK
         );
     }
@@ -676,6 +700,7 @@ class APIController extends FOSRestController
             );
         }
 
+        $this->mailer->sendEmailOwner($car);
         $this->sendEmailSubscribers($car, $renting);
 
         return $this->view(
@@ -685,6 +710,18 @@ class APIController extends FOSRestController
             ],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * @Rest\Post("/edit/car/{token}", name="api_car_new")
+     * @param Request $request
+     * @return View
+     * @throws \Exception
+     */
+    public function postEditCarAction(Request $request, string $token): View
+    {
+        var_dump($token);
+        var_dump($request); die;
     }
 
     /**

@@ -100,4 +100,18 @@ class Mailer
 
         $this->mailer->send($message);
     }
+
+    public function sendEmailOwner(Car $car)
+    {
+        $body = $this->twig->render('email/car_owner.html.twig', [
+            'car' => $car
+        ]);
+
+        $message = (new \Swift_Message('Sėkmingai įkeltas Jūsų automobilis!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($car->getUser()->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
 }
