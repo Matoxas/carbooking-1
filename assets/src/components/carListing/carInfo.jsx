@@ -26,7 +26,7 @@ class carInfo extends Component {
       phone: "",
       message: "",
       value: null,
-      totalPrice,
+      totalPrice: 0,
       comments: [],
       commentName: "",
       commentText: "",

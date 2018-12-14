@@ -656,6 +656,13 @@ body {
   border-color: #f47e60;
 }
 
+
+.btn-warning:hover {
+  background-color: #e5765a !important;
+  border-color: #e5765a;
+  color: white;
+  }
+
 /* ================== MEDIA QUERRIES ====================== */
 
 @media (max-width: 450px) {
