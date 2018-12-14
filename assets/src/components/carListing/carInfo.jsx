@@ -164,10 +164,6 @@ class carInfo extends Component {
         this.setState({commentCollapse: !this.state.commentCollapse});
     };
 
-    handleFromChange = date => {
-        this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
-    };
-
     dateWithoutTime = date => {
         return date.setHours(0, 0, 0, 0);
     };
@@ -193,11 +189,21 @@ class carInfo extends Component {
         }
     };
 
+    // checkIfDatesOverlap = (start, end) => {};
+
+    handleFromChange = (excludedDates, date) => {
+        if (date < this.state.date_until) {
+            this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
+        }
+    };
+
     handleUntilChange = date => {
-        this.setState(
-            {date_until: this.dateWithoutTime(date)},
-            this.calculateSum
-        );
+        if (date > this.state.date_until) {
+            this.setState(
+                {date_until: this.dateWithoutTime(date)},
+                this.calculateSum
+            );
+        }
     };
 
     handleNameChange = name => {
@@ -233,6 +239,10 @@ class carInfo extends Component {
         this.setState({commentText: text.target.value});
     };
 
+    handleAlert = () => {
+        this.setState({showAlertWindow: false})
+    };
+
     render() {
         let datesArray = [];
         let dates = [];
@@ -242,7 +252,7 @@ class carInfo extends Component {
                     new Date(date.bookedFrom),
                     new Date(date.bookedUntil)
                 );
-                dates.push(datesArray);
+                dates = [...datesArray, ...dates];
             });
         }
         return (
@@ -346,15 +356,15 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        excludeDates={dates[0]}
+                                        excludeDates={dates}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
-                                        startDate={this.state.date_from}
-                                        endDate={this.state.date_until}
+                                        startDate={new Date(this.state.date_from)}
+                                        endDate={new Date(this.state.date_until)}
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={this.handleFromChange}
+                                        onChange={(e) => this.handleFromChange(dates, e)}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
@@ -364,11 +374,11 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        excludeDates={dates[0]}
+                                        excludeDates={dates}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
-                                        startDate={this.state.date_from}
-                                        endDate={this.state.date_until}
+                                        startDate={new Date(this.state.date_from)}
+                                        endDate={new Date(this.state.date_until)}
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
                                         onChange={this.handleUntilChange}
