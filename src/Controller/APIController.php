@@ -624,7 +624,8 @@ class APIController extends FOSRestController
         $validationCar = $this->validator->validate($car);
         $validationRenting = $this->validator->validate($renting);
 
-       /* if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
+        /*
+        if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
             return $this->view(
                 [
                     'status' => 'error',
