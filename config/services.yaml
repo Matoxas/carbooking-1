@@ -34,3 +34,10 @@ services:
     App\EventSubscriber\CarSubscriber:
         tags:
           - { name: doctrine.event_listener, event: prePersist }
+
+
+    App\EventListener\BadUrlRequestListener:
+        arguments:
+            - "@router"
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception }
