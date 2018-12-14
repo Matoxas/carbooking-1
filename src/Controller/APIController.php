@@ -624,7 +624,7 @@ class APIController extends FOSRestController
         $validationCar = $this->validator->validate($car);
         $validationRenting = $this->validator->validate($renting);
 
-        if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
+       /* if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
             return $this->view(
                 [
                     'status' => 'error',
@@ -632,7 +632,7 @@ class APIController extends FOSRestController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        }
+        }*/
 
         if (count($request->files->all()['image']) == 0) {
             return $this->view(
