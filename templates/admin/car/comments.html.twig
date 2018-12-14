@@ -1,0 +1,38 @@
+<div class="modal-header p-1 pl-3 pr-3">
+    <h4 class="modal-title"><small>{{ 'admin.car.comments.title'|trans }} - {{ car.id }}</small></h4>
+    <button type="button" class="close pt-4" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body font-size-2">
+    <table border="0" class="w-100">
+        <tr>
+            <th>Vardas</th>
+            <th>Komentaras</th>
+            <th>Laikas</th>
+            <th></th>
+        </tr>
+        {% for comment in comments %}
+            <tr>
+                <td><b>{{ comment.name }}:</b></td>
+                <td>{{ comment.comment }}</td>
+                <td>{{ comment.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    <a href="{{ path('admin_car_comment_delete', { 'car': car.id, 'comment': comment.id }) }}"
+                       class="btn btn-sm btn-danger btn-xs modal-button right">
+                        <span class="fa fa-close"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br/>
+    {% if comments != null %}
+        <a href="{{ path('admin_car_comments_delete', { 'car': car.id }) }}"
+           class="btn btn-sm btn-danger btn-xs modal-button right">
+            <span class="fa fa-close"> <b>{{ 'admin.car.comments.delete.all'|trans }}</b></span>
+        </a>
+    {% endif %}
+</div>
+<div class="modal-footer p-2 pl-3 pr-4">
+    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'admin.car.exit'|trans }}</button>
+</div>

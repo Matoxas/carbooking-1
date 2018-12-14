@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import Items from "./items";
 import Topbar from "../topbar/topbar";
-import { inject, observer } from "mobx-react";
 import Loading from "../loading";
 import "../topbar/topbar.css";
 import "./feed.css";
 import NoResults from "./NoResults";
-import axios from "axios";
 import EditCar from "../editCar/EditCar";
+import { inject, observer } from "mobx-react";
 @inject("CarStore")
+@inject("CarFormStore")
 @observer
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
       toggler: false,
-      editableCar: {}
+      hash: ""
     };
   }
 
@@ -25,20 +25,18 @@ class Feed extends Component {
 
   checkIfHashValid = () => {
     const params = this.props.match.params;
+
     if (params.hash) {
-      axios
-        .get("/car/" + params.hash)
-        .then(response => {
-          if (response.data.data) {
-            this.setState({
-              editableCar: response.data.data
-            });
-          }
-        })
-        .catch(error => {
-          return error;
-        });
+      this.setState({
+        hash: params.hash
+      });
     }
+  };
+
+  resetHash = () => {
+    this.setState({
+      hash: ""
+    });
   };
 
   toggleMobile = () => {
@@ -67,6 +65,10 @@ class Feed extends Component {
         </div>
       </div>
     );
+
+    if (this.state.hash) {
+      return <EditCar resetHash={this.resetHash} carId={this.state.hash} />;
+    }
 
     if ((load.cars && cars.length == 0) || load.brands) {
       return (

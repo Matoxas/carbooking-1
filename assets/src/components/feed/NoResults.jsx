@@ -34,10 +34,13 @@ class NoResults extends Component {
           <h5 className="feed-error-text feed-error-text--description">
             Galite pabandyti kitą paiešką, arba
             <span className="semi-bold-text">
-              užsisakyti priminimą el. paštu!
+              užsisakykite priminimą el. paštu!
             </span>
           </h5>
-          <button onClick={this.handleClickOpen} className="submit-button">
+          <button
+            onClick={this.handleClickOpen}
+            className=" gradient submit-button"
+          >
             Užsakyti
           </button>
           <ReminderModal

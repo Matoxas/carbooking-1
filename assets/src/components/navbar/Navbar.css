@@ -115,6 +115,7 @@
 
   .nav-masthead.opened {
     display: block;
+    transition: all 0.3s linear;
   }
 
   .nav-masthead a,

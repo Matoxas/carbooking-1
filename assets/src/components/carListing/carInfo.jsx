@@ -17,8 +17,10 @@ class carInfo extends Component {
         this.state = {
             reservationClicked: false,
             reservationButtonText: "Rezervuoti",
-            date_from: moment(new Date()).toDate(),
-            date_until: new Date(),
+            date_from: new Date().setHours(0, 0, 0, 0),
+            date_until: moment(this.date_from)
+                .add(1, "d")
+                .valueOf(),
             name: "",
             email: "",
             phone: "",
@@ -46,8 +48,11 @@ class carInfo extends Component {
             arr.push(new Date(dt));
             dt.setDate(dt.getDate() + 1);
         }
-        return arr;
     };
+
+    componentDidMount() {
+        this.calculateSum();
+    }
 
     postReservation = reservation => {
         axios
@@ -165,16 +170,42 @@ class carInfo extends Component {
         this.setState({commentCollapse: !this.state.commentCollapse})
     };
 
-    updadeErrors = (error) => {
-
+    handleFromChange = date => {
+        this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
     };
 
-    handleFromChange = date => {
-        this.setState({date_from: date});
+    dateWithoutTime = date => {
+        return date.setHours(0, 0, 0, 0);
+    };
+
+    calculateSum = () => {
+        console.log("date_from:", this.state.date_from);
+        console.log("date_until:", this.state.date_until);
+        if (this.state.date_until > this.state.date_from) {
+            const resultInMiliseconds = this.state.date_until - this.state.date_from;
+
+            const ResultInDays = Math.floor(
+                resultInMiliseconds / (1000 * 60 * 60 * 24)
+            );
+
+            const totalPrice =
+                Math.round(ResultInDays * this.props.car.price * 100) / 100;
+
+            this.setState({
+                totalPrice
+            });
+        } else {
+            this.setState({
+                totalPrice: 0
+            });
+        }
     };
 
     handleUntilChange = date => {
-        this.setState({date_until: date});
+        this.setState(
+            {date_until: this.dateWithoutTime(date)},
+            this.calculateSum
+        );
     };
 
     handleNameChange = name => {
@@ -183,22 +214,6 @@ class carInfo extends Component {
 
     handleMessageChange = message => {
         this.setState({message: message.target.value});
-    };
-
-    handleEmailChange = email => {
-        this.setState({email: email.target.value});
-    };
-
-    handlePhoneChange = phone => {
-        this.setState({phone: phone.target.value});
-    };
-
-    handleCommentName = name => {
-        this.setState({commentName: name.target.value});
-    };
-
-    handleCommentText = text => {
-        this.setState({commentText: text.target.value});
     };
 
     handleBadListing = () => {
@@ -210,12 +225,21 @@ class carInfo extends Component {
         });
     };
 
-    handleAlert = () => {
-        this.setState({showAlertWindow: false})
+    handleEmailChange = email => {
+        this.setState({email: email.target.value});
     };
 
-    handleBadListingDialog = () => {
-        this.setState({badListingShow: false})
+
+    handlePhoneChange = phone => {
+        this.setState({phone: phone.target.value});
+    };
+
+    handleCommentName = name => {
+        this.setState({commentName: name.target.value});
+    };
+
+    handleCommentText = text => {
+        this.setState({commentText: text.target.value});
     };
 
     render() {
@@ -393,26 +417,30 @@ class carInfo extends Component {
                                     placeholder="+370"
                                 />
                                 <div className="form-group">
-                  <textarea
-                      onChange={this.handleMessageChange}
-                      className="form-control"
-                      type="text"
-                      placeholder="Žinutė savininkui..."
-                  />
+                                  <textarea
+                                      onChange={this.handleMessageChange}
+                                      className="form-control"
+                                      type="text"
+                                      placeholder="Komentaras..."
+                                  />
+                                    <br/>
+                                    <button
+                                        onClick={this.handleSubmitComment}
+                                        className="btn btn-warning info-button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseComment"
+                                        aria-expanded="false"
+                                        aria-controls="collapseComment"
+                                    >
+                                        Skelbti
+                                    </button>
                                 </div>
                             </form>
                         </div>
-                        <hr/>
-                        <p onClick={this.handleBadListing} className="info-report">
-                            Pranešti apie netinkamą skelbimą
-                        </p>
-                        {this.state.badListingShow ? (<div onClick={this.handleBadListingDialog}>
-                            <Dialog alertMessage={this.state.badListingText}/>
-                        </div>) : null}
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 

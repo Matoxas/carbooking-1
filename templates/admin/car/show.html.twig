@@ -25,6 +25,7 @@
                                     <th>{{ 'admin.car.owner.name'|trans }}</th>
                                     <th>{{ 'admin.car.show.publish'|trans }}</th>
                                     <th>{{ 'admin.car.show.confirm'|trans }}</th>
+                                    <th>{{ 'admin.car.show.comments'|trans}}</th>
                                     <th>{{ 'admin.car.show.link'|trans }}</th>
                                     <th style="width: 110px">{{ 'admin.car.show.actions'|trans }}</th>
                                 </tr>
@@ -49,6 +50,13 @@
                                             {% else %}
                                                 <span class="badge bg-danger">{{ 'admin.car.show.not_confirm'|trans }}</span>
                                             {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('admin_car_comments', { 'car': car.id }) }}"
+                                               class="btn btn-sm btn-info btn-xs modal-button">
+                                                <span class="fa fa-comments"></span>
+                                                <span class="right badge badge-info">{{ car.comments.count|ninePlus }}</span>
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{{ path('home_car_listing_by_id', { 'id': car.id }) }}"

@@ -307,11 +307,9 @@ body {
   opacity: 1;
   -webkit-transition: all 0.5s ease-in 3s;
   transition: all 0.5s ease-in 3s;
-  position: absolute;
-  bottom: 5vh;
-  left: 50%;
-  margin-left: -16px;
   display: block;
+  position: absolute;
+  bottom: 1.5rem;
   -webkit-animation: bounce 2s infinite 2s;
   animation: bounce 2s infinite 2s;
   -webkit-transition: all 0.2s ease-in;
@@ -539,6 +537,43 @@ body {
 
 /* =========================== UNIVERSAL MODIFIERS ===========================  */
 
+.color-gray {
+  color: #6c757d;
+}
+
+.color-primary {
+  color: #f47e60;
+}
+
+.color-secondary {
+  color: #eec170;
+}
+
+.color-danger {
+  color: #e15b64;
+}
+
+.color-black {
+  color: #333;
+}
+
+.color-lightGray {
+  color: #f4f4f4;
+}
+
+.gradient:hover {
+  /* background-color: #f47e60 !important;
+  background-image: -webkit-linear-gradient(
+    top,
+    #f47e60 0,
+    #e15b64 100%
+  ) !important; */
+
+  background-color: #e5765a !important;
+  border-color: #e5765a;
+  color: white;
+}
+
 .relative {
   position: relative;
   width: 100%;
@@ -580,6 +615,14 @@ body {
   display: flex;
 }
 
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -605,6 +648,14 @@ body {
   width: 100%;
 }
 
+.btn-warning:not(:disabled):not(.disabled):active,
+.btn-warning:not(:disabled):not(.disabled).active,
+.show > .btn-warning.dropdown-toggle {
+  color: #f47e60;
+  background-color: white;
+  border-color: #f47e60;
+}
+
 /* ================== MEDIA QUERRIES ====================== */
 
 @media (max-width: 450px) {
@@ -622,15 +673,22 @@ body {
   .card-image {
     height: 220px;
   }
+
   .scroll-down {
-    bottom: 10px;
+    position: relative;
+    margin-top: 5vh;
+    padding-top: 2rem;
+  }
+  #index {
+    padding-top: 5rem;
   }
 }
 
 @media (min-width: 450px) and (max-width: 575.98px) {
-  .scroll-down {
-    bottom: 10px;
+  #index {
+    padding-top: 1rem;
   }
+
   .card-image {
     height: 330px;
   }
@@ -650,6 +708,10 @@ body {
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
+  #index {
+    padding-top: 1rem;
+  }
+
   .card-image {
     height: 160px;
   }
@@ -664,10 +726,6 @@ body {
 
   .m-hidden {
     display: none;
-  }
-
-  .scroll-down {
-    bottom: 15px;
   }
 }
 

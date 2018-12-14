@@ -30,7 +30,7 @@ class CarNormalizer implements NormalizerInterface
         return [
             'id'            => $object->getId(),
             'price'         => number_format($object->getPrice(), 2),
-            'phone'         => $object->getUser()->getPhone(),
+            'phone'         => '+370' . $object->getUser()->getPhone(),
             'description'   => $object->getDescription(),
             'createdAt'     => $object->getCreatedAt()->format('Y-m-d H:i:s'),
             'address'       => $object->getAddress(),

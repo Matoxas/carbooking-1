@@ -13,19 +13,20 @@ class Index extends Component {
   render() {
     return (
       <div className="index">
-        <div className="container pt-4">
-          <div id="index">
-            <div className="flex flex-center flex-column fullHeight text-center">
-              <div className="index-logo-wrapper">
-                <div className="index-logo-wrapper-logo">
-                  <Logo className="logo" />
-                </div>
-                <div className="index-logo-wrapper-text">
-                  <h2>paprastai patogiai greitai</h2>
-                </div>
+        <div className="container">
+          <div
+            id="index"
+            className="flex flex-center flex-column relative fullHeight text-center"
+          >
+            <div className="index-logo-wrapper">
+              <div className="index-logo-wrapper-logo">
+                <Logo className="logo" />
               </div>
-              <Searchbar />
+              <div className="index-logo-wrapper-text">
+                <h2>paprastai patogiai greitai</h2>
+              </div>
             </div>
+            <Searchbar />
             <a
               href="#mainNav"
               onClick={this.handleClick}

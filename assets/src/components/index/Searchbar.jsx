@@ -119,7 +119,7 @@ class Searchbar extends Component {
         </div>
         <button
           onClick={this.handleSubmit}
-          className="submit-button submit-button--searchbar"
+          className="submit-button gradient submit-button--searchbar"
         >
           Ieškoti
         </button>

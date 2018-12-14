@@ -176,7 +176,7 @@ class Navbar extends Component {
                 href="/newcar"
                 className="nav-link--hl"
               >
-                Nuomoti dabar
+                Nuomoti automobilį
               </a>
 
               <a
@@ -184,14 +184,14 @@ class Navbar extends Component {
                 onClick={e => this.handleNavClick(e, "#index")}
                 className="nav-link srollink"
               >
-                Pagrindinis
+                Pradžia
               </a>
               <a
                 href="#mainNav"
                 onClick={e => this.handleNavClick(e, "#mainNav")}
                 className="nav-link srollink"
               >
-                Nuomotis
+                Katalogas
               </a>
             </nav>
             <div className="clearfix" />
