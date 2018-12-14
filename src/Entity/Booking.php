@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use App\Security\TokenGenerator;
 use App\Validator\Constraints\DateIsInTheFuture;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -54,6 +56,11 @@ class Booking
      * @ORM\Column(type="boolean")
      */
     private $approved;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
 
     /**
      * Booking constructor.
@@ -137,5 +144,26 @@ class Booking
         $this->users = $users;
 
         return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setCreatedAtOnPersist(): void
+    {
+        $tokenGenerator = new TokenGenerator();
+        $this->token = $tokenGenerator->getRandomSecureToken(30);
     }
 }
