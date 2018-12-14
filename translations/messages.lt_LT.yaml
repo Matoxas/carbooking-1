@@ -15,6 +15,9 @@ booking:
     error: 'Rezervuoti nepavyko! Patikrinkite įvestus duomenis ir mėginkite dar kartą!'
   date_is_reserved: 'Ši data jau yra rezervuota!'
   bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
+  token_is_expired: 'Patvirtinimo raktas pasibaigęs!'
+  token_is_used: 'Ši rezervacija jau patvirtinta!'
+  success: 'Jūs el-paštas patvirtintas! Visa reikalinga informacija buvo išsiųsta nurodytu el-paštu!'
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
 comment:

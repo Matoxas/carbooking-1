@@ -87,6 +87,10 @@ class CarNormalizer implements NormalizerInterface
         $bookings = $object->getBookings()->toArray();
 
         $bookings = array_map(function (Booking $booking) {
+            if (!$booking->getApproved()) {
+                return [];
+            }
+
             return [
                 'bookedFrom' => $booking->getBookedFrom()->format('Y-m-d H:i:s'),
                 'bookedUntil' => $booking->getBookedUntil()->format('Y-m-d H:i:s')
