@@ -30,7 +30,7 @@ class App extends Component {
   };
 
   render() {
-    const dontShowPage = false;
+    const dontShowPage = true;
 
     if (dontShowPage) {
       return <Temporary />;

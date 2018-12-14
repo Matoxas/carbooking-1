@@ -297,7 +297,7 @@
   }
 
   .pt-mobile {
-    padding-top: 1rem;
+    padding-top: 1rem !important;
   }
 
   .pb-mobile {

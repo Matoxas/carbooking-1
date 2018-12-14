@@ -106,7 +106,6 @@ class EditCarForm extends Component {
 
   validateDates = () => {
     const { editableCar, setEditableCar } = this.props.CarFormStore;
-    console.log(this.dateWithoutTime(editableCar.date_from), this.dateWithoutTime(editableCar.date_until));
 
     if (this.dateWithoutTime(editableCar.date_from) >= this.dateWithoutTime(editableCar.date_until)) {
       setEditableCar({
@@ -176,39 +175,6 @@ class EditCarForm extends Component {
     }
     );
 
-
-    // console.log(validators.every(validation => {
-    //   const result = Promise.resolve(validation)
-    //     .then(result => {
-    //       return result;
-    //     });
-    //   console.log(result);
-    //   return result;
-    // }));
-
-
-
-
-    // const submitResult = Promise.resolve(callBack)
-    //   .then(result => {
-    //     if (result == true) {
-    //       //tikrinam ar visos errorų žinutės tuščios
-    //       result = this.doesFormHasErrors();
-    //       //jei taip, siunčiam duomenis į BE
-    //       if (result) {
-    //         result = this.sendFormToRoute();
-    //         return result;
-    //       } else {
-    //         //jei ne, grąžinam false
-    //         return false;
-    //       }
-    //     }
-    //   })
-    //   .catch(error => {
-    //     return error;
-    //   });
-
-    // return submitResult;
   };
 
   render() {
