@@ -19,7 +19,7 @@ class HomeController extends AbstractController
         if ($appEnv == 'prod') {
             $domainName = $request->server->get('HTTP_HOST');
 
-            return $this->redirect('https://' . $domainName);
+            return $this->redirect('https://' . $domainName . '/feed');
         }
 
         return $this->render('home/index.html.twig');
