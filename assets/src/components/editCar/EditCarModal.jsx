@@ -1,4 +1,5 @@
 import React from "react";
+// import React, { forwardRef, useRef, useImperativeMethods } from 'react';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -48,6 +49,16 @@ function Transition(props) {
 }
 
 class EditCarModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
+  }
+
+  onSubmit = () => {
+    this.child.formSubmit();
+  };
+
+
   render() {
     const { classes } = this.props;
     return (
@@ -72,16 +83,16 @@ class EditCarModal extends React.Component {
                 color="secondary"
                 className={classes.flex}
               >
-                <span className="d-none d-md-block">
+                <span className="d-none d-sm-block">
                   {` ${this.props.editableCar.brand} ${
                     this.props.editableCar.model
-                  } `}
+                    } `}
                 </span>
               </Typography>
               <Button color="secondary" onClick={this.props.handleClose}>
                 Noriu ištrinti
               </Button>
-              <Button color="secondary" onClick={this.props.handleClose}>
+              <Button color="secondary" onClick={this.onSubmit}>
                 Išsaugoti
               </Button>
             </Toolbar>
@@ -89,7 +100,7 @@ class EditCarModal extends React.Component {
           <div className="main-wrapper">
             <DialogContent>
               <div className="main newCarWrapper mb-5 mt-0">
-                <EditCarForm />
+                <EditCarForm onRef={ref => (this.child = ref)} />
               </div>
             </DialogContent>
           </div>

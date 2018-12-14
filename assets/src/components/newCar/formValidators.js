@@ -125,7 +125,13 @@ const Validators = {
     return true;
   },
   date: (date_from, date_until, updateErrors) => {
-    if (date_from >= date_until) {
+
+    const dateFromRefactored = new Date(date_from);
+    const dateUntilRefactored = new Date(date_until);
+    dateFromRefactored.setHours(0, 0, 0, 0);
+    dateUntilRefactored.setHours(0, 0, 0, 0);
+
+    if (dateFromRefactored >= dateUntilRefactored) {
       updateErrors({
         date_from: "nuomos pradžia negali prasidėti veliau nei baigtis!",
         date_until: "nuomos pabaiga negali būti ankščiau nei pradžia!"

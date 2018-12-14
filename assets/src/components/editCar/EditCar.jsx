@@ -90,6 +90,7 @@ class EditCar extends React.Component {
     history.push("/feed");
   };
 
+
   render() {
     const { editableCar, loading } = this.props.CarFormStore;
 
@@ -103,6 +104,7 @@ class EditCar extends React.Component {
           editableCar={editableCar}
           open={this.state.open}
           handleClose={this.handleClose}
+          formSubmit={this.formSubmit}
         />
       );
     }

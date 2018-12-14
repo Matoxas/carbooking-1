@@ -113,8 +113,8 @@ class CarFormStore {
 
   @action
   setEditableCarErrors = values => {
-    this.editableCarErrros = {
-      ...this.editableCarErrros,
+    this.editableCarErrors = {
+      ...this.editableCarErrors,
       ...values
     };
   };

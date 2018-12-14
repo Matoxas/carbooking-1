@@ -56,3 +56,6 @@ npm-debug.log
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+assets/src/rootConfig.js
+.eslintrc
+vscode.js

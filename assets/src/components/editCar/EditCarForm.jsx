@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
+import Validators from '../newCar/formValidators';
 registerLocale("lt", lt);
 
 const searchOptions = {
@@ -14,17 +15,36 @@ const searchOptions = {
   componentRestrictions: { country: "ltu" }
 };
 
+@inject("CarStore")
 @inject("CarFormStore")
 @observer
 class EditCarForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { state: "" };
+    this.state = {
+      state: ""
+    };
   }
 
   componentDidMount() {
+
+    const { getAllCities, allCities } = this.props.CarStore;
+
+    //leidžiam chlid componentui naudotis reikiamais metodais
+    this.props.onRef(this);
+
+    //load available cities if not loaded yet
+    if (allCities.length <= 0) {
+      getAllCities();
+    }
+
     this.validateDates();
   }
+  componentWillUnmount() {
+    //unmountinam
+    this.props.onRef(undefined);
+  }
+
 
   setValues = e => {
     const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
@@ -38,6 +58,11 @@ class EditCarForm extends Component {
   setImages = images => {
     const { setEditableCar } = this.props.CarFormStore;
     setEditableCar({ images });
+  };
+
+  setCity = city => {
+    const { setEditableCar } = this.props.CarFormStore;
+    setEditableCar({ city });
   };
 
   setImagesErrorMessage = message => {
@@ -74,9 +99,16 @@ class EditCarForm extends Component {
     setEditableCar({ address });
   };
 
+  dateWithoutTime = date => {
+    const dateNew = new Date(date);
+    return dateNew.setHours(0, 0, 0, 0);
+  };
+
   validateDates = () => {
     const { editableCar, setEditableCar } = this.props.CarFormStore;
-    if (editableCar.date_from >= editableCar.date_until) {
+    console.log(this.dateWithoutTime(editableCar.date_from), this.dateWithoutTime(editableCar.date_until));
+
+    if (this.dateWithoutTime(editableCar.date_from) >= this.dateWithoutTime(editableCar.date_until)) {
       setEditableCar({
         date_until: moment(editableCar.date_from)
           .add(1, "d")
@@ -99,6 +131,84 @@ class EditCarForm extends Component {
   hasSpecificError = input => {
     const { editableCarErrors } = this.props.CarFormStore;
     return editableCarErrors[input].length > 0;
+  };
+
+  updateErrors = errors => {
+    const { editableCarErrors, setEditableCarErrors } = this.props.CarFormStore;
+    setEditableCarErrors({
+      ...editableCarErrors,
+      ...errors
+    });
+  };
+
+  formSubmit = () => {
+
+
+    const { allCities } = this.props.CarStore;
+    const { editableCar } = this.props.CarFormStore;
+
+    const validators = [
+      Validators.price(editableCar.price, this.updateErrors),
+      // Validators.email(editableCar.email, this.updateErrors),
+      // Validators.name(editableCar.name, this.updateErrors),
+      Validators.description(editableCar.description, this.updateErrors),
+      Validators.phone(editableCar.phone, this.updateErrors),
+      Validators.images(editableCar.images, this.updateErrors),
+      Validators.date(
+        editableCar.date_from,
+        editableCar.date_until,
+        this.updateErrors
+      ),
+      Validators.address(
+        editableCar.address,
+        this.updateErrors,
+        this.setCity,
+        allCities
+      )
+    ]
+
+
+    Promise.all(validators).then(arrayOfResults => {
+      const result = arrayOfResults.every(element => element === true);
+      if (result) {
+        console.log('ok');
+      }
+    }
+    );
+
+
+    // console.log(validators.every(validation => {
+    //   const result = Promise.resolve(validation)
+    //     .then(result => {
+    //       return result;
+    //     });
+    //   console.log(result);
+    //   return result;
+    // }));
+
+
+
+
+    // const submitResult = Promise.resolve(callBack)
+    //   .then(result => {
+    //     if (result == true) {
+    //       //tikrinam ar visos errorų žinutės tuščios
+    //       result = this.doesFormHasErrors();
+    //       //jei taip, siunčiam duomenis į BE
+    //       if (result) {
+    //         result = this.sendFormToRoute();
+    //         return result;
+    //       } else {
+    //         //jei ne, grąžinam false
+    //         return false;
+    //       }
+    //     }
+    //   })
+    //   .catch(error => {
+    //     return error;
+    //   });
+
+    // return submitResult;
   };
 
   render() {
@@ -165,43 +275,43 @@ class EditCarForm extends Component {
                     getSuggestionItemProps,
                     loading
                   }) => (
-                    <div>
-                      <input
-                        {...getInputProps({
-                          placeholder: "įveskite automobilio lokaciją",
-                          className: "form-control"
-                        })}
-                      />
-                      <div className="autocomplete-dropdown-container">
-                        {loading && <div>Kraunasi...</div>}
-                        {suggestions.map(suggestion => {
-                          const className = suggestion.active
-                            ? "suggestion-item--active"
-                            : "suggestion-item";
-                          // inline style for demonstration purpose
-                          const style = suggestion.active
-                            ? {
+                      <div>
+                        <input
+                          {...getInputProps({
+                            placeholder: "įveskite automobilio lokaciją",
+                            className: "form-control"
+                          })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                          {loading && <div>Kraunasi...</div>}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                              ? "suggestion-item--active"
+                              : "suggestion-item";
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                              ? {
                                 backgroundColor: "#fafafa",
                                 cursor: "pointer"
                               }
-                            : {
+                              : {
                                 backgroundColor: "#ffffff",
                                 cursor: "pointer"
                               };
-                          return (
-                            <div
-                              {...getSuggestionItemProps(suggestion, {
-                                className,
-                                style
-                              })}
-                            >
-                              <span>{suggestion.description}</span>
-                            </div>
-                          );
-                        })}
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className,
+                                  style
+                                })}
+                              >
+                                <span>{suggestion.description}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </PlacesAutocomplete>
               </div>
               {this.hasSpecificError("address") && (
@@ -229,7 +339,7 @@ class EditCarForm extends Component {
                   maxDate={moment(new Date())
                     .add(31, "d")
                     .toDate()}
-                  selected={editableCar.date_from}
+                  selected={new Date(editableCar.date_from)}
                   onChange={this.handleFromChange}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
@@ -258,8 +368,8 @@ class EditCarForm extends Component {
                   maxDate={moment(editableCar.date_from)
                     .add(31, "d")
                     .toDate()}
-                  selected={editableCar.date_until}
-                  onChange={editableCar.handleUntilChange}
+                  selected={new Date(editableCar.date_until)}
+                  onChange={this.handleUntilChange}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
