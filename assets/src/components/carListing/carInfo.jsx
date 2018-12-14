@@ -49,6 +49,8 @@ class carInfo extends Component {
             arr.push(new Date(dt));
             dt.setDate(dt.getDate() + 1);
         }
+        arr.push(new Date(end));
+        return arr;
     };
 
     componentDidMount() {
@@ -344,7 +346,7 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        excludeDates={dates}
+                                        excludeDates={dates[0]}
                                         // locale={"lt"}
                                         selected={this.state.date_from}
                                         selectsStart
@@ -362,7 +364,7 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        excludeDates={dates}
+                                        excludeDates={dates[0]}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
                                         startDate={this.state.date_from}
@@ -399,10 +401,7 @@ class carInfo extends Component {
                         >
                             <p class=" color-gray mt-2 mb-2">
                                 Preliminari kaina už laikotarpį:
-                                <span className="color-primary">
-                  {" "}
-                                    {this.state.totalPrice} €
-                </span>
+                                <span className="color-primary">{" "}{this.state.totalPrice} €</span>
                             </p>
                             <form id="clear-reservation-input">
                                 <input
