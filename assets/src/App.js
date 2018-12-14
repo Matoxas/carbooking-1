@@ -5,6 +5,7 @@ import history from "./history";
 import Routes from "./Routes";
 import Temporary from "./components/temporary";
 import "./style/App.css";
+import { dontShowPage } from "./rootConfig";
 
 @inject("CarStore")
 @observer
@@ -30,7 +31,7 @@ class App extends Component {
   };
 
   render() {
-    const dontShowPage = false;
+    
 
     if (dontShowPage) {
       return <Temporary />;
