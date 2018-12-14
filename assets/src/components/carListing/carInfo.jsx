@@ -259,7 +259,8 @@ class carInfo extends Component {
               <div className="col-lg-3 info-description" />
               <div className="col-lg-9">
                 <p className="info--big">
-                  {this.props.car.brand} {this.props.car.model}
+                  {this.props.car.brand}
+                  <span className="light-text"> {this.props.car.model}</span>
                 </p>
               </div>
               <div className="col-lg-3 info-description">Vieta</div>
