@@ -55,15 +55,6 @@ export class MapContainer extends Component {
             scaledSize: new google.maps.Size(160, 160)
           }}
         />
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose}
-        >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
-          </div>
-        </InfoWindow>
       </Map>
     );
   }
