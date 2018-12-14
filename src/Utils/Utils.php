@@ -42,7 +42,7 @@ class Utils
 
         fgetcsv($handler); //skip first line
 
-        while (($value = fgetcsv($handler, 1024, ';'))) {
+        while (($value = fgetcsv($handler, 5000, ';'))) {
             array_push($data, $value);
         }
 
