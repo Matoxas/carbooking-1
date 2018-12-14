@@ -11,3 +11,4 @@ before_script:
 script:
 - vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src --ignore=./src/Migrations/*
 - bin/phpunit --filter TokenGeneratorTest
+- $TRAVIS_BUILD_DIR && bin/phpunit
