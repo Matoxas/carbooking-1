@@ -34,9 +34,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/feed/{hash}", name="home_feed_hash")
+     * @Route("/feed/{token}", name="home_feed_token")
      */
-    public function feedHash($hash)
+    public function feedHash($token)
     {
         return $this->render('home/index.html.twig');
     }
@@ -50,9 +50,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/feed/carListing/{id}/{hash}", name="home_car_listing_by_id_plus_hash")
+     * @Route("/feed/carListing/{id}/{token}", name="home_car_listing_by_id_plus_token")
      */
-    public function carListingByIdPlusHash($id, $hash)
+    public function carListingByIdPlusHash($id, $token)
     {
         return $this->render('home/index.html.twig');
     }
