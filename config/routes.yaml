@@ -8,5 +8,5 @@ API:
 
 home:
     path:       /
-    controller: App\Controller\HomeController
+    controller: App\Controller\HomeController::index
     schemes:    [https]
