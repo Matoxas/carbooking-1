@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use App\Security\TokenGenerator;
-use App\Validator\Constraints\DateIsInTheFuture;
+use App\Validator\Constraints as MyAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @MyAssert\DateIsCorrect()
+ * @MyAssert\DateIsAvailable()
  */
 class Booking
 {
@@ -29,7 +31,7 @@ class Booking
      * @ORM\Column(type="datetime")
      * @Assert\NotNull()
      * @Assert\NotBlank()
-     * @DateIsInTheFuture()
+     * @MyAssert\DateIsInTheFuture()
      */
     private $bookedFrom;
 
@@ -37,7 +39,7 @@ class Booking
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      * @Assert\NotNull()
-     * @DateIsInTheFuture()
+     * @MyAssert\DateIsInTheFuture()
      */
     private $bookedUntil;
 

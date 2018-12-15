@@ -19,7 +19,7 @@ Rezervavimosi laikotarpis:<br/>
 Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
 Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
 <br/>
-Automobilis: <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
+Automobilis: <a href="https://{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
 <br/>
 <br/>
 carbookinglt@gmail.com
