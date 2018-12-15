@@ -24,7 +24,8 @@ class EditCar extends React.Component {
       phone: "",
       email: "",
       name: "",
-      images: []
+      images: [],
+      token: ""
     });
   };
 

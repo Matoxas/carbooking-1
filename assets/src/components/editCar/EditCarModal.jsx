@@ -58,6 +58,9 @@ class EditCarModal extends React.Component {
     this.child.formSubmit();
   };
 
+  onDelete = () => {
+    this.child.onDeleteCar();
+  };
 
   render() {
     const { classes } = this.props;
@@ -86,10 +89,10 @@ class EditCarModal extends React.Component {
                 <span className="d-none d-sm-block">
                   {` ${this.props.editableCar.brand} ${
                     this.props.editableCar.model
-                    } `}
+                  } `}
                 </span>
               </Typography>
-              <Button color="secondary" onClick={this.props.handleClose}>
+              <Button color="secondary" onClick={this.onDelete}>
                 Noriu ištrinti
               </Button>
               <Button color="secondary" onClick={this.onSubmit}>

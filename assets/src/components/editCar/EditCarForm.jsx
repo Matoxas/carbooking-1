@@ -181,6 +181,22 @@ class EditCarForm extends Component {
     });
   };
 
+  onDeleteCar = () => {
+    const { editableCar } = this.props.CarFormStore;
+    const fd = new FormData();
+    fd.append("id", editableCar.id);
+    fd.append("token", editableCar.token);
+
+    return axios
+      .post("delete/car/" + editableCar.token, fd)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   sendFormToApi = () => {
     const { editableCar } = this.props.CarFormStore;
     const fd = new FormData();
