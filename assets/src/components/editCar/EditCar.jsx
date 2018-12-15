@@ -49,6 +49,7 @@ class EditCar extends React.Component {
           }
         })
         .catch(error => {
+          console.log(error);
           this.props.resetHash();
           history.push("/feed");
           setLoading(false);
@@ -59,8 +60,10 @@ class EditCar extends React.Component {
 
   setEditableCar = car => {
     const { setEditableCar: setCar } = this.props.CarFormStore;
+    const editableCar = car.data[0];
+    const token = car.token;
 
-    const images = car.data.images.map((image, index) => {
+    const images = editableCar.images.map((image, index) => {
       return {
         preview: "/" + image,
         id: index + 1
@@ -68,18 +71,18 @@ class EditCar extends React.Component {
     });
 
     setCar({
-      token: car.token,
-      id: car.data.id,
-      brand: car.data.brand,
-      model: car.data.model,
-      address: car.data.address,
-      price: car.data.price,
-      description: car.data.description,
-      phone: car.phone,
-      email: car.email,
-      name: car.name,
-      date_from: car.data.rentDates[0].rentedFrom,
-      date_until: car.data.rentDates[0].rentedUntil,
+      token,
+      id: editableCar.id,
+      brand: editableCar.brand,
+      model: editableCar.model,
+      address: editableCar.address,
+      price: editableCar.price,
+      description: editableCar.description,
+      phone: editableCar.phone,
+      email: editableCar.email,
+      name: editableCar.name,
+      date_from: editableCar.rentDates[0].rentedFrom,
+      date_until: editableCar.rentDates[0].rentedUntil,
       images
     });
   };
