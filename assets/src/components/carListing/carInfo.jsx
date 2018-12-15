@@ -32,7 +32,6 @@ class carInfo extends Component {
             bookingDates: {},
             rentedDates: [],
             showAlertWindow: false,
-            alertText: "kazkas tik nepavyko",
             excludeDates: [],
             showCommentNameError: false,
             showCommentTextError: false,
@@ -253,6 +252,24 @@ class carInfo extends Component {
         });
     };
 
+    isLiked = () => {
+        const { car: currentCar } = this.props;
+        const { likedCars } = this.props.CarStore;
+
+        return (
+            likedCars.filter(car => {
+                return car.id == currentCar.id;
+            }).length > 0
+        );
+    };
+
+    handleLikeSubmit = e => {
+        e.preventDefault();
+        const { car } = this.props;
+        const { likesToggler } = this.props.CarStore;
+        likesToggler(car);
+    };
+
     handleEmailChange = email => {
         this.setState({email: email.target.value});
     };
@@ -294,7 +311,12 @@ class carInfo extends Component {
                             <div className="col-lg-9">
                                 <p className="info--big">
                                     {this.props.car.brand}
-                                    <span className="light-text"> {this.props.car.model}<span className="card-like"><i className="far fa-heart"></i></span></span>
+                                    <span className="light-text"> {this.props.car.model}
+                                        <span onClick={this.handleLikeSubmit}
+                                              className="card-like card-like--position">
+                                            <i className={(this.isLiked() ? "fas" : "far") + " fa-heart"}/>
+                                        </span>
+                                    </span>
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Vieta</div>
@@ -309,7 +331,7 @@ class carInfo extends Component {
                             <div className="col-lg-3 info-description">Savininkas</div>
                             <div class="flex align-center owner-info justify-left col-lg-9">
                                 <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
-                                    Vardas
+                                    {this.props.car.name}
                                 </p>
                                 <p class="info--normal info--owner info--owner-raise">
                                     <i class="fas mr-1 fa-phone info--envelope"></i>
@@ -482,7 +504,6 @@ class carInfo extends Component {
                                         <textarea
                                             onChange={this.handleMessageChange}
                                             className="form-control"
-                                            type="text"
                                             placeholder="Komentaras..."
                                         />
                                         {this.state.showReservationErrors ? (
