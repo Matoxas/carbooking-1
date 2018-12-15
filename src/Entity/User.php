@@ -43,7 +43,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=13)
      * @Assert\NotBlank()
-     * @Assert\Length(min="6")
+     * @Assert\Length(min="6", max="20")
      */
     private $phone;
 

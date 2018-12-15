@@ -743,10 +743,7 @@ class APIController extends FOSRestController
      */
     private function formatPhoneNumber(string $phone): int
     {
-        $phone = str_replace('+370', '', $phone);
-        if (strlen($phone) == 9) {
-            $phone = substr($phone, 1);
-        }
+        $phone = preg_replace('/^\+?(\d{3})\D?\D?(\d{3})\D?(\d{5})$/', '', $phone);
 
         return $phone;
     }
