@@ -1,40 +1,37 @@
-﻿﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100)
+﻿﻿![](https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbooking.png)
 
 Mašinų nuomos sistema
 ============
 
 [![Build Status](https://travis-ci.com/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
 
-# Paleidimo instrukcija
+# Turinys
 
-Metai iš metų studentai maldavo jog galėtų dirbti su Windows'ais akademijos metu.
- Bet nepaisant nieko, tolerancijos ir palaikymo Windows operacinei niekada nebuvo ir nebus.  
+ - [Projekto aprašymas](#Projekto_aprašymas)
+ - [Reikalavimai](#Reikalavimai)
+ - [Projekto paleidimas](#Projekto_paleidimas)
+ - [Patogiai darbo aplinkai](#Patogiai_darbo_aplinkai)
+ - [Komanda](#Komanda)
 
-> Perspėjimas: Itin kieti profesionalai nenaudoja niekam tikusių operacinių sistemų. 
+# Projekto aprašymas
 
-### Reikės dokerio
+Populiarėjant automobilių nuomai iš kitų žmonių, sukūrėme tinklapį - [**Car Booking**](https://carbooking.projektai.nfqakademija.lt), 
+taip siekdami sutraukti tikslinę auditoriją į vieną vietą ir sutaupyti laiką automobilių paieškose.
 
-Naudosime naujausią dokerio versiją, kuri įgalina virtualizaciją be Virtualbox ar Vmware.
- Tam reikės, kad jūsų kompiuterio procesorius palaikytų [Hypervisor](https://en.wikipedia.org/wiki/Hypervisor).
- Nėra dėl ko nerimauti, dabartiniai kompiuteriai kone visi turi šį palaikymą.
+Šio tinklapio dėka, galime išsinuomoti patikusį automobilį arba 
+įkelti savo automobilį nuomai. Naudotojo patogumui buvo sukurta filtravimo, rikiavimo, puslapiavimo sistema. 
+Taip pat įgyvendinta galimybė užsiprenumeruoti pranešimus atsiradus nuomoje norimam automobiliui... Žemėlapis ir t.t.
+Nepamiršta ir administracijos pusė! Iš jos galima keisti/trinti netinkamus skelbimus ir komentarus!
 
-Parsisiunčiate ir įsidiegiate įrankį iš [čia](https://docs.docker.com/install/linux/docker-ce/ubuntu/). Iškart įdiegus reikia pasidaryti, kad `docker` būtų galima naudoti be root teisių, kaip tai padaryti rasite [čia]( https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user).
+# Reikalavimai
 
-Parsisiunčiate ir įsidiegiate `docker-compose` iš [čia](https://github.com/docker/compose/releases).
-
-Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/releases).
- Šis įrankis padės geriau organizuoti dokerio konteinerius. 
-
-#### Versijų reikalavimai
 * docker: `18.x-ce`
 * docker-compose: `1.20.1`
 
 
-### Projekto paleidimas
+# Projekto paleidimas
 
-Pasileidžiant pirmą kartą būdavo įveliama daug klaidų, todėl padaryti _script'ai_ dažniausiems atvejams.
-
-* Pasileidžiama infrastruktūrą per `docker`į:
+* Pasileidžiama infrastruktūrą per `docker`:
 ```bash
 scripts/start.sh
 ```
@@ -44,8 +41,15 @@ scripts/start.sh
 scripts/install-prod.sh
 ```
 
+* Įkeliame iš anksto paruoštus testinius duomenis(Nepamirškime prieš tai atnaujinti `.env` failo):
+```bash
+$ php bin/console d:d:c
+$ php bin/console d:m:m
+$ php bin/console d:f:l
+```
+
 * Pasižiūrime, ar veikia.
-  Naršyklėje atidarius [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/) turėtų rašyti `NFQ Akademija
+  Naršyklėje atidarius [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
 
 * Pabaigus, gražiai išjungiame:
 ```bash
@@ -85,27 +89,16 @@ scripts/logs.sh
 scripts/clean-and-start-fresh.sh
 ```
 
-### Dažniausiai užduodami klausimai
 
-* **Kaip įkelti savo pakeitimus į LIVE?**
-Jei viskas gerai sukonfiguruota, užteks sudėti pakeitimus į `master`.
-Jei neveiks, plačiau žr. [įkėlimo į serverį dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/deploy-project.md)
+### Komanda
 
-* **Kaip prisijungti prie duomenų bazės su savo mėgstamu MySql redagtoriumi?**
-Trumpai: `scripts/mysql.sh` atspausdina visus prisijungimus.
-Plačiau žr. [MySql GUI dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/use-mysql-with-gui.md)
+#### Mentoriai:
 
-* **Kaip pasileisti xDebug?**
-Trumpai: `./scripts/backend.sh /enable_xdebug.sh <TAVO_KOMPO_IP_ADRESAS>`
-Plačiau žr. [xDebug dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/setup-xdebug.md)
+ - Monika
+ - Tomas
 
-* **Turių daugiau techninių klausimų?**
-Google ir StackOverflow yra geriausi tavo draugai.
-Nepavykus – kreipkis į savo mentorių. Jei jis nepadės,
-nukreips į atitinkamą lektorių arba pamokys `git blame`,
-kad žinotumei, kur kreiptis toliau. 
+#### Programuotojai:
 
-### Feedbackas
-
-Jeigu taip nutiktų, kad repositorijoje, projekto template ar instrukcijoje rastumėte klaidą, tai nesišnibždėkite vieni tarp kitų, o sukurkite "issue". 
-O jei atidarysite "pull requestą" su fixu, gausite iškart 1000 karmos taškų.
+ - Aidas
+ - Matas
+ - Adomas

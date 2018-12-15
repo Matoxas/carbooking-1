@@ -2,8 +2,10 @@
 
 namespace App\Mailer;
 
+use App\Entity\Booking;
 use App\Entity\Car;
 use App\Entity\Subscriber;
+use App\Entity\User;
 
 class Mailer
 {
@@ -96,6 +98,66 @@ class Mailer
         $message = (new \Swift_Message('Įkeltas naujas automobilis, kurio ieškojote!'))
             ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
             ->setTo($subscriber->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailOwner(Car $car)
+    {
+        $body = $this->twig->render('email/car_owner.html.twig', [
+            'car' => $car
+        ]);
+
+        $message = (new \Swift_Message('Sėkmingai įkeltas Jūsų automobilis!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($car->getUser()->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailForSucessufullyReservationCarOwner(Car $car, User $user, Booking $booking)
+    {
+        $body = $this->twig->render('email/sucessufully_reservation_car_owner.html.twig', [
+            'user' => $user,
+            'car' => $car,
+            'booking' => $booking
+        ]);
+
+        $message = (new \Swift_Message('Jūsų automobilį, ką tik užsirezervavo!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($car->getUser()->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailForSucessufullyReservationClient(Car $car, User $user, Booking $booking)
+    {
+        $body = $this->twig->render('email/sucessufully_reservation_client.html.twig', [
+            'user' => $user,
+            'car' => $car,
+            'booking' => $booking
+        ]);
+
+        $message = (new \Swift_Message('Rezervacija atlikta sėkmingai!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($user->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendEmailForReservationApproved(User $user, Booking $booking)
+    {
+        $body = $this->twig->render('email/reservation_approve.html.twig', [
+            'booking' => $booking
+        ]);
+
+        $message = (new \Swift_Message('Patvirtinkite rezervaciją!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setTo($user->getEmail())
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);

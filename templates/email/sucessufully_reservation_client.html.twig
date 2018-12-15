@@ -1,0 +1,22 @@
+<h3 style="color: #cd3334;">Rezervacija atlikta sėkmingai!</h3>
+<br/>
+Sveiki, <br/>
+<br/>
+Džiaugiamės, galėdami Jums pranešti, kad rezervacija buvo sėkminga!<br/>
+<br/>
+Susisiekite su <b> {{ car.user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
+Automobilį savininkui, taip pat buvo išsiųsti Jūsų kontaktai.<br/>
+<br/>
+Automobilio savininko duomenys:<br/>
+Vardas: {{ car.user.name }}<br/>
+Telefonas: {{ car.user.phone }}<br/>
+El-paštas: {{ car.user.email }}<br/>
+<br/>
+Rezervavimosi laikotarpis:<br/>
+Pradžia: {{ booking.bookedFrom|format('Y-m-d') }}<br/>
+Pabaiga: {{ booking.bookedUntil|format('Y-m-d') }}<br/>
+<br/>
+Automobilis: <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
+<br/>
+<br/>
+carbookinglt@gmail.com

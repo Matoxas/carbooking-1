@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Security\TokenGenerator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -93,7 +94,7 @@ class Car
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
      */
-    private $confirmationToken;
+    private $token;
 
     /**
      * @ORM\Column(type="boolean")
@@ -316,14 +317,14 @@ class Car
         return $this;
     }
 
-    public function getConfirmationToken(): ?string
+    public function getToken(): ?string
     {
-        return $this->confirmationToken;
+        return $this->token;
     }
 
-    public function setConfirmationToken(?string $confirmationToken): self
+    public function setToken(?string $token): self
     {
-        $this->confirmationToken = $confirmationToken;
+        $this->token = $token;
 
         return $this;
     }
@@ -372,5 +373,8 @@ class Car
         if ($this->createdAt === null) {
             $this->createdAt = new \DateTime();
         }
+
+        $tokenGenerator = new TokenGenerator();
+        $this->token = $tokenGenerator->getRandomSecureToken(30);
     }
 }

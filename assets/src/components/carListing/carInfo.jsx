@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Comment from "./comment";
 import "./carListing.css";
 import Dialog from "./Dialog";
 import Validators from "./carListingValidators";
 import DatePicker from "react-datepicker/es";
-import { inject, observer } from "mobx-react";
+import {inject, observer} from "mobx-react";
 import axios from "axios";
 import moment from "moment";
-import { Button, Collapse } from "mdbreact";
+import {Button, Collapse} from "mdbreact";
 
 @inject("CarStore")
 @observer
@@ -40,7 +40,8 @@ class carInfo extends Component {
             showCommentTextError: false,
             commentCollapse: false,
             reservationCollapse: false,
-            showReservationErrors: false
+            showReservationErrors: false,
+            cannotReserveDates: ""
         };
     }
 
@@ -61,7 +62,7 @@ class carInfo extends Component {
 
     postReservation = reservation => {
         axios
-            .post("/new/reservation", { reservation })
+            .post("/new/reservation", {reservation})
             .then(response => {
                 this.setState({
                     showAlertWindow: true,
@@ -82,7 +83,7 @@ class carInfo extends Component {
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const { name, email, phone, message, date_from, date_until } = this.state;
+            const {name, email, phone, message, date_from, date_until} = this.state;
 
             const reservation = {
                 carId: this.props.car.id,
@@ -102,7 +103,7 @@ class carInfo extends Component {
                 });
                 return;
             }
-            this.setState({ showReservationErrors: false });
+            this.setState({showReservationErrors: false});
 
             this.postReservation(reservation);
             document.getElementById("clear-reservation-input").reset();
@@ -131,14 +132,14 @@ class carInfo extends Component {
                 commentNameError: commentNameError
             });
             showError = true;
-        } else this.setState({ showCommentNameError: false });
+        } else this.setState({showCommentNameError: false});
         if (commentTextError !== "") {
             this.setState({
                 showCommentTextError: true,
                 commentTextError: commentTextError
             });
             showError = true;
-        } else this.setState({ showCommentTextError: false });
+        } else this.setState({showCommentTextError: false});
         if (showError) {
             this.setState({
                 commentCollapse: true
@@ -151,8 +152,8 @@ class carInfo extends Component {
                 commentText: ""
             });
             e.preventDefault();
-            const { postComment } = this.props.CarStore;
-            const { commentName, commentText } = this.state;
+            const {postComment} = this.props.CarStore;
+            const {commentName, commentText} = this.state;
 
             const comment = {
                 carId: this.props.car.id,
@@ -175,7 +176,7 @@ class carInfo extends Component {
     };
 
     toggleComment = () => {
-        this.setState({ commentCollapse: !this.state.commentCollapse });
+        this.setState({commentCollapse: !this.state.commentCollapse});
     };
 
     dateWithoutTime = date => {
@@ -203,33 +204,45 @@ class carInfo extends Component {
         }
     };
 
-    // checkIfDatesOverlap = (start, end) => {};
-
     handleFromChange = (excludedDates, date) => {
-        if (date <= this.state.date_until) {
-            this.setState({ date_from: this.dateWithoutTime(date) }, this.calculateSum);
+        if (date <= new Date(this.state.date_until)) {
+            this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
+            excludedDates.map(dates => {
+                if (dates >= date && dates <= new Date(this.state.date_until)) {
+                    this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
+                    return;
+                }
+                this.setState({cannotReserveDates: ''});
+            });
         }
     };
 
-    handleUntilChange = date => {
-        if (date >= this.state.date_until) {
+    handleUntilChange = (excludedDates, date) => {
+        if (date >= new Date(this.state.date_from)) {
             this.setState(
-                { date_until: this.dateWithoutTime(date) },
+                {date_until: this.dateWithoutTime(date)},
                 this.calculateSum
             );
+            excludedDates.some(dates => {
+                if (dates <= date && dates >= new Date(this.state.date_from)) {
+                    this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
+                    return;
+                }
+                this.setState({cannotReserveDates: ''});
+            });
         }
     };
 
     handleNameChange = name => {
-        this.setState({ name: name.target.value });
+        this.setState({name: name.target.value});
     };
 
     handleMessageChange = message => {
-        this.setState({ message: message.target.value });
+        this.setState({message: message.target.value});
     };
 
     handleBadListing = () => {
-        const { postBadListing } = this.props.CarStore;
+        const {postBadListing} = this.props.CarStore;
         postBadListing(this.props.car.id);
         this.setState({
             badListingText: "Dėkui, jūsų pranešimas buvo išsiųstas",
@@ -238,30 +251,34 @@ class carInfo extends Component {
     };
 
     handleEmailChange = email => {
-        this.setState({ email: email.target.value });
+        this.setState({email: email.target.value});
     };
 
     handlePhoneChange = phone => {
-        this.setState({ phone: phone.target.value });
+        this.setState({phone: phone.target.value});
     };
 
     handleCommentName = name => {
-        this.setState({ commentName: name.target.value });
+        this.setState({commentName: name.target.value});
     };
 
     handleCommentText = text => {
-        this.setState({ commentText: text.target.value });
+        this.setState({commentText: text.target.value});
     };
 
     handleAlert = () => {
-        this.setState({ showAlertWindow: false })
+        this.setState({showAlertWindow: false})
     };
 
     render() {
         let datesArray = [];
         let dates = [];
+        const bookedDates = [
+            {bookedFrom: "2018-12-18 22:24:10", bookedUntil: "2018-12-24 22:24:10"},
+            {bookedFrom: "2018-12-28 22:24:10", bookedUntil: "2018-12-29 22:24:10"}
+        ];
         if (this.props.car.bookingDates.length !== 0) {
-            this.props.car.bookingDates.map(date => {
+            bookedDates.map(date => {
                 datesArray = this.getDates(
                     new Date(date.bookedFrom),
                     new Date(date.bookedUntil)
@@ -274,7 +291,7 @@ class carInfo extends Component {
                 <div className="row">
                     <div className="col-lg-7">
                         <div className="row">
-                            <div className="col-lg-3 info-description" />
+                            <div className="col-lg-3 info-description"/>
                             <div className="col-lg-9">
                                 <p className="info--big">
                                     {this.props.car.brand}
@@ -289,7 +306,7 @@ class carInfo extends Component {
                             <div className="col-lg-9">
                                 <p className="info--normal">{this.props.car.description}</p>
                             </div>
-                            <hr />
+                            <hr/>
                             <div className="col-lg-3 info-description">Savininkas</div>
                             <div class="flex align-center owner-info justify-left col-lg-9">
                                 <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
@@ -303,14 +320,14 @@ class carInfo extends Component {
                             <div className="col-lg-3 info-description">Komentarai</div>
                             <div className="col-lg-9">
                                 {this.props.comments.length ? (
-                                    <Comment comments={this.props.comments} />
+                                    <Comment comments={this.props.comments}/>
                                 ) : (
-                                        <p>Šis skelbimas neturi jokių komentarų.</p>
-                                    )}
+                                    <p>Šis skelbimas neturi jokių komentarų.</p>
+                                )}
                             </div>
-                            <div className="col-lg-3" />
+                            <div className="col-lg-3"/>
                             <div className="col-lg-9 info--newComment">
-                                <hr />
+                                <hr/>
                                 <button
                                     onClick={this.toggleComment}
                                     className="btn btn-warning btn-comment"
@@ -343,7 +360,7 @@ class carInfo extends Component {
                                                     {this.state.commentTextError}
                                                 </div>
                                             ) : null}
-                                            <br />
+                                            <br/>
                                             <button
                                                 onClick={this.handleSubmitComment}
                                                 className="btn btn-warning info-button"
@@ -375,15 +392,16 @@ class carInfo extends Component {
                                         name="date_from"
                                         excludeDates={dates}
                                         // locale={"lt"}
-                                        selected={this.state.date_from}
+                                        selected={new Date(this.state.date_from)}
                                         selectsStart
                                         startDate={new Date(this.state.date_from)}
                                         endDate={new Date(this.state.date_until)}
+                                        // rentDates[0] because currently there will be only one rented date
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
                                         onChange={(e) => this.handleFromChange(dates, e)}
                                     />
-                                    <i className="fa fa-caret-down" aria-hidden="true" />
+                                    <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
                                 <label htmlFor="inputState">Nuomos pabaiga:</label>
                                 <div className="relative clearfix">
@@ -398,10 +416,13 @@ class carInfo extends Component {
                                         endDate={new Date(this.state.date_until)}
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={this.handleUntilChange}
+                                        onChange={(e) => this.handleUntilChange(dates, e)}
                                     />
-                                    <i className="fa fa-caret-down" aria-hidden="true" />
+                                    <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
+                            </div>
+                            <div className="input--error">
+                                {this.state.cannotReserveDates}
                             </div>
                         </div>
                         <button
@@ -420,7 +441,7 @@ class carInfo extends Component {
                         ) : null}
                         <Collapse isOpen={this.state.reservationCollapse}>
                             <div className="form-group form-group-separate">
-                                <p class=" color-gray mt-2 mb-2">
+                                <p className=" color-gray mt-2 mb-2">
                                     Preliminari kaina už laikotarpį:
                                     <span className="color-primary">{" "}{this.state.totalPrice} €</span>
                                 </p>
@@ -474,12 +495,12 @@ class carInfo extends Component {
                                 </form>
                             </div>
                         </Collapse>
-                        <hr />
+                        <hr/>
                         <p onClick={this.handleBadListing} className="info-report">
                             Pranešti apie netinkamą skelbimą
                         </p>
                         {this.state.badListingShow ? (<div onClick={this.handleBadListingDialog}>
-                            <Dialog alertMessage={this.state.badListingText} />
+                            <Dialog alertMessage={this.state.badListingText}/>
                         </div>) : null}
                     </div>
                 </div>
