@@ -18,9 +18,7 @@ class carInfo extends Component {
             reservationClicked: false,
             reservationButtonText: "Rezervuoti",
             date_from: new Date().setHours(0, 0, 0, 0),
-            date_until: moment(this.date_from)
-                .add(1, "d")
-                .valueOf(),
+            date_until: moment(new Date().setHours(0, 0, 0, 0)).add(1, "d").valueOf(),
             name: "",
             email: "",
             phone: "",
@@ -87,8 +85,8 @@ class carInfo extends Component {
 
             const reservation = {
                 carId: this.props.car.id,
-                date_from: new Date(date_from),
-                date_until: new Date(date_until),
+                date_from: moment(new Date(date_from)).add(1, "d"),
+                date_until: moment(new Date(date_until)).add(1, "d"),
                 name: name,
                 email: email,
                 phone: phone,
@@ -273,12 +271,8 @@ class carInfo extends Component {
     render() {
         let datesArray = [];
         let dates = [];
-        const bookedDates = [
-            {bookedFrom: "2018-12-18 22:24:10", bookedUntil: "2018-12-24 22:24:10"},
-            {bookedFrom: "2018-12-28 22:24:10", bookedUntil: "2018-12-29 22:24:10"}
-        ];
         if (this.props.car.bookingDates.length !== 0) {
-            bookedDates.map(date => {
+            this.props.car.bookingDates.map(date => {
                 datesArray = this.getDates(
                     new Date(date.bookedFrom),
                     new Date(date.bookedUntil)
