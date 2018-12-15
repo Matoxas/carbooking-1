@@ -2,6 +2,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0;
+  white-space: nowrap;
 }
 
 .relative .top {
@@ -21,6 +22,11 @@
   box-sizing: border-box;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   display: none;
+}
+
+.relative .top.priceRange {
+  min-width: 130px;
+  max-width: 250px;
 }
 
 .relative .top.open {

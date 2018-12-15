@@ -28,6 +28,15 @@ export class GoogleMap extends Component {
     clusters: [],
   };
 
+  zoomIn = () =>{
+    const {center, zoom:oldZoom, bounds} = this.state.mapOptions;
+    const zoom = oldZoom+1;
+    if(this.state.mapOptions.zoom < MAP.options.maxZoom){
+      this.handleMapChange({center, zoom, bounds});
+    }
+ 
+  }
+
   getClusters = () => {
 
     const {cars} = this.props.CarStore;
@@ -120,6 +129,7 @@ export class GoogleMap extends Component {
                 lng={item.lng}
                 image={item.image}
                 points={item.points}
+                zoomIn={this.zoomIn}
               />
             );
           })}

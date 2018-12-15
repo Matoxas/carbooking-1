@@ -22,7 +22,7 @@ const MarkerStyled = styled.div`
 
   &:hover {
     transform: scale(1.2);
-    z-index: 999;
+    z-index: 99999999;
   }
 `;
 
