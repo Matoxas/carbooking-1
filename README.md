@@ -1,6 +1,6 @@
-﻿﻿![](https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbookingLogo.png)
+﻿<img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="590" />
 
-Mašinų nuomos sistema
+Automobilių nuomos sistema
 ============
 
 [![Build Status](https://travis-ci.com/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
