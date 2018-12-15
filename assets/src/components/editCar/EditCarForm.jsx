@@ -201,6 +201,7 @@ class EditCarForm extends Component {
     const { editableCar } = this.props.CarFormStore;
     const fd = new FormData();
     //pridedam visus duomenis
+    fd.append("id", editableCar.id);
     fd.append("city", editableCar.city);
     fd.append("address", editableCar.address);
     fd.append("price", editableCar.price);
