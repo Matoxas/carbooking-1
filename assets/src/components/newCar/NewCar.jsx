@@ -6,6 +6,7 @@ import "./newCar.css";
 import NewCarForm from "./newCarForm";
 import axios from "axios";
 import { inject, observer } from "mobx-react";
+import dateFormatter from "../../extras/dateFormatter";
 
 @inject("CarStore")
 @inject("CarFormStore")
@@ -96,8 +97,8 @@ class NewCar extends Component {
     fd.append("phone", currentCar.phone);
     fd.append("email", currentCar.email);
     fd.append("name", currentCar.name);
-    fd.append("date_from", currentCar.date_from.toJSON().replace("T", " "));
-    fd.append("date_until", currentCar.date_until.toJSON().replace("T", " "));
+    fd.append("date_from", dateFormatter(currentCar.date_from));
+    fd.append("date_until", dateFormatter(currentCar.date_until));
 
     //pridedam visus paveikslėlius
     currentCar.images.forEach(image => {

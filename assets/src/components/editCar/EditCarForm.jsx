@@ -8,6 +8,7 @@ import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
 import Validators from "../newCar/formValidators";
 import axios from "axios";
+import dateFormatter from "../../extras/dateFormatter";
 
 registerLocale("lt", lt);
 
@@ -211,14 +212,8 @@ class EditCarForm extends Component {
     fd.append("name", editableCar.name);
     fd.append("bookingDates", editableCar.bookingDates);
     fd.append("token", editableCar.token);
-    fd.append(
-      "date_from",
-      new Date(editableCar.date_from).toJSON().replace("T", " ")
-    );
-    fd.append(
-      "date_until",
-      new Date(editableCar.date_until).toJSON().replace("T", " ")
-    );
+    fd.append("date_from", dateFormatter(editableCar.date_from));
+    fd.append("date_until", dateFormatter(editableCar.date_until));
 
     //pridedam visus paveikslėlius
     editableCar.images.forEach(image => {
