@@ -61,7 +61,7 @@ class CarNormalizer implements NormalizerInterface
             return $img->getImage();
         }, $images);
 
-        if (empty($images)) {
+        if (empty($images) || !file_exists($images[0])) {
             return ['images/car-default.jpeg'];
         }
 
