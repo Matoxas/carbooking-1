@@ -26,6 +26,11 @@ class ClusterMarker extends React.PureComponent {
     })
   };
 
+  handleClick = () =>{
+    const {lat, lng} = this.props;
+    this.props.zoomIn(lat, lng)
+  }
+
   calculateMinMaxPrice = () =>{
     const arrayOfPrices =this.props.points.map( point=> Number(point.price))
     const minPrice = Math.min(...arrayOfPrices);
@@ -38,7 +43,7 @@ class ClusterMarker extends React.PureComponent {
       <div className="relative">
       <PopUp showPopUp={this.state.showPopUp} priceRange={this.calculateMinMaxPrice()} />
       <MarkerGroup 
-      onClick={this.props.zoomIn}
+      onClick={this.handleClick}
       onMouseOver={this.handleMouseOver} 
       onMouseLeave={this.handleMouseLeave}
       length={this.props.points.length}

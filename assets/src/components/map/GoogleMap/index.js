@@ -28,9 +28,10 @@ export class GoogleMap extends Component {
     clusters: [],
   };
 
-  zoomIn = () =>{
-    const {center, zoom:oldZoom, bounds} = this.state.mapOptions;
+  zoomIn = (lat, lng) =>{
+    const {center:oldCenter, zoom:oldZoom, bounds} = this.state.mapOptions;
     const zoom = oldZoom+1;
+    const center = { lat, lng };
     if(this.state.mapOptions.zoom < MAP.options.maxZoom){
       this.handleMapChange({center, zoom, bounds});
     }
@@ -104,6 +105,7 @@ export class GoogleMap extends Component {
           defaultCenter={MAP.defaultCenter}
           options={MAP.options}
           zoom={this.state.mapOptions.zoom}
+          center={this.state.mapOptions.center}
           onChange={this.handleMapChange}
           yesIWantToUseGoogleMapApiInternals
           bootstrapURLKeys={{ key: 'AIzaSyAS3ix4rVY4A-T4yPzWlEi766ycl2mY818' }}
