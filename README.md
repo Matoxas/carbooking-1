@@ -1,4 +1,4 @@
-﻿<img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="590" />
+﻿<img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="420" />
 
 Automobilių nuomos sistema
 ============
