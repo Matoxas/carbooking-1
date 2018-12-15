@@ -273,12 +273,8 @@ class carInfo extends Component {
     render() {
         let datesArray = [];
         let dates = [];
-        const bookedDates = [
-            {bookedFrom: "2018-12-18 22:24:10", bookedUntil: "2018-12-24 22:24:10"},
-            {bookedFrom: "2018-12-28 22:24:10", bookedUntil: "2018-12-29 22:24:10"}
-        ];
         if (this.props.car.bookingDates.length !== 0) {
-            bookedDates.map(date => {
+            this.props.car.bookingDates.map(date => {
                 datesArray = this.getDates(
                     new Date(date.bookedFrom),
                     new Date(date.bookedUntil)
