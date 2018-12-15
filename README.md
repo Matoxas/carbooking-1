@@ -1,4 +1,4 @@
-﻿﻿![](https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbooking.png)
+﻿﻿![](https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/carbookingLogo.png)
 
 Mašinų nuomos sistema
 ============
