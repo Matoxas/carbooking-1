@@ -194,19 +194,10 @@ class APIController extends FOSRestController
      */
     public function getCarByTokenAction(string $token): View
     {
-        /** @var array $data */
-        $data = $this->carRepository->findBy(['token' => $token]);
-
-        if ($data != null) {
-            $email = $data[0]->getUser()->getEmail();
-            $name = $data[0]->getUser()->getName();
-            array_push($data, ['email' => $email, 'name' => $name]);
-        }
-
         return $this->view(
             [
                 'token' => $token,
-                'data' => $data
+                'data' => $this->carRepository->findBy(['token' => $token])
             ],
             Response::HTTP_OK
         );

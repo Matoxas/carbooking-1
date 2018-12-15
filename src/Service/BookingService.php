@@ -22,7 +22,7 @@ class BookingService
 
     public function isTimeReserved(int $carId, \DateTime $from, \DateTime $until): bool
     {
-        $dates = $this->bookingRepository->findBy(['car' => $carId]);
+        $dates = $this->bookingRepository->findBy(['car' => $carId, 'approved' => true]);
 
         foreach ($dates as $date) {
             if ($from >= $date->getBookedFrom() && $from <= $date->getBookedUntil()) {
