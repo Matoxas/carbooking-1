@@ -104,6 +104,10 @@ class NewCar extends Component {
       fd.append("image[]", image.file, image.file.name);
     });
 
+    // for (var pair of fd.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
+
     return axios
       .post("new/car", fd)
       .then(response => {
