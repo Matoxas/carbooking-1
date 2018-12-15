@@ -139,11 +139,12 @@ class NewCarForm extends Component {
                   <option value="" disabled>
                     Pasirink automobilio modelį
                   </option>
-                  {this.props.models.map(model => (
-                    <option key={model.id} value={model.id}>
-                      {model.model}
-                    </option>
-                  ))}
+                  {this.props.models &&
+                    this.props.models.map(model => (
+                      <option key={model.id} value={model.id}>
+                        {model.model}
+                      </option>
+                    ))}
                 </select>
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
