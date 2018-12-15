@@ -182,7 +182,9 @@ class APIController extends FOSRestController
     public function getCarByIdAction(int $carId): View
     {
         return $this->view(
-            ['data' => $this->carRepository->find($carId)],
+            [
+                'data' => $this->getDoctrine()->getRepository(Car::class)->find($carId)
+            ],
             Response::HTTP_OK
         );
     }
