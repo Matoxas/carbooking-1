@@ -37,10 +37,10 @@ class EditCar extends React.Component {
     setLoading(true);
     if (id) {
       axios
-        .get("/car/" + id)
+        .get("get/car/" + id)
         .then(response => {
           if (response.status == 200) {
-            this.setEditableCar(response.data.data);
+            this.setEditableCar(response.data);
             setLoading(false);
           } else {
             this.props.resetHash();
@@ -60,7 +60,7 @@ class EditCar extends React.Component {
   setEditableCar = car => {
     const { setEditableCar: setCar } = this.props.CarFormStore;
 
-    const images = car.images.map((image, index) => {
+    const images = car.data.images.map((image, index) => {
       return {
         preview: "/" + image,
         id: index + 1
@@ -68,17 +68,18 @@ class EditCar extends React.Component {
     });
 
     setCar({
-      id: car.id,
-      brand: car.brand,
-      model: car.model,
-      address: car.address,
-      price: car.price,
-      description: car.description,
+      token: car.token,
+      id: car.data.id,
+      brand: car.data.brand,
+      model: car.data.model,
+      address: car.data.address,
+      price: car.data.price,
+      description: car.data.description,
       phone: car.phone,
-      // email: car.email,
-      // name: car.name,
-      date_from: car.rentDates[0].rentedFrom,
-      date_until: car.rentDates[0].rentedUntil,
+      email: car.email,
+      name: car.name,
+      date_from: car.data.rentDates[0].rentedFrom,
+      date_until: car.data.rentDates[0].rentedUntil,
       images
     });
   };
@@ -89,7 +90,6 @@ class EditCar extends React.Component {
     this.props.resetHash();
     history.push("/feed");
   };
-
 
   render() {
     const { editableCar, loading } = this.props.CarFormStore;
