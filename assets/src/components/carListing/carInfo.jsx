@@ -295,7 +295,7 @@ class carInfo extends Component {
                             </div>
                             <hr />
                             <div className="col-lg-3 info-description">Savininkas</div>
-                            <div class="flex align-center justify-left col-lg-9">
+                            <div class="flex align-center owner-info justify-left col-lg-9">
                                 <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
                                     <i class="far color-black mr-2 fa-user-circle fa-2x"></i>
                                     Vardas

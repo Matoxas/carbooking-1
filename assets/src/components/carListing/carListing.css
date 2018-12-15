@@ -69,6 +69,16 @@ img {
 }
 
 @media screen and (max-width: 1000px) {
+
+  .owner-info{
+    flex-wrap: wrap;
+  }
+
+  .owner-info>p{
+    min-width: 100%;
+    padding-bottom: 0 !important;
+  }
+
   .info {
     text-align: center;
   }
