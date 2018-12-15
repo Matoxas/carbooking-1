@@ -39,10 +39,10 @@ class EditCarForm extends Component {
 
     this.validateDates();
   }
-  componentWillUnmount() {
-    //unmountinam
-    this.props.onRef(undefined);
-  }
+  // componentWillUnmount() {
+  //   //unmountinam
+  //   this.props.onRef(undefined);
+  // }
 
   setValues = e => {
     const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
@@ -141,7 +141,7 @@ class EditCarForm extends Component {
     });
   };
 
-  formSubmit = () => {
+  validateForm = () => {
     const { allCities } = this.props.CarStore;
     const { editableCar } = this.props.CarFormStore;
 
@@ -165,13 +165,25 @@ class EditCarForm extends Component {
       )
     ];
 
-    Promise.all(validators).then(arrayOfResults => {
+    return Promise.all(validators).then(arrayOfResults => {
       const result = arrayOfResults.every(element => element === true);
-      if (result) {
-        console.log("ok");
-      }
+      return result
     });
   };
+
+
+  formSubmit = () => {
+    this.validateForm().then(response => {
+      if (response) {
+        this.sendFormToApi();
+      }
+    })
+  }
+
+  sendFormToApi = () => {
+    const { editableCar } = this.props.CarFormStore;
+    console.log(editableCar);
+  }
 
   render() {
     const { editableCar, editableCarErrors } = this.props.CarFormStore;
@@ -237,43 +249,43 @@ class EditCarForm extends Component {
                     getSuggestionItemProps,
                     loading
                   }) => (
-                    <div>
-                      <input
-                        {...getInputProps({
-                          placeholder: "įveskite automobilio lokaciją",
-                          className: "form-control"
-                        })}
-                      />
-                      <div className="autocomplete-dropdown-container">
-                        {loading && <div>Kraunasi...</div>}
-                        {suggestions.map(suggestion => {
-                          const className = suggestion.active
-                            ? "suggestion-item--active"
-                            : "suggestion-item";
-                          // inline style for demonstration purpose
-                          const style = suggestion.active
-                            ? {
+                      <div>
+                        <input
+                          {...getInputProps({
+                            placeholder: "įveskite automobilio lokaciją",
+                            className: "form-control"
+                          })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                          {loading && <div>Kraunasi...</div>}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                              ? "suggestion-item--active"
+                              : "suggestion-item";
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                              ? {
                                 backgroundColor: "#fafafa",
                                 cursor: "pointer"
                               }
-                            : {
+                              : {
                                 backgroundColor: "#ffffff",
                                 cursor: "pointer"
                               };
-                          return (
-                            <div
-                              {...getSuggestionItemProps(suggestion, {
-                                className,
-                                style
-                              })}
-                            >
-                              <span>{suggestion.description}</span>
-                            </div>
-                          );
-                        })}
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className,
+                                  style
+                                })}
+                              >
+                                <span>{suggestion.description}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </PlacesAutocomplete>
               </div>
               {this.hasSpecificError("address") && (

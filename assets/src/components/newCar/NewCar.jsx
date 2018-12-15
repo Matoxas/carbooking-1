@@ -23,46 +23,47 @@ class NewCar extends Component {
     }
   }
 
-  formSubmit = () => {
+  validateForm = () => {
     const { allCities } = this.props.CarStore;
     const { currentCar } = this.props.CarFormStore;
 
-    //validuojam įvestas reikšmes
-    Validators.brand(currentCar.brand, this.updateErrors);
-    Validators.model(currentCar.model, this.updateErrors);
-    Validators.price(currentCar.price, this.updateErrors);
-    Validators.email(currentCar.email, this.updateErrors);
-    Validators.name(currentCar.name, this.updateErrors);
-    Validators.description(currentCar.description, this.updateErrors);
-    Validators.phone(currentCar.phone, this.updateErrors);
-    Validators.images(currentCar.images, this.updateErrors);
-    Validators.date(
-      currentCar.date_from,
-      currentCar.date_until,
-      this.updateErrors
-    );
+    const validations = [
+      Validators.brand(currentCar.brand, this.updateErrors),
+      Validators.model(currentCar.model, this.updateErrors),
+      Validators.price(currentCar.price, this.updateErrors),
+      Validators.email(currentCar.email, this.updateErrors),
+      Validators.name(currentCar.name, this.updateErrors),
+      Validators.description(currentCar.description, this.updateErrors),
+      Validators.phone(currentCar.phone, this.updateErrors),
+      Validators.images(currentCar.images, this.updateErrors),
+      Validators.date(
+        currentCar.date_from,
+        currentCar.date_until,
+        this.updateErrors
+      ),
 
-    //tikrinam asinchronišką validaciją
-    const callBack = Validators.address(
-      currentCar.address,
-      this.updateErrors,
-      this.setCity,
-      allCities
-    );
+      Validators.address(
+        currentCar.address,
+        this.updateErrors,
+        this.setCity,
+        allCities
+      )
+    ];
 
-    const submitResult = Promise.resolve(callBack)
-      .then(result => {
-        if (result == true) {
-          //tikrinam ar visos errorų žinutės tuščios
-          result = this.doesFormHasErrors();
-          //jei taip, siunčiam duomenis į BE
-          if (result) {
-            result = this.sendFormToRoute();
-            return result;
-          } else {
-            //jei ne, grąžinam false
-            return false;
-          }
+    return Promise.all(validations).then(arrayOfResults => {
+      const result = arrayOfResults.every(element => element === true);
+      return result;
+    });
+  };
+
+  formSubmit = () => {
+    const submitResult = this.validateForm()
+      .then(response => {
+        if (response) {
+          const result = this.sendFormToRoute();
+          return result;
+        } else {
+          return false;
         }
       })
       .catch(error => {
