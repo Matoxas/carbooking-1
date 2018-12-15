@@ -5,6 +5,10 @@
   white-space: nowrap;
 }
 
+.relative.hovered {
+  z-index: 9999;
+}
+
 .relative .top {
   min-width: 200px;
   max-width: 300px;

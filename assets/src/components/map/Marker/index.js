@@ -4,7 +4,7 @@ import MarkerStyled from "./MarkerStyled";
 import MarkerInGroupStyled from "./MarkerInGroupStyled";
 import PopUp from "./popup";
 import history from "../../../history";
-import "./marker.css";
+import "./popup.css";
 const imgStyle = {
   height: "100%",
   width: "auto",
@@ -49,7 +49,7 @@ class Marker extends React.PureComponent {
       // <div>
 
       <div
-        className="relative"
+        className={ "relative "+(this.state.showPopUp ? "hovered" : "")}
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleClick}
