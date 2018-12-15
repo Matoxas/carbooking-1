@@ -212,9 +212,9 @@ class EditCarForm extends Component {
       }
     });
 
-    for (var pair of fd.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of fd.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     return axios
       .post("edit/car/" + editableCar.token, fd)
