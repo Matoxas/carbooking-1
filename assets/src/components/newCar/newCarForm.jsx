@@ -201,43 +201,43 @@ class NewCarForm extends Component {
                     getSuggestionItemProps,
                     loading
                   }) => (
-                      <div>
-                        <input
-                          {...getInputProps({
-                            placeholder: "įveskite automobilio lokaciją",
-                            className: "form-control"
-                          })}
-                        />
-                        <div className="autocomplete-dropdown-container">
-                          {loading && <div>Kraunasi...</div>}
-                          {suggestions.map(suggestion => {
-                            const className = suggestion.active
-                              ? "suggestion-item--active"
-                              : "suggestion-item";
-                            // inline style for demonstration purpose
-                            const style = suggestion.active
-                              ? {
+                    <div>
+                      <input
+                        {...getInputProps({
+                          placeholder: "įveskite automobilio lokaciją",
+                          className: "form-control"
+                        })}
+                      />
+                      <div className="autocomplete-dropdown-container">
+                        {loading && <div>Kraunasi...</div>}
+                        {suggestions.map(suggestion => {
+                          const className = suggestion.active
+                            ? "suggestion-item--active"
+                            : "suggestion-item";
+                          // inline style for demonstration purpose
+                          const style = suggestion.active
+                            ? {
                                 backgroundColor: "#fafafa",
                                 cursor: "pointer"
                               }
-                              : {
+                            : {
                                 backgroundColor: "#ffffff",
                                 cursor: "pointer"
                               };
-                            return (
-                              <div
-                                {...getSuggestionItemProps(suggestion, {
-                                  className,
-                                  style
-                                })}
-                              >
-                                <span>{suggestion.description}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, {
+                                className,
+                                style
+                              })}
+                            >
+                              <span>{suggestion.description}</span>
+                            </div>
+                          );
+                        })}
                       </div>
-                    )}
+                    </div>
+                  )}
                 </PlacesAutocomplete>
               </div>
               {this.props.hasSpecificError("address") && (
@@ -253,10 +253,8 @@ class NewCarForm extends Component {
         <div className="card">
           <div className="form-group row">
             <label className="col-sm-2" htmlFor="inputState">
-
               <span className="d-none d-sm-block d-md-none"> Nuo:</span>
               <span className="d-sm-none d-md-block "> Nuomos pradžia:</span>
-
             </label>
             <div className="col-sm-4">
               <div className="relative pb-mobile">
@@ -410,7 +408,7 @@ class NewCarForm extends Component {
           type="button"
           onClick={this.handleFormSubmit}
           className="btn gradient float-right"
-        // disabled={!this.props.TrueForNoErrors()}
+          // disabled={!this.props.TrueForNoErrors()}
         >
           Paskelbti kataloge
         </button>

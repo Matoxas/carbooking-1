@@ -8,10 +8,10 @@ import Navbar from "./components/navbar/Navbar";
 import Index from "./components/index/Index";
 import carListing from "./components/carListing/carListing";
 import MainNavigation from "./components/main-navigation";
-import Map from "./components/map/Map";
 import Favourites from "./components/feed/Favourites";
 import NewCar from "./components/newCar/NewCar";
 import Footer from "./components/footer/footer";
+import GoogleMap from "./components/map/GoogleMap/index";
 
 const Routes = () => {
   return (
@@ -35,7 +35,7 @@ const indexRoutes = () => (
         <Route path="/feed/carListing/:id" component={carListing} />
         <Route path="/feed/:hash" component={Feed} />
         <Redirect from="/" exact to="/feed" />
-        <Route path="/map" component={Map} exact />
+        <Route path="/map" component={GoogleMap} exact />
         <Route path="/favourites" component={Favourites} exact />
         <Route component={Feed} />
       </Switch>

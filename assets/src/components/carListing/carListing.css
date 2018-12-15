@@ -69,6 +69,16 @@ img {
 }
 
 @media screen and (max-width: 1000px) {
+
+  .owner-info{
+    flex-wrap: wrap;
+  }
+
+  .owner-info>p{
+    min-width: 100%;
+    padding-bottom: 0 !important;
+  }
+
   .info {
     text-align: center;
   }
@@ -154,7 +164,7 @@ img {
 
 .info-report {
   color: #4e4e4e;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .info-report:hover {
@@ -200,13 +210,13 @@ img {
   background-color: #ffffff;
   border: none;
   border-color: #f47e60;
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
 }
 
 .btn-comment:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #333;
+  background-color: transparent !important;
+  color: #f47e60;
   /* background-color: #f47e60; */
 }
 
@@ -220,7 +230,7 @@ img {
 }
 
 .form-group textarea {
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 
 .map--size {
@@ -315,8 +325,12 @@ img {
   color: white;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
 
 .input--error {
-    color: #ff1100;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #dc3545;
 }

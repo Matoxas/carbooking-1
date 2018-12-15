@@ -38,7 +38,10 @@ class carInfo extends Component {
             excludeDates: [],
             showCommentNameError: false,
             showCommentTextError: false,
-            commentCollapse: false
+            commentCollapse: false,
+            reservationCollapse: false,
+            showReservationErrors: false,
+            cannotReserveDates: ""
         };
     }
 
@@ -49,6 +52,8 @@ class carInfo extends Component {
             arr.push(new Date(dt));
             dt.setDate(dt.getDate() + 1);
         }
+        arr.push(new Date(end));
+        return arr;
     };
 
     componentDidMount() {
@@ -59,28 +64,19 @@ class carInfo extends Component {
         axios
             .post("/new/reservation", {reservation})
             .then(response => {
-                alert("jūsų rezervacija patvritinta sėkmingai");
-            })
-            .catch(error => {
-                console.log(error.response.data.status);
                 this.setState({
                     showAlertWindow: true,
                     alertHeader: "Rezervacija pavyko",
                     alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
                 });
-                if (error.response.data.status == "ok") {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija pavyko",
-                        alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
-                    });
-                } else {
-                    this.setState({
-                        showAlertWindow: true,
-                        alertHeader: "Rezervacija nepavyko",
-                        alertText: error.response.data.message
-                    });
-                }
+            })
+            .catch(error => {
+                console.log(error.response.data.status);
+                this.setState({
+                    showAlertWindow: true,
+                    alertHeader: "Rezervacija nepavyko",
+                    alertText: error.response.data.message
+                });
             });
     };
 
@@ -99,16 +95,28 @@ class carInfo extends Component {
                 message: message
             };
 
+            const validationErrors = Validators.reservation(reservation);
+            if (validationErrors.name !== undefined || validationErrors.email !== undefined || validationErrors.phone !== undefined || validationErrors.message !== undefined) {
+                this.setState({
+                    validationErrors: validationErrors,
+                    showReservationErrors: true
+                });
+                return;
+            }
+            this.setState({showReservationErrors: false});
+
             this.postReservation(reservation);
             document.getElementById("clear-reservation-input").reset();
 
             this.setState({
                 reservationClicked: false,
+                reservationCollapse: false,
                 reservationButtonText: "Rezervuoti"
             });
         } else {
             this.setState({
                 reservationClicked: true,
+                reservationCollapse: true,
                 reservationButtonText: "Patvirtinti rezervaciją"
             });
         }
@@ -171,10 +179,6 @@ class carInfo extends Component {
         this.setState({commentCollapse: !this.state.commentCollapse});
     };
 
-    handleFromChange = date => {
-        this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
-    };
-
     dateWithoutTime = date => {
         return date.setHours(0, 0, 0, 0);
     };
@@ -200,11 +204,33 @@ class carInfo extends Component {
         }
     };
 
-    handleUntilChange = date => {
-        this.setState(
-            {date_until: this.dateWithoutTime(date)},
-            this.calculateSum
-        );
+    handleFromChange = (excludedDates, date) => {
+        if (date <= new Date(this.state.date_until)) {
+            this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
+            excludedDates.some(dates => {
+                if (dates >= date && dates <= new Date(this.state.date_until)) {
+                    this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
+                    return true;
+                }
+                this.setState({cannotReserveDates: ''});
+            });
+        }
+    };
+
+    handleUntilChange = (excludedDates, date) => {
+        if (date >= new Date(this.state.date_from)) {
+            this.setState(
+                {date_until: this.dateWithoutTime(date)},
+                this.calculateSum
+            );
+            excludedDates.some(dates => {
+                if (dates <= date && dates >= new Date(this.state.date_from)) {
+                    this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
+                    return true;
+                }
+                this.setState({cannotReserveDates: ''});
+            });
+        }
     };
 
     handleNameChange = name => {
@@ -240,15 +266,24 @@ class carInfo extends Component {
         this.setState({commentText: text.target.value});
     };
 
+    handleAlert = () => {
+        this.setState({showAlertWindow: false})
+    };
+
     render() {
         let datesArray = [];
+        let dates = [];
+        const bookedDates = [
+            {bookedFrom: "2018-12-18 22:24:10", bookedUntil: "2018-12-24 22:24:10"},
+            {bookedFrom: "2018-12-28 22:24:10", bookedUntil: "2018-12-29 22:24:10"}
+        ];
         if (this.props.car.bookingDates.length !== 0) {
-            this.props.car.bookingDates.map(date => {
+            bookedDates.map(date => {
                 datesArray = this.getDates(
                     new Date(date.bookedFrom),
                     new Date(date.bookedUntil)
                 );
-                dates.push(datesArray);
+                dates = [...datesArray, ...dates];
             });
         }
         return (
@@ -259,7 +294,8 @@ class carInfo extends Component {
                             <div className="col-lg-3 info-description"/>
                             <div className="col-lg-9">
                                 <p className="info--big">
-                                    {this.props.car.brand} {this.props.car.model}
+                                    {this.props.car.brand}
+                                    <span className="light-text"> {this.props.car.model}</span>
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Vieta</div>
@@ -272,9 +308,12 @@ class carInfo extends Component {
                             </div>
                             <hr/>
                             <div className="col-lg-3 info-description">Savininkas</div>
-                            <div className="col-lg-9">
-                                <p className="info--normal info--owner info--owner-raise">
-                                    <i className="fas fa-phone info--envelope"/>
+                            <div class="flex align-center owner-info justify-left col-lg-9">
+                                <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
+                                    Vardas
+                                </p>
+                                <p class="info--normal info--owner info--owner-raise">
+                                    <i class="fas mr-1 fa-phone info--envelope"></i>
                                     {this.props.car.phone}
                                 </p>
                             </div>
@@ -351,15 +390,16 @@ class carInfo extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="date_from"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates}
                                         // locale={"lt"}
-                                        selected={this.state.date_from}
+                                        selected={new Date(this.state.date_from)}
                                         selectsStart
-                                        startDate={this.state.date_from}
-                                        endDate={this.state.date_until}
+                                        startDate={new Date(this.state.date_from)}
+                                        endDate={new Date(this.state.date_until)}
+                                        // rentDates[0] because currently there will be only one rented date
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={this.handleFromChange}
+                                        onChange={(e) => this.handleFromChange(dates, e)}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
@@ -369,26 +409,25 @@ class carInfo extends Component {
                                         className="form-control"
                                         //   locale={"lt"}
                                         name="date_until"
-                                        excludeDates={datesArray}
+                                        excludeDates={dates}
                                         selected={new Date(this.state.date_until)}
                                         selectsEnd
-                                        startDate={this.state.date_from}
-                                        endDate={this.state.date_until}
+                                        startDate={new Date(this.state.date_from)}
+                                        endDate={new Date(this.state.date_until)}
                                         minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
                                         maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={this.handleUntilChange}
+                                        onChange={(e) => this.handleUntilChange(dates, e)}
                                     />
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
+                            </div>
+                            <div className="input--error">
+                                {this.state.cannotReserveDates}
                             </div>
                         </div>
                         <button
                             onClick={this.handleSubmit}
                             className="btn btn-warning info-button"
-                            data-toggle="collapse"
-                            data-target="#collapseReports"
-                            aria-expanded="false"
-                            aria-controls="collapseReport"
                         >
                             {this.state.reservationButtonText}
                         </button>
@@ -400,56 +439,62 @@ class carInfo extends Component {
                                 />
                             </div>
                         ) : null}
-                        <div
-                            className="form-group collapse form-group-separate"
-                            id="collapseReports"
-                        >
-                            <p class=" color-gray mt-2 mb-2">
-                                Preliminari kaina už laikotarpį:
-                                <span className="color-primary">
-                  {" "}
-                                    {this.state.totalPrice} €
-                </span>
-                            </p>
-                            <form id="clear-reservation-input">
-                                <input
-                                    onChange={this.handleNameChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Įrašykite savo vardą"
-                                />
-                                <input
-                                    onChange={this.handleEmailChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Įrašykite savo el. paštą"
-                                />
-                                <input
-                                    onChange={this.handlePhoneChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="+370"
-                                />
-                                <div className="form-group">
-                  <textarea
-                      onChange={this.handleMessageChange}
-                      className="form-control"
-                      type="text"
-                      placeholder="Komentaras..."
-                  />
-                                    {/*<button*/}
-                                    {/*onClick={this.handleSubmitComment}*/}
-                                    {/*className="btn btn-warning gradient info-button"*/}
-                                    {/*data-toggle="collapse"*/}
-                                    {/*data-target="#collapseComment"*/}
-                                    {/*aria-expanded="false"*/}
-                                    {/*aria-controls="collapseComment"*/}
-                                    {/*>*/}
-                                    {/*Skelbti*/}
-                                    {/*</button>*/}
-                                </div>
-                            </form>
-                        </div>
+                        <Collapse isOpen={this.state.reservationCollapse}>
+                            <div className="form-group form-group-separate">
+                                <p className=" color-gray mt-2 mb-2">
+                                    Preliminari kaina už laikotarpį:
+                                    <span className="color-primary">{" "}{this.state.totalPrice} €</span>
+                                </p>
+                                <form id="clear-reservation-input">
+                                    <input
+                                        onChange={this.handleNameChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Įrašykite savo vardą"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.name}
+                                        </div>
+                                    ) : null}
+                                    <input
+                                        onChange={this.handleEmailChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Įrašykite savo el. paštą"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.email}
+                                        </div>
+                                    ) : null}
+                                    <input
+                                        onChange={this.handlePhoneChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="+370"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.phone}
+                                        </div>
+                                    ) : null}
+                                    <div className="form-group">
+                                        <textarea
+                                            onChange={this.handleMessageChange}
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="Komentaras..."
+                                        />
+                                        {this.state.showReservationErrors ? (
+                                            <div className="input--error">
+                                                {this.state.validationErrors.message}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </form>
+                            </div>
+                        </Collapse>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">
                             Pranešti apie netinkamą skelbimą

@@ -615,6 +615,14 @@ body {
   display: flex;
 }
 
+.flex.justify-left{
+justify-content: left;
+}
+
+.flex.align-center{
+  align-items: center;
+}
+
 .float-left {
   float: left;
 }

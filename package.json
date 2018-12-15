@@ -37,7 +37,9 @@
     "boom": "^7.2.0",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.7.0",
+    "google-map-react": "^1.1.1",
     "google-maps-react": "^2.0.2",
+    "hint.css": "^2.5.1",
     "hoek": "^4.2.1",
     "i": "^0.3.6",
     "markerclustererplus": "^2.1.4",
@@ -47,6 +49,7 @@
     "moment": "^2.22.2",
     "moment-range": "^4.0.1",
     "npm": "^6.4.1",
+    "points-cluster": "^0.1.4",
     "prop-types": "^15.6.1",
     "react": "^16.6.3",
     "react-beautiful-dnd": "^10.0.2",
@@ -61,13 +64,15 @@
     "react-geocode": "^0.1.2",
     "react-google-geocoder": "^0.2.0",
     "react-google-location": "^1.2.2",
+    "react-google-maps": "^9.4.5",
     "react-lottie": "^1.2.3",
+    "react-motion": "^0.4.4",
     "react-places-autocomplete": "^7.2.0",
     "react-router-dom": "^4.2.2",
     "react-scrollable-anchor": "^0.6.1",
     "react-slick": "^0.23.2",
-    "react-sortable-hoc": "^0.8.4",
     "recompose": "^0.27.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^2.1.0"
   }
 }
