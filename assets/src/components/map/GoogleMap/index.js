@@ -28,6 +28,16 @@ export class GoogleMap extends Component {
     clusters: [],
   };
 
+  zoomIn = (lat, lng) =>{
+    const {center:oldCenter, zoom:oldZoom, bounds} = this.state.mapOptions;
+    const zoom = oldZoom+1;
+    const center = { lat, lng };
+    if(this.state.mapOptions.zoom < MAP.options.maxZoom){
+      this.handleMapChange({center, zoom, bounds});
+    }
+ 
+  }
+
   getClusters = () => {
 
     const {cars} = this.props.CarStore;
@@ -94,6 +104,8 @@ export class GoogleMap extends Component {
           defaultZoom={MAP.defaultZoom}
           defaultCenter={MAP.defaultCenter}
           options={MAP.options}
+          zoom={this.state.mapOptions.zoom}
+          center={this.state.mapOptions.center}
           onChange={this.handleMapChange}
           yesIWantToUseGoogleMapApiInternals
           bootstrapURLKeys={{ key: 'AIzaSyAS3ix4rVY4A-T4yPzWlEi766ycl2mY818' }}
@@ -120,6 +132,7 @@ export class GoogleMap extends Component {
                 lng={item.lng}
                 image={item.image}
                 points={item.points}
+                zoomIn={this.zoomIn}
               />
             );
           })}
