@@ -209,7 +209,7 @@ class EditCarForm extends Component {
     fd.append("phone", editableCar.phone);
     fd.append("email", editableCar.email);
     fd.append("name", editableCar.name);
-    fd.append("rentDates", editableCar.rentDates);
+    fd.append("bookingDates", editableCar.bookingDates);
     fd.append("token", editableCar.token);
     fd.append(
       "date_from",

@@ -86,7 +86,7 @@ class EditCar extends React.Component {
       name: editableCar.name,
       date_from: editableCar.rentDates[0].rentedFrom,
       date_until: editableCar.rentDates[0].rentedUntil,
-      rentDates: editableCar.rentDates,
+      bookingDates: editableCar.bookingDates,
       images
     });
   };
