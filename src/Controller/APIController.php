@@ -741,9 +741,9 @@ class APIController extends FOSRestController
 
     /**
      * @param string $phone
-     * @return int
+     * @return string
      */
-    private function formatPhoneNumber(string $phone): int
+    private function formatPhoneNumber(string $phone): string
     {
         $phone = preg_replace('/^\+?(\d{3})\D?\D?(\d{3})\D?(\d{5})$/', '', $phone);
 
