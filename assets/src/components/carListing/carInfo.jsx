@@ -207,10 +207,10 @@ class carInfo extends Component {
     handleFromChange = (excludedDates, date) => {
         if (date <= new Date(this.state.date_until)) {
             this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
-            excludedDates.map(dates => {
+            excludedDates.some(dates => {
                 if (dates >= date && dates <= new Date(this.state.date_until)) {
                     this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
-                    return;
+                    return true;
                 }
                 this.setState({cannotReserveDates: ''});
             });
@@ -226,7 +226,7 @@ class carInfo extends Component {
             excludedDates.some(dates => {
                 if (dates <= date && dates >= new Date(this.state.date_from)) {
                     this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
-                    return;
+                    return true;
                 }
                 this.setState({cannotReserveDates: ''});
             });

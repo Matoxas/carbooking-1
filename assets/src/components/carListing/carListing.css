@@ -230,7 +230,7 @@ img {
 }
 
 .form-group textarea {
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 
 .map--size {
@@ -330,5 +330,7 @@ img {
 }
 
 .input--error {
-  color: #ff1100;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #dc3545;
 }
