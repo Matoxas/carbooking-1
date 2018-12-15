@@ -18,9 +18,7 @@ class carInfo extends Component {
             reservationClicked: false,
             reservationButtonText: "Rezervuoti",
             date_from: new Date().setHours(0, 0, 0, 0),
-            date_until: moment(this.date_from)
-                .add(1, "d")
-                .valueOf(),
+            date_until: moment(new Date().setHours(0, 0, 0, 0)).add(1, "d").valueOf(),
             name: "",
             email: "",
             phone: "",
@@ -87,8 +85,8 @@ class carInfo extends Component {
 
             const reservation = {
                 carId: this.props.car.id,
-                date_from: new Date(date_from),
-                date_until: new Date(date_until),
+                date_from: moment(new Date(date_from)).add(1, "d"),
+                date_until: moment(new Date(date_until)).add(1, "d"),
                 name: name,
                 email: email,
                 phone: phone,
@@ -207,10 +205,10 @@ class carInfo extends Component {
     handleFromChange = (excludedDates, date) => {
         if (date <= new Date(this.state.date_until)) {
             this.setState({date_from: this.dateWithoutTime(date)}, this.calculateSum);
-            excludedDates.some(dates => {
+            excludedDates.map(dates => {
                 if (dates >= date && dates <= new Date(this.state.date_until)) {
                     this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
-                    return true;
+                    return;
                 }
                 this.setState({cannotReserveDates: ''});
             });
@@ -226,7 +224,7 @@ class carInfo extends Component {
             excludedDates.some(dates => {
                 if (dates <= date && dates >= new Date(this.state.date_from)) {
                     this.setState({cannotReserveDates: 'Tarp jūsų pasirinktų datų jau yra kelios, kurios yra rezervuotos'});
-                    return true;
+                    return;
                 }
                 this.setState({cannotReserveDates: ''});
             });
