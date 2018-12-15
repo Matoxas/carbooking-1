@@ -38,7 +38,9 @@ class carInfo extends Component {
             excludeDates: [],
             showCommentNameError: false,
             showCommentTextError: false,
-            commentCollapse: false
+            commentCollapse: false,
+            reservationCollapse: false,
+            showReservationErrors: false
         };
     }
 
@@ -92,19 +94,35 @@ class carInfo extends Component {
                 message: message
             };
 
+            const validationErrors = Validators.reservation(reservation);
+            if (validationErrors.name !== undefined || validationErrors.email !== undefined || validationErrors.phone !== undefined || validationErrors.message !== undefined) {
+                this.setState({
+                    validationErrors: validationErrors,
+                    showReservationErrors: true
+                });
+                return;
+            }
+            this.setState({showReservationErrors: false});
+
             this.postReservation(reservation);
             document.getElementById("clear-reservation-input").reset();
 
             this.setState({
                 reservationClicked: false,
+                reservationCollapse: false,
                 reservationButtonText: "Rezervuoti"
             });
         } else {
             this.setState({
                 reservationClicked: true,
+                reservationCollapse: true,
                 reservationButtonText: "Patvirtinti rezervaciją"
             });
         }
+    };
+
+    hasSpecificError = () => {
+
     };
 
     handleSubmitComment = e => {
@@ -390,10 +408,6 @@ class carInfo extends Component {
                         <button
                             onClick={this.handleSubmit}
                             className="btn btn-warning info-button"
-                            data-toggle="collapse"
-                            data-target="#collapseReports"
-                            aria-expanded="false"
-                            aria-controls="collapseReport"
                         >
                             {this.state.reservationButtonText}
                         </button>
@@ -405,43 +419,62 @@ class carInfo extends Component {
                                 />
                             </div>
                         ) : null}
-                        <div
-                            className="form-group collapse form-group-separate"
-                            id="collapseReports"
-                        >
-                            <p class=" color-gray mt-2 mb-2">
-                                Preliminari kaina už laikotarpį:
-                                <span className="color-primary">{" "}{this.state.totalPrice} €</span>
-                            </p>
-                            <form id="clear-reservation-input">
-                                <input
-                                    onChange={this.handleNameChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Įrašykite savo vardą"
-                                />
-                                <input
-                                    onChange={this.handleEmailChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Įrašykite savo el. paštą"
-                                />
-                                <input
-                                    onChange={this.handlePhoneChange}
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="+370"
-                                />
-                                <div className="form-group">
+                        <Collapse isOpen={this.state.reservationCollapse}>
+                            <div className="form-group form-group-separate">
+                                <p class=" color-gray mt-2 mb-2">
+                                    Preliminari kaina už laikotarpį:
+                                    <span className="color-primary">{" "}{this.state.totalPrice} €</span>
+                                </p>
+                                <form id="clear-reservation-input">
+                                    <input
+                                        onChange={this.handleNameChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Įrašykite savo vardą"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.name}
+                                        </div>
+                                    ) : null}
+                                    <input
+                                        onChange={this.handleEmailChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Įrašykite savo el. paštą"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.email}
+                                        </div>
+                                    ) : null}
+                                    <input
+                                        onChange={this.handlePhoneChange}
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="+370"
+                                    />
+                                    {this.state.showReservationErrors ? (
+                                        <div className="input--error">
+                                            {this.state.validationErrors.phone}
+                                        </div>
+                                    ) : null}
+                                    <div className="form-group">
                   <textarea
                       onChange={this.handleMessageChange}
                       className="form-control"
                       type="text"
                       placeholder="Komentaras..."
                   />
-                                </div>
-                            </form>
-                        </div>
+                                        {this.state.showReservationErrors ? (
+                                            <div className="input--error">
+                                                {this.state.validationErrors.message}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </form>
+                            </div>
+                        </Collapse>
                         <hr/>
                         <p onClick={this.handleBadListing} className="info-report">
                             Pranešti apie netinkamą skelbimą
