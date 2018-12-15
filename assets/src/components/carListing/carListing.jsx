@@ -89,7 +89,7 @@ class CarListing extends Component {
 
     addComment = comment => {
         this.setState({
-            comments: [...this.state.comments, comment]
+            comments: [comment, ...this.state.comments]
         });
     };
 

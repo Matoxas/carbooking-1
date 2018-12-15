@@ -104,7 +104,6 @@ class carInfo extends Component {
             this.setState({showReservationErrors: false});
 
             this.postReservation(reservation);
-            document.getElementById("clear-reservation-input").reset();
 
             this.setState({
                 reservationClicked: false,
@@ -295,7 +294,7 @@ class carInfo extends Component {
                             <div className="col-lg-9">
                                 <p className="info--big">
                                     {this.props.car.brand}
-                                    <span className="light-text"> {this.props.car.model}</span>
+                                    <span className="light-text"> {this.props.car.model}<span className="card-like"><i className="far fa-heart"></i></span></span>
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Vieta</div>
