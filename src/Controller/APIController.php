@@ -650,7 +650,8 @@ class APIController extends FOSRestController
     public function postEditCarAction(Request $request, string $token): View
     {
         var_dump($token);
-        var_dump($request); die;
+        var_dump($request);
+        die;
     }
 
     /**
@@ -662,7 +663,8 @@ class APIController extends FOSRestController
     public function postDeleteCarAction(Request $request, string $token): View
     {
         var_dump($token);
-        var_dump($request); die;
+        var_dump($request);
+        die;
     }
 
     /**
