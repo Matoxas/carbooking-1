@@ -121,10 +121,6 @@ class carInfo extends Component {
         }
     };
 
-    hasSpecificError = () => {
-
-    };
-
     handleSubmitComment = e => {
         const commentNameError = Validators.commentName(this.state.commentName);
         const commentTextError = Validators.commentText(this.state.commentText);
@@ -210,13 +206,13 @@ class carInfo extends Component {
     // checkIfDatesOverlap = (start, end) => {};
 
     handleFromChange = (excludedDates, date) => {
-        if (date < this.state.date_until) {
+        if (date <= this.state.date_until) {
             this.setState({ date_from: this.dateWithoutTime(date) }, this.calculateSum);
         }
     };
 
     handleUntilChange = date => {
-        if (date > this.state.date_until) {
+        if (date >= this.state.date_until) {
             this.setState(
                 { date_until: this.dateWithoutTime(date) },
                 this.calculateSum
@@ -297,12 +293,11 @@ class carInfo extends Component {
                             <div className="col-lg-3 info-description">Savininkas</div>
                             <div class="flex align-center owner-info justify-left col-lg-9">
                                 <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
-                                    <i class="far color-black mr-2 fa-user-circle fa-2x"></i>
                                     Vardas
                                 </p>
                                 <p class="info--normal info--owner info--owner-raise">
                                     <i class="fas mr-1 fa-phone info--envelope"></i>
-                                    +37060555555
+                                    {this.props.car.phone}
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Komentarai</div>
