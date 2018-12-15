@@ -103,6 +103,7 @@ export class GoogleMap extends Component {
           defaultZoom={MAP.defaultZoom}
           defaultCenter={MAP.defaultCenter}
           options={MAP.options}
+          zoom={this.state.mapOptions.zoom}
           onChange={this.handleMapChange}
           yesIWantToUseGoogleMapApiInternals
           bootstrapURLKeys={{ key: 'AIzaSyAS3ix4rVY4A-T4yPzWlEi766ycl2mY818' }}
