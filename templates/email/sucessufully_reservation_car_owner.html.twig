@@ -16,8 +16,8 @@ Rezervavusio asmens žinutė:<br/>
 Žinutė: {{ booking.message }}
 <br/>
 Rezervavimosi laikotarpis:<br/>
-Pradžia: {{ booking.bookedFrom|format('Y-m-d') }}<br/>
-Pabaiga: {{ booking.bookedUntil|format('Y-m-d') }}<br/>
+Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
+Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
 <br/>
 Automobilis: <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
 <br/>
