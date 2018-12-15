@@ -41,9 +41,9 @@ class User implements UserInterface, \Serializable
     private $name;
 
     /**
-     * @ORM\Column(type="integer", length=13)
+     * @ORM\Column(type="string", length=13)
      * @Assert\NotBlank()
-     * @Assert\Length(min="8")
+     * @Assert\Length(min="6")
      */
     private $phone;
 
