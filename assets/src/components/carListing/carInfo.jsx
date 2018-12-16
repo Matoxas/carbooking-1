@@ -230,6 +230,11 @@ class carInfo extends Component {
                     this.setState({cannotReserveDates: ""});
                 }
             });
+        } else {
+            this.setState({
+                date_until: date,
+                date_from: date
+            })
         }
     };
 
