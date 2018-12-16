@@ -5,60 +5,46 @@
 }
 
 .itemNotFoundContainer .st0 {
-  fill: none;
-}
-.itemNotFoundContainer .st1 {
   opacity: 0.19;
   fill: #999999;
+  enable-background: new;
 }
-.itemNotFoundContainer .st2 {
+.itemNotFoundContainer .st1 {
   fill: #2a2a2a;
 }
-.itemNotFoundContainer .st3 {
+.itemNotFoundContainer .st2 {
   font-family: "Gilroy-ExtraBold";
 }
-.itemNotFoundContainer .st4 {
+.itemNotFoundContainer .st3 {
   font-size: 240.7662px;
 }
+.itemNotFoundContainer .st4 {
+  letter-spacing: 5;
+}
 .itemNotFoundContainer .st5 {
-  letter-spacing: 6;
+  clip-path: url(#c);
 }
 .itemNotFoundContainer .st6 {
-  clip-path: url(#SVGID_2_);
-}
-.itemNotFoundContainer .st7 {
   fill: #5d5d5d;
 }
-.itemNotFoundContainer .st8 {
+.itemNotFoundContainer .st7 {
   fill: #4a4a4a;
 }
-.itemNotFoundContainer .st9 {
+.itemNotFoundContainer .st8 {
   fill: #767676;
 }
-.itemNotFoundContainer .st10 {
+.itemNotFoundContainer .st9 {
   fill: #3f3f3f;
 }
-.itemNotFoundContainer .st11 {
+.itemNotFoundContainer .st10 {
   fill: #e0e0e0;
 }
-.itemNotFoundContainer .st12 {
+.itemNotFoundContainer .st11 {
   fill: #bababa;
 }
-.itemNotFoundContainer .st13 {
+.itemNotFoundContainer .st12 {
   fill: #c2c2c2;
 }
-.itemNotFoundContainer .st14 {
-  fill: #ffffff;
-}
-.itemNotFoundContainer .st15 {
-  font-size: 54.7407px;
-}
-.itemNotFoundContainer .st16 {
-  font-size: 26.8676px;
-}
-.itemNotFoundContainer .st17 {
-  font-family: "Gilroy-Light";
-}
-.itemNotFoundContainer .st18 {
-  font-size: 16.3542px;
+.itemNotFoundContainer .st13 {
+  clip-path: url(#a);
 }
