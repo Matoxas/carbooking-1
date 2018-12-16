@@ -25,7 +25,10 @@ class EditCarForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      state: ""
+      state: "",
+      minDate: moment(this.props.date_from)
+          .add(1, "d")
+          .toDate()
     };
   }
 
@@ -391,20 +394,21 @@ class EditCarForm extends Component {
             </label>
             <div className="col-sm-4">
               <div className="relative">
-                <DatePicker
-                  className="form-control"
-                  locale={"lt"}
-                  name="date_until"
-                  minDate={moment(editableCar.date_from)
-                    .add(1, "d")
-                    .toDate()}
-                  maxDate={moment(editableCar.date_from)
-                    .add(31, "d")
-                    .toDate()}
-                  selected={new Date(editableCar.date_until)}
-                  onChange={this.handleUntilChange}
-                  onChangeRaw={this.handleDateChangeRaw}
-                />
+                  <DatePicker
+                      className="form-control"
+                      locale={"lt"}
+                      name="date_until"
+                      minDate={this.state.minDate}
+                      maxDate={moment(this.props.date_from)
+                          .add(31, "d")
+                          .toDate()}
+                      startDate={this.props.date_from}
+                      endDate={this.props.date_until}
+                      selected={this.props.date_until}
+                      selectsEnd
+                      onChange={this.props.handleUntilChange}
+                      onChangeRaw={this.handleDateChangeRaw}
+                  />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
               {this.hasSpecificError("date_until") && (
