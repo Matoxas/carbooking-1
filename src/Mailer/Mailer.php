@@ -37,7 +37,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo('programeriss@gmail.com')
             ->setBody($body, 'text/html');
 
@@ -53,7 +53,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Nenumatyta klaida!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo('carbookinglt@gmail.com')
             ->setBody($body, 'text/html');
 
@@ -67,7 +67,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Netinkamas skelbimas!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo('carbookinglt@gmail.com')
             ->setBody($body, 'text/html');
 
@@ -81,7 +81,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Sėkmingai užsiprenumeravote!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($subscriber->getEmail())
             ->setBody($body, 'text/html');
 
@@ -96,7 +96,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Įkeltas naujas automobilis, kurio ieškojote!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($subscriber->getEmail())
             ->setBody($body, 'text/html');
 
@@ -110,7 +110,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Sėkmingai įkeltas Jūsų automobilis!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($car->getUser()->getEmail())
             ->setBody($body, 'text/html');
 
@@ -126,7 +126,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Jūsų automobilį, ką tik užsirezervavo!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($car->getUser()->getEmail())
             ->setBody($body, 'text/html');
 
@@ -142,7 +142,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Rezervacija atlikta sėkmingai!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($user->getEmail())
             ->setBody($body, 'text/html');
 
@@ -156,7 +156,7 @@ class Mailer
         ]);
 
         $message = (new \Swift_Message('Patvirtinkite rezervaciją!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'Car Booking'])
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
             ->setTo($user->getEmail())
             ->setBody($body, 'text/html');
 

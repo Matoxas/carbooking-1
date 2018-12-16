@@ -130,19 +130,6 @@ class CarStore {
   //================== POST =====================
 
   @action
-  postReservation = reservation => {
-    axios
-      .post("/new/reservation", { reservation })
-      .then(response => {
-        this.setReservationResponse(response.data);
-      })
-      .catch(error => {
-        this.setLoading(error);
-        this.setReservationError(error.response.data);
-      });
-  };
-
-  @action
   postBadListing = carId => {
     axios
       .post("/report/car", { carId })
@@ -163,16 +150,6 @@ class CarStore {
   };
 
   // ==================== SETTERS ====================
-
-  @action
-  setReservationError = error => {
-    this.reservationError = error;
-  };
-
-  @action
-  setReservationResponse = response => {
-    this.reservationResponse = response;
-  };
 
   @action
   toggleHeader = value => {

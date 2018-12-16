@@ -3,25 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\Brand;
 use App\Entity\Car;
+use App\Entity\City;
 use App\Entity\Comment;
 use App\Entity\Image;
+use App\Entity\Model;
 use App\Entity\Renting;
 use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Mailer\Mailer;
-use App\Repository\BookingRepository;
-use App\Repository\BrandRepository;
-use App\Repository\CarRepository;
-use App\Repository\CityRepository;
-use App\Repository\CommentRepository;
-use App\Repository\ModelRepository;
-use App\Repository\SubscriberRepository;
-use App\Repository\UserRepository;
 use App\Security\TokenGenerator;
-use App\Service\BookingService;
-use App\Service\RentingService;
-use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
@@ -39,112 +31,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class APIController extends FOSRestController
 {
     /**
-     * @var CityRepository
-     */
-    private $cityRepository;
-    /**
-     * @var BrandRepository
-     */
-    private $brandRepository;
-    /**
-     * @var ModelRepository
-     */
-    private $modelRepository;
-    /**
-     * @var CarRepository
-     */
-    private $carRepository;
-    /**
-     * @var CommentRepository
-     */
-    private $commentRepository;
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var BookingService
-     */
-    private $bookingService;
-    /**
-     * @var RentingService
-     */
-    private $rentingService;
-    /**
-     * @var Mailer
-     */
-    private $mailer;
-    /**
-     * @var TokenGenerator
-     */
-    private $tokenGenerator;
-    /**
-     * @var SubscriberRepository
-     */
-    private $subscriberRepository;
-    /**
-     * @var BookingRepository
-     */
-    private $bookingRepository;
-
-    /**
-     * TestController constructor.
-     * @param CityRepository $cityRepository
-     * @param BrandRepository $brandRepository
-     * @param ModelRepository $modelRepository
-     * @param CarRepository $carRepository
-     * @param CommentRepository $commentRepository
-     * @param ValidatorInterface $validator
-     * @param EntityManagerInterface $entityManager
-     * @param TranslatorInterface $translator
-     * @param BookingService $bookingService
-     * @param RentingService $rentingService
-     * @param Mailer $mailer
-     * @param TokenGenerator $tokenGenerator
-     * @param SubscriberRepository $subscriberRepository
-     * @param BookingRepository $bookingRepository
-     */
-    public function __construct(
-        CityRepository $cityRepository,
-        BrandRepository $brandRepository,
-        ModelRepository $modelRepository,
-        CarRepository $carRepository,
-        CommentRepository $commentRepository,
-        ValidatorInterface $validator,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator,
-        BookingService $bookingService,
-        RentingService $rentingService,
-        Mailer $mailer,
-        TokenGenerator $tokenGenerator,
-        SubscriberRepository $subscriberRepository,
-        BookingRepository $bookingRepository
-    ) {
-        $this->cityRepository = $cityRepository;
-        $this->brandRepository = $brandRepository;
-        $this->modelRepository = $modelRepository;
-        $this->carRepository = $carRepository;
-        $this->commentRepository = $commentRepository;
-        $this->validator = $validator;
-        $this->entityManager = $entityManager;
-        $this->translator = $translator;
-        $this->bookingService = $bookingService;
-        $this->rentingService = $rentingService;
-        $this->mailer = $mailer;
-        $this->tokenGenerator = $tokenGenerator;
-        $this->subscriberRepository = $subscriberRepository;
-        $this->bookingRepository = $bookingRepository;
-    }
-
-    /**
      * @Rest\Get("/cars", name="api_cars_all")
      * @param Request $request
      * @return View
@@ -158,9 +44,11 @@ class APIController extends FOSRestController
         $pageCurrent = $filters['page'];
         $startRecord = --$pageCurrent * $recordsPerPage;
 
-        $data = $this->carRepository->findFilterAndSortingCars($filters, $startRecord, $recordsPerPage);
+        $carRepository = $this->getDoctrine()->getRepository(Car::class);
 
-        $carsCount = $this->carRepository->findCountOfFilteredCars($filters);
+        $data = $carRepository->findFilterAndSortingCars($filters, $startRecord, $recordsPerPage);
+
+        $carsCount = $carRepository->findCountOfFilteredCars($filters);
         $pageCount = ceil($carsCount / 5);
 
         return $this->view(
@@ -182,7 +70,9 @@ class APIController extends FOSRestController
     public function getCarByIdAction(int $carId): View
     {
         return $this->view(
-            ['data' => $this->carRepository->find($carId)],
+            [
+                'data' => $this->getDoctrine()->getRepository(Car::class)->find($carId)
+            ],
             Response::HTTP_OK
         );
     }
@@ -197,7 +87,7 @@ class APIController extends FOSRestController
         return $this->view(
             [
                 'token' => $token,
-                'data' => $this->carRepository->findBy(['token' => $token])
+                'data' => $this->getDoctrine()->getRepository(Car::class)->findBy(['token' => $token])
             ],
             Response::HTTP_OK
         );
@@ -210,7 +100,9 @@ class APIController extends FOSRestController
     public function getAllBrandsAction(): View
     {
         return $this->view(
-            ['data' => $this->brandRepository->findAll()],
+            [
+                'data' => $this->getDoctrine()->getRepository(Brand::class)->findAll()
+            ],
             Response::HTTP_OK
         );
     }
@@ -222,23 +114,29 @@ class APIController extends FOSRestController
     public function getAllModelsAction(): View
     {
         return $this->view(
-            ['data' => $this->modelRepository->findAll()],
+            [
+                'data' => $this->getDoctrine()->getRepository(Model::class)->findAll()
+            ],
             Response::HTTP_OK
         );
     }
 
     /**
      * @Rest\Get("/models/{brandId}", name="api_models_brandId")
+     * @param TranslatorInterface $translator
      * @param int $brandId
      * @return View
      */
-    public function getAllModelsByBrandIdAction(int $brandId): View
+    public function getAllModelsByBrandIdAction(TranslatorInterface $translator, int $brandId): View
     {
-        if ($this->modelRepository->findCountOfRecords($brandId) <= 0) {
+        $brandRepository = $this->getDoctrine()->getRepository(Brand::class);
+        $modelRepository = $this->getDoctrine()->getRepository(Model::class);
+
+        if ($modelRepository->findCountOfRecords($brandId) <= 0) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('brand.not_exists')
+                    'message' => $translator->trans('brand.not_exists')
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -247,8 +145,8 @@ class APIController extends FOSRestController
         return $this->view(
             [
                 'id' => $brandId,
-                'brand' => $this->brandRepository->find($brandId)->getBrand(),
-                'data' => $this->modelRepository->findBy(['brand' => $brandId])
+                'brand' => $brandRepository->find($brandId)->getBrand(),
+                'data' => $modelRepository->findBy(['brand' => $brandId])
             ],
             Response::HTTP_OK
         );
@@ -261,7 +159,9 @@ class APIController extends FOSRestController
     public function getAllCitiesAction(): View
     {
         return $this->view(
-            ['data' => $this->cityRepository->findAll()],
+            [
+                'data' => $this->getDoctrine()->getRepository(City::class)->findAll()
+            ],
             Response::HTTP_OK
         );
     }
@@ -273,7 +173,9 @@ class APIController extends FOSRestController
     public function getFilteredCitiesAction(): View
     {
         return $this->view(
-            ['data' => $this->cityRepository->findAllCitiesWithCars()],
+            [
+                'data' => $this->getDoctrine()->getRepository(City::class)->findAllCitiesWithCars()
+            ],
             Response::HTTP_OK
         );
     }
@@ -285,10 +187,13 @@ class APIController extends FOSRestController
      */
     public function getAllCommentsFilteredByCarIdAction(int $carId): View
     {
+        $data = $this->getDoctrine()->getRepository(Comment::class)
+            ->findBy(['car' => $carId], ['createdAt' => 'DESC']);
+
         return $this->view(
             [
                 'carId' => $carId,
-                'data' => $this->commentRepository->findBy(['car' => $carId], ['createdAt' => 'DESC'])
+                'data' => $data
             ],
             Response::HTTP_OK
         );
@@ -297,11 +202,18 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/new/reservation", name="api_reservation_new")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param ValidatorInterface $validator
+     * @param Mailer $mailer
      * @return View
      * @throws \Exception
      */
-    public function postNewReservationAction(Request $request): View
-    {
+    public function postNewReservationAction(
+        Request $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator,
+        Mailer $mailer
+    ): View {
         $reservation = $request->getContent('reservation');
         $reservation = json_decode($reservation)->reservation;
 
@@ -313,43 +225,13 @@ class APIController extends FOSRestController
 
         $reservation->phone = $this->formatPhoneNumber($reservation->phone);
 
-        $car = $this->carRepository->findOneBy(['id' => $reservation->carId]);
+        $car = $this->getDoctrine()->getRepository(Car::class)->findOneBy(['id' => $reservation->carId]);
 
         if ($car === null) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('car.not_exists')
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        if (!$this->bookingService->isValidDate($dateFrom, $dateUntil)) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans('booking.bad_date_format')
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        if (!$this->rentingService->isTimeAvailable($car->getId(), $dateFrom, $dateUntil)) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans('renting.time_not_available')
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        if ($this->bookingService->isTimeReserved($car->getId(), $dateFrom, $dateUntil)) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans('booking.date_is_reserved')
+                    'message' => $translator->trans('car.not_exists')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -368,38 +250,41 @@ class APIController extends FOSRestController
         $booking->setMessage($reservation->message);
         $booking->setApproved(false);
 
-        $validationUser = $this->validator->validate($user);
-        $validationBooking = $this->validator->validate($booking);
+        $validationUser = $validator->validate($user);
+        $validationBooking = $validator->validate($booking);
 
         if (0 !== count($validationUser) || 0 !== count($validationBooking)) {
+            $errorLine = (string) $validationUser . (string) $validationBooking;
+            $mailer->sendErrorEmail(rand(1000, 9999), '/api/new/reservation', $errorLine);
+
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('booking.insert.error')
+                    'message' => $translator->trans('booking.insert.error')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
         try {
-            $this->entityManager->persist($user);
-            $this->entityManager->persist($booking);
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->persist($booking);
 
-            $this->entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
+            $mailer->sendErrorEmail($errorCode, '/api/new/reservation', $exception->getMessage());
 
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                    'message' => $translator->trans('system.unknown', ['code' => $errorCode])
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        $this->mailer->sendEmailForReservationApproved($user, $booking);
+        $mailer->sendEmailForReservationApproved($user, $booking);
 
         return $this->view(
             [
@@ -412,18 +297,20 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/report/car", name="api_report_car")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param Mailer $mailer
      * @return View
      */
-    public function postReportCarAction(Request $request): View
+    public function postReportCarAction(Request $request, TranslatorInterface $translator, Mailer $mailer): View
     {
         $carId = (int) $request->get('carId');
-        $car = $this->carRepository->find($carId);
+        $car = $this->getDoctrine()->getRepository(Car::class)->find($carId);
 
         if ($car === null) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('car.not_exists')
+                    'message' => $translator->trans('car.not_exists')
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -431,10 +318,10 @@ class APIController extends FOSRestController
 
         $car->setConfirmed(false);
 
-        $this->entityManager->persist($car);
-        $this->entityManager->flush();
+        $this->getDoctrine()->getManager()->persist($car);
+        $this->getDoctrine()->getManager()->flush();
 
-        $this->mailer->sendReportCarEmail($car);
+        $mailer->sendReportCarEmail($car);
 
         return $this->view(
             [
@@ -447,21 +334,27 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/new/comment", name="api_comment_new")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param ValidatorInterface $validator
+     * @param Mailer $mailer
      * @return View
-     * @throws \Exception
      */
-    public function postNewCommentAction(Request $request): View
-    {
+    public function postNewCommentAction(
+        Request $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator,
+        Mailer $mailer
+    ): View {
         $commentData = $request->getContent('comment');
         $commentData = json_decode($commentData)->comment;
 
-        $car = $this->carRepository->find($commentData->carId);
+        $car = $this->getDoctrine()->getRepository(Car::class)->find($commentData->carId);
 
         if ($car === null) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('car.not_exists')
+                    'message' => $translator->trans('car.not_exists')
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -472,30 +365,30 @@ class APIController extends FOSRestController
         $comment->setName($commentData->name);
         $comment->setComment($commentData->text);
 
-        $validationComment = $this->validator->validate($comment);
+        $validationComment = $validator->validate($comment);
 
         if (0 !== count($validationComment)) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('comment.bad_data')
+                    'message' => $translator->trans('comment.bad_data')
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
 
         try {
-            $this->entityManager->persist($comment);
+            $this->getDoctrine()->getManager()->persist($comment);
 
-            $this->entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            $this->mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
+            $mailer->sendErrorEmail($errorCode, '/api/reservations', $exception->getMessage());
 
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                    'message' => $translator->trans('system.unknown', ['code' => $errorCode])
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -512,39 +405,32 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/new/subscribe", name="api_subscribe_new")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param ValidatorInterface $validator
+     * @param Mailer $mailer
      * @return View
      * @throws \Exception
      */
-    public function postNewSubscribeAction(Request $request): View
-    {
+    public function postNewSubscribeAction(
+        Request $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator,
+        Mailer $mailer
+    ): View {
         $email = $request->get('email');
         $filters = $request->get('filters');
 
         $subscribe = new Subscriber();
         $subscribe->setEmail($email);
 
-        if ($filters['location'] != '' && is_numeric($filters['location'])) {
-            $city = $this->cityRepository->find($filters['location']);
-            $subscribe->setCity($city);
-        }
-
-        if ($filters['brand'] != '' && is_numeric($filters['brand'])) {
-            $brand = $this->brandRepository->find($filters['brand']);
-            $subscribe->setBrand($brand);
-        }
-
-        if ($filters['model'] != '' && is_numeric($filters['model'])) {
-            $model = $this->modelRepository->find($filters['model']);
-            $subscribe->setModel($model);
-        }
-
-        if ($filters['price_from'] != '' && is_numeric($filters['price_from'])) {
-            $subscribe->setPriceFrom($filters['price_from']);
-        }
-
-        if ($filters['price_until'] != '' && is_numeric($filters['price_until'])) {
-            $subscribe->setPriceUntil($filters['price_until']);
-        }
+        $city = $this->getDoctrine()->getRepository(City::class)->find($filters['location']);
+        $subscribe->setCity($city);
+        $brand = $this->getDoctrine()->getRepository(Brand::class)->find($filters['brand']);
+        $subscribe->setBrand($brand);
+        $model = $this->getDoctrine()->getRepository(Model::class)->find($filters['model']);
+        $subscribe->setModel($model);
+        $subscribe->setPriceFrom($filters['price_from']);
+        $subscribe->setPriceUntil($filters['price_until']);
 
         if ($filters['date_from'] != '') {
             $dateFrom = new \DateTime($filters['date_from']);
@@ -556,36 +442,36 @@ class APIController extends FOSRestController
             $subscribe->setDateUntil($dateUntil);
         }
 
-        $validationSubscribe = $this->validator->validate($subscribe);
+        $validationSubscribe = $validator->validate($subscribe);
 
         if (0 !== count($validationSubscribe)) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('subscribe.insert.error')
+                    'message' => $translator->trans('subscribe.insert.error')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
         try {
-            $this->entityManager->persist($subscribe);
+            $this->getDoctrine()->getManager()->persist($subscribe);
 
-            $this->entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            $this->mailer->sendErrorEmail($errorCode, '/api/new/subscribe', $exception->getMessage());
+            $mailer->sendErrorEmail($errorCode, '/api/new/subscribe', $exception->getMessage());
 
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                    'message' => $translator->trans('system.unknown', ['code' => $errorCode])
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        $this->mailer->sendEmailForSucessufullySubscribe($subscribe);
+        $mailer->sendEmailForSucessufullySubscribe($subscribe);
 
         return $this->view(
             [
@@ -597,18 +483,20 @@ class APIController extends FOSRestController
 
     /**
      * @Rest\Get("/reservation/{token}", name="api_reservation_approve")
+     * @param TranslatorInterface $translator
      * @param string $token
+     * @param Mailer $mailer
      * @return View
      */
-    public function getReservationInfoAction(string $token): View
+    public function getReservationInfoAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
     {
-        $booking = $this->bookingRepository->findBy(['token' => $token]);
+        $booking = $this->getDoctrine()->getRepository(Booking::class)->findBy(['token' => $token]);
 
         if ($booking === null) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('booking.token_is_expired')
+                    'message' => $translator->trans('booking.token_is_expired')
                 ],
                 Response::HTTP_OK
             );
@@ -618,26 +506,26 @@ class APIController extends FOSRestController
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('booking.token_is_used')
+                    'message' => $translator->trans('booking.token_is_used')
                 ],
                 Response::HTTP_OK
             );
         }
 
         $bookingData = $booking[0]->setApproved(true);
-        $this->entityManager->persist($bookingData);
-        $this->entityManager->flush();
+        $this->getDoctrine()->getManager()->persist($bookingData);
+        $this->getDoctrine()->getManager()->flush();
 
         $carOwner = $booking[0]->getCar();
         $bookingUser = $booking[0]->getUsers();
 
-        $this->mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser, $booking[0]);
-        $this->mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser, $booking[0]);
+        $mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser, $booking[0]);
+        $mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser, $booking[0]);
 
         return $this->view(
             [
                 'status' => 'ok',
-                'message' => $this->translator->trans('booking.success')
+                'message' => $translator->trans('booking.success')
             ],
             Response::HTTP_OK
         );
@@ -646,11 +534,20 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/new/car", name="api_car_new")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param ValidatorInterface $validator
+     * @param Mailer $mailer
+     * @param TokenGenerator $tokenGenerator
      * @return View
      * @throws \Exception
      */
-    public function postNewCarAction(Request $request): View
-    {
+    public function postNewCarAction(
+        Request $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator,
+        Mailer $mailer,
+        TokenGenerator $tokenGenerator
+    ): View {
         $phone = $this->formatPhoneNumber($request->get('phone'));
         $from = new \DateTime($request->get('date_from'));
         $until = new \DateTime($request->get('date_until'));
@@ -660,9 +557,9 @@ class APIController extends FOSRestController
         $user->setEmail($request->get('email'));
         $user->setPhone($phone);
 
-        $city = $this->cityRepository->find($request->get('city'));
-        $model = $this->modelRepository->find($request->get('model'));
-        $brand = $this->brandRepository->find($request->get('brand'));
+        $city = $this->getDoctrine()->getRepository(City::class)->find($request->get('city'));
+        $model = $this->getDoctrine()->getRepository(Model::class)->find($request->get('model'));
+        $brand = $this->getDoctrine()->getRepository(Brand::class)->find($request->get('brand'));
 
         $car = new Car();
         $car->setUser($user);
@@ -680,63 +577,60 @@ class APIController extends FOSRestController
         $renting->setRentedUntil($until);
         $renting->setCar($car);
 
-        $validationUser = $this->validator->validate($user);
-        $validationCar = $this->validator->validate($car);
-        $validationRenting = $this->validator->validate($renting);
+        $validationUser = $validator->validate($user);
+        $validationCar = $validator->validate($car);
+        $validationRenting = $validator->validate($renting);
 
-        if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
+        if (0 !== count($validationUser) ||
+            0 !== count($validationCar) ||
+            0 !== count($validationRenting) ||
+            0 == count($request->files->all()['image'])
+        ) {
+            $errorLine = (string) $validationUser . (string) $validationCar . (string) $validationRenting;
+            $mailer->sendErrorEmail(rand(1000, 9999), '/api/new/car', $errorLine);
+
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('car.not_valid')
+                    'message' => $translator->trans('car.not_valid')
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
-        if (count($request->files->all()['image']) == 0) {
-            return $this->view(
-                [
-                    'status' => 'error',
-                    'message' => $this->translator->trans('car.not_valid_image')
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->persist($car);
+        $this->getDoctrine()->getManager()->persist($renting);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->persist($car);
-        $this->entityManager->persist($renting);
-
-        $error = $this->uploadImages($request, $car);
+        $error = $this->uploadImages($request, $car, $translator, $tokenGenerator, $mailer);
 
         if ($error !== null) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans($error)
+                    'message' => $translator->trans($error)
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
         try {
-            $this->entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $exception) {
             $errorCode = rand(1000, 9999);
-            $this->mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
+            $mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
 
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $this->translator->trans('system.unknown', ['code' => $errorCode])
+                    'message' => $translator->trans('system.unknown', ['code' => $errorCode])
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        $this->mailer->sendEmailOwner($car);
-        $this->sendEmailSubscribers($car, $renting);
+        $mailer->sendEmailOwner($car);
+        $this->sendEmailSubscribers($car, $renting, $mailer);
 
         return $this->view(
             [
@@ -750,56 +644,66 @@ class APIController extends FOSRestController
     /**
      * @Rest\Post("/edit/car/{token}", name="api_car_new")
      * @param Request $request
+     * @param string $token
      * @return View
-     * @throws \Exception
      */
     public function postEditCarAction(Request $request, string $token): View
     {
         var_dump($token);
-        var_dump($request); die;
+        var_dump($request);
+        die;
     }
 
     /**
      * @Rest\Post("/delete/car/{token}", name="api_car_new")
      * @param Request $request
+     * @param string $token
      * @return View
-     * @throws \Exception
      */
     public function postDeleteCarAction(Request $request, string $token): View
     {
         var_dump($token);
-        var_dump($request); die;
+        var_dump($request);
+        die;
     }
 
     /**
      * @param Request $request
      * @param Car $car
+     * @param TranslatorInterface $translator
+     * @param TokenGenerator $tokenGenerator
+     * @param Mailer $mailer
      * @return string
      */
-    private function uploadImages(Request $request, Car $car): ?string
-    {
+    private function uploadImages(
+        Request $request,
+        Car $car,
+        TranslatorInterface $translator,
+        TokenGenerator $tokenGenerator,
+        Mailer $mailer
+    ): ?string {
         $message = null;
         $images = $request->files->get('image');
 
         /** @var UploadedFile $image */
         foreach ($images as $image) {
-            $imgName = $this->tokenGenerator->getRandomSecureToken(30) . '.' . $image->guessExtension();
+            $imgName = $tokenGenerator->getRandomSecureToken(30) . '.' . $image->guessExtension();
 
-            $message = $this->uploadImage($image, $imgName);
+            $message = $this->uploadImage($translator, $image, $imgName);
 
             if ($message === null) {
                 $image = new Image();
                 $image->setImage($imgName);
                 $image->setCar($car);
-                $this->entityManager->persist($image);
+                $this->getDoctrine()->getManager()->persist($image);
 
                 try {
-                    $this->entityManager->flush();
+                    $this->getDoctrine()->getManager()->flush();
                 } catch (\Exception $exception) {
                     $errorCode = rand(1000, 9999);
-                    $this->mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
+                    $mailer->sendErrorEmail($errorCode, '/api/new/car', $exception->getMessage());
 
-                    $message = $this->translator->trans('system.unknown', ['code' => $errorCode]);
+                    $message = $translator->trans('system.unknown', ['code' => $errorCode]);
                 }
             }
         }
@@ -809,26 +713,27 @@ class APIController extends FOSRestController
 
     /**
      * Upload one image
+     * @param TranslatorInterface $translator
      * @param UploadedFile $image
      * @param string $imgName
      * @return string|null
      */
-    private function uploadImage(UploadedFile $image, string $imgName): ?string
+    private function uploadImage(TranslatorInterface $translator, UploadedFile $image, string $imgName): ?string
     {
         $imageFileType = $image->guessExtension();
 
         if ($image->getSize() > 10000000) {
-            return $this->translator->trans('upload.image.size');
+            return $translator->trans('upload.image.size');
         }
 
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            return $this->translator->trans('upload.image.wrong_format');
+            return $translator->trans('upload.image.wrong_format');
         }
 
         try {
             $image->move("uploads/", $imgName);
         } catch (\Exception $exception) {
-            return $this->translator->trans('upload.image.unknown');
+            return $translator->trans('upload.image.unknown');
         }
 
         return null;
@@ -836,59 +741,30 @@ class APIController extends FOSRestController
 
     /**
      * @param string $phone
-     * @return int
+     * @return string
      */
-    private function formatPhoneNumber(string $phone): int
+    private function formatPhoneNumber(string $phone): string
     {
-        $phone = str_replace('+370', '', $phone);
-        if (strlen($phone) == 9) {
-            $phone = substr($phone, 1);
+        if (preg_match('/^\+?(\d{3})\D?\D?(\d{3})\D?(\d{5})$/', $phone) == true) {
+            return $phone;
         }
 
-        return $phone;
+        return '';
     }
 
     /**
      * @param Car $car
      * @param Renting $renting
+     * @param Mailer $mailer
      */
-    private function sendEmailSubscribers(Car $car, Renting $renting): void
+    private function sendEmailSubscribers(Car $car, Renting $renting, Mailer $mailer): void
     {
-        $subscribers = $this->subscriberRepository->findAll();
+        $subscribers = $this->getDoctrine()->getRepository(Subscriber::class)
+            ->findFilteredSubscribers($car, $renting);
 
         /** @var Subscriber $subscriber */
         foreach ($subscribers as $subscriber) {
-            if ($subscriber->getPriceFrom() > $car->getPrice()) {
-                continue;
-            }
-
-            if ($subscriber->getPriceUntil() < $car->getPrice()) {
-                continue;
-            }
-
-            if ($subscriber->getCity() !== null && $subscriber->getCity()->getId() != $car->getCity()->getId()) {
-                continue;
-            }
-
-            if ($subscriber->getBrand() !== null && $subscriber->getBrand()->getId() != $car->getBrand()->getId()) {
-                continue;
-            }
-
-            if ($subscriber->getModel() !== null && $subscriber->getModel()->getId() != $car->getModel()->getId()) {
-                continue;
-            }
-
-            if ($subscriber->getDateFrom() !== null &&
-                $subscriber->getDateFrom()->format('Y-m-d') < $renting->getRentedFrom()->format('Y-m-d')) {
-                continue;
-            }
-
-            if ($subscriber->getDateUntil() !== null &&
-                $subscriber->getDateUntil()->format('Y-m-d') < $renting->getRentedUntil()->format('Y-m-d')) {
-                continue;
-            }
-
-            $this->mailer->sendEmailSubscriber($subscriber, $car);
+            $mailer->sendEmailSubscriber($subscriber, $car);
         }
     }
 }

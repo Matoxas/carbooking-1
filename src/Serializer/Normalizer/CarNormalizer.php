@@ -31,7 +31,7 @@ class CarNormalizer implements NormalizerInterface
             'id'            => $object->getId(),
             'price'         => number_format($object->getPrice(), 2),
             'name'         => $object->getUser()->getName(),
-            'phone'         => '+370' . $object->getUser()->getPhone(),
+            'phone'         => $object->getUser()->getPhone(),
             'email'         => $object->getUser()->getEmail(),
             'description'   => $object->getDescription(),
             'createdAt'     => $object->getCreatedAt()->format('Y-m-d H:i:s'),
@@ -61,7 +61,7 @@ class CarNormalizer implements NormalizerInterface
             return $img->getImage();
         }, $images);
 
-        if (empty($images)) {
+        if (empty($images) || !file_exists($images[0])) {
             return ['images/car-default.jpeg'];
         }
 

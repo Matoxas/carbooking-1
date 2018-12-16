@@ -2,26 +2,12 @@
 
 namespace App\Validator\Constraints;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class DateIsInTheFutureValidator extends ConstraintValidator
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function validate($date, Constraint $constraint): void
     {
         if (!$constraint instanceof DateIsInTheFuture) {

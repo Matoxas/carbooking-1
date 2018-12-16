@@ -41,9 +41,9 @@ class User implements UserInterface, \Serializable
     private $name;
 
     /**
-     * @ORM\Column(type="integer", length=13)
+     * @ORM\Column(type="string", length=13)
      * @Assert\NotBlank()
-     * @Assert\Length(min="8")
+     * @Assert\Length(min="6", max="20")
      */
     private $phone;
 
@@ -100,12 +100,12 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 

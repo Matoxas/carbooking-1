@@ -1,8 +1,8 @@
-<h3 style="color: #cd3334;">Jūsų automobilis buvo užrezervuotas!</h3>
+<h3 style="color: #f47e60;">Jūsų automobilis buvo užrezervuotas!</h3>
 <br/>
 Sveiki, <br/>
 <br/>
-Džiaugiamės, galėdami Jums pranešti, kad Jūsų <b>{{ car.brand }}</b> buvo sėkmingai užrezervuotas!<br/>
+Džiaugiamės, galėdami Jums pranešti, kad Jūsų <b>{{ car.brand.brand }}</b> buvo sėkmingai užrezervuotas!<br/>
 <br/>
 Susisiekite su <b> {{ user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
 Automobilį rezervavusiam asmeniui, taip pat buvo išsiųsti Jūsų kontaktai.<br/>
@@ -16,10 +16,12 @@ Rezervavusio asmens žinutė:<br/>
 Žinutė: {{ booking.message }}
 <br/>
 Rezervavimosi laikotarpis:<br/>
-Pradžia: {{ booking.bookedFrom|format('Y-m-d') }}<br/>
-Pabaiga: {{ booking.bookedUntil|format('Y-m-d') }}<br/>
+Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
+Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
 <br/>
 Automobilis: <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">plačiau</a>
 <br/>
 <br/>
-carbookinglt@gmail.com
+--
+Pagarbiai, CarBooking
+https://carbooking.projektai.nfqakademija.lt
