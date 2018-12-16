@@ -59,6 +59,7 @@ class DeleteOldCarsCommand extends Command
 
                 /** @var Image $image */
                 foreach ($car->getImages()->toArray() as $image) {
+                    @unlink($image->getImage());
                     $this->entityManager->remove($image);
                 }
 
