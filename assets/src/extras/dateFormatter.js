@@ -1,6 +1,10 @@
-const dateWithoutTime = date => {
-    const FormatedDate = new Date(date);
-     return new Date(FormatedDate.setHours(0, 0, 0, 0)).toJSON().replace("T", " ");
+
+import { moment } from 'moment';
+
+const dateFormated = date => {
+    const dateWithoutTime = new Date(date).setHours(0, 0, 0, 0);
+    const DateIncremented = moment(dateWithoutTime).add(1, "d").toDate();
+    return DateIncremented.toJSON().replace("T", " ");
   };
 
-  export default dateWithoutTime;
+  export default dateFormated;

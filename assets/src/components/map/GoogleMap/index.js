@@ -12,7 +12,7 @@ const MAP = {
   defaultZoom: 8,
   defaultCenter: { lat: 54.687157, lng: 25.279652 },
   options: {
-    maxZoom: 14,
+    maxZoom: 15,
   },
 };
 
@@ -55,8 +55,8 @@ export class GoogleMap extends Component {
 
     const clusters = supercluster(markersData, {
       minZoom: 0,
-      maxZoom: 10,
-      radius: 10,
+      maxZoom: 30,
+      radius: 60,
     });
 
     return clusters(this.state.mapOptions);

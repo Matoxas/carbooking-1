@@ -9,6 +9,14 @@
   z-index: 9999;
 }
 
+.relative.heap {
+  z-index: 99;
+}
+
+.relative.heap:hover {
+  z-index: 99999999;
+}
+
 .relative .top {
   min-width: 200px;
   max-width: 300px;
