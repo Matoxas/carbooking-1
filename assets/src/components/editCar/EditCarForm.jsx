@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
-import Validators from "../newCar/formValidators";
+import Validators from "../../extras/formValidators";
 import axios from "axios";
 import dateFormatter from "../../extras/dateFormatter";
 

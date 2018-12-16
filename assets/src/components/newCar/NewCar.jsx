@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import Loading from "../loading";
-import Validators from "./formValidators";
+import Validators from "../../extras/formValidators";
 import "./newCar.css";
 import NewCarForm from "./newCarForm";
 import axios from "axios";
