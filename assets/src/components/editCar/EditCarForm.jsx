@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
-import Validators from "../newCar/formValidators";
+import Validators from "../../extras/formValidators";
 import axios from "axios";
 import dateFormatter from "../../extras/dateFormatter";
 
@@ -189,7 +189,7 @@ class EditCarForm extends Component {
     fd.append("token", editableCar.token);
 
     return axios
-      .post("delete/car/" + editableCar.token, fd)
+      .put("delete/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
       })
@@ -230,7 +230,7 @@ class EditCarForm extends Component {
     // }
 
     return axios
-      .post("edit/car/" + editableCar.token, fd)
+      .put("edit/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
       })

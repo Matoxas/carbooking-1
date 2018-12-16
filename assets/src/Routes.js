@@ -12,6 +12,7 @@ import Favourites from "./components/feed/Favourites";
 import NewCar from "./components/newCar/NewCar";
 import Footer from "./components/footer/footer";
 import GoogleMap from "./components/map/GoogleMap/index";
+import itemNotFoundContainer from './components/404/404Container';
 
 const Routes = () => {
   return (
@@ -36,6 +37,7 @@ const indexRoutes = () => (
         <Route path="/feed/:hash" component={Feed} />
         <Redirect from="/" exact to="/feed" />
         <Route path="/map" component={GoogleMap} exact />
+        <Route path="/feed/404" component={itemNotFoundContainer} />
         <Route path="/favourites" component={Favourites} exact />
         <Route component={Feed} />
       </Switch>

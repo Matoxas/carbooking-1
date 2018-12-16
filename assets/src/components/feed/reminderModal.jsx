@@ -8,7 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import "./feed.css";
-import Validators from "../newCar/formValidators";
+import Validators from "../../extras/formValidators";
 import axios from "axios";
 import { inject, observer } from "mobx-react";
 import success from "../../extras/checked_done_.json";

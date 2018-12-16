@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
-import Loading from "../loading";
-import Validators from "./formValidators";
+import Loading from "../../extras/loading";
+import Validators from "../../extras/formValidators";
 import "./newCar.css";
 import NewCarForm from "./newCarForm";
 import axios from "axios";
@@ -104,10 +104,6 @@ class NewCar extends Component {
     currentCar.images.forEach(image => {
       fd.append("image[]", image.file, image.file.name);
     });
-
-    // for (var pair of fd.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
 
     return axios
       .post("new/car", fd)

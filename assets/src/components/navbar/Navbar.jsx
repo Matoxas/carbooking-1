@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Navbar.css";
-import Logo from "../logo";
+import Logo from "../../extras/logo";
 import $ from "jquery";
 import history from "../../history";
 import { inject, observer } from "mobx-react";

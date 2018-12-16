@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import Item from "./item";
-import Loading from "../loading";
+import Loading from "../../extras/loading";
 
 @inject("CarStore")
 @observer
