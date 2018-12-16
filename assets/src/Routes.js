@@ -32,15 +32,16 @@ const indexRoutes = () => (
     <Index />
     <div className="main-wrapper" id="mainNav">
       <MainNavigation />
-      <Switch>
-        <Route path="/feed/carListing/:id" component={carListing} />
-        <Route path="/feed/:hash" component={Feed} />
-        <Redirect from="/" exact to="/feed" />
-        <Route path="/map" component={GoogleMap} exact />
-        <Route path="/404" component={itemNotFoundContainer} />
-        <Route path="/favourites" component={Favourites} exact />
-        <Route component={itemNotFoundContainer} />
-      </Switch>
+        <Switch>
+            <Route path="/feed/carListing/:id" component={carListing} />
+            <Route path="/feed/:hash" component={Feed} />
+            <Redirect from="/" exact to="/feed" />
+            <Route path="/map" component={GoogleMap} exact />
+            <Route path="/feed/404" component={itemNotFoundContainer} />
+            <Route path="/404" component={itemNotFoundContainer} />
+            <Route path="/favourites" component={Favourites} exact />
+            <Route component={Feed} />
+        </Switch>
     </div>
   </div>
 );
