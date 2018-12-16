@@ -12,6 +12,9 @@ const Validators = {
         if (value.length < 4) {
             return "Įveskite daugiau nei 4 raides!";
         }
+        if (value.length > 100) {
+            return "Komentaras negali būti ilgesnis nei 100 simbolių!";
+        }
         return "";
     },
     reservation: (value) => {
@@ -37,6 +40,9 @@ const Validators = {
         }
         if (value.message.length < 10) {
             errors.message = "Žinutė negali turėti mažiau nei 10 simbolių!";
+        }
+        if (value.message.length > 300) {
+            errors.message = "Žinutė negali būti ilgesnė nei 300 simbolių!";
         }
         return errors;
     }
