@@ -96,7 +96,8 @@ img {
   }
 
   .product-image {
-    min-height: 0;
+    min-height: 190px;
+    max-height: 190px;
   }
 }
 
