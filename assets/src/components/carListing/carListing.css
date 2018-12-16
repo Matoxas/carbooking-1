@@ -333,6 +333,8 @@ img {
   margin-top: 0.25rem;
   font-size: 0.9rem;
   color: #dc3545;
+  text-align: left;
+  margin-left: 5px;
 }
 
 .card-like--position {
