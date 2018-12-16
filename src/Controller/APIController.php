@@ -666,7 +666,6 @@ class APIController extends FOSRestController
         TokenGenerator $tokenGenerator
     ): View {
         $car = $this->getDoctrine()->getRepository(Car::class)->findOneBy(['token' => $token]);
-
         if ($car == null) {
             return $this->view(
                 [
@@ -705,7 +704,8 @@ class APIController extends FOSRestController
         $renting->setRentedUntil($until);
         $renting->setCar($car);
 
-        dump($request->get('bookingDates')); //todo: pabaigti koda, nuo čia...
+        $bookings = $request->get('bookingDates');
+        $this->removeCarBookingDates($bookings, $car);
 
         $validationUser = $validator->validate($user);
         $validationCar = $validator->validate($car);
@@ -728,7 +728,10 @@ class APIController extends FOSRestController
         $this->getDoctrine()->getManager()->persist($car);
         $this->getDoctrine()->getManager()->persist($renting);
 
-        $this->updateEditCarPhotos($request, $tokenGenerator, $translator, $car, $mailer);
+        $error = $this->updateEditCarPhotos($request, $tokenGenerator, $translator, $car, $mailer);
+        if ($error !== null) {
+            return $error;
+        }
 
         try {
             $this->getDoctrine()->getManager()->flush();
@@ -974,6 +977,23 @@ class APIController extends FOSRestController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $bookings
+     * @param $car
+     */
+    private function removeCarBookingDates($bookings, $car): void
+    {
+        $bookingsDB = $this->getDoctrine()->getRepository(Booking::class)->findBy(['car' => $car]);
+
+        foreach ($bookingsDB as $bookingDB) {
+            if (!@in_array($bookingDB->getId(), $bookings)) {
+                $this->getDoctrine()->getManager()->remove($bookingDB);
+            }
         }
     }
 }
