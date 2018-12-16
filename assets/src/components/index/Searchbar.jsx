@@ -7,6 +7,7 @@ import moment from "moment";
 import { inject, observer } from "mobx-react";
 import $ from "jquery";
 import history from "../../history";
+import dateWithoutTime from "../../extras/dateFormatter";
 registerLocale("lt", lt);
 @inject("CarStore")
 @observer
@@ -54,8 +55,8 @@ class Searchbar extends Component {
 
     setFilters({
       location,
-      date_from,
-      date_until
+      date_from: dateWithoutTime(date_from),
+      date_until: dateWithoutTime(date_until)
     });
     getAllCars();
     history.push("/feed");

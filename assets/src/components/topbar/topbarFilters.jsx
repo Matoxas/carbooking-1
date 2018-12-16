@@ -66,13 +66,14 @@ const TopbarFilters = props => {
           >
             <option value="">Visi modeliai</option>
 
-            {props.models.map(model => {
-              return (
-                <option key={model.id} value={model.id}>
-                  {model.model}
-                </option>
-              );
-            })}
+            {props.models &&
+              props.models.map(model => {
+                return (
+                  <option key={model.id} value={model.id}>
+                    {model.model}
+                  </option>
+                );
+              })}
           </select>
           <i className="fa fa-caret-down" aria-hidden="true" />
         </div>

@@ -7,6 +7,9 @@ import lt from "date-fns/locale/lt";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
 import Validators from "../newCar/formValidators";
+import axios from "axios";
+import dateFormatter from "../../extras/dateFormatter";
+
 registerLocale("lt", lt);
 
 const searchOptions = {
@@ -147,8 +150,8 @@ class EditCarForm extends Component {
 
     const validators = [
       Validators.price(editableCar.price, this.updateErrors),
-      // Validators.email(editableCar.email, this.updateErrors),
-      // Validators.name(editableCar.name, this.updateErrors),
+      Validators.email(editableCar.email, this.updateErrors),
+      Validators.name(editableCar.name, this.updateErrors),
       Validators.description(editableCar.description, this.updateErrors),
       Validators.phone(editableCar.phone, this.updateErrors),
       Validators.images(editableCar.images, this.updateErrors),
@@ -179,43 +182,61 @@ class EditCarForm extends Component {
     });
   };
 
+  onDeleteCar = () => {
+    const { editableCar } = this.props.CarFormStore;
+    const fd = new FormData();
+    fd.append("id", editableCar.id);
+    fd.append("token", editableCar.token);
+
+    return axios
+      .post("delete/car/" + editableCar.token, fd)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   sendFormToApi = () => {
     const { editableCar } = this.props.CarFormStore;
     const fd = new FormData();
     //pridedam visus duomenis
-    fd.append("brand", editableCar.brand);
-    fd.append("model", editableCar.model);
+    fd.append("id", editableCar.id);
     fd.append("city", editableCar.city);
     fd.append("address", editableCar.address);
     fd.append("price", editableCar.price);
     fd.append("description", editableCar.description);
-    // fd.append("phone", editableCar.phone);
-    // fd.append("email", editableCar.email);
+    fd.append("phone", editableCar.phone);
+    fd.append("email", editableCar.email);
     fd.append("name", editableCar.name);
-    fd.append("date_from", editableCar.date_from.toJSON().replace("T", " "));
-    fd.append("date_until", editableCar.date_until.toJSON().replace("T", " "));
+    fd.append("bookingDates", editableCar.bookingDates);
+    fd.append("token", editableCar.token);
+    fd.append("date_from", dateFormatter(editableCar.date_from));
+    fd.append("date_until", dateFormatter(editableCar.date_until));
 
     //pridedam visus paveikslėlius
-    currentCar.images.forEach(image => {
+    editableCar.images.forEach(image => {
+      console.log(image);
       if (image.file) {
         fd.append("image[]", image.file, image.file.name);
       } else {
-        fd.append("image[]", image.preview, image.preview);
+        fd.append("image[]", image.preview);
       }
     });
 
-    for (var pair of fd.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of fd.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
-    // return axios
-    //   .post("new/car", fd)
-    //   .then(response => {
-    //     return response;
-    //   })
-    //   .catch(error => {
-    //     return error;
-    //   });
+    return axios
+      .post("edit/car/" + editableCar.token, fd)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {

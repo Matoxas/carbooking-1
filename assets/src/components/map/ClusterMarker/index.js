@@ -40,7 +40,7 @@ class ClusterMarker extends React.PureComponent {
 
   render() {
     return (
-      <div className="relative">
+      <div className="relative heap">
       <PopUp showPopUp={this.state.showPopUp} priceRange={this.calculateMinMaxPrice()} />
       <MarkerGroup 
       onClick={this.handleClick}

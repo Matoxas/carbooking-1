@@ -74,7 +74,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "Roboto", Cereal "Open Sans", sans-serif !important;
+  /* font-family: "Roboto", Cereal "Open Sans", sans-serif !important; */
 }
 
 html,
@@ -615,11 +615,11 @@ body {
   display: flex;
 }
 
-.flex.justify-left{
-justify-content: left;
+.flex.justify-left {
+  justify-content: left;
 }
 
-.flex.align-center{
+.flex.align-center {
   align-items: center;
 }
 
@@ -664,12 +664,11 @@ justify-content: left;
   border-color: #f47e60;
 }
 
-
 .btn-warning:hover {
   background-color: #e5765a !important;
   border-color: #e5765a;
   color: white;
-  }
+}
 
 /* ================== MEDIA QUERRIES ====================== */
 

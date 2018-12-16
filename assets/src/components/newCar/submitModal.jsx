@@ -77,7 +77,7 @@ class SubmitModal extends Component {
           >
             <DialogTitle id="alert-dialog-title">
               {formStatus == "PENDING" && "Reikia patvirtinimo!"}
-              {formStatus == "LOADING" && "Palaukite, sekelbimas įkeliamas..."}
+              {formStatus == "LOADING" && "Palaukite, skelbimas įkeliamas..."}
               {formStatus == "SUCCESS" &&
                 "Sveikiname, skelbimas sėkmingai įkeltas!"}
               {formStatus == "FAILURE" && "Deja, kažkas ne taip!"}
