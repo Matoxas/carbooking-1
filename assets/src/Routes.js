@@ -38,6 +38,7 @@ const indexRoutes = () => (
         <Redirect from="/" exact to="/feed" />
         <Route path="/map" component={GoogleMap} exact />
         <Route path="/feed/404" component={itemNotFoundContainer} />
+        <Route path="/404" component={itemNotFoundContainer} />
         <Route path="/favourites" component={Favourites} exact />
         <Route component={Feed} />
       </Switch>

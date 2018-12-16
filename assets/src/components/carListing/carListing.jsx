@@ -3,6 +3,7 @@ import CarInfo from "./carInfo";
 import CarImage from "./carImage";
 import MapContainer from "./MapContainer";
 import Dialog from "./Dialog";
+import { Redirect } from "react-router-dom";
 import $ from "jquery";
 import Loading from "../../extras/loading";
 import { inject, observer } from "mobx-react";
@@ -108,6 +109,10 @@ class CarListing extends Component {
           </div>
         </div>
       );
+    }
+
+    if (this.state.car === null) {
+        return <Redirect to="/404"/>
     }
 
     return (

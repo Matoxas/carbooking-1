@@ -494,10 +494,9 @@ class carInfo extends Component {
                             <div className="form-group form-group-separate">
                                 <p className=" color-gray mt-2 mb-2">
                                     Preliminari kaina už laikotarpį:
-                                    <span className="color-primary">
-                    {" "}
+                                    <span className="color-primary">{" "}
                                         {this.state.totalPrice} €
-                  </span>
+                                    </span>
                                 </p>
                                 <form id="clear-reservation-input">
                                     <input
