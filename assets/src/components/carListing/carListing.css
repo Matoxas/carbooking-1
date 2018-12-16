@@ -336,10 +336,12 @@ img {
 }
 
 .card-like--position {
+  display: flex;
+  align-items: center;
   top: 0;
   right: 0;
   display: inline;
   margin-left: 10px;
   position: initial;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
 }

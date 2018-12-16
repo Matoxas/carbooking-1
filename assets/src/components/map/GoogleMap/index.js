@@ -56,7 +56,7 @@ export class GoogleMap extends Component {
     const clusters = supercluster(markersData, {
       minZoom: 0,
       maxZoom: 30,
-      radius: 60,
+      radius: 50,
     });
 
     return clusters(this.state.mapOptions);
