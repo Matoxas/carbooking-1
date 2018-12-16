@@ -61,7 +61,7 @@ class carInfo extends Component {
 
     handleDateChangeRaw = (e) => {
         e.preventDefault();
-    }
+    };
 
     postReservation = reservation => {
         axios
@@ -230,6 +230,11 @@ class carInfo extends Component {
                     this.setState({cannotReserveDates: ""});
                 }
             });
+        } else {
+            this.setState({
+                date_until: date,
+                date_from: date
+            })
         }
     };
 
@@ -494,10 +499,9 @@ class carInfo extends Component {
                             <div className="form-group form-group-separate">
                                 <p className=" color-gray mt-2 mb-2">
                                     Preliminari kaina už laikotarpį:
-                                    <span className="color-primary">
-                    {" "}
+                                    <span className="color-primary">{" "}
                                         {this.state.totalPrice} €
-                  </span>
+                                    </span>
                                 </p>
                                 <form id="clear-reservation-input">
                                     <input

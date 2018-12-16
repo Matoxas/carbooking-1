@@ -35,11 +35,11 @@ const indexRoutes = () => (
       <Switch>
         <Route path="/feed/carListing/:id" component={carListing} />
         <Route path="/feed/:hash" component={Feed} />
-        <Redirect from="/" exact to="/404" />
+        <Redirect from="/" exact to="/feed" />
         <Route path="/map" component={GoogleMap} exact />
         <Route path="/404" component={itemNotFoundContainer} />
         <Route path="/favourites" component={Favourites} exact />
-        <Route component={Feed} />
+        <Route component={itemNotFoundContainer} />
       </Switch>
     </div>
   </div>
