@@ -61,7 +61,7 @@ class carInfo extends Component {
 
     handleDateChangeRaw = (e) => {
         e.preventDefault();
-    }
+    };
 
     postReservation = reservation => {
         axios

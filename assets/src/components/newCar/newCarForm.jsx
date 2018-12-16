@@ -72,6 +72,10 @@ class NewCarForm extends Component {
     });
   };
 
+  handleDateChangeRaw = (e) => {
+      e.preventDefault();
+  };
+
   render() {
     const { currentCar } = this.props.CarFormStore;
     return (
@@ -269,6 +273,7 @@ class NewCarForm extends Component {
                     .toDate()}
                   selected={this.props.date_from}
                   onChange={this.props.handleFromChange}
+                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
@@ -299,6 +304,7 @@ class NewCarForm extends Component {
                     .toDate()}
                   selected={this.props.date_until}
                   onChange={this.props.handleUntilChange}
+                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>

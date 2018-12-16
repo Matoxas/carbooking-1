@@ -239,6 +239,10 @@ class EditCarForm extends Component {
       });
   };
 
+  handleDateChangeRaw = (e) => {
+      e.preventDefault();
+  };
+
   render() {
     const { editableCar, editableCarErrors } = this.props.CarFormStore;
 
@@ -369,6 +373,7 @@ class EditCarForm extends Component {
                     .toDate()}
                   selected={new Date(editableCar.date_from)}
                   onChange={this.handleFromChange}
+                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
@@ -398,6 +403,7 @@ class EditCarForm extends Component {
                     .toDate()}
                   selected={new Date(editableCar.date_until)}
                   onChange={this.handleUntilChange}
+                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
