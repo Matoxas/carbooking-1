@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Items from "./items";
 import Topbar from "../topbar/topbar";
-import Loading from "../loading";
+import Loading from "../../extras/loading";
 import "../topbar/topbar.css";
 import "./feed.css";
 import NoResults from "./NoResults";

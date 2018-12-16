@@ -4,7 +4,7 @@ import CarImage from "./carImage";
 import MapContainer from "./MapContainer";
 import Dialog from "./Dialog";
 import $ from "jquery";
-import Loading from "../loading";
+import Loading from "../../extras/loading";
 import { inject, observer } from "mobx-react";
 import axios from "axios";
 

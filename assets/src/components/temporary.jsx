@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Logo from "./logo";
+import Logo from "../extras/logo";
 
 class temporary extends Component {
   constructor() {

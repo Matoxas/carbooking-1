@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../style/index.css";
-import Logo from "../logo";
+import Logo from "../../extras/logo";
 import ArrorDown from "./arrowDown";
 import Searchbar from "./Searchbar";
 import $ from "jquery";

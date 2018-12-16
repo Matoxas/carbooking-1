@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import Loading from "../loading";
+import Loading from "../../extras/loading";
 import Validators from "../../extras/formValidators";
 import "./newCar.css";
 import NewCarForm from "./newCarForm";
