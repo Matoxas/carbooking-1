@@ -1,50 +1,38 @@
-@font-face {
-  font-family: Gilroy-ExtraBold;
-  src: url(/public/fonts/Gilroy-ExtraBold.otf);
-  font-weight: 400;
-}
-
 .itemNotFoundContainer .st0 {
   opacity: 0.19;
   fill: #999999;
   enable-background: new;
 }
 .itemNotFoundContainer .st1 {
-  fill: #2a2a2a;
+  enable-background: new;
 }
 .itemNotFoundContainer .st2 {
-  font-family: "Gilroy-ExtraBold";
+  fill: #2a2a2a;
 }
 .itemNotFoundContainer .st3 {
-  font-size: 240.7662px;
-}
-.itemNotFoundContainer .st4 {
-  letter-spacing: 5;
-}
-.itemNotFoundContainer .st5 {
   clip-path: url(#c);
 }
-.itemNotFoundContainer .st6 {
+.itemNotFoundContainer .st4 {
   fill: #5d5d5d;
 }
-.itemNotFoundContainer .st7 {
+.itemNotFoundContainer .st5 {
   fill: #4a4a4a;
 }
-.itemNotFoundContainer .st8 {
+.itemNotFoundContainer .st6 {
   fill: #767676;
 }
-.itemNotFoundContainer .st9 {
+.itemNotFoundContainer .st7 {
   fill: #3f3f3f;
 }
-.itemNotFoundContainer .st10 {
+.itemNotFoundContainer .st8 {
   fill: #e0e0e0;
 }
-.itemNotFoundContainer .st11 {
+.itemNotFoundContainer .st9 {
   fill: #bababa;
 }
-.itemNotFoundContainer .st12 {
+.itemNotFoundContainer .st10 {
   fill: #c2c2c2;
 }
-.itemNotFoundContainer .st13 {
+.itemNotFoundContainer .st11 {
   clip-path: url(#a);
 }
