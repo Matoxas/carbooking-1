@@ -256,10 +256,9 @@
 }
 
 .delete-button:hover {
+  -webkit-animation: out 0.2s;
 }
 
-.fa-times:hover {
-}
 @-webkit-keyframes in {
   from {
     -webkit-transform: rotate(0deg);
