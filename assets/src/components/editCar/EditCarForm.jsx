@@ -378,7 +378,8 @@ class EditCarForm extends Component {
         <div className="card">
           <div className="form-group row">
             <label className="col-sm-2" htmlFor="inputState">
-              Nuomos pradžia:
+              <span className="d-none d-sm-block d-md-none"> Nuo:</span>
+              <span className="d-sm-none d-md-block "> Nuomos pradžia:</span>
             </label>
             <div className="col-sm-4">
               <div className="relative pb-mobile">
@@ -406,7 +407,8 @@ class EditCarForm extends Component {
               className="col-sm-2 border-left pt-mobile"
               htmlFor="inputState"
             >
-              Nuomos pabaiga:
+              <span className="d-none d-sm-block d-md-none"> Iki:</span>
+              <span className="d-sm-none d-md-block "> Nuomos pabaiga:</span>
             </label>
             <div className="col-sm-4">
               <div className="relative">
