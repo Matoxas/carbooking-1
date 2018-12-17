@@ -104,14 +104,14 @@ class EditCar extends React.Component {
     const { editableCar, loading } = this.props.CarFormStore;
 
     if (loading) {
-      return <LoadModal open={this.state.open} />;
+      return <LoadModal open={loading} />;
     }
 
-    if (this.state.open) {
+    if (editableCar.id) {
       return (
         <EditCarModal
           editableCar={editableCar}
-          open={this.state.open}
+          open={true}
           handleClose={this.handleClose}
           handleUndo={this.ValidateCarId}
           formSubmit={this.formSubmit}
