@@ -1,0 +1,26 @@
+.reservations {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.badge {
+  padding: 0.5rem;
+}
+
+.badge:hover {
+  cursor: pointer;
+  color: #212529;
+  text-decoration: none;
+  background-color: #dae0e5;
+}
+
+.fa-times {
+  padding: 0.1rem 0.2rem;
+  background-color: #f8f9fa;
+  border-radius: 50%;
+}
+
+/* .fa-times:hover{
+    background-color: #f8f9fa;
+} */

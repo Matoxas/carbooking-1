@@ -103,7 +103,10 @@ class EditCarModal extends React.Component {
           <div className="main-wrapper">
             <DialogContent>
               <div className="main newCarWrapper mb-5 mt-0">
-                <EditCarForm onRef={ref => (this.child = ref)} />
+                <EditCarForm
+                  closeForm={this.props.handleClose}
+                  onRef={ref => (this.child = ref)}
+                />
               </div>
             </DialogContent>
           </div>

@@ -9,6 +9,7 @@ import moment from "moment";
 import Validators from "../../extras/formValidators";
 import axios from "axios";
 import dateFormatter from "../../extras/dateFormatter";
+import "./editCar.css";
 
 registerLocale("lt", lt);
 
@@ -27,8 +28,8 @@ class EditCarForm extends Component {
     this.state = {
       state: "",
       minDate: moment(this.props.date_from)
-          .add(1, "d")
-          .toDate()
+        .add(1, "d")
+        .toDate()
     };
   }
 
@@ -195,6 +196,9 @@ class EditCarForm extends Component {
       .put("delete/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
+        if (response.status === 200) {
+          this.props.closeForm();
+        }
       })
       .catch(error => {
         console.log(error);
@@ -203,6 +207,7 @@ class EditCarForm extends Component {
 
   sendFormToApi = () => {
     const { editableCar } = this.props.CarFormStore;
+    const bookingDates = editableCar.bookingDates.map(date => date.id);
     const fd = new FormData();
     //pridedam visus duomenis
     fd.append("id", editableCar.id);
@@ -213,7 +218,7 @@ class EditCarForm extends Component {
     fd.append("phone", editableCar.phone);
     fd.append("email", editableCar.email);
     fd.append("name", editableCar.name);
-    fd.append("bookingDates", editableCar.bookingDates);
+    fd.append("bookingDates", JSON.stringify(bookingDates));
     fd.append("token", editableCar.token);
     fd.append("date_from", dateFormatter(editableCar.date_from));
     fd.append("date_until", dateFormatter(editableCar.date_until));
@@ -236,10 +241,21 @@ class EditCarForm extends Component {
       .put("edit/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
+        if (response.status === 200) {
+          this.props.closeForm();
+        }
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  deleteBookedDate = id => {
+    const { editableCar, setEditableCar } = this.props.CarFormStore;
+    const newBookingDates = editableCar.bookingDates.filter(
+      date => date.id !== id
+    );
+    setEditableCar({ bookingDates: newBookingDates });
   };
 
   handleDateChangeRaw = e => {
@@ -394,21 +410,21 @@ class EditCarForm extends Component {
             </label>
             <div className="col-sm-4">
               <div className="relative">
-                  <DatePicker
-                      className="form-control"
-                      locale={"lt"}
-                      name="date_until"
-                      minDate={this.state.minDate}
-                      maxDate={moment(this.props.date_from)
-                          .add(31, "d")
-                          .toDate()}
-                      startDate={this.props.date_from}
-                      endDate={this.props.date_until}
-                      selected={this.props.date_until}
-                      selectsEnd
-                      onChange={this.props.handleUntilChange}
-                      onChangeRaw={this.handleDateChangeRaw}
-                  />
+                <DatePicker
+                  className="form-control"
+                  locale={"lt"}
+                  name="date_until"
+                  minDate={this.state.minDate}
+                  maxDate={moment(this.props.date_from)
+                    .add(31, "d")
+                    .toDate()}
+                  startDate={this.props.date_from}
+                  endDate={this.props.date_until}
+                  selected={this.props.date_until}
+                  selectsEnd
+                  onChange={this.props.handleUntilChange}
+                  onChangeRaw={this.handleDateChangeRaw}
+                />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
               {this.hasSpecificError("date_until") && (
@@ -418,6 +434,27 @@ class EditCarForm extends Component {
               )}
             </div>
           </div>
+
+          {editableCar.bookingDates[0] && (
+            <div className="form-group row">
+              <label className="col-sm-3 col-md-2" htmlFor="inputState">
+                Aktyvios rezervacijos:
+              </label>
+              <div className="col-sm-9 col-md-10 reservations">
+                {editableCar.bookingDates.map(date => (
+                  <span class="badge badge-pill badge-light">
+                    {date.bookedFrom.split(" ")[0] +
+                      " - " +
+                      date.bookedUntil.split(" ")[0]}{" "}
+                    <i
+                      onClick={() => this.deleteBookedDate(date.id)}
+                      class="fas fa-times"
+                    />
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="form-group row">
             <label className="col-sm-3 col-md-2" htmlFor="inputState">
               Paros kaina:
