@@ -47,7 +47,7 @@ class CarListing extends Component {
       .then(response => {
         console.log(response.data.message);
         this.setState({
-          dialogHeader: "Rezervacija patvirtinta",
+          dialogHeader: "Užklausa išsiųsta nuomininkui",
           dialogText: response.data.message,
           showDialog: true
         });
