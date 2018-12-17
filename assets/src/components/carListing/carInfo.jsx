@@ -69,8 +69,8 @@ class carInfo extends Component {
             .then(response => {
                 this.setState({
                     showAlertWindow: true,
-                    alertHeader: "Rezervacija pavyko",
-                    alertText: "Rezervacijos prašymas išsiųstas savininkui patvritinti"
+                    alertHeader: "Patvirtinkite rezervaciją el. pašte",
+                    alertText: "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą"
                 });
             })
             .catch(error => {
@@ -363,6 +363,9 @@ class carInfo extends Component {
                             <hr/>
                             <div className="col-lg-3 info-description">Savininkas</div>
                             <div class="flex align-center owner-info justify-left col-lg-9">
+                                <p class="info--normal flex align-center mr-4 info--owner info--owner-raise">
+                                    <i className="far fa-user-circle fa-2x"/>
+                                </p>
                                 <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
                                     {this.props.car.name}
                                 </p>

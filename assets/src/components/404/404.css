@@ -36,3 +36,7 @@
 .itemNotFoundContainer .st11 {
   clip-path: url(#a);
 }
+
+.error {
+  text-align: center;
+}

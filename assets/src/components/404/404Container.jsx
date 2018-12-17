@@ -5,7 +5,13 @@ const Container = () => {
   return (
     <div className="main itemNotFoundContainer">
       <div className="container">
-        <ItemNotFound />
+          <div className="row">
+              <div className="col-xl-3"/>
+              <div className="col-xl-6">
+                  <ItemNotFound />
+              </div>
+              <div className="col-xl-3"/>
+          </div>
       </div>
     </div>
   );
