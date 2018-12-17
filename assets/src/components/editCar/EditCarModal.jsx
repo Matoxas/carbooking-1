@@ -92,6 +92,9 @@ class EditCarModal extends React.Component {
                   } `}
                 </span>
               </Typography>
+              <Button color="secondary" onClick={this.props.handleUndo}>
+                Anuliuoti pakeitimus
+              </Button>
               <Button color="secondary" onClick={this.onDelete}>
                 Noriu ištrinti
               </Button>

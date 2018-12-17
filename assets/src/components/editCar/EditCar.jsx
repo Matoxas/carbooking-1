@@ -35,7 +35,7 @@ class EditCar extends React.Component {
     this.ValidateCarId(this.props.carId);
   }
 
-  ValidateCarId = id => {
+  ValidateCarId = (id = this.props.carId) => {
     const { setLoading } = this.props.CarFormStore;
     setLoading(true);
     if (id) {
@@ -111,6 +111,7 @@ class EditCar extends React.Component {
           editableCar={editableCar}
           open={this.state.open}
           handleClose={this.handleClose}
+          handleUndo={this.ValidateCarId}
           formSubmit={this.formSubmit}
         />
       );
