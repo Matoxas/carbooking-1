@@ -6,6 +6,7 @@ import ClusterMarker from '../ClusterMarker';
 import { inject, observer } from "mobx-react";
 import MapWrapper from './MapWrapper';
 import { Component } from 'react';
+import {observe} from "mobx"
 
 
 const MAP = {
@@ -18,15 +19,25 @@ const MAP = {
 
 @inject("CarStore")
 @observer
-export class GoogleMap extends Component {
-  // eslint-disable-line react/prefer-stateless-function
-  state = {
-    mapOptions: {
-      center: MAP.defaultCenter,
-      zoom: MAP.defaultZoom
-    },
-    clusters: [],
-  };
+class GoogleMap extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      mapOptions: {
+        center: MAP.defaultCenter,
+        zoom: MAP.defaultZoom
+      },
+      clusters: [],
+    };
+
+    observe(this.props.CarStore, (change) => {
+      if (change.name == 'cars' &&  change.object[change.name].length > 0){
+        this.handleMapChange(this.state.mapOptions);
+      }
+  });
+  }
+
 
   zoomIn = (lat, lng) =>{
     const {center:oldCenter, zoom:oldZoom, bounds} = this.state.mapOptions;

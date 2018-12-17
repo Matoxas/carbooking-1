@@ -11,8 +11,8 @@ import MainNavigation from "./components/main-navigation";
 import Favourites from "./components/feed/Favourites";
 import NewCar from "./components/newCar/NewCar";
 import Footer from "./components/footer/footer";
-import GoogleMap from "./components/map/GoogleMap/index";
-import itemNotFoundContainer from './components/404/404Container';
+import ItemNotFoundContainer from './components/404/404Container';
+import MapContainer from "./components/map/mapContainer";
 
 const Routes = () => {
   return (
@@ -36,9 +36,8 @@ const indexRoutes = () => (
             <Route path="/feed/carListing/:id" component={carListing} />
             <Route path="/feed/:hash" component={Feed} />
             <Redirect from="/" exact to="/feed" />
-            <Route path="/map" component={GoogleMap} exact />
-            <Route path="/feed/404" component={itemNotFoundContainer} />
-            <Route path="/404" component={itemNotFoundContainer} />
+            <Route path="/map" component={MapContainer} exact />
+            <Route path="/404" component={ItemNotFoundContainer} />
             <Route path="/favourites" component={Favourites} exact />
             <Route component={Feed} />
         </Switch>

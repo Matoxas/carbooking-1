@@ -42,10 +42,10 @@ class EditCarForm extends Component {
 
     this.validateDates();
   }
-  // componentWillUnmount() {
-  //   //unmountinam
-  //   this.props.onRef(undefined);
-  // }
+  componentWillUnmount() {
+    //unmountinam
+    this.props.onRef(undefined);
+  }
 
   setValues = e => {
     const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
@@ -239,8 +239,8 @@ class EditCarForm extends Component {
       });
   };
 
-  handleDateChangeRaw = (e) => {
-      e.preventDefault();
+  handleDateChangeRaw = e => {
+    e.preventDefault();
   };
 
   render() {

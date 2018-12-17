@@ -14,6 +14,7 @@ const MarkerCounter = styled.div`
   color: #fff;
   border: 2px solid #fff;
   border-radius: 50%;
+  z-index: 2;
   background-color: ${COLORS.gray64};
 `;
 
