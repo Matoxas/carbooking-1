@@ -13,6 +13,7 @@ const spinnerWrapper = {
 };
 
 const spinnerSize = {
+  marginLeft: "0.5rem",
   height: "100%",
   width: "auto"
 };

@@ -47,6 +47,7 @@ class EditCar extends React.Component {
             setLoading(false);
           } else {
             this.props.resetHash();
+            this.setState({ open: false });
             history.push("/feed");
             setLoading(false);
           }
@@ -55,6 +56,7 @@ class EditCar extends React.Component {
           console.log(error);
           this.props.resetHash();
           history.push("/feed");
+          this.setState({ open: false });
           setLoading(false);
           return error;
         });
@@ -102,14 +104,14 @@ class EditCar extends React.Component {
     const { editableCar, loading } = this.props.CarFormStore;
 
     if (loading) {
-      return <LoadModal open={this.state.open} />;
+      return <LoadModal open={loading} />;
     }
 
     if (editableCar.id) {
       return (
         <EditCarModal
           editableCar={editableCar}
-          open={this.state.open}
+          open={true}
           handleClose={this.handleClose}
           handleUndo={this.ValidateCarId}
           formSubmit={this.formSubmit}

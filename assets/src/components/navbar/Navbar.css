@@ -101,6 +101,14 @@
     float: left;
   }
 
+  .masthead-background {
+    background-color: rgba(57, 57, 57, 0.99);
+  }
+
+  .masthead {
+    background-color: rgba(57, 57, 57, 0.99);
+  }
+
   .nav-masthead {
     display: none;
     position: absolute;
@@ -109,7 +117,7 @@
     left: 0;
     top: 3rem;
     z-index: 99;
-    background-color: rgba(57, 57, 57, 0.9);
+    background-color: rgba(57, 57, 57, 0.99);
     border-bottom-color: rgba(57, 57, 57, 0.2);
   }
 
