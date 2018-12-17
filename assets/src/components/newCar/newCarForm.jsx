@@ -23,7 +23,10 @@ class NewCarForm extends Component {
     this.state = {
       modalIsOpen: false,
       formStatus: "LOADING", // PENDING/LOADING/SUCCESS/FAILURE
-      carId: ""
+      carId: "",
+      minDate: moment(this.props.date_from)
+          .add(1, "d")
+          .toDate()
     };
   }
 
@@ -271,7 +274,10 @@ class NewCarForm extends Component {
                   maxDate={moment(new Date())
                     .add(31, "d")
                     .toDate()}
+                  startDate={this.props.date_from}
+                  endDate={this.props.date_until}
                   selected={this.props.date_from}
+                  selectsStart
                   onChange={this.props.handleFromChange}
                   onChangeRaw={this.handleDateChangeRaw}
                 />
@@ -296,13 +302,14 @@ class NewCarForm extends Component {
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
-                  minDate={moment(this.props.date_from)
-                    .add(1, "d")
-                    .toDate()}
+                  minDate={this.state.minDate}
                   maxDate={moment(this.props.date_from)
                     .add(31, "d")
                     .toDate()}
+                  startDate={this.props.date_from}
+                  endDate={this.props.date_until}
                   selected={this.props.date_until}
+                  selectsEnd
                   onChange={this.props.handleUntilChange}
                   onChangeRaw={this.handleDateChangeRaw}
                 />
