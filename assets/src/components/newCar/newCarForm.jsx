@@ -16,6 +16,7 @@ const searchOptions = {
   componentRestrictions: { country: "ltu" }
 };
 @inject("CarFormStore")
+@inject("CarStore")
 @observer
 class NewCarForm extends Component {
   constructor(props) {
@@ -25,8 +26,8 @@ class NewCarForm extends Component {
       formStatus: "LOADING", // PENDING/LOADING/SUCCESS/FAILURE
       carId: "",
       minDate: moment(this.props.date_from)
-          .add(1, "d")
-          .toDate()
+        .add(1, "d")
+        .toDate()
     };
   }
 
@@ -34,6 +35,14 @@ class NewCarForm extends Component {
     this.setState({
       formStatus: status
     });
+  };
+
+  updateFeed = () => {
+    const { setFilters, getAllCars } = this.props.CarStore;
+    setFilters({
+      sort: "naujausi"
+    });
+    getAllCars();
   };
 
   handleModalOpen = () => {
@@ -62,6 +71,7 @@ class NewCarForm extends Component {
         // jei response teigiamas, keičiam formos statusą į SUCCESS
         if (response.status === 200) {
           this.props.clearForm();
+          this.updateFeed();
           this.setState({
             formStatus: "SUCCESS",
             carId: response.data.carId
@@ -75,8 +85,8 @@ class NewCarForm extends Component {
     });
   };
 
-  handleDateChangeRaw = (e) => {
-      e.preventDefault();
+  handleDateChangeRaw = e => {
+    e.preventDefault();
   };
 
   render() {
