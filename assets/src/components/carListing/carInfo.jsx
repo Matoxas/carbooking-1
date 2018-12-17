@@ -191,7 +191,7 @@ class carInfo extends Component {
     };
 
     calculateSum = () => {
-        if (this.state.date_until > this.state.date_from) {
+        if (this.state.date_until >= this.state.date_from) {
             const resultInMiliseconds = this.state.date_until - this.state.date_from;
 
             const ResultInDays = Math.floor(
