@@ -199,7 +199,7 @@ class carInfo extends Component {
             );
 
             const totalPrice =
-                Math.round(ResultInDays * this.props.car.price * 100) / 100;
+                Math.round((ResultInDays + 1) * this.props.car.price * 100) / 100;
 
             this.setState({
                 totalPrice
@@ -362,20 +362,21 @@ class carInfo extends Component {
                             </div>
                             <hr/>
                             <div className="col-lg-3 info-description">Savininkas</div>
-                            <div class="flex align-center owner-info justify-left col-lg-9">
-                                <p class="info--normal flex align-center mr-4 info--owner info--owner-raise">
-                                    <i className="far fa-user-circle fa-2x"/>
-                                </p>
-                                <p class="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
+                            <div className="flex align-center owner-info justify-left col-lg-9">
+                                <p className="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
+                                    <i className="far fa-user-circle fa-2x color-black"/>
                                     {this.props.car.name}
                                 </p>
-                                <p class="info--normal info--owner info--owner-raise">
-                                    <i class="fas mr-1 fa-phone info--envelope"/>
+                                <p className="info--normal info--owner info--owner-raise">
+                                    <i className="fas mr-1 fa-phone info--envelope"/>
                                     {this.props.car.phone}
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Komentarai</div>
-                            <div className="col-lg-9">
+                            <div className="col-lg-9 info-comment">
+                                {this.props.comments.length ? (
+                                    <hr/>
+                                ) : null}
                                 {this.props.comments.length ? (
                                     <Comment comments={this.props.comments}/>
                                 ) : (

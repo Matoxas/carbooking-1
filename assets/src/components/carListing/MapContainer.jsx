@@ -52,7 +52,7 @@ export class MapContainer extends Component {
           icon={{
             url:
               "https://www.logolynx.com/images/logolynx/f6/f6999054e09462b3f267ef4bf7b8c47e.png",
-            scaledSize: new google.maps.Size(160, 160)
+            scaledSize: new google.maps.Size(200, 200)
           }}
         />
       </Map>
