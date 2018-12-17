@@ -1,4 +1,6 @@
-﻿<img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="420" />
+﻿<a href='https://carbooking.projektai.nfqakademija.lt/'>
+   <img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="420" />
+ </a>
 
 Automobilių dalinimosi sistema
 ============
@@ -15,7 +17,7 @@ Automobilių dalinimosi sistema
 
 # Projekto aprašymas
 
-Populiarėjant automobilių nuomai iš kitų žmonių, sukūrėme tinklapį - [**Car Booking**](https://carbooking.projektai.nfqakademija.lt), 
+Populiarėjant automobilių nuomai iš kitų žmonių, sukūrėme tinklapį - [**CarBooking**](https://carbooking.projektai.nfqakademija.lt), 
 taip siekdami sutraukti tikslinę auditoriją į vieną vietą ir sutaupyti laiką automobilių paieškose.
 
 Šio tinklapio dėka, galime išsinuomoti patikusį automobilį arba 

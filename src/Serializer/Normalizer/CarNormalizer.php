@@ -75,6 +75,7 @@ class CarNormalizer implements NormalizerInterface
 
         $rentings = array_map(function (Renting $renting) {
             return [
+                'id' => $renting->getId(),
                 'rentedFrom' => $renting->getRentedFrom()->format('Y-m-d H:i:s'),
                 'rentedUntil' => $renting->getRentedUntil()->format('Y-m-d H:i:s')
             ];
@@ -94,6 +95,7 @@ class CarNormalizer implements NormalizerInterface
             }
 
             return [
+                'id' => $booking->getId(),
                 'bookedFrom' => $booking->getBookedFrom()->format('Y-m-d H:i:s'),
                 'bookedUntil' => $booking->getBookedUntil()->format('Y-m-d H:i:s')
             ];
