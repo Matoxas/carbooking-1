@@ -212,6 +212,9 @@ class carInfo extends Component {
     };
 
     handleFromChange = (excludedDates, date) => {
+        if (this.dateWithoutTime(date) === this.state.date_until) {
+            this.setState({cannotReserveDates: "Automobilį būtina pasirinkti bent 2 dienom"})
+        }
         let showError = false;
         if (date <= new Date(this.state.date_until)) {
             this.setState(
@@ -239,6 +242,9 @@ class carInfo extends Component {
     };
 
     handleUntilChange = (excludedDates, date) => {
+        if (this.dateWithoutTime(date) === this.state.date_from) {
+            this.setState({cannotReserveDates: "Automobilį būtina pasirinkti bent 2 dienom"})
+        }
         let showError = false;
         if (date >= new Date(this.state.date_from)) {
             this.setState(
@@ -372,20 +378,16 @@ class carInfo extends Component {
                                     {this.props.car.phone}
                                 </p>
                             </div>
-                            <div className="col-lg-3 info-description">Komentarai</div>
-                            <div className="col-lg-9 info-comment">
-                                {this.props.comments.length ? (
-                                    <hr/>
-                                ) : null}
+                            <div className="col-lg-3 info-description info-description--border">Komentarai</div>
+                            <div className="col-lg-9 info-comment info-comment--border">
                                 {this.props.comments.length ? (
                                     <Comment comments={this.props.comments}/>
                                 ) : (
                                     <p>Šis skelbimas neturi jokių komentarų.</p>
                                 )}
                             </div>
-                            <div className="col-lg-3"/>
-                            <div className="col-lg-9 info--newComment">
-                                <hr/>
+                            <div className="col-lg-3 info-comment-input-border"/>
+                            <div className="col-lg-9 info--newComment info--newComment-border">
                                 <button
                                     onClick={this.toggleComment}
                                     className="btn btn-warning btn-comment"
@@ -481,7 +483,7 @@ class carInfo extends Component {
                                     <i className="fa fa-caret-down" aria-hidden="true"/>
                                 </div>
                             </div>
-                            <div className="input--error">
+                            <div className="input--error input--error-dates">
                                 {this.state.cannotReserveDates}
                             </div>
                         </div>
