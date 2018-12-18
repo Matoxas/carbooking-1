@@ -136,6 +136,10 @@
     margin-left: 0;
   }
 
+  .topbar .form-group:last-of-type {
+    border-bottom: none;
+  }
+
   .topbar .form-group {
     margin: 0 1rem;
   }

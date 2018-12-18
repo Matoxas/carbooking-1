@@ -1,13 +1,13 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Comment from "./comment";
 import "./carListing.css";
 import Dialog from "./Dialog";
 import Validators from "./carListingValidators";
 import DatePicker from "react-datepicker/es";
-import {inject, observer} from "mobx-react";
+import { inject, observer } from "mobx-react";
 import axios from "axios";
 import moment from "moment";
-import {Button, Collapse} from "mdbreact";
+import { Button, Collapse } from "mdbreact";
 
 @inject("CarStore")
 @observer
@@ -59,18 +59,19 @@ class carInfo extends Component {
         this.calculateSum();
     }
 
-    handleDateChangeRaw = (e) => {
+    handleDateChangeRaw = e => {
         e.preventDefault();
     };
 
     postReservation = reservation => {
         axios
-            .post("/new/reservation", {reservation})
+            .post("/new/reservation", { reservation })
             .then(response => {
                 this.setState({
                     showAlertWindow: true,
                     alertHeader: "Rezervacijos forma išsiųsta",
-                    alertText: "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą"
+                    alertText:
+                        "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą"
                 });
             })
             .catch(error => {
@@ -86,7 +87,7 @@ class carInfo extends Component {
     handleSubmit = e => {
         if (this.state.reservationClicked === true) {
             e.preventDefault();
-            const {name, email, phone, message, date_from, date_until} = this.state;
+            const { name, email, phone, message, date_from, date_until } = this.state;
 
             const reservation = {
                 carId: this.props.car.id,
@@ -111,7 +112,7 @@ class carInfo extends Component {
                 });
                 return;
             }
-            this.setState({showReservationErrors: false});
+            this.setState({ showReservationErrors: false });
 
             this.postReservation(reservation);
 
@@ -139,14 +140,14 @@ class carInfo extends Component {
                 commentNameError: commentNameError
             });
             showError = true;
-        } else this.setState({showCommentNameError: false});
+        } else this.setState({ showCommentNameError: false });
         if (commentTextError !== "") {
             this.setState({
                 showCommentTextError: true,
                 commentTextError: commentTextError
             });
             showError = true;
-        } else this.setState({showCommentTextError: false});
+        } else this.setState({ showCommentTextError: false });
         if (showError) {
             this.setState({
                 commentCollapse: true
@@ -159,8 +160,8 @@ class carInfo extends Component {
                 commentText: ""
             });
             e.preventDefault();
-            const {postComment} = this.props.CarStore;
-            const {commentName, commentText} = this.state;
+            const { postComment } = this.props.CarStore;
+            const { commentName, commentText } = this.state;
 
             const comment = {
                 carId: this.props.car.id,
@@ -183,7 +184,7 @@ class carInfo extends Component {
     };
 
     toggleComment = () => {
-        this.setState({commentCollapse: !this.state.commentCollapse});
+        this.setState({ commentCollapse: !this.state.commentCollapse });
     };
 
     dateWithoutTime = date => {
@@ -205,7 +206,7 @@ class carInfo extends Component {
                     totalPrice
                 });
             } else {
-                this.setState({totalPrice: 0})
+                this.setState({ totalPrice: 0 });
             }
         } else {
             this.setState({
@@ -216,15 +217,12 @@ class carInfo extends Component {
 
     handleFromChange = (excludedDates, date) => {
         if (this.dateWithoutTime(date) === this.state.date_until) {
-            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"});
-            return;
-        } else {
-            this.setState({cannotReserveDates: ""});
+            this.setState({ cannotReserveDates: "Minimali nuomos trukmė: 1 para" });
         }
         let showError = false;
         if (date <= new Date(this.state.date_until)) {
             this.setState(
-                {date_from: this.dateWithoutTime(date)},
+                { date_from: this.dateWithoutTime(date) },
                 this.calculateSum
             );
             excludedDates.map(dates => {
@@ -236,29 +234,25 @@ class carInfo extends Component {
                     showError = true;
                 }
                 if (showError === false) {
-                    this.setState({cannotReserveDates: ""});
+                    this.setState({ cannotReserveDates: "" });
                 }
             });
         } else {
             this.setState({
                 date_until: date,
                 date_from: date
-            })
+            });
         }
     };
 
     handleUntilChange = (excludedDates, date) => {
         if (this.dateWithoutTime(date) === this.state.date_from) {
-            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"});
-            return;
-        } else {
-            this.setState({cannotReserveDates: ""});
+            this.setState({ cannotReserveDates: "Minimali nuomos trukmė: 1 para" });
         }
-
         let showError = false;
         if (date >= new Date(this.state.date_from)) {
             this.setState(
-                {date_until: this.dateWithoutTime(date)},
+                { date_until: this.dateWithoutTime(date) },
                 this.calculateSum
             );
             excludedDates.some(dates => {
@@ -270,22 +264,22 @@ class carInfo extends Component {
                     showError = true;
                 }
                 if (showError === false) {
-                    this.setState({cannotReserveDates: ""});
+                    this.setState({ cannotReserveDates: "" });
                 }
             });
         }
     };
 
     handleNameChange = name => {
-        this.setState({name: name.target.value});
+        this.setState({ name: name.target.value });
     };
 
     handleMessageChange = message => {
-        this.setState({message: message.target.value});
+        this.setState({ message: message.target.value });
     };
 
     handleBadListing = () => {
-        const {postBadListing} = this.props.CarStore;
+        const { postBadListing } = this.props.CarStore;
         postBadListing(this.props.car.id);
         this.setState({
             badListingHeader: "Jūsų pranešimas buvo išsiųstas",
@@ -295,8 +289,8 @@ class carInfo extends Component {
     };
 
     isLiked = () => {
-        const {car: currentCar} = this.props;
-        const {likedCars} = this.props.CarStore;
+        const { car: currentCar } = this.props;
+        const { likedCars } = this.props.CarStore;
 
         return (
             likedCars.filter(car => {
@@ -307,29 +301,29 @@ class carInfo extends Component {
 
     handleLikeSubmit = e => {
         e.preventDefault();
-        const {car} = this.props;
-        const {likesToggler} = this.props.CarStore;
+        const { car } = this.props;
+        const { likesToggler } = this.props.CarStore;
         likesToggler(car);
     };
 
     handleEmailChange = email => {
-        this.setState({email: email.target.value});
+        this.setState({ email: email.target.value });
     };
 
     handlePhoneChange = phone => {
-        this.setState({phone: phone.target.value});
+        this.setState({ phone: phone.target.value });
     };
 
     handleCommentName = name => {
-        this.setState({commentName: name.target.value});
+        this.setState({ commentName: name.target.value });
     };
 
     handleCommentText = text => {
-        this.setState({commentText: text.target.value});
+        this.setState({ commentText: text.target.value });
     };
 
     handleAlert = () => {
-        this.setState({showAlertWindow: false});
+        this.setState({ showAlertWindow: false });
     };
 
     render() {
@@ -349,24 +343,24 @@ class carInfo extends Component {
                 <div className="row">
                     <div className="col-lg-7">
                         <div className="row">
-                            <div className="col-lg-3 info-description"/>
-                            <div className="col-lg-9">
+                            <div className="col-lg-3 info-description" />
+                            <div className="pl-2 col-lg-9">
                                 <p className="info--big">
                                     {this.props.car.brand}
                                     <span className="light-text">
-                                        {" "}
+                    {" "}
                                         {this.props.car.model}
                                         <span
                                             onClick={this.handleLikeSubmit}
                                             className="card-like card-like--position"
                                         >
-                                            <i
-                                                className={
-                                                    (this.isLiked() ? "fas" : "far") + " fa-heart"
-                                                }
-                                            />
-                                        </span>
-                                    </span>
+                      <i
+                          className={
+                              (this.isLiked() ? "fas" : "far") + " fa-heart"
+                          }
+                      />
+                    </span>
+                  </span>
                                 </p>
                             </div>
                             <div className="col-lg-3 info-description">Vieta</div>
@@ -377,22 +371,24 @@ class carInfo extends Component {
                             <div className="col-lg-9">
                                 <p className="info--normal">{this.props.car.description}</p>
                             </div>
-                            <hr/>
+                            <hr />
                             <div className="col-lg-3 info-description">Savininkas</div>
                             <div className="flex align-center owner-info justify-left col-lg-9">
                                 <p className="info--normal flex align-center mr-4 color-primary info--owner info--owner-raise">
-                                    <i className="far fa-user-circle fa-2x color-black"/>
+                                    <i className="far fa-user-circle fa-2x color-black" />
                                     {this.props.car.name}
                                 </p>
                                 <p className="info--normal info--owner info--owner-raise">
-                                    <i className="fas mr-1 fa-phone info--envelope"/>
+                                    <i className="fas mr-1 fa-phone info--envelope" />
                                     {this.props.car.phone}
                                 </p>
                             </div>
-                            <div className="col-lg-3 info-description info-description--border">Komentarai</div>
+                            <div className="col-lg-3 info-description info-description--border">
+                                Komentarai
+                            </div>
                             <div className="col-lg-9 info-comment info-comment--border">
                                 {this.props.comments.length ? (
-                                    <Comment comments={this.props.comments}/>
+                                    <Comment comments={this.props.comments} />
                                 ) : (
                                     <p>Šis skelbimas neturi jokių komentarų.</p>
                                 )}
@@ -430,7 +426,7 @@ class carInfo extends Component {
                                                     {this.state.commentTextError}
                                                 </div>
                                             ) : null}
-                                            <br/>
+                                            <br />
                                             <button
                                                 onClick={this.handleSubmitComment}
                                                 className="btn btn-warning info-button"
@@ -469,12 +465,14 @@ class carInfo extends Component {
                                             endDate={new Date(this.state.date_until)}
                                             // rentDates[0] because currently there will be only one rented date
                                             minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                                            maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
+                                            maxDate={
+                                                new Date(this.props.car.rentDates[0].rentedUntil)
+                                            }
                                             onChange={e => this.handleFromChange(dates, e)}
                                             onChangeRaw={this.handleDateChangeRaw}
                                             autocomplete="off"
                                         />
-                                        <i className="fa fa-caret-down" aria-hidden="true"/>
+                                        <i className="fa fa-caret-down" aria-hidden="true" />
                                     </div>
                                     <label htmlFor="inputState">Nuomos pabaiga:</label>
                                     <div className="relative clearfix">
@@ -488,12 +486,14 @@ class carInfo extends Component {
                                             startDate={new Date(this.state.date_from)}
                                             endDate={new Date(this.state.date_until)}
                                             minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                                            maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
+                                            maxDate={
+                                                new Date(this.props.car.rentDates[0].rentedUntil)
+                                            }
                                             onChange={e => this.handleUntilChange(dates, e)}
                                             onChangeRaw={this.handleDateChangeRaw}
                                             autocomplete="off"
                                         />
-                                        <i className="fa fa-caret-down" aria-hidden="true"/>
+                                        <i className="fa fa-caret-down" aria-hidden="true" />
                                     </div>
                                 </form>
                             </div>
@@ -519,9 +519,10 @@ class carInfo extends Component {
                             <div className="form-group form-group-separate">
                                 <p className=" color-gray mt-2 mb-2">
                                     Preliminari kaina už laikotarpį:
-                                    <span className="color-primary">{" "}
+                                    <span className="color-primary">
+                    {" "}
                                         {this.state.totalPrice} €
-                                    </span>
+                  </span>
                                 </p>
                                 <form id="clear-reservation-input">
                                     <input
@@ -558,11 +559,11 @@ class carInfo extends Component {
                                         </div>
                                     ) : null}
                                     <div className="form-group">
-                                        <textarea
-                                            onChange={this.handleMessageChange}
-                                            className="form-control"
-                                            placeholder="Žinutė pardavėjui..."
-                                        />
+                    <textarea
+                        onChange={this.handleMessageChange}
+                        className="form-control"
+                        placeholder="Žinutė pardavėjui..."
+                    />
                                         {this.state.showReservationErrors ? (
                                             <div className="input--error">
                                                 {this.state.validationErrors.message}
@@ -572,13 +573,16 @@ class carInfo extends Component {
                                 </form>
                             </div>
                         </Collapse>
-                        <hr/>
+                        <hr />
                         <p onClick={this.handleBadListing} className="info-report">
                             Pranešti apie netinkamą skelbimą
                         </p>
                         {this.state.badListingShow ? (
                             <div onClick={this.handleBadListingDialog}>
-                                <Dialog alertHeader={this.state.badListingHeader} alertMessage={this.state.badListingText}/>
+                                <Dialog
+                                    alertHeader={this.state.badListingHeader}
+                                    alertMessage={this.state.badListingText}
+                                />
                             </div>
                         ) : null}
                     </div>

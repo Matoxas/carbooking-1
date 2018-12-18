@@ -67,7 +67,7 @@ class EditCarModal extends React.Component {
       <MuiThemeProvider theme={theme}>
         <Dialog
           fullScreen
-          open={this.props.open}
+          open={true}
           onClose={this.props.handleClose}
           TransitionComponent={Transition}
         >

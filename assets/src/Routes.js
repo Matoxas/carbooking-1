@@ -8,7 +8,7 @@ import Navbar from "./components/navbar/Navbar";
 import Index from "./components/index/Index";
 import carListing from "./components/carListing/carListing";
 import MainNavigation from "./components/main-navigation";
-import Favourites from "./components/feed/Favourites";
+import Favourites from "./components/favourites/Favourites";
 import NewCar from "./components/newCar/NewCar";
 import Footer from "./components/footer/footer";
 import ItemNotFoundContainer from './components/404/404Container';

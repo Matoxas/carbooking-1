@@ -1,0 +1,67 @@
+.noFavs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: auto;
+  min-height: 80vh;
+  max-height: 100vh;
+  margin-top: 1rem;
+}
+
+.noFavs h2 {
+  font-size: 5vh;
+}
+
+.noFavs h4 {
+  font-size: 4vh;
+}
+
+.noFavs .st0 {
+  fill: #8e9ba2;
+}
+.noFavs .st1 {
+  fill: #db4f5d;
+}
+.noFavs .st2 {
+  opacity: 0.12;
+}
+.noFavs .st3 {
+  fill: #f47e60;
+}
+.noFavs .st4 {
+  fill: #e15b64;
+}
+.noFavs .st5 {
+  fill: #dd4b59;
+}
+.noFavs .st6 {
+  fill: #ebceb1;
+}
+.noFavs .st7 {
+  fill: #293a53;
+}
+.noFavs .st8 {
+  fill: #ad6f5e;
+}
+.noFavs .st9 {
+  fill: #96795d;
+}
+.noFavs .st10 {
+  fill: #c2c1b3;
+}
+.noFavs .st11 {
+  fill: #d6b492;
+}
+.noFavs .st12 {
+  fill: #dae0e3;
+}
+.noFavs .st13 {
+  fill: #828e94;
+}
+
+@media (max-width: 575.98px) {
+  .noFavs {
+    justify-content: space-between;
+  }
+}
