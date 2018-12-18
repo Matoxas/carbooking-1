@@ -107,7 +107,7 @@ class EditCar extends React.Component {
       return <LoadModal open={loading} />;
     }
 
-    if (editableCar.id) {
+    if (editableCar.token) {
       return (
         <EditCarModal
           editableCar={editableCar}

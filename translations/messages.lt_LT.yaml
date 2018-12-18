@@ -18,7 +18,7 @@ booking:
   token_is_expired: 'Patvirtinimo raktas pasibaigęs!'
   token_is_used: 'Ši rezervacija jau patvirtinta!'
   success: 'Jūs el-paštas patvirtintas! Visa reikalinga informacija buvo išsiųsta nurodytu el-paštu!'
-  not_approved_success: 'Rezervacija nebuvo patvirtinta. Apie tai buvo informuotas rezervavęsis asmuo.'
+  not_approved_success: 'Apie tai buvo informuotas rezervavęsis asmuo.'
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
 comment:
