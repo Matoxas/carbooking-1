@@ -209,6 +209,7 @@ img {
   font-weight: 600;
   width: 100%;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .btn-comment:hover {
@@ -399,11 +400,11 @@ comment {
     border-top: none;
   }
 
-  .info-description--border{
+  .info-description--border {
     margin-bottom: 0.5rem;
   }
 
-  .comment-column--left{
+  .comment-column--left {
     margin-right: 1rem;
   }
 }
