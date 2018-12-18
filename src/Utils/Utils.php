@@ -4,6 +4,10 @@ namespace App\Utils;
 
 class Utils
 {
+    /**
+     * @param string $address
+     * @return array
+     */
     public static function fetchLocationByAddress(string $address): array
     {
         $key = getenv('MAP_API_KEY');
@@ -20,6 +24,10 @@ class Utils
         return [];
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private static function parseLocation(array $data): array
     {
         $lat = $lng = null;
@@ -35,6 +43,10 @@ class Utils
         return ['lat' => $lat, 'lng' => $lng];
     }
 
+    /**
+     * @param string $filename
+     * @return array
+     */
     public static function getData(string $filename): array
     {
         $data = [];

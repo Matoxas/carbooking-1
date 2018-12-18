@@ -25,6 +25,12 @@ class CarNormalizer implements NormalizerInterface
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param $object
+     * @param null $format
+     * @param array $context
+     * @return array|bool|float|int|string
+     */
     public function normalize($object, $format = null, array $context = array())
     {
         return [
@@ -47,11 +53,20 @@ class CarNormalizer implements NormalizerInterface
         ];
     }
 
+    /**
+     * @param mixed $data
+     * @param null $format
+     * @return bool
+     */
     public function supportsNormalization($data, $format = null)
     {
         return $data instanceof Car;
     }
 
+    /**
+     * @param Car $object
+     * @return array
+     */
     private function getImages(Car $object): array
     {
         /** @var array $images */
@@ -68,6 +83,10 @@ class CarNormalizer implements NormalizerInterface
         return $images;
     }
 
+    /**
+     * @param Car $object
+     * @return array
+     */
     private function getRentDates(Car $object): array
     {
         /** @var array $images */
@@ -84,6 +103,10 @@ class CarNormalizer implements NormalizerInterface
         return $rentings;
     }
 
+    /**
+     * @param Car $object
+     * @return array
+     */
     private function getBookings(Car $object): array
     {
         /** @var array $images */

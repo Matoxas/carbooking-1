@@ -62,37 +62,59 @@ class User implements UserInterface, \Serializable
      */
     private $createdAt;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
         $this->bookings = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getCars()
     {
         return $this->cars;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param $email
+     */
     public function setEmail($email): void
     {
         $this->email = $email;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string|null $name
+     * @return User
+     */
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -100,11 +122,18 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPhone(): ?string
     {
         return $this->phone;
     }
 
+    /**
+     * @param string $phone
+     * @return User
+     */
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
@@ -120,6 +149,10 @@ class User implements UserInterface, \Serializable
         return $this->bookings;
     }
 
+    /**
+     * @param Booking $booking
+     * @return User
+     */
     public function addBooking(Booking $booking): self
     {
         if (!$this->bookings->contains($booking)) {
@@ -130,6 +163,10 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @param Booking $booking
+     * @return User
+     */
     public function removeBooking(Booking $booking): self
     {
         if ($this->bookings->contains($booking)) {
@@ -143,16 +180,25 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * @param $password
+     */
     public function setPassword($password): void
     {
         $this->password = $password;
     }
 
+    /**
+     * @return string
+     */
     public function serialize()
     {
         return serialize([
@@ -162,6 +208,9 @@ class User implements UserInterface, \Serializable
         ]);
     }
 
+    /**
+     * @param string $serialized
+     */
     public function unserialize($serialized)
     {
         list($this->id,
@@ -169,6 +218,9 @@ class User implements UserInterface, \Serializable
             $this->password) = unserialize($serialized);
     }
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return [
@@ -176,26 +228,42 @@ class User implements UserInterface, \Serializable
         ];
     }
 
+    /**
+     * @return string|null
+     */
     public function getSalt()
     {
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->email;
     }
 
+    /**
+     *
+     */
     public function eraseCredentials()
     {
         $this->plainPassword = null;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return User
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;

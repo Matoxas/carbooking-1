@@ -10,6 +10,9 @@ use Doctrine\ORM\Events;
 
 class CarSubscriber implements EventSubscriber
 {
+    /**
+     * @return array|string[]
+     */
     public function getSubscribedEvents()
     {
         return [
@@ -17,6 +20,9 @@ class CarSubscriber implements EventSubscriber
         ];
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();

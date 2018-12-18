@@ -15,11 +15,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ModelRepository extends ServiceEntityRepository
 {
+    /**
+     * ModelRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Model::class);
     }
 
+    /**
+     * @param int $brandId
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findCountOfRecords(int $brandId)
     {
         return $this->createQueryBuilder('m')

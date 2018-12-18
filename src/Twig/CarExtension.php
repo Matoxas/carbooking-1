@@ -24,6 +24,9 @@ class CarExtension extends AbstractExtension
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return array
+     */
     public function getFilters(): array
     {
         return [
@@ -31,6 +34,9 @@ class CarExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getFunctions(): array
     {
         return [
@@ -39,6 +45,10 @@ class CarExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param $carsCount
+     * @return string
+     */
     public function ninePlus($carsCount)
     {
         if ($carsCount > 9) {
@@ -48,6 +58,9 @@ class CarExtension extends AbstractExtension
         return $carsCount;
     }
 
+    /**
+     * @return int|void
+     */
     public function notConfirmedCarsCount()
     {
         $cars = $this->entityManager->getRepository(Car::class)
@@ -58,6 +71,9 @@ class CarExtension extends AbstractExtension
         return $count;
     }
 
+    /**
+     * @return int|void
+     */
     public function notPublishedCarsCount()
     {
         $cars = $this->entityManager->getRepository(Car::class)

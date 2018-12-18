@@ -12,6 +12,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class BookingFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Bookings.csv';
@@ -25,6 +28,12 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return Booking
+     * @throws \Exception
+     */
     private function createBooking(array $data, int $index): Booking
     {
         $booking = new Booking();
@@ -52,6 +61,9 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         return $booking;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

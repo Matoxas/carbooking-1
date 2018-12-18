@@ -30,6 +30,11 @@ class Mailer
         $this->twig = $twig;
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmail(): void
     {
         $body = $this->twig->render('email/main.html.twig', [
@@ -44,6 +49,14 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param int $errorCode
+     * @param string $errorRoute
+     * @param string $errorMessage
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendErrorEmail(int $errorCode, string $errorRoute, string $errorMessage): void
     {
         $body = $this->twig->render('email/error_unknown.html.twig', [
@@ -60,6 +73,12 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Car $car
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendReportCarEmail(Car $car)
     {
         $body = $this->twig->render('email/report_car.html.twig', [
@@ -74,6 +93,12 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Subscriber $subscriber
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailForSucessufullySubscribe(Subscriber $subscriber)
     {
         $body = $this->twig->render('email/subscribeFirstTime.html.twig', [
@@ -88,6 +113,13 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Subscriber $subscriber
+     * @param Car $car
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailSubscriber(Subscriber $subscriber, Car $car)
     {
         $body = $this->twig->render('email/subscriber.html.twig', [
@@ -103,6 +135,12 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Car $car
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailOwner(Car $car)
     {
         $body = $this->twig->render('email/car_owner.html.twig', [
@@ -117,6 +155,14 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Car $car
+     * @param User $user
+     * @param Booking $booking
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailForSucessufullyReservationCarOwner(Car $car, User $user, Booking $booking)
     {
         $body = $this->twig->render('email/sucessufully_reservation_car_owner.html.twig', [
@@ -133,6 +179,14 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Car $car
+     * @param User $user
+     * @param Booking $booking
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailForSucessufullyReservationClient(Car $car, User $user, Booking $booking)
     {
         $body = $this->twig->render('email/sucessufully_reservation_client.html.twig', [
@@ -149,6 +203,13 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    /**
+     * @param User $user
+     * @param Booking $booking
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function sendEmailForReservationApproved(User $user, Booking $booking)
     {
         $body = $this->twig->render('email/reservation_approve.html.twig', [

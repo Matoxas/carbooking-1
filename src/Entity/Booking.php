@@ -71,16 +71,26 @@ class Booking
     {
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Car|null
+     */
     public function getCar(): ?Car
     {
         return $this->car;
     }
 
+    /**
+     * @param Car|null $car
+     * @return Booking
+     */
     public function setCar(?Car $car): self
     {
         $this->car = $car;
@@ -88,11 +98,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getBookedFrom(): ?\DateTimeInterface
     {
         return $this->bookedFrom;
     }
 
+    /**
+     * @param \DateTimeInterface $bookedFrom
+     * @return Booking
+     */
     public function setBookedFrom(\DateTimeInterface $bookedFrom): self
     {
         $this->bookedFrom = $bookedFrom;
@@ -100,11 +117,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getBookedUntil(): ?\DateTimeInterface
     {
         return $this->bookedUntil;
     }
 
+    /**
+     * @param \DateTimeInterface $bookedUntil
+     * @return Booking
+     */
     public function setBookedUntil(\DateTimeInterface $bookedUntil): self
     {
         $this->bookedUntil = $bookedUntil;
@@ -112,11 +136,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getApproved(): ?bool
     {
         return $this->approved;
     }
 
+    /**
+     * @param bool $approved
+     * @return Booking
+     */
     public function setApproved(bool $approved): self
     {
         $this->approved = $approved;
@@ -124,11 +155,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMessage(): ?string
     {
         return $this->message;
     }
 
+    /**
+     * @param string|null $message
+     * @return Booking
+     */
     public function setMessage(?string $message): self
     {
         $this->message = $message;
@@ -136,11 +174,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUsers(): ?User
     {
         return $this->users;
     }
 
+    /**
+     * @param User|null $users
+     * @return Booking
+     */
     public function setUsers(?User $users): self
     {
         $this->users = $users;
@@ -148,11 +193,18 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getToken(): ?string
     {
         return $this->token;
     }
 
+    /**
+     * @param string $token
+     * @return Booking
+     */
     public function setToken(string $token): self
     {
         $this->token = $token;

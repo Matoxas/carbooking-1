@@ -53,6 +53,12 @@ $ php bin/console d:f:l
 * Pasižiūrime, ar veikia.
   Naršyklėje atidarius [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
 
+* Senų, ir nebereikalingų duomenų valymas:
+```bash
+$ php bin/console app:delete-old-users --outdated 20d.
+$ php bin/console app:delete-old-cars --outdated 20d.
+```
+
 * Pabaigus, gražiai išjungiame:
 ```bash
 scripts/stop.sh
@@ -90,7 +96,6 @@ scripts/logs.sh
 ```bash
 scripts/clean-and-start-fresh.sh
 ```
-
 
 ### Komanda
 

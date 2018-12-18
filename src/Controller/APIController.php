@@ -131,6 +131,7 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param int $brandId
      * @return View
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getAllModelsByBrandIdAction(TranslatorInterface $translator, int $brandId): View
     {
@@ -305,6 +306,9 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param Mailer $mailer
      * @return View
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function postReportCarAction(Request $request, TranslatorInterface $translator, Mailer $mailer): View
     {
@@ -343,6 +347,9 @@ class APIController extends FOSRestController
      * @param ValidatorInterface $validator
      * @param Mailer $mailer
      * @return View
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function postNewCommentAction(
         Request $request,
@@ -492,6 +499,9 @@ class APIController extends FOSRestController
      * @param string $token
      * @param Mailer $mailer
      * @return View
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function getReservationInfoAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
     {
@@ -763,6 +773,9 @@ class APIController extends FOSRestController
      * @param TranslatorInterface $translator
      * @param Mailer $mailer
      * @return View
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function putDeleteCarAction(string $token, TranslatorInterface $translator, Mailer $mailer): View
     {
@@ -818,11 +831,14 @@ class APIController extends FOSRestController
             );
         }
 
-        try {
+        $userCars = $this->getDoctrine()->getRepository(Car::class)->findBy(['user' => $user]);
+        $userCarsCount = count($userCars);
+
+        if ($userCarsCount == 0) {
             $this->getDoctrine()->getManager()->remove($user);
-            $this->getDoctrine()->getManager()->flush();
-        } catch (\Exception $exception) {
         }
+
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->view(
             [
@@ -839,6 +855,9 @@ class APIController extends FOSRestController
      * @param TokenGenerator $tokenGenerator
      * @param Mailer $mailer
      * @return string
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     private function uploadImages(
         Request $request,
@@ -928,6 +947,9 @@ class APIController extends FOSRestController
      * @param Car $car
      * @param Renting $renting
      * @param Mailer $mailer
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     private function sendEmailSubscribers(Car $car, Renting $renting, Mailer $mailer): void
     {
@@ -947,6 +969,9 @@ class APIController extends FOSRestController
      * @param Car $car
      * @param Mailer $mailer
      * @return View|null
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     private function updateEditCarPhotos(
         Request $request,

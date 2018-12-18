@@ -58,16 +58,26 @@ class Subscriber
      */
     private $priceUntil;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return Subscriber
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -75,11 +85,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return City|null
+     */
     public function getCity(): ?City
     {
         return $this->city;
     }
 
+    /**
+     * @param City|null $city
+     * @return Subscriber
+     */
     public function setCity(?City $city): self
     {
         $this->city = $city;
@@ -87,11 +104,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDateFrom(): ?\DateTimeInterface
     {
         return $this->dateFrom;
     }
 
+    /**
+     * @param \DateTimeInterface|null $dateFrom
+     * @return Subscriber
+     */
     public function setDateFrom(?\DateTimeInterface $dateFrom): self
     {
         $this->dateFrom = $dateFrom;
@@ -99,11 +123,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDateUntil(): ?\DateTimeInterface
     {
         return $this->dateUntil;
     }
 
+    /**
+     * @param \DateTimeInterface|null $dateUntil
+     * @return Subscriber
+     */
     public function setDateUntil(?\DateTimeInterface $dateUntil): self
     {
         $this->dateUntil = $dateUntil;
@@ -111,11 +142,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * @param Brand|null $brand
+     * @return Subscriber
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -123,11 +161,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return Model|null
+     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
+    /**
+     * @param Model|null $model
+     * @return Subscriber
+     */
     public function setModel(?Model $model): self
     {
         $this->model = $model;
@@ -135,11 +180,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getPriceFrom(): ?float
     {
         return $this->priceFrom;
     }
 
+    /**
+     * @param float|null $priceFrom
+     * @return Subscriber
+     */
     public function setPriceFrom(?float $priceFrom): self
     {
         $this->priceFrom = $priceFrom;
@@ -147,11 +199,18 @@ class Subscriber
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getPriceUntil(): ?float
     {
         return $this->priceUntil;
     }
 
+    /**
+     * @param float|null $priceUntil
+     * @return Subscriber
+     */
     public function setPriceUntil(?float $priceUntil): self
     {
         $this->priceUntil = $priceUntil;

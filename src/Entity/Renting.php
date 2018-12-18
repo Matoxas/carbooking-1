@@ -33,36 +33,57 @@ class Renting
      */
     private $rentedUntil;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCar()
     {
         return $this->car;
     }
 
+    /**
+     * @param $car
+     */
     public function setCar($car): void
     {
         $this->car = $car;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRentedFrom()
     {
         return $this->rentedFrom;
     }
 
+    /**
+     * @param $rentedFrom
+     */
     public function setRentedFrom($rentedFrom): void
     {
         $this->rentedFrom = $rentedFrom;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRentedUntil()
     {
         return $this->rentedUntil;
     }
 
+    /**
+     * @param $rentedUntil
+     */
     public function setRentedUntil($rentedUntil): void
     {
         $this->rentedUntil = $rentedUntil;

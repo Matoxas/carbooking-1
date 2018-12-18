@@ -38,6 +38,9 @@ class Brand
      */
     private $subscribes;
 
+    /**
+     * Brand constructor.
+     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
@@ -45,16 +48,26 @@ class Brand
         $this->subscribes = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getBrand(): ?string
     {
         return $this->brand;
     }
 
+    /**
+     * @param string $brand
+     * @return Brand
+     */
     public function setBrand(string $brand): self
     {
         $this->brand = $brand;
@@ -62,11 +75,18 @@ class Brand
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
     public function getModels(): Collection
     {
         return $this->models;
     }
 
+    /**
+     * @param Model $model
+     * @return Brand
+     */
     public function addModel(Model $model): self
     {
         if (!$this->models->contains($model)) {
@@ -77,6 +97,10 @@ class Brand
         return $this;
     }
 
+    /**
+     * @param Model $model
+     * @return Brand
+     */
     public function removeModel(Model $model): self
     {
         if ($this->models->contains($model)) {
@@ -90,11 +114,18 @@ class Brand
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
+    /**
+     * @param Car $car
+     * @return Brand
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -105,6 +136,10 @@ class Brand
         return $this;
     }
 
+    /**
+     * @param Car $car
+     * @return Brand
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->contains($car)) {
@@ -126,6 +161,10 @@ class Brand
         return $this->subscribes;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return Brand
+     */
     public function addSubscribe(Subscriber $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
@@ -136,6 +175,10 @@ class Brand
         return $this;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return Brand
+     */
     public function removeSubscribe(Subscriber $subscribe): self
     {
         if ($this->subscribes->contains($subscribe)) {

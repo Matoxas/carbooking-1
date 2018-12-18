@@ -9,6 +9,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class CityFixtures extends Fixture
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Cities.csv';
@@ -22,6 +25,11 @@ class CityFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return City
+     */
     private function createCity(array $data, int $index): City
     {
         $city = new City();

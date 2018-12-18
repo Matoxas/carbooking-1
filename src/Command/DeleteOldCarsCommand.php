@@ -13,9 +13,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class DeleteOldCarsCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'app:delete-old-cars';
     /**
      * @var EntityManagerInterface
@@ -32,46 +37,59 @@ class DeleteOldCarsCommand extends Command
         $this->entityManager = $entityManager;
     }
 
+    /**
+     *
+     */
     protected function configure()
     {
         $this
             ->setDescription('Cleaned old data from database.')
+            ->addArgument('arg1', InputArgument::OPTIONAL, 'arg1 day')
+            ->addOption('outdated', null, InputOption::VALUE_NONE, 'Outdated option')
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->text('> Deleting old cars...');
+        if ($input->getOption('outdated')) {
+            $arg1 = (int) $input->getArgument('arg1');
 
+            if ($arg1 && is_numeric($arg1)) {
+                $io->text('> Deleting old cars...');
+                $this->deleteOldCars($arg1, $io);
+                $io->success('All old cars was successfully removed!');
+            }
+        } else {
+            $io->error('> Example: bin/console ' . DeleteOldCarsCommand::$defaultName . ' --outdated 7');
+        }
+    }
+
+    /**
+     * @param int $arg1
+     * @param SymfonyStyle $io
+     * @throws \Exception
+     */
+    private function deleteOldCars(int $arg1, SymfonyStyle $io)
+    {
         $cars = $this->entityManager->getRepository(Car::class)->findAll();
 
         /** @var Car $car */
         foreach ($cars as $car) {
             $rentings = $car->getRenting()->toArray();
 
-            if ($this->isRentingExpired($rentings)) {
-                /** @var Renting $renting */
-                foreach ($rentings as $renting) {
-                    $this->entityManager->remove($renting);
-                }
-
-                /** @var Image $image */
-                foreach ($car->getImages()->toArray() as $image) {
-                    @unlink($image->getImage());
-                    $this->entityManager->remove($image);
-                }
-
-                /** @var Booking $booking */
-                foreach ($car->getBookings()->toArray() as $booking) {
-                    $this->entityManager->remove($booking);
-                }
-
-                /** @var Comment $comment */
-                foreach ($car->getComments()->toArray() as $comment) {
-                    $this->entityManager->remove($comment);
-                }
+            if ($this->isRentingExpired($rentings, $arg1)) {
+                $this->removeRenting($rentings);
+                $this->removeImages($car->getImages()->toArray());
+                $this->removeBookings($car->getBookings()->toArray());
+                $this->removeComments($car->getComments()->toArray());
 
                 /** @var User $user */
                 $user = $car->getUser();
@@ -83,17 +101,22 @@ class DeleteOldCarsCommand extends Command
                     $this->entityManager->remove($user);
                     $this->entityManager->flush();
                 } catch (\Exception $exception) {
+                    $io->writeln($exception->getMessage());
                 }
             }
         }
-
-        $io->success('All old cars was successfully removed!');
     }
 
-    private function isRentingExpired(array $rentings): bool
+    /**
+     * @param array $rentings
+     * @param int $arg1
+     * @return bool
+     * @throws \Exception
+     */
+    private function isRentingExpired(array $rentings, int $arg1): bool
     {
         $date = new \DateTime();
-        $date->modify('-7 day');
+        $date->modify('-' . $arg1 . ' day');
         $response = true;
 
         /** @var Renting $renting */
@@ -104,5 +127,50 @@ class DeleteOldCarsCommand extends Command
         }
 
         return $response;
+    }
+
+    /**
+     * @param array $rentings
+     */
+    private function removeRenting(array $rentings)
+    {
+        /** @var Renting $renting */
+        foreach ($rentings as $renting) {
+            $this->entityManager->remove($renting);
+        }
+    }
+
+    /**
+     * @param array $images
+     */
+    private function removeImages(array $images)
+    {
+        /** @var Image $image */
+        foreach ($images as $image) {
+            @unlink($image->getImage());
+            $this->entityManager->remove($image);
+        }
+    }
+
+    /**
+     * @param array $bookings
+     */
+    private function removeBookings(array $bookings)
+    {
+        /** @var Booking $booking */
+        foreach ($bookings as $booking) {
+            $this->entityManager->remove($booking);
+        }
+    }
+
+    /**
+     * @param array $comments
+     */
+    private function removeComments(array $comments)
+    {
+        /** @var Comment $comment */
+        foreach ($comments as $comment) {
+            $this->entityManager->remove($comment);
+        }
     }
 }

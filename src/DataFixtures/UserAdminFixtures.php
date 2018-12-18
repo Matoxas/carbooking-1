@@ -24,6 +24,9 @@ class UserAdminFixtures extends Fixture
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/UsersAdmin.csv';
@@ -37,6 +40,11 @@ class UserAdminFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return User
+     */
     private function createUser(array $data, int $index): User
     {
         $user = new User();

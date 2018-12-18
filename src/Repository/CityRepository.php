@@ -14,11 +14,18 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CityRepository extends ServiceEntityRepository
 {
+    /**
+     * CityRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, City::class);
     }
 
+    /**
+     * @return array
+     */
     public function findAllCitiesWithCars()
     {
         return $this->createQueryBuilder('c')

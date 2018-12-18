@@ -38,6 +38,10 @@ class DateIsAvailableValidator extends ConstraintValidator
         }
     }
 
+    /**
+     * @param Booking $value
+     * @return bool
+     */
     private function isDateAvailableForBooking(Booking $value): bool
     {
         $bookings = $value->getCar()->getBookings()->toArray();
@@ -58,6 +62,10 @@ class DateIsAvailableValidator extends ConstraintValidator
     }
 
 
+    /**
+     * @param Booking $value
+     * @return bool
+     */
     private function isDateAvailableForRenting(Booking $value): bool
     {
         $rentingArray = $value->getCar()->getRenting()->toArray();
@@ -77,6 +85,13 @@ class DateIsAvailableValidator extends ConstraintValidator
         return false;
     }
 
+    /**
+     * @param $from
+     * @param $until
+     * @param $fromDate
+     * @param $untilDate
+     * @return bool
+     */
     private function isDateReserved($from, $until, $fromDate, $untilDate): bool
     {
         if ($from >= $fromDate && $from <= $untilDate) {

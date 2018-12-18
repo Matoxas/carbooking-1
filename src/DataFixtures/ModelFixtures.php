@@ -11,6 +11,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ModelFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Models.csv';
@@ -28,6 +31,13 @@ class ModelFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param string $modelTitle
+     * @param Brand $brand
+     * @param int $lineIndex
+     * @param int $columnIndex
+     * @return Model
+     */
     private function createModel(string $modelTitle, Brand $brand, int $lineIndex, int $columnIndex): Model
     {
         $model = new Model();
@@ -43,6 +53,9 @@ class ModelFixtures extends Fixture implements DependentFixtureInterface
         return $model;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

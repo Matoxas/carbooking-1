@@ -9,6 +9,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class BrandFixtures extends Fixture
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Brands.csv';
@@ -22,6 +25,11 @@ class BrandFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return Brand
+     */
     private function createBrand(array $data, int $index): Brand
     {
         $brand = new Brand();

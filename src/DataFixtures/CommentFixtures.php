@@ -11,6 +11,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Comments.csv';
@@ -24,6 +27,12 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return Comment
+     * @throws \Exception
+     */
     private function createComment(array $data, int $index): Comment
     {
         $comment = new Comment();
@@ -43,6 +52,9 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         return $comment;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

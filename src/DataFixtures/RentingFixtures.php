@@ -11,6 +11,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class RentingFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Rentings.csv';
@@ -24,6 +27,12 @@ class RentingFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return Renting
+     * @throws \Exception
+     */
     private function createRenting(array $data, int $index): Renting
     {
         $renting = new Renting();
@@ -45,6 +54,9 @@ class RentingFixtures extends Fixture implements DependentFixtureInterface
         return $renting;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

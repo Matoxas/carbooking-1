@@ -14,6 +14,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class CarFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Cars.csv';
@@ -27,6 +30,12 @@ class CarFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return Car
+     * @throws \Exception
+     */
     private function createCar(array $data, int $index): Car
     {
         $car = new Car();
@@ -70,6 +79,9 @@ class CarFixtures extends Fixture implements DependentFixtureInterface
         return $car;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

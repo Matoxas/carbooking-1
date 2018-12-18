@@ -8,6 +8,11 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class DateIsInTheFutureValidator extends ConstraintValidator
 {
+    /**
+     * @param mixed $date
+     * @param Constraint $constraint
+     * @throws \Exception
+     */
     public function validate($date, Constraint $constraint): void
     {
         if (!$constraint instanceof DateIsInTheFuture) {

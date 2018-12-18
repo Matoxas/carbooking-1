@@ -113,6 +113,9 @@ class Car
      */
     private $description;
 
+    /**
+     * Car constructor.
+     */
     public function __construct()
     {
         $this->renting = new ArrayCollection();
@@ -121,36 +124,58 @@ class Car
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->user;
     }
 
+    /**
+     * @param $user
+     */
     public function setUser($user): void
     {
         $this->user = $user;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPrice()
     {
         return $this->price;
     }
 
+    /**
+     * @param $price
+     */
     public function setPrice($price): void
     {
         $this->price = $price;
     }
 
+    /**
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * @param Brand|null $brand
+     * @return Car
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -158,11 +183,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return City|null
+     */
     public function getCity(): ?City
     {
         return $this->city;
     }
 
+    /**
+     * @param City|null $city
+     * @return Car
+     */
     public function setCity(?City $city): self
     {
         $this->city = $city;
@@ -170,26 +202,42 @@ class Car
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param $createdAt
+     */
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getRenting()
     {
         return $this->renting;
     }
 
+    /**
+     * @return Model|null
+     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
+    /**
+     * @param Model|null $model
+     * @return Car
+     */
     public function setModel(?Model $model): self
     {
         $this->model = $model;
@@ -197,11 +245,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
     public function getImages(): Collection
     {
         return $this->images;
     }
 
+    /**
+     * @param Image $image
+     * @return Car
+     */
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -212,6 +267,10 @@ class Car
         return $this;
     }
 
+    /**
+     * @param Image $image
+     * @return Car
+     */
     public function removeImage(Image $image): self
     {
         if ($this->images->contains($image)) {
@@ -225,11 +284,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
     public function getBookings(): Collection
     {
         return $this->bookings;
     }
 
+    /**
+     * @param Booking $booking
+     * @return Car
+     */
     public function addBooking(Booking $booking): self
     {
         if (!$this->bookings->contains($booking)) {
@@ -240,6 +306,10 @@ class Car
         return $this;
     }
 
+    /**
+     * @param Booking $booking
+     * @return Car
+     */
     public function removeBooking(Booking $booking): self
     {
         if ($this->bookings->contains($booking)) {
@@ -253,11 +323,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAddress(): ?string
     {
         return $this->address;
     }
 
+    /**
+     * @param string|null $address
+     * @return Car
+     */
     public function setAddress(?string $address): self
     {
         $this->address = $address;
@@ -265,11 +342,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
+    /**
+     * @param float|null $latitude
+     * @return Car
+     */
     public function setLatitude(?float $latitude): self
     {
         $this->latitude = $latitude;
@@ -277,11 +361,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
+    /**
+     * @param float|null $longitude
+     * @return Car
+     */
     public function setLongitude(?float $longitude): self
     {
         $this->longitude = $longitude;
@@ -289,11 +380,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return Car
+     */
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -304,6 +402,10 @@ class Car
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return Car
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
@@ -317,11 +419,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getToken(): ?string
     {
         return $this->token;
     }
 
+    /**
+     * @param string|null $token
+     * @return Car
+     */
     public function setToken(?string $token): self
     {
         $this->token = $token;
@@ -329,11 +438,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getPublish(): ?bool
     {
         return $this->publish;
     }
 
+    /**
+     * @param bool $publish
+     * @return Car
+     */
     public function setPublish(bool $publish): self
     {
         $this->publish = $publish;
@@ -341,11 +457,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getConfirmed(): ?bool
     {
         return $this->confirmed;
     }
 
+    /**
+     * @param bool $confirmed
+     * @return Car
+     */
     public function setConfirmed(bool $confirmed): self
     {
         $this->confirmed = $confirmed;
@@ -353,11 +476,18 @@ class Car
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return Car
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;

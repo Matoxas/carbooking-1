@@ -42,16 +42,26 @@ class Comment
      */
     private $car;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Comment
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -59,11 +69,18 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getComment(): ?string
     {
         return $this->comment;
     }
 
+    /**
+     * @param string $comment
+     * @return Comment
+     */
     public function setComment(string $comment): self
     {
         $this->comment = $comment;
@@ -71,6 +88,9 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -84,6 +104,10 @@ class Comment
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return Comment
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -91,11 +115,18 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return Car|null
+     */
     public function getCar(): ?Car
     {
         return $this->car;
     }
 
+    /**
+     * @param Car|null $car
+     * @return Comment
+     */
     public function setCar(?Car $car): self
     {
         $this->car = $car;

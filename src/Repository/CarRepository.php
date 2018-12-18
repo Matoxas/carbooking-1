@@ -15,17 +15,32 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CarRepository extends ServiceEntityRepository
 {
+    /**
+     * CarRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Car::class);
     }
 
+    /**
+     * @param array|null $filters
+     * @return mixed
+     */
     public function findCountOfFilteredCars(array $filters = null)
     {
         $filters['count'] = true;
         return $this->findFilterAndSortingCars($filters);
     }
 
+    /**
+     * @param array|null $filters
+     * @param int|null $startRecord
+     * @param int|null $recordsPerPage
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findFilterAndSortingCars(array $filters = null, int $startRecord = null, int $recordsPerPage = null)
     {
         $queryBuilder = $this->createQueryBuilder('car')

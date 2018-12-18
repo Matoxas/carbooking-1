@@ -9,6 +9,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Users.csv';
@@ -22,6 +25,11 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param array $data
+     * @param int $index
+     * @return User
+     */
     private function createUser(array $data, int $index): User
     {
         $user = new User();

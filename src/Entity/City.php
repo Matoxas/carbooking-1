@@ -35,32 +35,51 @@ class City
      */
     private $subscribes;
 
+    /**
+     * City constructor.
+     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
         $this->subscribes = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCity()
     {
         return $this->city;
     }
 
+    /**
+     * @param $city
+     */
     public function setCity($city): void
     {
         $this->city = $city;
     }
 
+    /**
+     * @return Collection
+     */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
+    /**
+     * @param Car $car
+     * @return City
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -71,6 +90,10 @@ class City
         return $this;
     }
 
+    /**
+     * @param Car $car
+     * @return City
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->contains($car)) {
@@ -92,6 +115,10 @@ class City
         return $this->subscribes;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return City
+     */
     public function addSubscribe(Subscriber $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
@@ -102,6 +129,10 @@ class City
         return $this;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return City
+     */
     public function removeSubscribe(Subscriber $subscribe): self
     {
         if ($this->subscribes->contains($subscribe)) {

@@ -23,6 +23,9 @@ class BadUrlRequestListener
         $this->router = $router;
     }
 
+    /**
+     * @param GetResponseForExceptionEvent $event
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();

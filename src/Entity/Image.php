@@ -29,16 +29,26 @@ class Image
      */
     private $image;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Car|null
+     */
     public function getCar(): ?Car
     {
         return $this->car;
     }
 
+    /**
+     * @param Car|null $car
+     * @return Image
+     */
     public function setCar(?Car $car): self
     {
         $this->car = $car;
@@ -46,11 +56,17 @@ class Image
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getImage()
     {
         return 'uploads/' . $this->image;
     }
 
+    /**
+     * @param $image
+     */
     public function setImage($image): void
     {
         $this->image = $image;

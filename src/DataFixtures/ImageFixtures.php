@@ -11,6 +11,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $path = 'public/data/Images.csv';
@@ -30,6 +33,11 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @param string $imagePath
+     * @param Car $car
+     * @return Image
+     */
     private function createImage(string $imagePath, Car $car): Image
     {
         $image = new Image();
@@ -40,6 +48,9 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         return $image;
     }
 
+    /**
+     * @return array
+     */
     public function getDependencies()
     {
         return [

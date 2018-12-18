@@ -16,11 +16,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class SubscriberRepository extends ServiceEntityRepository
 {
+    /**
+     * SubscriberRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Subscriber::class);
     }
 
+    /**
+     * @param Car $car
+     * @param Renting $renting
+     * @return mixed
+     */
     public function findFilteredSubscribers(Car $car, Renting $renting)
     {
         $queryBuilder = $this->createQueryBuilder('s')
@@ -38,6 +47,10 @@ class SubscriberRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /**
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param Car $car
+     */
     private function filters(\Doctrine\ORM\QueryBuilder $queryBuilder, Car $car)
     {
         $queryBuilder->andWhere('s.priceFrom >= :carPrice')
@@ -64,6 +77,11 @@ class SubscriberRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param Renting $renting
+     * @return bool
+     */
     private function dateFilters(\Doctrine\ORM\QueryBuilder $queryBuilder, Renting $renting)
     {
         $queryBuilder->andWhere('s.dateFrom IS NULL')

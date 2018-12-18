@@ -41,22 +41,35 @@ class Model
      */
     private $subscribes;
 
+    /**
+     * Model constructor.
+     */
     public function __construct()
     {
         $this->cars = new ArrayCollection();
         $this->subscribes = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * @param Brand|null $brand
+     * @return Model
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -64,21 +77,34 @@ class Model
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getModel(): ?string
     {
         return $this->model;
     }
 
+    /**
+     * @param $model
+     */
     public function setModel($model): void
     {
         $this->model = $model;
     }
 
+    /**
+     * @return Collection
+     */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
+    /**
+     * @param Car $car
+     * @return Model
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -89,6 +115,10 @@ class Model
         return $this;
     }
 
+    /**
+     * @param Car $car
+     * @return Model
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->contains($car)) {
@@ -110,6 +140,10 @@ class Model
         return $this->subscribes;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return Model
+     */
     public function addSubscribe(Subscriber $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
@@ -120,6 +154,10 @@ class Model
         return $this;
     }
 
+    /**
+     * @param Subscriber $subscribe
+     * @return Model
+     */
     public function removeSubscribe(Subscriber $subscribe): self
     {
         if ($this->subscribes->contains($subscribe)) {
