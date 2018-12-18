@@ -505,9 +505,10 @@ class APIController extends FOSRestController
      */
     public function getReservationNotApproveAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
     {
+        /** @var Booking $booking */
         $booking = $this->getDoctrine()->getRepository(Booking::class)->findOneBy(['token' => $token]);
 
-        if ($booking === null) {
+        if ($booking === null && !$booking->getApproved()) {
             $mailer->sendEmailForNotApprovedReservation($booking);
 
             $this->getDoctrine()->getManager()->remove($booking->getUsers());
