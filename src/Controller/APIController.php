@@ -290,7 +290,7 @@ class APIController extends FOSRestController
             );
         }
 
-        $mailer->sendEmailForReservationApproved($user, $booking);
+        $mailer->sendEmailForReservationApproved($user, $booking, $car);
 
         return $this->view(
             [
@@ -483,11 +483,52 @@ class APIController extends FOSRestController
             );
         }
 
-        $mailer->sendEmailForSucessufullySubscribe($subscribe);
+        $mailer->sendEmailForSuccessfullySubscribe($subscribe);
 
         return $this->view(
             [
                 'status' => 'ok'
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Rest\Get("/reservation/{token}/not_approved", name="api_reservation_not_approved")
+     * @param TranslatorInterface $translator
+     * @param string $token
+     * @param Mailer $mailer
+     * @return View
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function getReservationNotApproveAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
+    {
+        $booking = $this->getDoctrine()->getRepository(Booking::class)->findOneBy(['token' => $token]);
+
+        if ($booking === null) {
+            return $this->view(
+                [
+                    'status' => 'error',
+                    'message' => $translator->trans('booking.token_is_expired')
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        $name = $booking->getUsers()->getName();
+
+        $mailer->sendEmailForNotApprovedReservation($booking);
+
+        $this->getDoctrine()->getManager()->remove($booking->getUsers());
+        $this->getDoctrine()->getManager()->remove($booking);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->view(
+            [
+                'status' => 'ok',
+                'message' => $translator->trans('booking.not_approved_success', ['userName' => $name])
             ],
             Response::HTTP_OK
         );
@@ -503,7 +544,7 @@ class APIController extends FOSRestController
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function getReservationInfoAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
+    public function getReservationApproveAction(TranslatorInterface $translator, string $token, Mailer $mailer): View
     {
         $booking = $this->getDoctrine()->getRepository(Booking::class)->findBy(['token' => $token]);
 
@@ -534,8 +575,7 @@ class APIController extends FOSRestController
         $carOwner = $booking[0]->getCar();
         $bookingUser = $booking[0]->getUsers();
 
-        $mailer->sendEmailForSucessufullyReservationCarOwner($carOwner, $bookingUser, $booking[0]);
-        $mailer->sendEmailForSucessufullyReservationClient($carOwner, $bookingUser, $booking[0]);
+        $mailer->sendEmailForSuccessfullyReservation($carOwner, $bookingUser, $booking[0]);
 
         return $this->view(
             [

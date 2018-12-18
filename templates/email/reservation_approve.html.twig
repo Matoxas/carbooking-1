@@ -2,12 +2,29 @@
 <br/>
 Sveiki, <br/>
 <br/>
-Ačiū, kad naudojatės Mūsų sistema! Galutiniam automobilio užsirezervavimui, Jums reikia patvirtinti el-paštą!<br/>
+Džiaugiamės, galėdami Jums pranešti, kad Jūsų automobilis -
+<b><a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">{{ car.brand.brand }}</a></b> buvo užrezervuotas!<br/>
 <br/>
-El-pašto patvirtinimui paspauskite
-<a href="{{ url('home_car_listing_by_id_plus_token', { 'id': booking.car.id, 'token': booking.token }) }}">čia</a>
+Susisiekite su <b> {{ user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
+<br/>
+Rezervavusio asmens duomenys:<br/>
+Vardas: {{ car.user.name }}<br/>
+Telefonas: {{ user.phone }}<br/>
+El-paštas: {{ user.email }}<br/>
+<br/>
+Rezervavimosi laikotarpis:<br/>
+Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
+Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
+<br/>
+Žinutė: {{ booking.message }}<br/>
+<br/>
+<b>!</b> Norėdami patvirtinti rezervacija ir pažymėti šį laiką, kaip užimtą sistemoje, paspauskite
+<a href="{{ url('home_car_listing_by_id_plus_token', { 'id': booking.car.id, 'token': booking.token }) }}">čia</a>!<br/>
+<br/>
+<b>!</b> Jeigu nesutinkate nuomuoti šio automobilio šiam asmeniui, informuokite jį, paspaudę
+<a href="{{ url('home_car_listing_by_id_plus_token_not_approved', { 'id': booking.car.id, 'token': booking.token }) }}">čia</a><br/>
 <br/>
 <br/>
---
-Pagarbiai, CarBooking
+--<br/>
+Pagarbiai, CarBooking<br/>
 https://carbooking.projektai.nfqakademija.lt

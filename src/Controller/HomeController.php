@@ -51,6 +51,14 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/feed/carListing/{id}/{token}/not_approved", name="home_car_listing_by_id_plus_token_not_approved")
+     */
+    public function carListingByIdPlusHashNotApproved($id, $token)
+    {
+        return $this->render('home/index.html.twig');
+    }
+
+    /**
      * @Route("/feed/carListing/{id}/{token}", name="home_car_listing_by_id_plus_token")
      */
     public function carListingByIdPlusHash($id, $token)

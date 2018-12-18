@@ -99,7 +99,7 @@ class Mailer
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendEmailForSucessufullySubscribe(Subscriber $subscriber)
+    public function sendEmailForSuccessfullySubscribe(Subscriber $subscriber)
     {
         $body = $this->twig->render('email/subscribeFirstTime.html.twig', [
             'subscriber' => $subscriber
@@ -163,33 +163,9 @@ class Mailer
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendEmailForSucessufullyReservationCarOwner(Car $car, User $user, Booking $booking)
+    public function sendEmailForSuccessfullyReservation(Car $car, User $user, Booking $booking)
     {
-        $body = $this->twig->render('email/sucessufully_reservation_car_owner.html.twig', [
-            'user' => $user,
-            'car' => $car,
-            'booking' => $booking
-        ]);
-
-        $message = (new \Swift_Message('Jūsų automobilį, ką tik užsirezervavo!'))
-            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
-            ->setTo($car->getUser()->getEmail())
-            ->setBody($body, 'text/html');
-
-        $this->mailer->send($message);
-    }
-
-    /**
-     * @param Car $car
-     * @param User $user
-     * @param Booking $booking
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function sendEmailForSucessufullyReservationClient(Car $car, User $user, Booking $booking)
-    {
-        $body = $this->twig->render('email/sucessufully_reservation_client.html.twig', [
+        $body = $this->twig->render('email/successfully_reservation.html.twig', [
             'user' => $user,
             'car' => $car,
             'booking' => $booking
@@ -206,19 +182,42 @@ class Mailer
     /**
      * @param User $user
      * @param Booking $booking
+     * @param Car $car
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendEmailForReservationApproved(User $user, Booking $booking)
+    public function sendEmailForReservationApproved(User $user, Booking $booking, Car $car)
     {
         $body = $this->twig->render('email/reservation_approve.html.twig', [
-            'booking' => $booking
+            'booking' => $booking,
+            'user' => $user,
+            'car' => $car
         ]);
 
         $message = (new \Swift_Message('Patvirtinkite rezervaciją!'))
             ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
-            ->setTo($user->getEmail())
+            ->setTo($car->getUser()->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    /**
+     * @param Booking $booking
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function sendEmailForNotApprovedReservation(Booking $booking)
+    {
+        $body = $this->twig->render('email/reservation_not_approved.html.twig', [
+            'booking' => $booking
+        ]);
+
+        $message = (new \Swift_Message('Rezervacija nepatvirtinta!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
+            ->setTo($booking->getUser()->getEmail())
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
