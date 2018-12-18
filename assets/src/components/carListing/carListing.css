@@ -396,7 +396,7 @@ comment {
   }
 
   .info-comment--border {
-    padding-bottom: 0;
+    padding-bottom: 1em;
     border-top: none;
   }
 

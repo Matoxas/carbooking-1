@@ -216,7 +216,10 @@ class carInfo extends Component {
 
     handleFromChange = (excludedDates, date) => {
         if (this.dateWithoutTime(date) === this.state.date_until) {
-            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"})
+            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"});
+            return;
+        } else {
+            this.setState({cannotReserveDates: ""});
         }
         let showError = false;
         if (date <= new Date(this.state.date_until)) {
@@ -246,8 +249,12 @@ class carInfo extends Component {
 
     handleUntilChange = (excludedDates, date) => {
         if (this.dateWithoutTime(date) === this.state.date_from) {
-            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"})
+            this.setState({cannotReserveDates: "Minimali nuomos trukmė: 1 para"});
+            return;
+        } else {
+            this.setState({cannotReserveDates: ""});
         }
+
         let showError = false;
         if (date >= new Date(this.state.date_from)) {
             this.setState(
