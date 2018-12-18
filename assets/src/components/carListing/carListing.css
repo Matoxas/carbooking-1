@@ -88,6 +88,7 @@ img {
 .info-comment--border {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1rem;
+  margin-bottom: -1rem;
 }
 
 .info-comment-input-border {
@@ -244,7 +245,8 @@ comment {
 
 .comment-column--left {
   float: left;
-  width: 18%;
+  margin-right: 0.5rem;
+  margin-top: -0.5rem;
 }
 
 .comment-column--right {
@@ -392,12 +394,16 @@ comment {
     margin-top: 30px;
   }
 
-  .info-description--border{
-    margin-bottom: 0;
-  }
-  
   .info-comment--border {
     padding-bottom: 0;
     border-top: none;
+  }
+
+  .info-description--border{
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-column--left{
+    margin-right: 1rem;
   }
 }

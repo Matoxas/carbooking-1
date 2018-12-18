@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './carListing.css';
 
 class comment extends Component {
@@ -19,7 +19,7 @@ class comment extends Component {
     }
 
     render() {
-        const {currentPage, commentsPerPage} = this.state;
+        const { currentPage, commentsPerPage } = this.state;
         let showPageNumbers = "";
 
         const indexOfLastComment = currentPage * commentsPerPage;
@@ -27,20 +27,20 @@ class comment extends Component {
         const currentComments = this.props.comments.slice(indexOfFirstComment, indexOfLastComment);
 
         const renderComments = currentComments.map(comment => {
-            return (<div className="comment">
-                    <div className="comment-column--left">
-                        <i className="far fa-user-circle fa-3x"/>
-                    </div>
-                    <div className="comment-column--right">
-                        <p>
-                            <span className="comment--color-primary">{comment.name}</span>
-                            <span className="comment--color-grey">: {comment.createdAt.slice(0, 16)}</span>
-                        </p>
-                        <p>
-                            {comment.comment}
-                        </p>
-                    </div>
+            return (<div className="comment clearfix">
+                <div className="comment-column--left">
+                    <i className="far fa-user-circle fa-2x" />
                 </div>
+                <div className="comment-column--right">
+                    <p className="mb-0">
+                        <span className="comment--color-primary">{comment.name}</span>
+                        <span className="comment--color-grey">: {comment.createdAt.slice(0, 16)}</span>
+                    </p>
+                    <p>
+                        {comment.comment}
+                    </p>
+                </div>
+            </div>
             );
         });
 
