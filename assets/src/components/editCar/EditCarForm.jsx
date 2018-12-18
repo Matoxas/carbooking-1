@@ -51,6 +51,14 @@ class EditCarForm extends Component {
     this.props.onRef(undefined);
   }
 
+  updateFeed = () => {
+    const { setFilters, getAllCars } = this.props.CarStore;
+    setFilters({
+      sort: "naujausi"
+    });
+    getAllCars();
+  };
+
   setValues = e => {
     const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
 
@@ -198,6 +206,7 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.props.closeForm();
+          this.updateFeed();
         }
       })
       .catch(error => {
@@ -243,6 +252,7 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.props.closeForm();
+          this.updateFeed();
         }
       })
       .catch(error => {
@@ -437,7 +447,7 @@ class EditCarForm extends Component {
             </div>
           </div>
 
-          {editableCar.bookingDates[0].bookedFrom && (
+          {editableCar.bookingDates[0] && (
             <div className="form-group row">
               <label className="col-sm-3 col-md-2" htmlFor="inputState">
                 Aktyvios rezervacijos:
@@ -450,7 +460,7 @@ class EditCarForm extends Component {
                       date.bookedUntil.split(" ")[0]}{" "}
                     <i
                       onClick={() => this.deleteBookedDate(date.id)}
-                      class="fas fa-times"
+                      className="fas fa-times"
                     />
                   </span>
                 ))}

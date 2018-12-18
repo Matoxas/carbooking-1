@@ -7,6 +7,7 @@ import "./feed.css";
 import NoResults from "./NoResults";
 import EditCar from "../editCar/EditCar";
 import { inject, observer } from "mobx-react";
+import history from "../../history";
 @inject("CarStore")
 @inject("CarFormStore")
 @observer
@@ -37,6 +38,7 @@ class Feed extends Component {
     this.setState({
       hash: ""
     });
+    history.push("/feed");
   };
 
   toggleMobile = () => {

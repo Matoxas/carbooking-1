@@ -69,7 +69,7 @@ class carInfo extends Component {
             .then(response => {
                 this.setState({
                     showAlertWindow: true,
-                    alertHeader: "Patvirtinkite rezervaciją el. pašte",
+                    alertHeader: "Rezervacijos forma išsiųsta",
                     alertText: "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą"
                 });
             })
@@ -281,7 +281,8 @@ class carInfo extends Component {
         const {postBadListing} = this.props.CarStore;
         postBadListing(this.props.car.id);
         this.setState({
-            badListingText: "Dėkui, jūsų pranešimas buvo išsiųstas",
+            badListingHeader: "Jūsų pranešimas buvo išsiųstas",
+            badListingText: "Dėkui už jūsų pranešimą",
             badListingShow: true
         });
     };
@@ -448,42 +449,46 @@ class carInfo extends Component {
                                 <label className="" htmlFor="inputState">
                                     Nuomos pradžia:
                                 </label>
-                                <div className="relative clearfix">
-                                    <DatePicker
-                                        className="form-control"
-                                        name="date_from"
-                                        excludeDates={dates}
-                                        // locale={"lt"}
-                                        selected={new Date(this.state.date_from)}
-                                        selectsStart
-                                        startDate={new Date(this.state.date_from)}
-                                        endDate={new Date(this.state.date_until)}
-                                        // rentDates[0] because currently there will be only one rented date
-                                        minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                                        maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={e => this.handleFromChange(dates, e)}
-                                        onChangeRaw={this.handleDateChangeRaw}
-                                    />
-                                    <i className="fa fa-caret-down" aria-hidden="true"/>
-                                </div>
-                                <label htmlFor="inputState">Nuomos pabaiga:</label>
-                                <div className="relative clearfix">
-                                    <DatePicker
-                                        className="form-control"
-                                        //   locale={"lt"}
-                                        name="date_until"
-                                        excludeDates={dates}
-                                        selected={new Date(this.state.date_until)}
-                                        selectsEnd
-                                        startDate={new Date(this.state.date_from)}
-                                        endDate={new Date(this.state.date_until)}
-                                        minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                                        maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
-                                        onChange={e => this.handleUntilChange(dates, e)}
-                                        onChangeRaw={this.handleDateChangeRaw}
-                                    />
-                                    <i className="fa fa-caret-down" aria-hidden="true"/>
-                                </div>
+                                <form>
+                                    <div className="relative clearfix">
+                                        <DatePicker
+                                            className="form-control"
+                                            name="date_from"
+                                            excludeDates={dates}
+                                            // locale={"lt"}
+                                            selected={new Date(this.state.date_from)}
+                                            selectsStart
+                                            startDate={new Date(this.state.date_from)}
+                                            endDate={new Date(this.state.date_until)}
+                                            // rentDates[0] because currently there will be only one rented date
+                                            minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
+                                            maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
+                                            onChange={e => this.handleFromChange(dates, e)}
+                                            onChangeRaw={this.handleDateChangeRaw}
+                                            autocomplete="off"
+                                        />
+                                        <i className="fa fa-caret-down" aria-hidden="true"/>
+                                    </div>
+                                    <label htmlFor="inputState">Nuomos pabaiga:</label>
+                                    <div className="relative clearfix">
+                                        <DatePicker
+                                            className="form-control"
+                                            //   locale={"lt"}
+                                            name="date_until"
+                                            excludeDates={dates}
+                                            selected={new Date(this.state.date_until)}
+                                            selectsEnd
+                                            startDate={new Date(this.state.date_from)}
+                                            endDate={new Date(this.state.date_until)}
+                                            minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
+                                            maxDate={new Date(this.props.car.rentDates[0].rentedUntil)}
+                                            onChange={e => this.handleUntilChange(dates, e)}
+                                            onChangeRaw={this.handleDateChangeRaw}
+                                            autocomplete="off"
+                                        />
+                                        <i className="fa fa-caret-down" aria-hidden="true"/>
+                                    </div>
+                                </form>
                             </div>
                             <div className="input--error input--error-dates">
                                 {this.state.cannotReserveDates}
@@ -566,7 +571,7 @@ class carInfo extends Component {
                         </p>
                         {this.state.badListingShow ? (
                             <div onClick={this.handleBadListingDialog}>
-                                <Dialog alertMessage={this.state.badListingText}/>
+                                <Dialog alertHeader={this.state.badListingHeader} alertMessage={this.state.badListingText}/>
                             </div>
                         ) : null}
                     </div>
