@@ -33,13 +33,13 @@ class GoogleMap extends Component {
 
     observe(this.props.CarStore, (change) => {
       if (change.name == 'cars'){
-        const mapOptions = this.state.mapOptions;
-        if(change.object[change.name][0]){
+        let mapOptions = this.state.mapOptions;
+        if(change.object[change.name].length > 0){
           mapOptions = {
             ...mapOptions,
             center: {
-              lat: change.object[change.name][0].target.latitude,
-              lng: change.object[change.name][0].target.longitude
+              lat: change.object[change.name][0].latitude,
+              lng: change.object[change.name][0].longitude
             }
           }
         }
