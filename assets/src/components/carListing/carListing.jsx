@@ -40,7 +40,9 @@ class CarListing extends Component {
             const notApprovedHash = this.props.location.pathname.split('/').slice(-2)[0];
             this.getNotApproved(notApprovedHash);
         } else {
-            this.getUserListing(hash);
+            if (hash !== this.props.match.params.id) {
+                this.getUserListing(hash);
+            }
         }
         this.getCar(this.props.match.params.id);
     }
@@ -71,7 +73,7 @@ class CarListing extends Component {
             .then(response => {
                 console.log(response.data.message);
                 this.setState({
-                    dialogHeader: "Užklausa išsiųsta nuomininkui",
+                    dialogHeader: "Patvirtinta",
                     dialogText: response.data.message,
                     showDialog: true
                 });
