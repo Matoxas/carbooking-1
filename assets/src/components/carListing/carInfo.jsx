@@ -201,7 +201,7 @@ class carInfo extends Component {
 
             if (ResultInDays > 0) {
                 const totalPrice =
-                    Math.round((ResultInDays + 1) * this.props.car.price * 100) / 100;
+                    Math.round(ResultInDays * this.props.car.price * 100) / 100;
                 this.setState({
                     totalPrice
                 });

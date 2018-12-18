@@ -356,6 +356,29 @@ comment {
   font-size: 1.7rem;
 }
 
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+    /* display: flex; */
+    align-items: center;
+    height: 500px !important;
+    width: 100%;
+    /* margin-bottom: -100px; */
+}
+
+.carousel-inner img {
+    width: 100%;
+    max-width: 100%;
+    max-height: 600px;
+    /* min-height: 700px; */
+    margin-bottom: -10%;
+    height: 100%;
+    width: auto;
+    /* max-width: 1000px; */
+}
+
 @media screen and (max-width: 1000px) {
   .owner-info {
     flex-wrap: wrap;
@@ -408,4 +431,8 @@ comment {
   .comment-column--left {
     margin-right: 1rem;
   }
+
+    .carousel-inner {
+        height: 300px !important;
+    }
 }
