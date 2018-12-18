@@ -3,7 +3,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  height: 80vh;
+  height: auto;
+  min-height: 80vh;
+  max-height: 100vh;
 }
 
 .noFavs h2 {

@@ -39,6 +39,8 @@ class mapContainer extends React.Component {
               className={`col-12 ${this.state.toggler == 0 ? "m-hidden" : ""}`}
             >
               <MapTopbar />
+            </div>
+            <div className="col-12">
               <Map />
             </div>
           </div>
