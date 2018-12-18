@@ -43,7 +43,6 @@ class EditCar extends React.Component {
         .then(response => {
           if (response.data.data.length > 0) {
             this.setEditableCar(response.data);
-            setLoading(false);
           } else {
             setLoading(false);
             this.props.resetHash();
@@ -60,6 +59,7 @@ class EditCar extends React.Component {
 
   setEditableCar = car => {
     const { setEditableCar: setCar } = this.props.CarFormStore;
+    const { setLoading } = this.props.CarFormStore;
     const editableCar = car.data[0];
     const token = car.token;
 
@@ -87,6 +87,7 @@ class EditCar extends React.Component {
       images
     });
     this.setState({ showEditCarPage: true });
+    setLoading(false);
   };
 
   handleClose = () => {

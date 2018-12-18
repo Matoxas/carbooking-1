@@ -9,8 +9,17 @@ import LoadModal from "../editCar/loadModal";
 class mapContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { key: 1 };
+    this.state = {
+      toggler: false
+    };
   }
+
+  toggleMobile = () => {
+    const { toggler } = this.state;
+    this.setState({
+      toggler: !toggler
+    });
+  };
 
   render() {
     const { loading } = this.props.CarStore;
@@ -19,8 +28,20 @@ class mapContainer extends React.Component {
       <div className="main">
         <LoadModal open={loading.cars} />
         <div className="container">
-          <MapTopbar reRenderMap={this.reRenderMap} />
-          <Map />
+          <div
+            onClick={() => this.toggleMobile()}
+            className="mobile-menu topbar col-12 margin-bottom"
+          >
+            <h2 className="text-center padding">RODYTI FILTRUS</h2>
+          </div>
+          <div className="row justify-content-md-end">
+            <div
+              className={`col-12 ${this.state.toggler == 0 ? "m-hidden" : ""}`}
+            >
+              <MapTopbar />
+              <Map />
+            </div>
+          </div>
         </div>
       </div>
     );

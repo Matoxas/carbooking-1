@@ -26,7 +26,6 @@ class EditCarForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      state: "",
       minDate: moment(this.props.date_from)
         .add(1, "d")
         .toDate()
