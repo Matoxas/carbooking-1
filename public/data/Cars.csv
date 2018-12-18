@@ -1,24 +1,24 @@
 Kaina; Paskelbimo data: šiandien +- x day; +- x seconds; Miesto eilutes id; Adresas; platuma; ilguma; Brandas (pagal eilute); Modelis (pagal skaiciu); Savininkas (Userio id, pagal eilute); Aprašymas
-7;-4 day;+5 seconds;0;A. Juozapavičiaus g. Vilnius;54.692513;25.285033;12;5;0;Tai puiki, galinga ir gera mašina!
-6;-1 day;+500 seconds;8;Vaižganto g. 8 Birštonas;54.604850;24.028910;13;2;1;Greitai, patogiai ir patikimai!
-33;0 day;-500 seconds;1;Savanorių pr. 276 Kaunas;54.708284;25.287623;2;2;0;Skubiai nuomuoju, šią mašiną!
-21;-3 day;+800 seconds;1;Studentų g. 50 Kaunas;54.903782;23.957899;3;1;1;Skubiai nuomuoju, šią mašiną!
-18;-8 day;-1500 seconds;3;Aido g. 10 Šiauliai;55.909705;23.264169;4;8;0;Greitai, patogiai ir patikimai!
-16;-12 day;-51 seconds;0;Ceikinių g. Vilnius;54.693419;25.287252;5;3;1;Galinga! Apdrausta kasko! Galima važiuoti į užsienį!
-12;-4 day;+5 seconds;0;Daugėliškio g. Vilnius;54.700436;25.272237;8;0;2;Greita ir galinga mašina!
-25.10;-1 day;+500 seconds;2;Barškių g. 25, 81278 Klaipėdos;55.715349;21.178918;16;0;1;Tai puiki, galinga ir gera mašina!
-66.20;0 day;-500 seconds;2;Klaipėdos CP, Liepų g. 16, 91001 Klaipėda;55.554908;21.319495;0;25;2;Skubiai nuomuoju!
-9.99;-3 day;+800 seconds;2;Klaipėdos 3-iasis pšt., Aukštoji g. 13, 91007 Klaipėda;55.554908;21.319495;8;16;1;Priedu galimas ir vairuotojas!
-14;-8 day;-1500 seconds;2;Klaipėdos MTP, Priestočio g. 7, 91020 Klaipėda;55.717811;21.148638;10;2;1;Priedu galimas ir vairuotojas!
-15.36;-4 day;+5 seconds;0;A. Didlaukio g. 86 Vilnius;54.728110;25.261000;11;1;0;Dėl detalesnės informacijos, parašykite privačią žinutę ;-)
-13.50;-1 day;+500 seconds;0;Apkasų g. Vilnius;54.708284;25.287623;12;7;1;Dėl detalesnės informacijos, parašykite privačią žinutę ;-)
-8;0 day;-500 seconds;1;Savanorių pr. 150 Kaunas;54.914227;23.941081;13;5;0;Sėdi ir važiuoji!
-55;-3 day;+800 seconds;1;Savanorių pr. 100 Kaunas;54.904110;23.919390;14;3;1;Sėdi ir važiuoji!
-24;-8 day;-1500 seconds;3;Aido g. 25 Šiauliai;55.920200;23.302720;15;2;0;Galima važiuoti ir į užsienį!
-22;-4 day;+5 seconds;0;Krokuvos g. Vilnius;54.697790;25.278340;15;0;2;Išnuomuočiau tik turinčiam 3metų stažą.
-34;-8 day;+ 3000 seconds;3;H. Manto g. 81, Klaipėda, Lithuania;55.725310;21.122810;3;18;18;Šitas itališkas šedevras turėtu kiekvieną pralinskminti :).
-40;-1 day; + 1000 seconds;3;Žilvičių g. 2-14, Klaipėda, Lithuania;54.613670;23.404370;0;19;19;Fainas automobiliukas, tikrai ne AYCM.
-16;-4 day; + 1400 seconds;3;Šaltinėlio g., Klaipėda, Lithuania;55.833680;21.390430;10;12;20;Sena gera Coursa. Tikrai nenuvils jei reikia kažkur nulėkt.
-20;-10 day; + 4000 seconds;4;Rambyno g. 11-3, Panevėžys, Lithuania;55.724250;24.371160;2;16;21;Gera mašina, ilgai važiuoja be problemų, kaina irgi normali.
-30;-1 day; +100 seconds;1;Pavilnionių g. 53, Vilnius, Lithuania;54.736610;25.224510;6;2;22;Tvarkinga mašina, rimtai varo labai gerai.
-90;-2 day; + 400 seconds;0;V. Mykolaičio-Putino g. 1, Vilnius, Lithuania;54.684310;25.267880;9;19;23;Labai galingas auto, keli šimtai kilovatų pralinksmins.
+7;-4 day;+5 seconds;0;A. Juozapavičiaus g. Vilnius, Lietuva;54.692513;25.285033;12;5;0;Tai puiki, galinga ir gera mašina!
+6;-1 day;+500 seconds;8;Vaižganto g. 8 Birštonas, Lietuva;54.604850;24.028910;13;2;1;Greitai, patogiai ir patikimai!
+33;0 day;-500 seconds;1;Savanorių pr. 276 Kaunas, Lietuva;54.917310;23.949400;2;2;0;Skubiai nuomuoju, šią mašiną!
+21;-3 day;+800 seconds;1;Studentų g. 50 Kaunas, Lietuva;54.903782;23.957899;3;1;1;Skubiai nuomuoju, šią mašiną!
+18;-8 day;-1500 seconds;3;Aido g. 10 Šiauliai, Lietuva;55.909705;23.264169;4;8;0;Greitai, patogiai ir patikimai!
+16;-12 day;-51 seconds;0;Ceikinių g. Vilnius, Lietuva;54.693419;25.287252;5;3;1;Galinga! Apdrausta kasko! Galima važiuoti į užsienį!
+12;-4 day;+5 seconds;0;Daugėliškio g. Vilnius, Lietuva;54.700436;25.272237;8;0;2;Greita ir galinga mašina!
+25.10;-1 day;+500 seconds;2;Barškių g. 25, 81278 Klaipėdos, Lietuva;55.715349;21.178918;16;0;1;Tai puiki, galinga ir gera mašina!
+66.20;0 day;-500 seconds;2;Klaipėdos CP, Liepų g. 16, 91001 Klaipėda, Lietuva;55.554908;21.319495;0;25;2;Skubiai nuomuoju!
+9.99;-3 day;+800 seconds;2;Aukštoji G. 13, Klaipėda Lietuva;55.721730;21.186940;8;16;1;Priedu galimas ir vairuotojas!
+14;-8 day;-1500 seconds;2;Klaipėdos MTP, Priestočio g. 7, 91020 Klaipėda, Lietuva;55.717811;21.148638;10;2;1;Priedu galimas ir vairuotojas!
+15.36;-4 day;+5 seconds;0;A. Didlaukio g. 86 Vilnius, Lietuva;54.728110;25.261000;11;1;0;Dėl detalesnės informacijos, parašykite privačią žinutę ;-)
+13.50;-1 day;+500 seconds;0;Apkasų g. Vilnius, Lietuva;54.708284;25.287623;12;7;1;Dėl detalesnės informacijos, parašykite privačią žinutę ;-)
+8;0 day;-500 seconds;1;Savanorių pr. 150 Kaunas, Lietuva;54.914227;23.941081;13;5;0;Sėdi ir važiuoji!
+55;-3 day;+800 seconds;1;Savanorių pr. 100 Kaunas, Lietuva;54.904110;23.919390;14;3;1;Sėdi ir važiuoji!
+24;-8 day;-1500 seconds;3;Aido g. 25 Šiauliai, Lietuva;55.920200;23.302720;15;2;0;Galima važiuoti ir į užsienį!
+22;-4 day;+5 seconds;0;Krokuvos g. Vilnius, Lietuva;54.697790;25.278340;15;0;2;Išnuomuočiau tik turinčiam 3metų stažą.
+34;-8 day;+ 3000 seconds;3;H. Manto g. 81, Klaipėda, Lietuva;55.725310;21.122810;3;18;18;Šitas itališkas šedevras turėtu kiekvieną pralinskminti :).
+40;-1 day; + 1000 seconds;3;Žilvičių g. 2-14, Klaipėda, Lietuva;54.613670;23.404370;0;19;19;Fainas automobiliukas, tikrai ne AYCM.
+16;-4 day; + 1400 seconds;3;Šaltinėlio g., Klaipėda, Lietuva;55.833680;21.390430;10;12;20;Sena gera Coursa. Tikrai nenuvils jei reikia kažkur nulėkt.
+20;-10 day; + 4000 seconds;4;Rambyno g. 11-3, Panevėžys, Lietuva;55.724250;24.371160;2;16;21;Gera mašina, ilgai važiuoja be problemų, kaina irgi normali.
+30;-1 day; +100 seconds;1;Pavilnionių g. 53, Vilnius, Lietuva;54.736610;25.224510;6;2;22;Tvarkinga mašina, rimtai varo labai gerai.
+90;-2 day; + 400 seconds;0;V. Mykolaičio-Putino g. 1, Vilnius, Lietuva;54.684310;25.267880;9;19;23;Labai galingas auto, keli šimtai kilovatų pralinksmins.
