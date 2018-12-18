@@ -444,7 +444,7 @@ class EditCarForm extends Component {
               </label>
               <div className="col-sm-9 col-md-10 reservations">
                 {editableCar.bookingDates.map(date => (
-                  <span class="badge badge-pill badge-light">
+                  <span key={date.id} className="badge badge-pill badge-light">
                     {date.bookedFrom.split(" ")[0] +
                       " - " +
                       date.bookedUntil.split(" ")[0]}{" "}
