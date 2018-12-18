@@ -99,7 +99,7 @@ class EditCar extends React.Component {
     const { editableCar, loading } = this.props.CarFormStore;
 
     if (loading) {
-      return <LoadModal open={loading} />;
+      return <LoadModal open={true} />;
     }
 
     if (this.state.showEditCarPage) {
