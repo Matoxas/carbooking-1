@@ -25,6 +25,7 @@ class NewCarForm extends Component {
       modalIsOpen: false,
       formStatus: "LOADING", // PENDING/LOADING/SUCCESS/FAILURE
       carId: "",
+      dateNow: new Date(),
       minDate: moment(this.props.date_from)
         .add(1, "d")
         .toDate()
@@ -280,8 +281,8 @@ class NewCarForm extends Component {
                   className="form-control"
                   locale={"lt"}
                   name="date_from"
-                  minDate={new Date()}
-                  maxDate={moment(new Date())
+                  minDate={this.state.dateNow}
+                  maxDate={moment(this.state.dateNow)
                     .add(31, "d")
                     .toDate()}
                   startDate={this.props.date_from}
@@ -312,7 +313,9 @@ class NewCarForm extends Component {
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
-                  minDate={this.state.minDate}
+                  minDate={moment(this.props.date_from)
+                    .add(1, "d")
+                    .toDate()}
                   maxDate={moment(this.props.date_from)
                     .add(31, "d")
                     .toDate()}
