@@ -32,7 +32,7 @@ class GoogleMap extends Component {
     };
 
     observe(this.props.CarStore, (change) => {
-      if (change.name == 'cars' &&  change.object[change.name].length > 0){
+      if (change.name == 'cars'){
         this.handleMapChange(this.state.mapOptions);
       }
   });
