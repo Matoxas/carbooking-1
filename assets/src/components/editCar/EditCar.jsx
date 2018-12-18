@@ -2,14 +2,13 @@ import React from "react";
 import { inject, observer } from "mobx-react";
 import LoadModal from "./loadModal";
 import EditCarModal from "./EditCarModal";
-import history from "../../history";
 import axios from "axios";
 
 @inject("CarFormStore")
 @observer
 class EditCar extends React.Component {
   state = {
-    open: true
+    showEditCarPage: false
   };
 
   clearEdit = () => {
@@ -42,22 +41,18 @@ class EditCar extends React.Component {
       axios
         .get("get/car/" + id)
         .then(response => {
-          if (response.status == 200) {
+          if (response.data.data.length > 0) {
             this.setEditableCar(response.data);
             setLoading(false);
           } else {
-            this.props.resetHash();
-            this.setState({ open: false });
-            history.push("/feed");
             setLoading(false);
+            this.props.resetHash();
           }
         })
         .catch(error => {
           console.log(error);
-          this.props.resetHash();
-          history.push("/feed");
-          this.setState({ open: false });
           setLoading(false);
+          this.props.resetHash();
           return error;
         });
     }
@@ -91,13 +86,13 @@ class EditCar extends React.Component {
       bookingDates: editableCar.bookingDates,
       images
     });
+    this.setState({ showEditCarPage: true });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
     this.clearEdit();
+    this.setState({ showEditCarPage: false });
     this.props.resetHash();
-    history.push("/feed");
   };
 
   render() {
@@ -107,11 +102,10 @@ class EditCar extends React.Component {
       return <LoadModal open={loading} />;
     }
 
-    if (editableCar.token) {
+    if (this.state.showEditCarPage) {
       return (
         <EditCarModal
           editableCar={editableCar}
-          open={true}
           handleClose={this.handleClose}
           handleUndo={this.ValidateCarId}
           formSubmit={this.formSubmit}
