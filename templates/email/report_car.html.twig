@@ -9,7 +9,7 @@ Buvo gautas anoniminis pranešimas apie netinkamą automobilį:<br />
 <br/>
 <b>Automobilio savininkas:</b><br/>
 <b>El-paštas:</b> {{ car.user.email }}<br/>
-<b>Mobulusis:</b> +370 {{ car.user.phone }}<br/>
+<b>Mobulusis:</b> {{ car.user.phone }}<br/>
 <br/>
 <a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">&#187; Plačiau apie automobilį</a><br/>
 <br/>
