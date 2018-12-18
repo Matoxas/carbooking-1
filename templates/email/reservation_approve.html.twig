@@ -18,11 +18,12 @@ Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
 <br/>
 Žinutė: {{ booking.message }}<br/>
 <br/>
-<b>!</b> Norėdami patvirtinti rezervacija ir pažymėti šį laiką, kaip užimtą sistemoje, paspauskite
-<a href="{{ url('home_car_listing_by_id_plus_token', { 'id': booking.car.id, 'token': booking.token }) }}">čia</a>!<br/>
-<br/>
-<b>!</b> Jeigu nesutinkate nuomuoti šio automobilio šiam asmeniui, informuokite jį, paspaudę
-<a href="{{ url('home_car_listing_by_id_plus_token_not_approved', { 'id': booking.car.id, 'token': booking.token }) }}">čia</a><br/>
+<b>DĖMESIO!</b><br/>
+* Prašome Jūsų patvirtinti rezervacija, kad galėtumėme informuoti apie tai rezervavusį asmenį,
+bei sistemoje išsaugotumėme, kad šis laikas, jau rezervuotas arba atšaukite rezervacija, kad apie tai būtų informuotas
+rezervavęsis žmogus.
+&#187; <a href="{{ url('home_car_listing_by_id_plus_token', { 'id': booking.car.id, 'token': booking.token }) }}">Patvirtinu rezervaciją</a>!<br/>
+&#187; <a href="{{ url('home_car_listing_by_id_plus_token_not_approved', { 'id': booking.car.id, 'token': booking.token }) }}">Nepatvirtinu rezervacijos</a><br/>
 <br/>
 <br/>
 --<br/>
