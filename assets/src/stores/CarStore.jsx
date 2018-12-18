@@ -59,7 +59,7 @@ class CarStore {
   @action
   getAllCars = () => {
     this.setLoading({ cars: true });
-    axios
+    return axios
       .get("cars", {
         params: {
           filters: this.filters
@@ -68,6 +68,7 @@ class CarStore {
       .then(response => {
         this.setCars(response.data);
         this.setLoading({ cars: false });
+        return true;
       })
       .catch(error => console.log(error.response));
   };

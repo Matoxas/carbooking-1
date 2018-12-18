@@ -34,25 +34,22 @@ class GoogleMap extends Component {
         let mapOptions = this.state.mapOptions;
 
         if (change.object[change.name].length > 0) {
-          if (change.object[change.name].length == 1) {
-            mapOptions = {
-              ...mapOptions,
-              zoom: 11
-            };
-          }
+          const zoom = change.object[change.name].length == 1 ? 11 : 8;
 
           mapOptions = {
             ...mapOptions,
             center: {
               lat: change.object[change.name][0].latitude,
               lng: change.object[change.name][0].longitude
-            }
+            },
+            zoom
           };
         }
         this.handleMapChange(mapOptions);
       }
     });
   }
+
 
   zoomIn = (lat, lng) => {
     const { center: oldCenter, zoom: oldZoom, bounds } = this.state.mapOptions;
@@ -99,10 +96,6 @@ class GoogleMap extends Component {
           points
         })
       )
-      // center: {
-      //   lat: this.getClusters(props)[0].wx,
-      //   lng: this.getClusters(props)[0].wy
-      // }
     });
   };
 
@@ -122,6 +115,7 @@ class GoogleMap extends Component {
   };
 
   render() {
+  
     return (
       <MapWrapper>
         <GoogleMapReact
