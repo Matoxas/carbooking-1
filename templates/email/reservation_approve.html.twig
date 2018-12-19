@@ -8,13 +8,13 @@ Džiaugiamės, galėdami Jums pranešti, kad Jūsų automobilis -
 Susisiekite su <b> {{ user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
 <br/>
 Rezervavusio asmens duomenys:<br/>
-Vardas: {{ car.user.name }}<br/>
+Vardas: {{ user.name }}<br/>
 Telefonas: {{ user.phone }}<br/>
 El-paštas: {{ user.email }}<br/>
 <br/>
 Rezervavimosi laikotarpis:<br/>
-Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
-Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
+Pradžia: {{ booking.bookedFrom|date('Y-m-d', false) }}<br/>
+Pabaiga: {{ booking.bookedUntil|date('Y-m-d', false) }}<br/>
 <br/>
 Žinutė: {{ booking.message }}<br/>
 <br/>
