@@ -9,6 +9,7 @@ import moment from "moment";
 import Validators from "../../extras/formValidators";
 import axios from "axios";
 import dateFormatter from "../../extras/dateFormatter";
+import "./editCar.css";
 
 registerLocale("lt", lt);
 
@@ -46,6 +47,14 @@ class EditCarForm extends Component {
     //unmountinam
     this.props.onRef(undefined);
   }
+
+  updateFeed = () => {
+    const { setFilters, getAllCars } = this.props.CarStore;
+    setFilters({
+      sort: "naujausi"
+    });
+    getAllCars();
+  };
 
   setValues = e => {
     const { setEditableCar, setEditableCarErrors } = this.props.CarFormStore;
@@ -192,6 +201,10 @@ class EditCarForm extends Component {
       .put("delete/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
+        if (response.status === 200) {
+          this.props.closeForm();
+          this.updateFeed();
+        }
       })
       .catch(error => {
         console.log(error);
@@ -200,6 +213,7 @@ class EditCarForm extends Component {
 
   sendFormToApi = () => {
     const { editableCar } = this.props.CarFormStore;
+    const bookingDates = editableCar.bookingDates.map(date => date.id);
     const fd = new FormData();
     //pridedam visus duomenis
     fd.append("id", editableCar.id);
@@ -210,7 +224,7 @@ class EditCarForm extends Component {
     fd.append("phone", editableCar.phone);
     fd.append("email", editableCar.email);
     fd.append("name", editableCar.name);
-    fd.append("bookingDates", editableCar.bookingDates);
+    fd.append("bookingDates", JSON.stringify(bookingDates));
     fd.append("token", editableCar.token);
     fd.append("date_from", dateFormatter(editableCar.date_from));
     fd.append("date_until", dateFormatter(editableCar.date_until));
@@ -233,10 +247,22 @@ class EditCarForm extends Component {
       .put("edit/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
+        if (response.status === 200) {
+          this.props.closeForm();
+          this.updateFeed();
+        }
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  deleteBookedDate = id => {
+    const { editableCar, setEditableCar } = this.props.CarFormStore;
+    const newBookingDates = editableCar.bookingDates.filter(
+      date => date.id !== id
+    );
+    setEditableCar({ bookingDates: newBookingDates });
   };
 
   handleDateChangeRaw = e => {
@@ -420,6 +446,27 @@ class EditCarForm extends Component {
               )}
             </div>
           </div>
+
+          {editableCar.bookingDates[0] && (
+            <div className="form-group row">
+              <label className="col-sm-3 col-md-2" htmlFor="inputState">
+                Aktyvios rezervacijos:
+              </label>
+              <div className="col-sm-9 col-md-10 reservations">
+                {editableCar.bookingDates.map(date => (
+                  <span key={date.id} className="badge badge-pill badge-light">
+                    {date.bookedFrom.split(" ")[0] +
+                      " - " +
+                      date.bookedUntil.split(" ")[0]}{" "}
+                    <i
+                      onClick={() => this.deleteBookedDate(date.id)}
+                      className="fas fa-times"
+                    />
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="form-group row">
             <label className="col-sm-3 col-md-2" htmlFor="inputState">
               Paros kaina:

@@ -56,7 +56,6 @@ img {
 }
 
 .info-description--border {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1rem;
 }
 
@@ -86,16 +85,10 @@ img {
 }
 
 .info-comment--border {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1rem;
-  margin-bottom: -1rem;
 }
 
 .info-comment-input-border {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.info--newComment-border {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -209,7 +202,6 @@ img {
   border-color: #f47e60;
   font-weight: 600;
   width: 100%;
-  margin-top: 15px;
   margin-bottom: 15px;
 }
 
@@ -357,31 +349,44 @@ comment {
 }
 
 .carousel-inner {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    justify-content: center;
-    /* display: flex; */
-    align-items: center;
-    height: 500px !important;
-    width: 100%;
-    /* margin-bottom: -100px; */
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  justify-content: center;
+  /* display: flex; */
+  align-items: center;
+  height: 500px !important;
+  width: 100%;
+  /* margin-bottom: -100px; */
 }
 
 .carousel-inner img {
-    width: 100%;
-    max-width: 100%;
-    max-height: 600px;
-    /* min-height: 700px; */
-    margin-bottom: -10%;
-    height: 100%;
-    width: auto;
-    /* max-width: 1000px; */
+  width: 100%;
+  max-width: 100%;
+  max-height: 600px;
+  /* min-height: 700px; */
+  margin-bottom: -10%;
+  height: 100%;
+  width: auto;
+  /* max-width: 1000px; */
 }
 
 @media screen and (max-width: 1000px) {
+  .info--big {
+    white-space: pre-wrap;
+  }
+
+  .m--no-wrap {
+    white-space: nowrap;
+  }
+
+  .info--newComment {
+    padding-bottom: 0;
+  }
+
   .owner-info {
     flex-wrap: wrap;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .owner-info > p {
@@ -422,17 +427,25 @@ comment {
   .info-comment--border {
     padding-bottom: 1em;
     border-top: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
   }
 
   .info-description--border {
+    margin-top: 1rem;
+    padding-top: 2rem;
     margin-bottom: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-
   .comment-column--left {
     margin-right: 1rem;
   }
 
-    .carousel-inner {
-        height: 300px !important;
-    }
+  .info-price {
+    top: 0;
+  }
+
+  .carousel-inner {
+    height: 300px !important;
+  }
 }
