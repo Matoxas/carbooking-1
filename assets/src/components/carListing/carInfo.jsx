@@ -486,7 +486,6 @@ class carInfo extends Component {
                 <label className="" htmlFor="inputState">
                   Nuomos pradžia:
                 </label>
-                <form>
                   <div className="relative clearfix">
                     <DatePicker
                       className="form-control"
@@ -498,13 +497,11 @@ class carInfo extends Component {
                       startDate={new Date(this.state.date_from)}
                       endDate={new Date(this.state.date_until)}
                       // rentDates[0] because currently there will be only one rented date
-                      minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                      maxDate={
-                        new Date(this.props.car.rentDates[0].rentedUntil)
-                      }
+                      minDate={this.props.car.rentDates[0].rentedFrom}
+                      maxDate={this.props.car.rentDates[0].rentedUntil}
                       onChange={e => this.handleFromChange(dates, e)}
                       onChangeRaw={this.handleDateChangeRaw}
-                      autocomplete="off"
+                      // autocomplete="off"
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
@@ -519,17 +516,14 @@ class carInfo extends Component {
                       selectsEnd
                       startDate={new Date(this.state.date_from)}
                       endDate={new Date(this.state.date_until)}
-                      minDate={new Date(this.props.car.rentDates[0].rentedFrom)}
-                      maxDate={
-                        new Date(this.props.car.rentDates[0].rentedUntil)
-                      }
+                      minDate={this.props.car.rentDates[0].rentedFrom}
+                      maxDate={this.props.car.rentDates[0].rentedUntil}
                       onChange={e => this.handleUntilChange(dates, e)}
                       onChangeRaw={this.handleDateChangeRaw}
-                      autocomplete="off"
+                      // autocomplete="off"
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
-                </form>
               </div>
               <div className="input--error input--error-dates">
                 {this.state.cannotReserveDates}
