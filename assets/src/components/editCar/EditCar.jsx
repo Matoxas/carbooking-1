@@ -91,8 +91,8 @@ class EditCar extends React.Component {
   };
 
   handleClose = () => {
-    this.clearEdit();
     this.setState({ showEditCarPage: false });
+    this.clearEdit();
     this.props.resetHash();
   };
 
