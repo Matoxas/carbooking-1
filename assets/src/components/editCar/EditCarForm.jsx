@@ -202,8 +202,8 @@ class EditCarForm extends Component {
       .then(response => {
         console.log(response);
         if (response.status === 200) {
-          this.props.closeForm();
           this.updateFeed();
+          this.props.closeForm();
         }
       })
       .catch(error => {
@@ -248,8 +248,8 @@ class EditCarForm extends Component {
       .then(response => {
         console.log(response);
         if (response.status === 200) {
-          this.props.closeForm();
           this.updateFeed();
+          this.props.closeForm();
         }
       })
       .catch(error => {
