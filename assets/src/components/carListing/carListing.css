@@ -376,6 +376,10 @@ comment {
     display: none;
 }
 
+.container--margin-reduce {
+    margin-top: -2em;
+}
+
 @media screen and (max-width: 1000px) {
     .info--big {
         white-space: pre-wrap;
@@ -386,6 +390,7 @@ comment {
     }
 
     .info--newComment {
+        padding-top: 1em;
         padding-bottom: 0;
     }
 
@@ -430,10 +435,8 @@ comment {
     }
 
     .info-comment--border {
-        padding-bottom: 1em;
         border-top: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        margin-bottom: 1rem;
     }
 
     .info-description--border {

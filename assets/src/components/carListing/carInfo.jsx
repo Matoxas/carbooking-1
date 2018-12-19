@@ -354,7 +354,7 @@ class carInfo extends Component {
             <p>Šis skelbimas neturi jokių komentarų.</p>
           )}
         </div>
-        <div className="container d-none d-lg-block">
+        <div className="container d-none d-lg-block container--margin-reduce">
           <hr />
         </div>
         <div className="col-lg-12 info--newComment info--newComment-border">
