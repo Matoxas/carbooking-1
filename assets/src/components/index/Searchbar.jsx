@@ -15,7 +15,7 @@ class Searchbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateNow: new Date(),
+      dateNow: this.dateWithoutTimeLocal(new Date()),
       date_from: new Date(),
       date_until: moment(this.date_from)
         .add(7, "d")
