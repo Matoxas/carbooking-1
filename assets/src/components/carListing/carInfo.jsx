@@ -351,7 +351,7 @@ class carInfo extends Component {
           {this.props.comments.length ? (
             <Comment comments={this.props.comments} />
           ) : (
-            <p>Šis skelbimas neturi jokių komentarų.</p>
+            <p className="info-comment--padding">Šis skelbimas neturi jokių komentarų.</p>
           )}
         </div>
         <div className="container d-none d-lg-block container--margin-reduce">

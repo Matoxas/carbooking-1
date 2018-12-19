@@ -88,6 +88,10 @@ img {
     padding-top: 1rem;
 }
 
+.info-comment--padding {
+    padding-bottom: 2em;
+}
+
 .info-comment-input-border {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
