@@ -2,28 +2,28 @@
 <br/>
 Sveiki, <br/>
 <br/>
-Džiaugiamės, galėdami Jums pranešti, kad Jūsų automobilis -
-<b><a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">{{ car.brand.brand }}</a></b> buvo užrezervuotas!<br/>
-<br/>
-Susisiekite su <b> {{ user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
-<br/>
-Rezervavusio asmens duomenys:<br/>
-Vardas: {{ car.user.name }}<br/>
-Telefonas: {{ user.phone }}<br/>
-El-paštas: {{ user.email }}<br/>
-<br/>
-Rezervavimosi laikotarpis:<br/>
-Pradžia: {{ booking.bookedFrom|date('Y-m-d') }}<br/>
-Pabaiga: {{ booking.bookedUntil|date('Y-m-d') }}<br/>
-<br/>
-Žinutė: {{ booking.message }}<br/>
+Džiaugiamės, galėdami Jums pranešti, kad Jūsų automobilį -
+<b><a href="{{ url('home_car_listing_by_id', { 'id': car.id }) }}">{{ car.brand.brand }}</a></b> nori rezervuotis!<br/>
 <br/>
 <b>DĖMESIO!</b><br/>
 * Prašome Jūsų patvirtinti rezervacija, kad galėtumėme informuoti apie tai rezervavusį asmenį,
 bei sistemoje išsaugotumėme, kad šis laikas, jau rezervuotas arba atšaukite rezervacija, kad apie tai būtų informuotas
-rezervavęsis žmogus.
+rezervavęsis žmogus.<br/>
 &#187; <a href="{{ url('home_car_listing_by_id_plus_token', { 'id': booking.car.id, 'token': booking.token }) }}">Patvirtinu rezervaciją</a>!<br/>
 &#187; <a href="{{ url('home_car_listing_by_id_plus_token_not_approved', { 'id': booking.car.id, 'token': booking.token }) }}">Nepatvirtinu rezervacijos</a><br/>
+<br/>
+Susisiekite su <b> {{ user.name }} </b>, ir susiderinkite nuomavimosi sąlygas ;-)<br/>
+<br/>
+Rezervavusio asmens duomenys:<br/>
+Vardas: {{ user.name }}<br/>
+Telefonas: {{ user.phone }}<br/>
+El-paštas: {{ user.email }}<br/>
+<br/>
+Rezervavimosi laikotarpis:<br/>
+Pradžia: {{ booking.bookedFrom|date('Y-m-d', false) }}<br/>
+Pabaiga: {{ booking.bookedUntil|date('Y-m-d', false) }}<br/>
+<br/>
+Žinutė: {{ booking.message }}<br/>
 <br/>
 <br/>
 --<br/>

@@ -508,13 +508,21 @@ class APIController extends FOSRestController
         /** @var Booking $booking */
         $booking = $this->getDoctrine()->getRepository(Booking::class)->findOneBy(['token' => $token]);
 
-        if ($booking === null && !$booking->getApproved()) {
-            $mailer->sendEmailForNotApprovedReservation($booking);
-
-            $this->getDoctrine()->getManager()->remove($booking->getUsers());
-            $this->getDoctrine()->getManager()->remove($booking);
-            $this->getDoctrine()->getManager()->flush();
+        if ($booking === null || $booking->getApproved()) {
+            return $this->view(
+                [
+                    'status' => 'ok',
+                    'message' => $translator->trans('booking.not_approved')
+                ],
+                Response::HTTP_OK
+            );
         }
+
+        $mailer->sendEmailForNotApprovedReservation($booking);
+
+        $this->getDoctrine()->getManager()->remove($booking->getUsers());
+        $this->getDoctrine()->getManager()->remove($booking);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->view(
             [

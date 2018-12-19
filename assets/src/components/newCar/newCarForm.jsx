@@ -313,7 +313,7 @@ class NewCarForm extends Component {
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
-                  minDate={moment(this.props.date_from)
+                  minDate={moment(this.state.dateNow)
                     .add(1, "d")
                     .toDate()}
                   maxDate={moment(this.props.date_from)

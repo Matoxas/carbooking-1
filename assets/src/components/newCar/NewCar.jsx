@@ -188,7 +188,7 @@ class NewCar extends Component {
     } = this.props.CarFormStore;
     setCurrentCarErrors({ date_until: "", date_from: "" });
     setCurrentCarValues({ date_from: date });
-    this.validateDates();
+    this.validateDateFrom();
   };
 
   handleUntilChange = date => {
@@ -198,7 +198,7 @@ class NewCar extends Component {
     } = this.props.CarFormStore;
     setCurrentCarErrors({ date_until: "", date_from: "" });
     setCurrentCarValues({ date_until: date });
-    this.validateDates();
+    this.validateDateUntil();
   };
 
   handleChangeAddress = address => {
@@ -210,7 +210,7 @@ class NewCar extends Component {
     setCurrentCarValues({ address });
   };
 
-  validateDates = () => {
+  validateDateFrom = () => {
     const { setCurrentCarValues, currentCar } = this.props.CarFormStore;
     if (currentCar.date_from >= currentCar.date_until) {
       setCurrentCarValues({
@@ -218,6 +218,21 @@ class NewCar extends Component {
           .add(1, "d")
           .toDate()
       });
+    }
+  };
+
+  validateDateUntil = () => {
+    const { setCurrentCarValues, currentCar } = this.props.CarFormStore;
+    if (currentCar.date_from >= currentCar.date_until) {
+      if (currentCar.date_until > new Date()) {
+        setCurrentCarValues({
+          date_from: moment(currentCar.date_until)
+            .subtract(1, "d")
+            .toDate()
+        });
+      } else {
+        this.validateDateFrom();
+      }
     }
   };
 

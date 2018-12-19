@@ -15,6 +15,7 @@ class Searchbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      dateNow: new Date(),
       date_from: new Date(),
       date_until: moment(this.date_from)
         .add(7, "d")
@@ -28,18 +29,21 @@ class Searchbar extends Component {
   }
 
   handleFromChange = date => {
-    this.setState({
-      date_from: date
-    });
-    this.checkDateLogic();
+    this.setState(
+      {
+        date_from: this.dateWithoutTimeLocal(date)
+      },
+      this.validateDateFrom
+    );
   };
 
   handleUntilChange = date => {
-    this.setState({
-      date_until: date
-    });
-
-    this.checkDateLogic();
+    this.setState(
+      {
+        date_until: this.dateWithoutTimeLocal(date)
+      },
+      this.validateDateUntil
+    );
   };
 
   hadleCityChange = e => {
@@ -63,16 +67,37 @@ class Searchbar extends Component {
     $("body, html").animate({ scrollTop: $("#mainNav").offset().top }, 1000);
   };
 
-  checkDateLogic = () => {
-    console.log("hello");
-
-    if (this.state.date_until <= this.state.date_from) {
+  validateDateFrom = () => {
+    if (this.state.date_from >= this.state.date_until) {
       this.setState({
         date_until: moment(this.state.date_from)
           .add(7, "d")
           .toDate()
       });
     }
+  };
+
+  dateWithoutTimeLocal = date => {
+    const dateNew = new Date(date);
+    return dateNew.setHours(0, 0, 0, 0);
+  };
+
+  validateDateUntil = () => {
+    if (this.state.date_from >= this.state.date_until) {
+      if (this.state.date_until > this.state.dateNow) {
+        this.setState({
+          date_from: moment(this.state.date_until)
+            .subtract(1, "d")
+            .toDate()
+        });
+      } else {
+        this.validateDateFrom();
+      }
+    }
+  };
+
+  handleDateChangeRaw = e => {
+    e.preventDefault();
   };
 
   render() {
@@ -100,8 +125,13 @@ class Searchbar extends Component {
             <DatePicker
               className="input"
               locale={"lt"}
+              minDate={this.state.dateNow}
               selected={this.state.date_from}
               onChange={this.handleFromChange}
+              startDate={this.state.date_from}
+              endDate={this.state.date_until}
+              selectsStart
+              onChangeRaw={this.handleDateChangeRaw}
             />
             <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
@@ -114,6 +144,13 @@ class Searchbar extends Component {
               locale={"lt"}
               selected={this.state.date_until}
               onChange={this.handleUntilChange}
+              minDate={moment(this.state.dateNow)
+                .add(1, "d")
+                .toDate()}
+              startDate={this.state.date_from}
+              endDate={this.state.date_until}
+              selectsEnd
+              onChangeRaw={this.handleDateChangeRaw}
             />
             <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
