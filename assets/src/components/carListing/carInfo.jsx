@@ -480,7 +480,7 @@ class carInfo extends Component {
           <div className="col-lg-4  offset-lg-1 info-price">
             <span className="info-price--currency">€</span>
             <span className="info-price--value">{this.props.car.price}</span>
-            <span className="info-price--small">dienai</span>
+            <span className="info-price--small">parai</span>
             <div className="info-dates">
               <div className="form-group">
                 <label className="" htmlFor="inputState">
