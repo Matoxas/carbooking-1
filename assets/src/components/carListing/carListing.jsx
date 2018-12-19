@@ -100,6 +100,16 @@ class CarListing extends Component {
             });
     };
 
+    handleBadListing = () => {
+        const { postBadListing } = this.props.CarStore;
+        postBadListing(this.props.match.params.id);
+        this.setState({
+            badListingHeader: "Jūsų pranešimas buvo išsiųstas",
+            badListingText: "Dėkui už jūsų pranešimą",
+            badListingShow: true
+        });
+    };
+
     getComments = id => {
         let comments = [];
         axios
@@ -176,6 +186,20 @@ class CarListing extends Component {
                         longitude={this.state.car.longitude}
                         zoom={16}
                     />
+                    <div className="info-report--small">
+                        <hr/>
+                        <p onClick={this.handleBadListing} className="info-report">
+                            Pranešti apie netinkamą skelbimą
+                        </p>
+                        {this.state.badListingShow ? (
+                            <div onClick={this.handleBadListingDialog}>
+                                <Dialog
+                                    alertHeader={this.state.badListingHeader}
+                                    alertMessage={this.state.badListingText}
+                                />
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         );
