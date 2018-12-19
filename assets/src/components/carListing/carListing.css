@@ -312,6 +312,7 @@ comment {
 
 .pagination {
     display: inline-block;
+    margin-bottom: 2em;
 }
 
 .pagination a {
@@ -329,6 +330,7 @@ comment {
 
 .pagination a:hover:not(.active) {
     background-color: #ddd;
+    cursor: pointer;
 }
 
 .input--error {

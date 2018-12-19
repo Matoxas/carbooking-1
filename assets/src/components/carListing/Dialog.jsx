@@ -1,11 +1,13 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Lottie from "react-lottie";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import success from "../../extras/checked_done_";
 
 const theme = createMuiTheme({
     palette: {
@@ -28,6 +30,8 @@ class AlertDialog extends React.Component {
         super();
         this.state = {
             open: true,
+            isStopped: false,
+            isPaused: false
         }
     }
 
@@ -36,6 +40,15 @@ class AlertDialog extends React.Component {
     };
 
     render() {
+        const defaultOptions = {
+            loop: false,
+            autoplay: true,
+            animationData: success,
+            rendererSettings: {
+                preserveAspectRatio: "xMidYMid slice"
+            }
+        };
+
         if (this.props.alertMessage != undefined) {
             return (
                 <div>
@@ -47,6 +60,13 @@ class AlertDialog extends React.Component {
                             aria-describedby="alert-dialog-description"
                         >
                             <DialogTitle id="alert-dialog-title">{this.props.alertHeader}</DialogTitle>
+                            <Lottie
+                                options={defaultOptions}
+                                height={"60%"}
+                                width={"100%"}
+                                isStopped={this.state.isStopped}
+                                isPaused={this.state.isPaused}
+                            />
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-description">
                                     {this.props.alertMessage}
