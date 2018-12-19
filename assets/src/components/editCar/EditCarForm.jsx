@@ -197,18 +197,18 @@ class EditCarForm extends Component {
     fd.append("id", editableCar.id);
     fd.append("token", editableCar.token);
 
-    // return axios
-    //   .put("delete/car/" + editableCar.token, fd)
-    //   .then(response => {
-    //     console.log(response);
-    //     if (response.status === 200) {
-    this.updateFeed();
-    this.props.closeForm();
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    return axios
+      .put("delete/car/" + editableCar.token, fd)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          this.updateFeed();
+          this.props.closeForm();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   sendFormToApi = () => {

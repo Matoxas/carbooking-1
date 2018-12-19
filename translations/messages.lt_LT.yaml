@@ -15,11 +15,11 @@ booking:
     error: 'Rezervuoti nepavyko! Patikrinkite įvestus duomenis ir mėginkite dar kartą!'
   date_is_reserved: 'Ši data jau yra rezervuota!'
   bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
-  token_is_expired: 'Patvirtinimo raktas pasibaigęs!'
+  token_is_expired: 'Rezervacija jau buvo patvirtinta!'
   token_is_used: 'Ši rezervacija jau patvirtinta!'
   success: 'Rezervavimas buvo patvirtintas! Jūsų kontaktiniai duomenys buvo išsiųsti rezervavusiam asmeniui!'
   not_approved_success: 'Apie tai buvo informuotas rezervavęsis automobilį asmuo.'
-  not_approved: 'Raktas į rezervacijos atšaukimą - nebegalioja!'
+  not_approved: 'Rezervacija jau yra atšaukta!'
 renting:
   time_not_available: 'Pasirinktu laiku, mašina nėra nuomuojama...'
 comment:

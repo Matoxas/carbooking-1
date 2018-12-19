@@ -508,7 +508,7 @@ class APIController extends FOSRestController
         /** @var Booking $booking */
         $booking = $this->getDoctrine()->getRepository(Booking::class)->findOneBy(['token' => $token]);
 
-        if ($booking === null || $booking->getApproved()) {
+        if (empty($booking) || $booking->getApproved()) {
             return $this->view(
                 [
                     'status' => 'ok',
@@ -547,7 +547,7 @@ class APIController extends FOSRestController
     {
         $booking = $this->getDoctrine()->getRepository(Booking::class)->findBy(['token' => $token]);
 
-        if ($booking === null) {
+        if (empty($booking)) {
             return $this->view(
                 [
                     'status' => 'error',
@@ -715,7 +715,7 @@ class APIController extends FOSRestController
         TokenGenerator $tokenGenerator
     ): View {
         $car = $this->getDoctrine()->getRepository(Car::class)->findOneBy(['token' => $token]);
-        if ($car == null) {
+        if (empty($car)) {
             return $this->view(
                 [
                     'status' => 'error',
@@ -725,7 +725,7 @@ class APIController extends FOSRestController
             );
         }
 
-        $phone = $this->formatPhoneNumber($request->get('phone'));
+        $phone = $this->formatPhoneNumber((string) $request->get('phone'));
         $from = new \DateTime($request->get('date_from'));
         $until = new \DateTime($request->get('date_until'));
 
@@ -734,6 +734,8 @@ class APIController extends FOSRestController
         $user->setName($request->get('name'));
         $user->setEmail($request->get('email'));
         $user->setPhone($phone);
+
+        //dump($request); //neveikia duomenų gavimas...
 
         $city = $this->getDoctrine()->getRepository(City::class)->find($request->get('city'));
 
@@ -820,7 +822,7 @@ class APIController extends FOSRestController
     {
         $car = $this->getDoctrine()->getRepository(Car::class)->findOneBy(['token' => $token]);
 
-        if ($car == null) {
+        if ($car == null || empty($car)) {
             return $this->view(
                 [
                     'status' => 'error',

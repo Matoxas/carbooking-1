@@ -212,12 +212,13 @@ class Mailer
     public function sendEmailForNotApprovedReservation(Booking $booking)
     {
         $body = $this->twig->render('email/reservation_not_approved.html.twig', [
-            'booking' => $booking
+            'booking' => $booking,
+            'car' => $booking->getCar()
         ]);
 
         $message = (new \Swift_Message('Rezervacija nepatvirtinta!'))
             ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
-            ->setTo($booking->getUser()->getEmail())
+            ->setTo($booking->getUsers()->getEmail())
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
