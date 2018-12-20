@@ -12,8 +12,8 @@ const Validators = {
         if (value.length < 4) {
             return "Įveskite daugiau nei 4 raides!";
         }
-        if (value.length > 100) {
-            return "Komentaras negali būti ilgesnis nei 100 simbolių!";
+        if (value.length > 200) {
+            return "Komentaras negali būti ilgesnis nei 200 simbolių!";
         }
         return "";
     },
