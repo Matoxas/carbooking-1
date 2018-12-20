@@ -77,14 +77,16 @@ class CarListing extends Component {
                 this.setState({
                     dialogHeader: "Patvirtinta",
                     dialogText: response.data.message,
-                    showDialog: true
+                    showDialog: true,
+                    showSuccess: true
                 });
             })
             .catch(error => {
                 this.setState({
                     dialogHeader: "Rezervacija nepatvirtinta",
                     dialogText: "Kažkas atsitiko blogai",
-                    showDialog: true
+                    showDialog: true,
+                    showSuccess: false
                 });
             });
     };
