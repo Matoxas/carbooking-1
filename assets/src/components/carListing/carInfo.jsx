@@ -219,7 +219,7 @@ class carInfo extends Component {
     if (this.dateWithoutTime(date) === this.state.date_until) {
       this.setState({ cannotReserveDates: "Minimali nuomos trukmė: 1 para" });
     } else {
-        this.setState({cannotReserveDates: ""});
+      this.setState({ cannotReserveDates: "" });
     }
     let showError = false;
     if (date <= new Date(this.state.date_until)) {
@@ -251,7 +251,7 @@ class carInfo extends Component {
     if (this.dateWithoutTime(date) === this.state.date_from) {
       this.setState({ cannotReserveDates: "Minimali nuomos trukmė: 1 para" });
     } else {
-        this.setState({cannotReserveDates: ""});
+      this.setState({ cannotReserveDates: "" });
     }
     let showError = false;
     if (date >= new Date(this.state.date_from)) {
@@ -355,7 +355,9 @@ class carInfo extends Component {
           {this.props.comments.length ? (
             <Comment comments={this.props.comments} />
           ) : (
-            <p className="info-comment--padding">Šis skelbimas neturi jokių komentarų.</p>
+            <p className="info-comment--padding">
+              Šis skelbimas neturi jokių komentarų.
+            </p>
           )}
         </div>
         <div className="container d-none d-lg-block container--margin-reduce">
@@ -434,7 +436,7 @@ class carInfo extends Component {
           <div className="col-lg-7">
             <div className="row">
               <div className="col-lg-3 info-description" />
-              <div className="pl-2 col-lg-9">
+              <div className="col-lg-9">
                 <p className="info--big">
                   {this.props.car.brand}
                   <span className="m--no-wrap light-text">
@@ -490,42 +492,42 @@ class carInfo extends Component {
                 <label className="" htmlFor="inputState">
                   Nuomos pradžia:
                 </label>
-                  <div className="relative clearfix">
-                    <DatePicker
-                      className="form-control"
-                      name="date_from"
-                      excludeDates={dates}
-                      locale={"lt"}
-                      selected={new Date(this.state.date_from)}
-                      selectsStart
-                      startDate={new Date(this.state.date_from)}
-                      endDate={new Date(this.state.date_until)}
-                      // rentDates[0] because currently there will be only one rented date
-                      minDate={this.props.car.rentDates[0].rentedFrom}
-                      maxDate={this.props.car.rentDates[0].rentedUntil}
-                      onChange={e => this.handleFromChange(dates, e)}
-                      onChangeRaw={this.handleDateChangeRaw}
-                    />
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
-                  <label htmlFor="inputState">Nuomos pabaiga:</label>
-                  <div className="relative clearfix">
-                    <DatePicker
-                      className="form-control"
-                        locale={"lt"}
-                      name="date_until"
-                      excludeDates={dates}
-                      selected={new Date(this.state.date_until)}
-                      selectsEnd
-                      startDate={new Date(this.state.date_from)}
-                      endDate={new Date(this.state.date_until)}
-                      minDate={this.props.car.rentDates[0].rentedFrom}
-                      maxDate={this.props.car.rentDates[0].rentedUntil}
-                      onChange={e => this.handleUntilChange(dates, e)}
-                      onChangeRaw={this.handleDateChangeRaw}
-                    />
-                    <i className="fa fa-caret-down" aria-hidden="true" />
-                  </div>
+                <div className="relative clearfix">
+                  <DatePicker
+                    className="form-control"
+                    name="date_from"
+                    excludeDates={dates}
+                    locale={"lt"}
+                    selected={new Date(this.state.date_from)}
+                    selectsStart
+                    startDate={new Date(this.state.date_from)}
+                    endDate={new Date(this.state.date_until)}
+                    // rentDates[0] because currently there will be only one rented date
+                    minDate={this.props.car.rentDates[0].rentedFrom}
+                    maxDate={this.props.car.rentDates[0].rentedUntil}
+                    onChange={e => this.handleFromChange(dates, e)}
+                    onChangeRaw={this.handleDateChangeRaw}
+                  />
+                  <i className="fa fa-caret-down" aria-hidden="true" />
+                </div>
+                <label htmlFor="inputState">Nuomos pabaiga:</label>
+                <div className="relative clearfix">
+                  <DatePicker
+                    className="form-control"
+                    locale={"lt"}
+                    name="date_until"
+                    excludeDates={dates}
+                    selected={new Date(this.state.date_until)}
+                    selectsEnd
+                    startDate={new Date(this.state.date_from)}
+                    endDate={new Date(this.state.date_until)}
+                    minDate={this.props.car.rentDates[0].rentedFrom}
+                    maxDate={this.props.car.rentDates[0].rentedUntil}
+                    onChange={e => this.handleUntilChange(dates, e)}
+                    onChangeRaw={this.handleDateChangeRaw}
+                  />
+                  <i className="fa fa-caret-down" aria-hidden="true" />
+                </div>
               </div>
               <div className="input--error input--error-dates">
                 {this.state.cannotReserveDates}
