@@ -120,6 +120,7 @@ class Navbar extends Component {
 
   handleNavClick = (e, scrollink) => {
     e.preventDefault();
+    this.setState({ showMenu: false });
     $(e.target).addClass("active");
     $(e.target)
       .siblings()
@@ -132,6 +133,7 @@ class Navbar extends Component {
 
   handleOutsineNavClick = (e, link) => {
     e.preventDefault();
+    this.setState({ showMenu: false });
     history.push(link);
     $(e.target).addClass("active");
     $(e.target)
