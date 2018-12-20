@@ -12,7 +12,13 @@ class EditCar extends React.Component {
     showEditCarPage: false,
     showSuccess: false,
     statusModalMessage: "",
-    statusModalTitle: ""
+    statusModalTitle: "",
+    editableCarCopy: {}
+  };
+
+  handleUndo = () => {
+    const { setEditableCar: setCar } = this.props.CarFormStore;
+    setCar({ ...this.state.editableCarCopy });
   };
 
   clearEdit = () => {
@@ -119,7 +125,25 @@ class EditCar extends React.Component {
       bookingDates: editableCar.bookingDates,
       images
     });
-    this.setState({ showEditCarPage: true });
+    this.setState({
+      showEditCarPage: true,
+      editableCarCopy: {
+        token,
+        id: editableCar.id,
+        brand: editableCar.brand,
+        model: editableCar.model,
+        address: editableCar.address,
+        price: editableCar.price,
+        description: editableCar.description,
+        phone: editableCar.phone,
+        email: editableCar.email,
+        name: editableCar.name,
+        date_from: editableCar.rentDates[0].rentedFrom,
+        date_until: editableCar.rentDates[0].rentedUntil,
+        bookingDates: editableCar.bookingDates,
+        images
+      }
+    });
     setLoading(false);
   };
 
@@ -156,7 +180,7 @@ class EditCar extends React.Component {
         <EditCarModal
           editableCar={editableCar}
           handleClose={this.handleClose}
-          handleUndo={this.ValidateCarId}
+          handleUndo={this.handleUndo}
           formSubmit={this.formSubmit}
         />
       );
