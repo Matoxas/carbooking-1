@@ -393,6 +393,7 @@ class EditCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative pb-mobile">
                 <DatePicker
+                  autocomplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_from"
@@ -424,6 +425,7 @@ class EditCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative">
                 <DatePicker
+                  autocomplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
