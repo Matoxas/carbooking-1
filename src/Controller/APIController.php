@@ -951,7 +951,7 @@ class APIController extends FOSRestController
     {
         $imageFileType = $image->guessExtension();
 
-        if ($image->getSize() > 10000000) {
+        if ($image->getSize() > 80000000) {
             return $translator->trans('upload.image.size');
         }
 
