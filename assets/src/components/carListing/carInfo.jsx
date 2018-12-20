@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker/es";
 import { inject, observer } from "mobx-react";
 import axios from "axios";
 import moment from "moment";
+import lt from "date-fns/locale/lt";
 import { Button, Collapse } from "mdbreact";
 
 @inject("CarStore")
@@ -505,6 +506,7 @@ class carInfo extends Component {
                   <DatePicker
                     className="form-control"
                     name="date_from"
+                    autoComplete="off"
                     excludeDates={dates}
                     locale={"lt"}
                     selected={new Date(this.state.date_from)}
@@ -525,6 +527,7 @@ class carInfo extends Component {
                     className="form-control"
                     locale={"lt"}
                     name="date_until"
+                    autoComplete="off"
                     excludeDates={dates}
                     selected={this.state.date_until}
                     selectsEnd
