@@ -147,10 +147,10 @@ class EditCar extends React.Component {
     setLoading(false);
   };
 
-  handleClose = (status = undefined) => {
+  handleClose = (status = "pending") => {
     this.setState({ showEditCarPage: false });
     this.clearEdit();
-    if (status) {
+    if (status !== "pending") {
       this.setFormStatus(status);
     } else {
       this.props.resetHash();
@@ -164,7 +164,7 @@ class EditCar extends React.Component {
       return <LoadModal open={true} />;
     }
 
-    if (this.state.statusModalStatus) {
+    if (this.state.statusModalTitle) {
       return (
         <Diaglog
           alertMessage={this.state.statusModalMessage}
