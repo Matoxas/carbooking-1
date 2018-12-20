@@ -16,7 +16,8 @@ class CarSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            Events::prePersist
+            Events::prePersist,
+            Events::preUpdate
         ];
     }
 
@@ -35,6 +36,24 @@ class CarSubscriber implements EventSubscriber
                 $entity->setLatitude($location['lat']);
                 $entity->setLongitude($location['lng']);
             }
+        }
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     * @throws \Exception
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+
+        if ($entity instanceof Car) {
+            $address = $entity->getAddress();
+            $location = Utils::fetchLocationByAddress($address);
+
+            $entity->setLatitude($location['lat']);
+            $entity->setLongitude($location['lng']);
+            $entity->setCreatedAt(new \DateTime());
         }
     }
 }

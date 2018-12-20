@@ -759,7 +759,6 @@ class APIController extends FOSRestController
         $validationUser = $validator->validate($user);
         $validationCar = $validator->validate($car);
         $validationRenting = $validator->validate($renting);
-
         if (0 !== count($validationUser) || 0 !== count($validationCar) || 0 !== count($validationRenting)) {
             $errorLine = (string) $validationUser . (string) $validationCar . (string) $validationRenting;
             $mailer->sendErrorEmail(rand(1000, 9999), '/api/edit/car', $errorLine);

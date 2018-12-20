@@ -114,7 +114,7 @@ class CarNormalizer implements NormalizerInterface
 
         $bookings = array_map(function (Booking $booking) {
             if (!$booking->getApproved()) {
-                return [];
+                return null;
             }
 
             return [
@@ -123,6 +123,10 @@ class CarNormalizer implements NormalizerInterface
                 'bookedUntil' => $booking->getBookedUntil()->format('Y-m-d H:i:s')
             ];
         }, $bookings);
+
+        $bookings = array_filter($bookings, function ($obj) {
+            return !is_null($obj);
+        });
 
         return $bookings;
     }
