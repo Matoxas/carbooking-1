@@ -95,7 +95,9 @@ class EditCar extends React.Component {
   setEditableCar = car => {
     const { setEditableCar: setCar } = this.props.CarFormStore;
     const { setLoading } = this.props.CarFormStore;
-    const editableCar = car.data[0];
+    const bookingDates = editableCar.bookingDates
+      ? editableCar.bookingDates
+      : [];
     const token = car.token;
 
     const images = editableCar.images.map((image, index) => {

@@ -143,7 +143,7 @@ class SubmitModal extends Component {
             {formStatus == "SUCCESS" && (
               <DialogActions>
                 <Button onClick={this.props.onClose} color="secondary">
-                  Grįžti
+                  Uždaryti
                 </Button>
                 <Link to={`/feed/carListing/${this.props.carId}`}>
                   <Button color="primary" autoFocus>

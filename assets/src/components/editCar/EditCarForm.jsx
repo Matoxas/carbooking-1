@@ -192,7 +192,8 @@ class EditCarForm extends Component {
   };
 
   onDeleteCar = () => {
-    const { editableCar } = this.props.CarFormStore;
+    const { editableCar, setLoading } = this.props.CarFormStore;
+    setLoading(true);
     const fd = new FormData();
     fd.append("id", editableCar.id);
     fd.append("token", editableCar.token);
@@ -203,6 +204,7 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.updateFeed();
+          setLoading(false);
           this.props.closeForm("deleted");
         }
       })
@@ -212,8 +214,9 @@ class EditCarForm extends Component {
   };
 
   sendFormToApi = () => {
-    const { editableCar } = this.props.CarFormStore;
+    const { editableCar, setLoading } = this.props.CarFormStore;
     const bookingDates = editableCar.bookingDates.map(date => date.id);
+    setLoading(true);
     const fd = new FormData();
     //pridedam visus duomenis
     fd.append("id", editableCar.id);
@@ -249,10 +252,12 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.updateFeed();
+          setLoading(false);
           this.props.closeForm("updated");
         }
       })
       .catch(error => {
+        setLoading(false);
         this.props.closeForm("error");
       });
   };
