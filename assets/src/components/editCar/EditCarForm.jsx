@@ -452,7 +452,7 @@ class EditCarForm extends Component {
             </div>
           </div>
 
-          {editableCar.bookingDates[0] && (
+          {editableCar.bookingDates[0].length > 0 && (
             <div className="form-group row">
               <label className="col-sm-3 col-md-2" htmlFor="inputState">
                 Aktyvios rezervacijos:
