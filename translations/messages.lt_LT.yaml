@@ -18,7 +18,7 @@ booking:
   bad_date_format: 'Neteisingas datos formatas! Prašome patikslinti datą ir mėginti dar kartą!'
   token_is_expired: 'Rezervacija jau buvo patvirtinta!'
   token_is_used: 'Ši rezervacija jau patvirtinta!'
-  success: 'Rezervavimas buvo patvirtintas! Jūsų kontaktiniai duomenys buvo išsiųsti rezervavusiam asmeniui!'
+  success: 'Rezervacija patvirtinta! Jūsų kontaktiniai duomenys išsiųsti rezervavusiam asmeniui!'
   not_approved_success: 'Apie tai buvo informuotas rezervavęsis automobilį asmuo.'
   not_approved: 'Rezervacija jau yra atšaukta!'
 renting:
