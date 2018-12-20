@@ -248,7 +248,6 @@ class EditCarForm extends Component {
     return axios
       .post("edit/car/" + editableCar.token, fd)
       .then(response => {
-        console.log(response);
         if (response.status === 200) {
           this.updateFeed();
           setLoading(false);
@@ -394,6 +393,7 @@ class EditCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative pb-mobile">
                 <DatePicker
+                  autoComplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_from"
@@ -406,7 +406,6 @@ class EditCarForm extends Component {
                   endDate={moment(editableCar.date_until).toDate()}
                   selectsStart
                   onChange={this.handleFromChange}
-                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
@@ -425,6 +424,7 @@ class EditCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative">
                 <DatePicker
+                  autoComplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
@@ -439,7 +439,6 @@ class EditCarForm extends Component {
                   selected={moment(editableCar.date_until).toDate()}
                   selectsEnd
                   onChange={this.handleUntilChange}
-                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>

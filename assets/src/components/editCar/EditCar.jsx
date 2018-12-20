@@ -10,9 +10,15 @@ import Diaglog from "../carListing/Dialog";
 class EditCar extends React.Component {
   state = {
     showEditCarPage: false,
-    statusModalStatus: "",
+    showSuccess: false,
     statusModalMessage: "",
-    statusModalTitle: ""
+    statusModalTitle: "",
+    editableCarCopy: {}
+  };
+
+  handleUndo = () => {
+    const { setEditableCar: setCar } = this.props.CarFormStore;
+    setCar({ ...this.state.editableCarCopy });
   };
 
   clearEdit = () => {
@@ -65,27 +71,27 @@ class EditCar extends React.Component {
     switch (status) {
       case "deleted":
         this.setState({
-          statusModalStatus: "succes",
+          showSuccess: true,
           statusModalMessage: "Automobilis sėkmingai pašalintas!",
           statusModalTitle: "Atlikta!"
         });
         break;
       case "updated":
         this.setState({
-          statusModalStatus: "succes",
+          showSuccess: true,
           statusModalMessage: "Automobilis sėkmingai atnaujintas!",
           statusModalTitle: "Atlikta!"
         });
         break;
       case "error":
         this.setState({
-          statusModalStatus: "error",
+          showSuccess: false,
           statusModalMessage: "Klaida, pabandykite veliau ",
           statusModalTitle: "įvyko kažkas netikėto..."
         });
       default:
         this.setState({
-          statusModalStatus: "",
+          showSuccess: false,
           statusModalMessage: "",
           statusModalTitle: ""
         });
@@ -119,14 +125,32 @@ class EditCar extends React.Component {
       bookingDates: editableCar.bookingDates,
       images
     });
-    this.setState({ showEditCarPage: true });
+    this.setState({
+      showEditCarPage: true,
+      editableCarCopy: {
+        token,
+        id: editableCar.id,
+        brand: editableCar.brand,
+        model: editableCar.model,
+        address: editableCar.address,
+        price: editableCar.price,
+        description: editableCar.description,
+        phone: editableCar.phone,
+        email: editableCar.email,
+        name: editableCar.name,
+        date_from: editableCar.rentDates[0].rentedFrom,
+        date_until: editableCar.rentDates[0].rentedUntil,
+        bookingDates: editableCar.bookingDates,
+        images
+      }
+    });
     setLoading(false);
   };
 
-  handleClose = (status = undefined) => {
+  handleClose = (status = "pending") => {
     this.setState({ showEditCarPage: false });
     this.clearEdit();
-    if (status) {
+    if (status !== "pending") {
       this.setFormStatus(status);
     } else {
       this.props.resetHash();
@@ -140,12 +164,13 @@ class EditCar extends React.Component {
       return <LoadModal open={true} />;
     }
 
-    if (this.state.statusModalStatus) {
+    if (this.state.statusModalTitle) {
       return (
         <Diaglog
           alertMessage={this.state.statusModalMessage}
           alertHeader={this.state.statusModalTitle}
           handleClose={this.handleClose}
+          showSuccess={this.state.showSuccess}
         />
       );
     }
@@ -155,7 +180,7 @@ class EditCar extends React.Component {
         <EditCarModal
           editableCar={editableCar}
           handleClose={this.handleClose}
-          handleUndo={this.ValidateCarId}
+          handleUndo={this.handleUndo}
           formSubmit={this.formSubmit}
         />
       );
