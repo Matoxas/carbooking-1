@@ -203,11 +203,11 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.updateFeed();
-          this.props.closeForm();
+          this.props.closeForm("deleted");
         }
       })
       .catch(error => {
-        console.log(error);
+        this.props.closeForm("error");
       });
   };
 
@@ -249,11 +249,11 @@ class EditCarForm extends Component {
         console.log(response);
         if (response.status === 200) {
           this.updateFeed();
-          this.props.closeForm();
+          this.props.closeForm("updated");
         }
       })
       .catch(error => {
-        console.log(error);
+        this.props.closeForm("error");
       });
   };
 

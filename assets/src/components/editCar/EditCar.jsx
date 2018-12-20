@@ -3,12 +3,16 @@ import { inject, observer } from "mobx-react";
 import LoadModal from "./loadModal";
 import EditCarModal from "./EditCarModal";
 import axios from "axios";
+import Diaglog from "../carListing/Dialog";
 
 @inject("CarFormStore")
 @observer
 class EditCar extends React.Component {
   state = {
-    showEditCarPage: false
+    showEditCarPage: false,
+    statusModalStatus: "",
+    statusModalMessage: "",
+    statusModalTitle: ""
   };
 
   clearEdit = () => {
@@ -57,6 +61,37 @@ class EditCar extends React.Component {
     }
   };
 
+  setFormStatus = (status = "pending") => {
+    switch (status) {
+      case "deleted":
+        this.setState({
+          statusModalStatus: "succes",
+          statusModalMessage: "Automobilis sėkmingai pašalintas!",
+          statusModalTitle: "Atlikta!"
+        });
+        break;
+      case "updated":
+        this.setState({
+          statusModalStatus: "succes",
+          statusModalMessage: "Automobilis sėkmingai atnaujintas!",
+          statusModalTitle: "Atlikta!"
+        });
+        break;
+      case "error":
+        this.setState({
+          statusModalStatus: "error",
+          statusModalMessage: "Klaida, pabandykite veliau ",
+          statusModalTitle: "įvyko kažkas netikėto..."
+        });
+      default:
+        this.setState({
+          statusModalStatus: "",
+          statusModalMessage: "",
+          statusModalTitle: ""
+        });
+    }
+  };
+
   setEditableCar = car => {
     const { setEditableCar: setCar } = this.props.CarFormStore;
     const { setLoading } = this.props.CarFormStore;
@@ -90,10 +125,14 @@ class EditCar extends React.Component {
     setLoading(false);
   };
 
-  handleClose = () => {
+  handleClose = (status = undefinded) => {
     this.setState({ showEditCarPage: false });
     this.clearEdit();
-    this.props.resetHash();
+    if (status) {
+      this.setFormStatus(status);
+    } else {
+      this.props.resetHash();
+    }
   };
 
   render() {
@@ -101,6 +140,16 @@ class EditCar extends React.Component {
 
     if (loading) {
       return <LoadModal open={true} />;
+    }
+
+    if (this.state.statusModalStatus) {
+      return (
+        <Diaglog
+          alertMessage={this.state.statusModalMessage}
+          alertHeader={this.state.statusModalTitle}
+          handleClose={this.handleClose}
+        />
+      );
     }
 
     if (this.state.showEditCarPage) {
