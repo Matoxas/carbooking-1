@@ -136,13 +136,13 @@ class EditCar extends React.Component {
     setLoading(false);
   };
 
-  handleClose = status => {
+  handleClose = (status = undefined) => {
     this.setState({ showEditCarPage: false });
     this.clearEdit();
-    if (status !== "reset") {
-      this.setFormStatus(status);
-    } else {
+    if (!status || status.target) {
       this.props.resetHash();
+    } else {
+      this.setFormStatus(status);
     }
   };
 

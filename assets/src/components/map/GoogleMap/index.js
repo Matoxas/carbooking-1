@@ -148,7 +148,6 @@ class GoogleMap extends Component {
                 key={index}
                 lat={item.lat}
                 lng={item.lng}
-                image={item.image}
                 points={item.points}
                 zoomIn={this.zoomIn}
               />
