@@ -2,7 +2,7 @@
    <img src='https://raw.githubusercontent.com/nfqakademija/carbooking/master/public/images/logoOrange.jpg' width="420" />
  </a>
 
-Automobilių dalinimosi sistema
+Automobilių nuomavimosi sistema
 ============
 
 [![Build Status](https://travis-ci.com/nfqakademija/carbooking.svg?branch=master)](https://travis-ci.com/nfqakademija/carbooking)
