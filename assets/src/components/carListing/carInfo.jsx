@@ -71,7 +71,8 @@ class carInfo extends Component {
           showAlertWindow: true,
           alertHeader: "Rezervacijos forma išsiųsta",
           alertText:
-            "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą"
+            "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą",
+            showSuccess: true
         });
       })
       .catch(error => {
@@ -79,7 +80,8 @@ class carInfo extends Component {
         this.setState({
           showAlertWindow: true,
           alertHeader: "Rezervacija nepavyko",
-          alertText: error.response.data.message
+          alertText: error.response.data.message,
+            showSuccess: false
         });
       });
   };
@@ -420,6 +422,7 @@ class carInfo extends Component {
         {this.state.badListingShow ? (
           <div onClick={this.handleBadListingDialog}>
             <Dialog
+                showSuccess={true}
               alertHeader={this.state.badListingHeader}
               alertMessage={this.state.badListingText}
             />
@@ -540,6 +543,7 @@ class carInfo extends Component {
             {this.state.showAlertWindow ? (
               <div onClick={this.handleAlert}>
                 <Dialog
+                    showSuccess={this.state.showSuccess}
                   alertHeader={this.state.alertHeader}
                   alertMessage={this.state.alertText}
                 />
