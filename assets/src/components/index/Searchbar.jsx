@@ -123,7 +123,7 @@ class Searchbar extends Component {
           <label htmlFor="from">Laikas nuo:</label>
           <div className="relative">
             <DatePicker
-              autocomplete="off"
+              autoComplete="off"
               className="input"
               locale={"lt"}
               minDate={this.state.dateNow}
@@ -132,7 +132,6 @@ class Searchbar extends Component {
               startDate={this.state.date_from}
               endDate={this.state.date_until}
               selectsStart
-              onChangeRaw={this.handleDateChangeRaw}
             />
             <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>
@@ -141,7 +140,7 @@ class Searchbar extends Component {
           <label htmlFor="to">Laikas iki:</label>
           <div className="relative">
             <DatePicker
-              autocomplete="off"
+              autoComplete="off"
               className="input"
               locale={"lt"}
               selected={this.state.date_until}
@@ -152,7 +151,6 @@ class Searchbar extends Component {
               startDate={this.state.date_from}
               endDate={this.state.date_until}
               selectsEnd
-              onChangeRaw={this.handleDateChangeRaw}
             />
             <i className="fa fa-caret-down d-md-none" aria-hidden="true" />
           </div>

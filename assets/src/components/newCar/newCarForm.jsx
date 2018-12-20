@@ -278,7 +278,7 @@ class NewCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative pb-mobile">
                 <DatePicker
-                  autocomplete="off"
+                  autoComplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_from"
@@ -291,7 +291,6 @@ class NewCarForm extends Component {
                   selected={this.props.date_from}
                   selectsStart
                   onChange={this.props.handleFromChange}
-                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
@@ -311,7 +310,7 @@ class NewCarForm extends Component {
             <div className="col-sm-4">
               <div className="relative">
                 <DatePicker
-                  autocomplete="off"
+                  autoComplete="off"
                   className="form-control"
                   locale={"lt"}
                   name="date_until"
@@ -326,7 +325,6 @@ class NewCarForm extends Component {
                   selected={this.props.date_until}
                   selectsEnd
                   onChange={this.props.handleUntilChange}
-                  onChangeRaw={this.handleDateChangeRaw}
                 />
                 <i className="fa fa-caret-down" aria-hidden="true" />
               </div>
