@@ -6,6 +6,7 @@ car:
     unknown: 'Įvyko nenumatyta klaida. Mėginkite vėliau!'
   not_valid: ' Nevisi laukeliai užpildyti tinkamai! Patikrinkite duomenis ir mėginkite dar kartą!'
   not_valid_image: 'Būtina įkelti, bent vieną nuotrauką!'
+  request_error: 'Patikrinkite duomenis ir mėginkite dar kartą...'
 brand:
   not_exists: 'Nepavyko rasti nurodytos markės!'
 system:

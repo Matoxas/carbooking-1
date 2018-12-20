@@ -244,7 +244,7 @@ class EditCarForm extends Component {
     // }
 
     return axios
-      .put("edit/car/" + editableCar.token, fd)
+      .post("edit/car/" + editableCar.token, fd)
       .then(response => {
         console.log(response);
         if (response.status === 200) {

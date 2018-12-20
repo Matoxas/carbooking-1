@@ -696,7 +696,7 @@ class APIController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("/edit/car/{token}", name="api_car_new")
+     * @Rest\Post("/edit/car/{token}", name="api_car_new")
      * @param Request $request
      * @param string $token
      * @param TranslatorInterface $translator
@@ -715,11 +715,11 @@ class APIController extends FOSRestController
         TokenGenerator $tokenGenerator
     ): View {
         $car = $this->getDoctrine()->getRepository(Car::class)->findOneBy(['token' => $token]);
-        if (empty($car)) {
+        if (empty($car) || strlen($request->get('phone')) < 6) {
             return $this->view(
                 [
                     'status' => 'error',
-                    'message' => $translator->trans('car.not_exists')
+                    'message' => $translator->trans('car.request_error')
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -734,8 +734,6 @@ class APIController extends FOSRestController
         $user->setName($request->get('name'));
         $user->setEmail($request->get('email'));
         $user->setPhone($phone);
-
-        //dump($request); //neveikia duomenų gavimas...
 
         $city = $this->getDoctrine()->getRepository(City::class)->find($request->get('city'));
 
@@ -756,7 +754,7 @@ class APIController extends FOSRestController
         $renting->setCar($car);
 
         $bookings = $request->get('bookingDates');
-        $this->removeCarBookingDates($bookings, $car);
+        $this->removeCarBookingDates($bookings, $car, $mailer);
 
         $validationUser = $validator->validate($user);
         $validationCar = $validator->validate($car);
@@ -1051,13 +1049,20 @@ class APIController extends FOSRestController
     /**
      * @param $bookings
      * @param $car
+     * @param Mailer $mailer
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
-    private function removeCarBookingDates($bookings, $car): void
+    private function removeCarBookingDates($bookings, $car, Mailer $mailer): void
     {
         $bookingsDB = $this->getDoctrine()->getRepository(Booking::class)->findBy(['car' => $car]);
 
+        $bookings = json_decode($bookings);
+
         foreach ($bookingsDB as $bookingDB) {
             if (!@in_array($bookingDB->getId(), $bookings)) {
+                $mailer->sendEmailForCanceledReservation($bookingDB);
                 $this->getDoctrine()->getManager()->remove($bookingDB);
             }
         }
