@@ -6,116 +6,138 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import success from "../../extras/checked_done_";
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      light: "#fee7de",
-      main: "#f47e60",
-      dark: "#f47e60"
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      main: "#999"
+    palette: {
+        primary: {
+            // light: will be calculated from palette.primary.main,
+            light: "#fee7de",
+            main: "#f47e60",
+            dark: "#f47e60"
+            // contrastText: will be calculated to contrast with palette.primary.main
+        },
+        secondary: {
+            main: "#999"
+        }
     }
-  }
 });
 
 class AlertDialog extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      open: true,
-      isStopped: false,
-      isPaused: false
-    };
-  }
-
-  handleClose = () => {
-    this.setState({ open: false });
-    if (this.props.handleClose) {
-      this.props.handleClose();
+    constructor() {
+        super();
+        this.state = {
+            open: true,
+            isStopped: false,
+            isPaused: false
+        };
     }
-  };
 
-  render() {
-    const defaultOptions = {
-      loop: false,
-      autoplay: true,
-      animationData: success,
-      rendererSettings: {
-        preserveAspectRatio: "xMidYMid slice"
-      }
+    handleClose = () => {
+        this.setState({open: false});
+        if (this.props.handleClose) {
+            this.props.handleClose();
+        }
     };
 
-    if (this.props.alertMessage != undefined) {
-      return (
-        <div>
-          <MuiThemeProvider theme={theme}>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                {this.props.alertHeader}
-              </DialogTitle>
-              {this.props.showSuccess ? (
-                <Lottie
-                  options={defaultOptions}
-                  height={"60%"}
-                  width={"100%"}
-                  isStopped={this.state.isStopped}
-                  isPaused={this.state.isPaused}
-                />
-              ) : null}
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  {this.props.alertMessage}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="secondary" autoFocus>
-                  Uždaryti
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </MuiThemeProvider>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <MuiThemeProvider theme={theme}>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                Rezervuoti nepavyko
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  Turite užpildyti visus laukus ir pasirinkti datas
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="secondary" autoFocus>
-                  Uždaryti langą
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </MuiThemeProvider>
-        </div>
-      );
+    render() {
+        const spinnerWrapper = {
+            maxHeight: "200px",
+            marginTOp: "2vw",
+            height: "150px",
+            marginTop: "2vw",
+            minWidth: "200px"
+        };
+
+        const spinnerSize = {
+            height: "100%",
+            width: "auto"
+        };
+
+        const marginTop = {
+            marginTop: "2vw"
+        };
+
+        const defaultOptions = {
+            loop: false,
+            autoplay: true,
+            animationData: success,
+            rendererSettings: {
+                preserveAspectRatio: "xMidYMid slice"
+            }
+        };
+
+        if (this.props.alertMessage != undefined) {
+            return (
+                <div>
+                    <MuiThemeProvider theme={theme}>
+                        <Dialog
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {this.props.alertHeader}
+                            </DialogTitle>
+                            {this.props.showSuccess ? (
+                                <div
+                                    style={{...spinnerWrapper, ...marginTop}}
+                                    className="flex flex-center"
+                                >
+                                    <Lottie
+                                        options={defaultOptions}
+                                        height={"100%"}
+                                        width={"auto"}
+                                        isStopped={this.state.isStopped}
+                                        isPaused={this.state.isPaused}
+                                    />
+                                </div>
+                            ) : null}
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    {this.props.alertMessage}
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.handleClose} color="secondary" autoFocus>
+                                    Uždaryti
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </MuiThemeProvider>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <MuiThemeProvider theme={theme}>
+                        <Dialog
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                Rezervuoti nepavyko
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Turite užpildyti visus laukus ir pasirinkti datas
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.handleClose} color="secondary" autoFocus>
+                                    Uždaryti langą
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </MuiThemeProvider>
+                </div>
+            );
+        }
     }
-  }
 }
 
 export default AlertDialog;
