@@ -171,7 +171,7 @@ class CarListing extends Component {
                     <div>
                         <CarImage image={this.state.car}/>
                     </div>
-                    <div className="row">
+                    <div className="row row--padding">
                         <div className="col-md-11">
                             <CarInfo
                                 car={this.state.car}
