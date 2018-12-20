@@ -93,13 +93,9 @@ class EditCar extends React.Component {
   };
 
   setEditableCar = car => {
-    const { setEditableCar: setCar } = this.props.CarFormStore;
-    const { setLoading } = this.props.CarFormStore;
-    const bookingDates = editableCar.bookingDates
-      ? editableCar.bookingDates
-      : [];
+    const { setEditableCar: setCar, setLoading } = this.props.CarFormStore;
     const token = car.token;
-
+    const editableCar = car.data[0];
     const images = editableCar.images.map((image, index) => {
       return {
         preview: "/" + image,
@@ -127,7 +123,7 @@ class EditCar extends React.Component {
     setLoading(false);
   };
 
-  handleClose = (status = undefinded) => {
+  handleClose = (status = undefined) => {
     this.setState({ showEditCarPage: false });
     this.clearEdit();
     if (status) {

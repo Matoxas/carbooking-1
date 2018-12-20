@@ -212,7 +212,10 @@ class NewCar extends Component {
 
   validateDateFrom = () => {
     const { setCurrentCarValues, currentCar } = this.props.CarFormStore;
-    if (currentCar.date_from >= currentCar.date_until) {
+    if (
+      this.dateWithoutTimeLocal(currentCar.date_from) >=
+      this.dateWithoutTimeLocal(currentCar.date_until)
+    ) {
       setCurrentCarValues({
         date_until: moment(currentCar.date_from)
           .add(1, "d")
@@ -223,7 +226,10 @@ class NewCar extends Component {
 
   validateDateUntil = () => {
     const { setCurrentCarValues, currentCar } = this.props.CarFormStore;
-    if (currentCar.date_from >= currentCar.date_until) {
+    if (
+      this.dateWithoutTimeLocal(currentCar.date_from) >=
+      this.dateWithoutTimeLocal(currentCar.date_until)
+    ) {
       if (currentCar.date_until > new Date()) {
         setCurrentCarValues({
           date_from: moment(currentCar.date_until)
@@ -234,6 +240,11 @@ class NewCar extends Component {
         this.validateDateFrom();
       }
     }
+  };
+
+  dateWithoutTimeLocal = date => {
+    const dateNew = new Date(date);
+    return dateNew.setHours(0, 0, 0, 0);
   };
 
   setImagesErrorMessage = message => {
