@@ -55,14 +55,16 @@ class CarListing extends Component {
                 this.setState({
                     dialogHeader: "Rezervacija atšaukta",
                     dialogText: response.data.message,
-                    showDialog: true
+                    showDialog: true,
+                    showSuccess: true
                 });
             })
             .catch(error => {
                 this.setState({
                     dialogHeader: "Klaida",
                     dialogText: "Kažkas atsitiko blogai",
-                    showDialog: true
+                    showDialog: true,
+                    showSuccess: false
                 });
             });
     };
@@ -163,6 +165,7 @@ class CarListing extends Component {
             <div className="product">
                 {this.state.showDialog ? (
                     <Dialog
+                        showSuccess={this.state.showSuccess}
                         alertMessage={this.state.dialogText}
                         alertHeader={this.state.dialogHeader}
                     />
@@ -194,6 +197,7 @@ class CarListing extends Component {
                         {this.state.badListingShow ? (
                             <div onClick={this.handleBadListingDialog}>
                                 <Dialog
+                                    showSuccess={true}
                                     alertHeader={this.state.badListingHeader}
                                     alertMessage={this.state.badListingText}
                                 />

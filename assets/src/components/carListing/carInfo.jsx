@@ -12,8 +12,14 @@ import { Button, Collapse } from "mdbreact";
 @inject("CarStore")
 @observer
 class carInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    // const min
+    // for (let i = 0; i < props.bookingDates.length; i++) {
+    //     if (props.bookingDates[i] < props.bookingDates[i+1]) {
+    //
+    //     }
+    // }
     this.state = {
       reservationClicked: false,
       reservationButtonText: "Rezervuoti",
@@ -501,8 +507,8 @@ class carInfo extends Component {
                       locale={"lt"}
                       selected={new Date(this.state.date_from)}
                       selectsStart
-                      startDate={new Date(this.state.date_from)}
-                      endDate={new Date(this.state.date_until)}
+                      startDate={this.state.date_from}
+                      endDate={this.state.date_until}
                       // rentDates[0] because currently there will be only one rented date
                       minDate={this.props.car.rentDates[0].rentedFrom}
                       maxDate={this.props.car.rentDates[0].rentedUntil}
@@ -520,8 +526,8 @@ class carInfo extends Component {
                       excludeDates={dates}
                       selected={new Date(this.state.date_until)}
                       selectsEnd
-                      startDate={new Date(this.state.date_from)}
-                      endDate={new Date(this.state.date_until)}
+                      startDate={this.state.date_from}
+                      endDate={this.state.date_until}
                       minDate={this.props.car.rentDates[0].rentedFrom}
                       maxDate={this.props.car.rentDates[0].rentedUntil}
                       onChange={e => this.handleUntilChange(dates, e)}
