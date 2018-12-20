@@ -10,7 +10,7 @@ import Diaglog from "../carListing/Dialog";
 class EditCar extends React.Component {
   state = {
     showEditCarPage: false,
-    statusModalStatus: "",
+    showSuccess: false,
     statusModalMessage: "",
     statusModalTitle: ""
   };
@@ -65,27 +65,27 @@ class EditCar extends React.Component {
     switch (status) {
       case "deleted":
         this.setState({
-          statusModalStatus: "succes",
+          showSuccess: true,
           statusModalMessage: "Automobilis sėkmingai pašalintas!",
           statusModalTitle: "Atlikta!"
         });
         break;
       case "updated":
         this.setState({
-          statusModalStatus: "succes",
+          showSuccess: true,
           statusModalMessage: "Automobilis sėkmingai atnaujintas!",
           statusModalTitle: "Atlikta!"
         });
         break;
       case "error":
         this.setState({
-          statusModalStatus: "error",
+          showSuccess: false,
           statusModalMessage: "Klaida, pabandykite veliau ",
           statusModalTitle: "įvyko kažkas netikėto..."
         });
       default:
         this.setState({
-          statusModalStatus: "",
+          showSuccess: false,
           statusModalMessage: "",
           statusModalTitle: ""
         });
@@ -146,6 +146,7 @@ class EditCar extends React.Component {
           alertMessage={this.state.statusModalMessage}
           alertHeader={this.state.statusModalTitle}
           handleClose={this.handleClose}
+          showSuccess={this.state.showSuccess}
         />
       );
     }

@@ -64,15 +64,15 @@ class AlertDialog extends React.Component {
               <DialogTitle id="alert-dialog-title">
                 {this.props.alertHeader}
               </DialogTitle>
-                {this.props.showSuccess ? (
-                    <Lottie
-                        options={defaultOptions}
-                        height={"60%"}
-                        width={"100%"}
-                        isStopped={this.state.isStopped}
-                        isPaused={this.state.isPaused}
-                    />
-                ) : null}
+              {this.props.showSuccess ? (
+                <Lottie
+                  options={defaultOptions}
+                  height={"60%"}
+                  width={"100%"}
+                  isStopped={this.state.isStopped}
+                  isPaused={this.state.isPaused}
+                />
+              ) : null}
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                   {this.props.alertMessage}

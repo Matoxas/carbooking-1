@@ -248,7 +248,6 @@ class EditCarForm extends Component {
     return axios
       .post("edit/car/" + editableCar.token, fd)
       .then(response => {
-        console.log(response);
         if (response.status === 200) {
           this.updateFeed();
           setLoading(false);
