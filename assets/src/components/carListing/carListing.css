@@ -374,10 +374,6 @@ comment {
   margin-top: -2em;
 }
 
-.row--padding {
-    padding-top: 100px;
-}
-
 @media screen and (max-width: 1000px) {
   .info--big {
     white-space: pre-wrap;

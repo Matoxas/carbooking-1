@@ -491,7 +491,7 @@ class carInfo extends Component {
                       className="form-control"
                       name="date_from"
                       excludeDates={dates}
-                      // locale={"lt"}
+                      locale={"lt"}
                       selected={new Date(this.state.date_from)}
                       selectsStart
                       startDate={new Date(this.state.date_from)}
@@ -501,7 +501,6 @@ class carInfo extends Component {
                       maxDate={this.props.car.rentDates[0].rentedUntil}
                       onChange={e => this.handleFromChange(dates, e)}
                       onChangeRaw={this.handleDateChangeRaw}
-                      // autocomplete="off"
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
@@ -509,7 +508,7 @@ class carInfo extends Component {
                   <div className="relative clearfix">
                     <DatePicker
                       className="form-control"
-                      //   locale={"lt"}
+                        locale={"lt"}
                       name="date_until"
                       excludeDates={dates}
                       selected={new Date(this.state.date_until)}
@@ -520,7 +519,6 @@ class carInfo extends Component {
                       maxDate={this.props.car.rentDates[0].rentedUntil}
                       onChange={e => this.handleUntilChange(dates, e)}
                       onChangeRaw={this.handleDateChangeRaw}
-                      // autocomplete="off"
                     />
                     <i className="fa fa-caret-down" aria-hidden="true" />
                   </div>
