@@ -223,4 +223,24 @@ class Mailer
 
         $this->mailer->send($message);
     }
+
+    /**
+     * @param Booking $booking
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function sendEmailForCanceledReservation(Booking $booking)
+    {
+        $body = $this->twig->render('email/reservation_canceled.html.twig', [
+            'booking' => $booking
+        ]);
+
+        $message = (new \Swift_Message('Rezervacija atšaukta!'))
+            ->setFrom(['carbookinglt@gmail.com' => 'CarBooking'])
+            ->setTo($booking->getUsers()->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
 }
