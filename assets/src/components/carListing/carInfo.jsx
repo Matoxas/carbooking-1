@@ -387,6 +387,7 @@ class carInfo extends Component {
                   value={this.state.commentName}
                   className="form-control"
                   type="text"
+                  name="name"
                   placeholder="Įrašykite savo vardą"
                 />
                 {this.state.showCommentNameError ? (
