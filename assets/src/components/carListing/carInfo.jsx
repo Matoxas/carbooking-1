@@ -79,7 +79,7 @@ class carInfo extends Component {
           alertHeader: "Rezervacijos forma išsiųsta",
           alertText:
             "Rezervacija bus patvirtinta kai automobilio savininkas el. pašte patvirtins jūsų rezervacijos užklausą",
-            showSuccess: true
+          showSuccess: true
         });
       })
       .catch(error => {
@@ -88,7 +88,7 @@ class carInfo extends Component {
           showAlertWindow: true,
           alertHeader: "Rezervacija nepavyko",
           alertText: error.response.data.message,
-            showSuccess: false
+          showSuccess: false
         });
       });
   };
@@ -431,7 +431,7 @@ class carInfo extends Component {
         {this.state.badListingShow ? (
           <div onClick={this.handleBadListingDialog}>
             <Dialog
-                showSuccess={true}
+              showSuccess={true}
               alertHeader={this.state.badListingHeader}
               alertMessage={this.state.badListingText}
             />
@@ -554,7 +554,7 @@ class carInfo extends Component {
             {this.state.showAlertWindow ? (
               <div onClick={this.handleAlert}>
                 <Dialog
-                    showSuccess={this.state.showSuccess}
+                  showSuccess={this.state.showSuccess}
                   alertHeader={this.state.alertHeader}
                   alertMessage={this.state.alertText}
                 />
@@ -574,6 +574,7 @@ class carInfo extends Component {
                     onChange={this.handleNameChange}
                     className="form-control"
                     type="text"
+                    name="name"
                     placeholder="Įrašykite savo vardą"
                   />
                   {this.state.showReservationErrors ? (
@@ -584,7 +585,8 @@ class carInfo extends Component {
                   <input
                     onChange={this.handleEmailChange}
                     className="form-control"
-                    type="text"
+                    type="email"
+                    name="email"
                     placeholder="Įrašykite savo el. paštą"
                   />
                   {this.state.showReservationErrors ? (
@@ -596,6 +598,7 @@ class carInfo extends Component {
                     onChange={this.handlePhoneChange}
                     className="form-control"
                     type="text"
+                    name="phone"
                     placeholder="+370"
                   />
                   {this.state.showReservationErrors ? (
