@@ -15,7 +15,7 @@ const Footer = props => {
         </button>
       </div> */}
       <div className="footer-text text-center">
-        <p>CarBooking 2018. Visos teisės saugomos.</p>
+        <p>CarBooking 2019. Atnaujinto puslapio adresas: <a href="https://cbooking.lt">CarBooking</a></p>
       </div>
     </div>
   );
