@@ -5,7 +5,7 @@
 Automobilių nuomavimosi sistema
 ============
 
-[![Build Status](https://travis-ci.com/programeriss/carbooking.svg?branch=master)](https://travis-ci.com/programeriss/carbooking)
+[![Build Status](https://api.travis-ci.com/programeriss/carbooking.svg?token=ocmvJx1sYZzKwL5Pycus&branch=master)](https://travis-ci.com/programeriss/carbooking)
 
 # Turinys
 
