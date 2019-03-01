@@ -15,6 +15,9 @@ class HomeController extends AbstractController
      */
     public function index(Request $request)
     {
+        return $this->redirect('https://cbooking.lt');
+        
+        
         $appEnv = $request->server->get('APP_ENV');
 
         if ($appEnv == 'prod') {
@@ -31,6 +34,8 @@ class HomeController extends AbstractController
      */
     public function feed()
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -39,6 +44,8 @@ class HomeController extends AbstractController
      */
     public function feedHash($token)
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -47,6 +54,8 @@ class HomeController extends AbstractController
      */
     public function carListingById($id)
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -55,6 +64,8 @@ class HomeController extends AbstractController
      */
     public function carListingByIdPlusHashNotApproved($id, $token)
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -63,6 +74,8 @@ class HomeController extends AbstractController
      */
     public function carListingByIdPlusHash($id, $token)
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -71,6 +84,8 @@ class HomeController extends AbstractController
      */
     public function carListing()
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -79,6 +94,8 @@ class HomeController extends AbstractController
      */
     public function newCar()
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -87,6 +104,8 @@ class HomeController extends AbstractController
      */
     public function map()
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 
@@ -95,6 +114,8 @@ class HomeController extends AbstractController
      */
     public function favourites()
     {
+        return $this->redirect('https://cbooking.lt');
+        
         return $this->render('home/index.html.twig');
     }
 }
